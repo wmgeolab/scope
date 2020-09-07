@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sourcing',
     'parsing',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'scope_site.urls'
+ROOT_URLCONF = 'scope_2gzm.urls'
 
 TEMPLATES = [
     {
@@ -60,6 +61,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'scope_2gzm'),
             os.path.join(BASE_DIR, 'sourcing'),
             os.path.join(BASE_DIR, 'parsing'),
+            os.path.join(BASE_DIR, 'users'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -73,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'scope_site.wsgi.application'
+WSGI_APPLICATION = 'scope_2gzm.wsgi.application'
 
 
 # Database
@@ -126,3 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# user model
+AUTH_USER_MODEL = 'users.User'
