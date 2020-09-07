@@ -1,0 +1,17 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+{% block page_content %}
+
+<h2>Status Code {{ form.pk }}</h2>
+
+<div>
+
+	<div class="form-group">
+	<table>
+    {{ form.as_table }}
+	</table>
+	</div>
+
+</div>
+{% endblock %}

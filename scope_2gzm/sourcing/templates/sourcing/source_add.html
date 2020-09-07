@@ -1,0 +1,40 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+{% block page_content %}
+
+<h1>New HTML Source</h1>
+
+<div>
+
+<form action="{% url 'source_add' %}" method="post">
+    {% csrf_token %}	
+	<div class="form-group">
+	<table>
+	
+	<tr>
+	<td>
+    {{ form.source_code.label_tag }}
+	</td>
+	<td>
+	{{ form.source_code }}
+	</td>
+	</tr>
+
+	<tr>
+	<td>
+    {{ form.source_url.label_tag }}
+	</td>
+	<td>
+	{{ form.source_url }}
+	</td>
+	</tr>
+	
+	</table>
+	</div>
+	
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
+</div>
+{% endblock %}
