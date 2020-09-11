@@ -6,3 +6,7 @@ labels: page serving
 assignees: ''
 
 ---
+
+Files:
+- views.py
+- urls.py
