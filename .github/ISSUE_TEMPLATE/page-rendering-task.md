@@ -1,3 +1,12 @@
+---
+name: Page Rendering Task
+about: Issues used for front-end HTML page rendering
+title: "[ISSUE TITLE]"
+labels: html rendering
+assignees: ''
+
+---
+
 ## Before you begin:
 Make sure you understand how Django templates work:
   - [ ] https://docs.djangoproject.com/en/3.1/topics/templates/.
