@@ -12,6 +12,7 @@ Make sure you understand how Django templates work:
   - [ ] https://docs.djangoproject.com/en/3.1/topics/templates/.
   - [ ] https://docs.djangoproject.com/en/3.1/ref/templates/language/
   - [ ] https://docs.djangoproject.com/en/3.1/ref/templates/builtins/
+  
 If the issue involves user input forms, also read up on Django forms:
   - [ ] https://docs.djangoproject.com/en/3.1/topics/forms/
   - [ ] https://docs.djangoproject.com/en/3.1/ref/forms/fields/
