@@ -1,5 +1,5 @@
 ---
-name: Front-end Rendering and Display Task
+name: Html rendering and display task
 about: Defining how the contents of each webpage is rendered using Django HTML templates, including the rendering of dynamic data received from the database.
 title: "[ISSUE TITLE]"
 labels: html rendering
@@ -11,6 +11,10 @@ assignees: ''
 Make sure you understand how Django templates work:
   - [ ] https://docs.djangoproject.com/en/3.1/topics/templates/.
   - [ ] https://docs.djangoproject.com/en/3.1/ref/templates/language/
+  - [ ] https://docs.djangoproject.com/en/3.1/ref/templates/builtins/
+If the issue involves user input forms, also read up on Django forms:
+  - [ ] https://docs.djangoproject.com/en/3.1/topics/forms/
+  - [ ] https://docs.djangoproject.com/en/3.1/ref/forms/fields/
 
 ## Template input variables:
 - `EXAMPLE_VAR_1` (type: TYPE)
@@ -19,46 +23,29 @@ Make sure you understand how Django templates work:
   DESCRIPTION OF VARIABLE...
 
 ## Tasks for `forms.py`:
-Forms are only needed if the user is expected to input some information and send it back to be stored in the website database. 
+NOTE: Forms are only needed if the user is expected to input some information and send it back to be stored in the website database. 
 EXAMPLE: 
 - [ ] Create class `ExampleForm`
-  - [ ] Required fields and types. 
-    - [ ] CharField
+  - [ ] Required information about the form input fields
   - [ ] ...
 
-## Tasks for `views.py`:
+## Tasks for template html file(s):
 EXAMPLE:
-- [ ] Create file `templates/parsing/landing.html`
-  - [ ] Conditional link button. 
-    - [ ] If `has_checkout` == True
-      - Go to checked out event (url name = 'event_continue')
-    - [ ] Else
-      - Go to event selection list (url name = 'event_new')
+- [ ] Create file `templates/MODULE/PAGE_NAME.html`
+  - [ ] Required page element 1.
+  - [ ] Required page element 2.
+  - [ ] ...
 
 ## Example outputs:
 
-### `landing.html`
+### `PAGE_NAME.html`
 ```
 {% extends "templates/base.html" %}
 {% load static %}
 
 {% block page_content %}
 
-
-<div style="width:100%">
-
-{% if has_checkout %}
-  <a class="btn" href="{% url 'event_continue' %}">
-   Continue
-  </a>
-{% else %}
-  <a class="btn" href="{% url 'event_new' %}">
-   Start New
-  </a>
-{% endif %}
-
-</div>
-
+PAGE CONTENT GOES HERE
 
 {% endblock %}
 ```
