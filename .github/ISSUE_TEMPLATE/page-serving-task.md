@@ -37,8 +37,8 @@ EXAMPLE:
 
 ## Tasks for `urls.py`:
 EXAMPLE:
-- Add `example_view()` to list of urlpatterns:
-  - [ ] URL pattern: 'example/url/'
-  - [ ] name: 'example'
+- [ ] Add `example_view()` to list of urlpatterns:
+  - URL pattern: 'example/url/'
+  - name: 'example'
   
 
