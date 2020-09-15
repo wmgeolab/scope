@@ -132,3 +132,6 @@ STATIC_URL = '/static/'
 
 # user model
 AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/users/login/'
+
+
