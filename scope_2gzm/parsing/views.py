@@ -64,7 +64,7 @@ def datamodel_add(request, name):
     app_models = apps.get_app_config('parsing').get_model(name)
     from . import forms
     formclass = getattr(forms, name+'Form')
-    
+
     if request.method == 'GET':
         form = formclass()
         return render(request, 'templates/parsing/datamodel_add.html', {'form':form, 'name':name})
@@ -81,7 +81,7 @@ def datamodel_add_from_csv(request, name, csvstream):
     datamodel = apps.get_app_config('parsing').get_model(name)
     dialect = csv.Sniffer().sniff(csvstream.read(1024))
     csvstream.seek(0)
-    
+
     reader = csv.DictReader(csvstream, dialect=dialect)
     for row in reader:
         for k in list(row.keys()):
@@ -97,7 +97,7 @@ def datamodel_add_from_csv(request, name, csvstream):
                 obj = field.related_model.objects.get(pk=_id)
                 row[k] = obj
         print(row)
-                
+
         obj = datamodel(**row)
         obj.save()
         print(obj)
@@ -183,3 +183,11 @@ def activity_add(request):
 
 
 
+def landing(request):
+    try:
+        pk = 1
+        continue_event = Activity.objects.get(pk=pk) # flag
+    except:
+        continue_event = None
+    context = {'continue_event': continue_event}
+    return render(request, 'templates/parsing/landing.html', context)
