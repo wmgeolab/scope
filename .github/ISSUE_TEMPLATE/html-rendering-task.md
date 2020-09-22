@@ -9,13 +9,17 @@ assignees: ''
 
 ## Before you begin:
 Make sure you understand how Django templates work:
-  - [ ] https://docs.djangoproject.com/en/3.1/topics/templates/.
-  - [ ] https://docs.djangoproject.com/en/3.1/ref/templates/language/
-  - [ ] https://docs.djangoproject.com/en/3.1/ref/templates/builtins/
+  - https://docs.djangoproject.com/en/3.1/topics/templates/.
+  - https://docs.djangoproject.com/en/3.1/ref/templates/language/
+  - https://docs.djangoproject.com/en/3.1/ref/templates/builtins/
   
 If the issue involves user input forms, also read up on Django forms:
-  - [ ] https://docs.djangoproject.com/en/3.1/topics/forms/
-  - [ ] https://docs.djangoproject.com/en/3.1/ref/forms/fields/
+  - https://docs.djangoproject.com/en/3.1/topics/forms/
+  - https://docs.djangoproject.com/en/3.1/ref/forms/fields/
+
+## App folder
+This issue pertains to the files contained in the website app folder: 
+- `scope_2gzm/INSERT_APPNAME`. 
 
 ## Template input variables:
 - `EXAMPLE_VAR_1` (type: TYPE)
@@ -32,7 +36,7 @@ EXAMPLE:
 
 ## Tasks for template html file(s):
 EXAMPLE:
-- [ ] Create file `templates/MODULE/PAGE_NAME.html`
+- [ ] Create file `templates/APP/PAGE_NAME.html`
   - [ ] Required page element 1.
   - [ ] Required page element 2.
   - [ ] ...
