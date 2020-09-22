@@ -10,15 +10,19 @@ assignees: ''
 
 ## Before you begin:
 Make sure you understand how Django views work:
-  - [ ] https://docs.djangoproject.com/en/3.1/topics/http/views/
-  - [ ] https://docs.djangoproject.com/en/3.1/intro/tutorial03/
+  - https://docs.djangoproject.com/en/3.1/topics/http/views/
+  - https://docs.djangoproject.com/en/3.1/intro/tutorial03/
   
 Also read up on Django urls:
-  - [ ] https://docs.djangoproject.com/en/3.1/topics/http/urls/.
+  - https://docs.djangoproject.com/en/3.1/topics/http/urls/.
 
 And understand how to read from and write to the database:
-  - [ ] https://docs.djangoproject.com/en/3.1/topics/db/queries/
-  - [ ] https://docs.djangoproject.com/en/3.1/topics/db/examples/many_to_one/
+  - https://docs.djangoproject.com/en/3.1/topics/db/queries/
+  - https://docs.djangoproject.com/en/3.1/topics/db/examples/many_to_one/
+
+## App folder
+This issue pertains to the files contained in the website app folder: 
+- `scope_2gzm/INSERT_APPNAME`. 
 
 ## Template information
 - Path to template file: `path/to/template/file.html`
