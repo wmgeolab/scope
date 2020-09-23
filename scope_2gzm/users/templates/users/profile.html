@@ -1,0 +1,26 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+{% load account %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Your Profile
+</h2>
+
+<div style="margin-left:20px">
+
+<table>
+	{{ form.as_table }}
+</table>
+
+<a class="btn btn-secondary" href="logout">
+Logout?
+</a>
+
+</div>
+	
+{% endblock %}

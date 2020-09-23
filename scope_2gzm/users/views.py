@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.apps import apps
+
 from .forms import UserForm
 
 # Create your views here.
-def login(request):
-	if request.method == "GET":
-		form = UserForm()
-		return render(request, 'templates/users/login.html', {"form":form})
-	if request.method == "POST":
-		return
+
+def profile(request):
+    form = UserForm(instance=request.user)
+    return render(request, 'templates/users/profile.html', {'form':form})

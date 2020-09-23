@@ -62,6 +62,16 @@
           <ul class="navbar-nav mr-auto">
           </ul>
         </div>
+		
+		{% if not request.user.is_anonymous %}
+			<a href="{% url 'profile' %}" style="color:black">
+				<b>{{ request.user.email }}</b>
+			</a>
+		{% else %}
+			<a href="/users/login" style="color:black">
+				<b>Login</b>
+			</a>
+		{% endif %}
     </div>
 
 </nav>
