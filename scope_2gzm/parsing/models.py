@@ -2,6 +2,8 @@ from django.db import models
 
 from sourcing.models import Source
 
+from users.models import User
+
 # Create your models here.
 
 class ActivityCode(models.Model):
@@ -48,4 +50,4 @@ class Activity(models.Model):
     notes = models.TextField(blank=True, null=True)
     #locations = ...
     source_id = models.ForeignKey(Source, related_name='+', on_delete=models.PROTECT)
-
+    current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
