@@ -183,10 +183,9 @@ def activity_add(request):
 
 
 
-def landing(request):
+def landing(request, current_user):
     try:
-        pk = 1
-        continue_event = Activity.objects.get(pk=pk) # flag
+        continue_event = Activity.objects.get(pk=current_user)
     except:
         continue_event = None
     context = {'continue_event': continue_event}
