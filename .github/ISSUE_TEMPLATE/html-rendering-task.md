@@ -21,18 +21,18 @@ If the issue involves user input forms, also read up on Django forms:
 This issue pertains to the files contained in the website app folder: 
 - `scope_2gzm/INSERT_APPNAME`. 
 
-## Template input variables:
-- `EXAMPLE_VAR_1` (type: TYPE)
-  DESCRIPTION OF VARIABLE...
-- `EXAMPLE_VAR_2` (type: TYPE)
-  DESCRIPTION OF VARIABLE...
-
 ## Tasks for `forms.py`:
 NOTE: Forms are only needed if the user is expected to input some information and send it back to be stored in the website database. 
 EXAMPLE: 
 - [ ] Create class `ExampleForm`
   - [ ] Required information about the form input fields
   - [ ] ...
+
+## Template context variables:
+- `EXAMPLE_VAR_1` (type: TYPE)
+  DESCRIPTION OF VARIABLE...
+- `EXAMPLE_VAR_2` (type: TYPE)
+  DESCRIPTION OF VARIABLE...
 
 ## Tasks for template html file(s):
 EXAMPLE:
