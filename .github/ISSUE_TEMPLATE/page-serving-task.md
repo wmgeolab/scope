@@ -24,20 +24,20 @@ And understand how to read from and write to the database:
 This issue pertains to the files contained in the website app folder: 
 - `scope_2gzm/INSERT_APPNAME`. 
 
-## Template information
-- Path to template file: `path/to/template/file.html`
-- Context variables:
-  - `EXAMPLE_VAR_1` (type: TYPE)
-     DESCRIPTION OF VARIABLE...
-  - `EXAMPLE_VAR_2` (type: TYPE)
-     DESCRIPTION OF VARIABLE...
-
 ## Tasks for `views.py`:
 EXAMPLE: 
 - [ ] Create page view function `example_view()`:
   - [ ] Required action 1...
   - [ ] Required action 2...
   - [ ] ...
+
+## Render to template
+- Path to template file: `templates/APP_NAME/example_view.html`
+- Context variables:
+  - `EXAMPLE_VAR_1` (type: TYPE)
+     DESCRIPTION OF VARIABLE...
+  - `EXAMPLE_VAR_2` (type: TYPE)
+     DESCRIPTION OF VARIABLE...
 
 ## Tasks for `urls.py`:
 EXAMPLE:
