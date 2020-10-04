@@ -62,7 +62,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', 
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
@@ -99,7 +99,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': 'db_config.cnf',
+            'read_default_file': os.path.join(BASE_DIR, 'db_config.cnf'),
         },
     }
 }
@@ -174,5 +174,3 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     }
 }
-
-
