@@ -185,7 +185,7 @@ def activity_add(request):
 
 def landing(request, current_user):
     try:
-        continue_event = Activity.objects.get(pk=current_user)
+        continue_event = Activity.objects.get(current_user=current_user)
     except:
         continue_event = None
     context = {'continue_event': continue_event}
