@@ -3,7 +3,7 @@ on:
 name: Deploy Dev Environment
 jobs:
   deployTest:
-      name: Build docker image
+      name: Create Temporary Django Host
       runs-on: ubuntu-latest
       #container: python:3.8-slim
       steps:
@@ -31,4 +31,4 @@ jobs:
         run: |
              echo ${{ steps.ip.outputs.ipv4 }}
              cd core
-             python3 manage.py runserver ${{ steps.ip.outputs.ipv4 }}:8000 --verbositry 3
+             python3 manage.py runserver ${{ steps.ip.outputs.ipv4 }}:8000 --verbosity 3
