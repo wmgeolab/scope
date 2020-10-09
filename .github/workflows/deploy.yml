@@ -7,9 +7,11 @@ jobs:
       runs-on: ubuntu-latest
       container: python:3.8-slim
       steps:
+      - name: Retrieve Code
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: |
-             ls
+             ls -l
              cd core
              pip install -r requirements.txt
              echo -e "[client]" >> db_config.cnf
