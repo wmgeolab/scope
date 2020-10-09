@@ -31,4 +31,4 @@ jobs:
         run: |
              echo ${{ steps.ip.outputs.ipv4 }}
              cd core
-             python3 manage.py runserver
+             python3 manage.py runserver 8000
