@@ -9,6 +9,7 @@ jobs:
       steps:
       - name: Install Dependencies
         run: |
+             ls
              cd core
              pip install -r requirements.txt
              echo -e "[client]" >> db_config.cnf
