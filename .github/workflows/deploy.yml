@@ -30,4 +30,5 @@ jobs:
       - name: Launch Django Server
         run: |
              echo ${{ steps.ip.outputs.ipv4 }}
+             cd core
              python3 manage.py runserver
