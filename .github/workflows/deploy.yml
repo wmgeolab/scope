@@ -1,7 +1,7 @@
 on:
     workflow_dispatch
-  name: deploy
-  jobs:
+name: deploy
+jobs:
     deployTest:
       name: Build docker image
       runs-on: ubuntu-latest
