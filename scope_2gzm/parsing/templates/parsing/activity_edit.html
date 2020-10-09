@@ -6,13 +6,13 @@
 <div style="width:100%">
 
 
-	<form action="/activity_edit/" method="post">
+	<form action="{% url 'activity_edit' pk=form.pk %}" method="post">
 	  {% csrf_token %}
 	  {{ form }}
-	  <button type="submit">Submit</button>
+	  <button class="btn btn-primary" type="submit">Submit</button>
 	</form>
 
-	<a class="btn btn-primary" href="{% url 'activity_release' %}">
+	<a class="btn btn-primary" href="{% url 'activity_release' pk=form.pk %}">
 		Cancel
 	</a>
 
