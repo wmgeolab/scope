@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('sourcing', '0001_initial'),
+        ('modSourcing', '0001_initial'),
     ]
 
     operations = [

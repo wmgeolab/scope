@@ -1,8 +1,8 @@
 from django.db import models
 
-from sourcing.models import Source
+from modSourcing.models import Source
 
-from users.models import User
+from reqUsers.models import User
 
 # Create your models here.
 

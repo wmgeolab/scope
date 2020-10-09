@@ -6,8 +6,8 @@ import os
 from .models import ActorCode, ActivityCode, StatusCode, Activity
 from .forms import ActorCodeForm, ActivityCodeForm, StatusCodeForm, ActivityForm
 
-from sourcing.models import Source
-from sourcing.forms import SourceForm
+from modSourcing.models import Source
+from modSourcing.forms import SourceForm
 
 # Create your views here.
 
