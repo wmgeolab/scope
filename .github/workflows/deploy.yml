@@ -23,3 +23,10 @@ jobs:
              echo -e "password = ${{secrets.DEVPASSWORD}}" >> db_config.cnf
              echo -e "default-character-set = utf8" >> db_config.cnf
              python3 manage.py runserver
+      - name: Get Public IP
+        uses: haythem/public-ip@v1.2
+
+      - name: Launch Django Server
+        run: |
+             echo ${{ steps.ip.outputs.ipv4 }}
+             python3 manage.py runserver
