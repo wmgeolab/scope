@@ -1,14 +1,14 @@
 on:
     workflow_dispatch
-  name: deploy
-  jobs:
+name: Deploy Dev Environment
+jobs:
     deployTest:
-      name: Build docker image
-      runs-on: ubuntu-latest
-      container: python:3.8-slim
-    steps:
-        name: Install Dependencies
-        runs: |
+        name: Build docker image
+        runs-on: ubuntu-latest
+        container: python:3.8-slim
+        steps:
+        - name: Install Dependencies
+          run: |
                cd core
                pip install -r requirements.txt
                echo -e "[client]" >> db_config.cnf
