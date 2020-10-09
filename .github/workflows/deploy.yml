@@ -13,8 +13,8 @@ jobs:
         run: |
              ls -l
              cd core
-             pip install wheel
-             pip install -r requirements.txt
+             pip3 install wheel
+             pip3 install -r requirements.txt
              echo -e "[client]" >> db_config.cnf
              echo -e "host = ${{secrets.DEVHOST}}" >> db_config.cnf
              echo -e "database = ${{secrets.DEVDATABASE}}" >> db_config.cnf
