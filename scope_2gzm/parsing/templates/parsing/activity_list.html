@@ -1,0 +1,21 @@
+{% extends "templates/base.html" %}
+{% load static %}
+
+{% block page_content %}
+
+
+<table>
+{% for row in activities %}
+<tr align="center">
+
+<td><a href = "..."> {{ row.id }} </a></td>
+<td><a href = "/activity_checkout/"> Checkout </a></td>
+
+</tr>
+{% endfor %}
+</table>
+
+
+
+
+{% endblock %}

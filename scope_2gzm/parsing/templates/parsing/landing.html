@@ -6,11 +6,11 @@
 <div style="width:100%">
 
 {% if continue_event %}
-  <a class="btn" href="{% url 'event_continue' pk=continue_event.pk %}">
+  <a class="btn btn-primary" href="{% url 'event_continue' pk=continue_event.pk %}">
    Continue
   </a>
 {% else %}
-  <a class="btn" href="{% url 'event_new' %}">
+  <a class="btn btn-primary" href="{% url 'event_new' %}">
    Start New
   </a>
 {% endif %}

@@ -1,0 +1,21 @@
+{% extends "templates/base.html" %}
+{% load static %}
+
+{% block page_content %}
+
+<div style="width:100%">
+
+
+	<form action="/activity_edit/" method="post">
+	  {% csrf_token %}
+	  {{ form }}
+	  <button type="submit">Submit</button>
+	</form>
+
+	<a class="btn btn-primary" href="{% url 'activity_release' %}">
+		Cancel
+	</a>
+
+</div>
+
+{% endblock %}
