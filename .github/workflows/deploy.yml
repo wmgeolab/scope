@@ -32,4 +32,4 @@ jobs:
              echo ${{ steps.ip.outputs.ipv4 }}
              export ip=${{ steps.ip.outputs.ipv4 }}
              cd core
-             python3 manage.py runserver $ip:9001 --verbosity 3
+             python3 manage.py runserver 9001 --verbosity 3
