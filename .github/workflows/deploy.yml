@@ -31,4 +31,4 @@ jobs:
         run: |
              echo ${{ steps.ip.outputs.ipv4 }}
              cd core
-             python3 manage.py runserver 8000
+             python3 manage.py runserver ${{ steps.ip.outputs.ipv4 }}:8000 --verbositry 3
