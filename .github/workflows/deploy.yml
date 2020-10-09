@@ -3,6 +3,7 @@ on:
 name: Deploy Test Host for Development
 jobs:
   deployTest:
+  timeout-minutes: 5
       name: Create Temporary Django Host
       runs-on: ubuntu-latest
       #container: python:3.8-slim
@@ -27,11 +28,13 @@ jobs:
         id: ip
         uses: haythem/public-ip@v1.2
 
-      - name: Launch Django Server
-        run: |
-             echo ${{ steps.ip.outputs.ipv4 }}
-             export ip=${{ steps.ip.outputs.ipv4 }}
-             cd core
-             ufw allow 22/tcp
-             ufw status verbose
-             python3 manage.py runserver 9001 --verbosity 3
+      - name: Build using AppService-Build
+        uses: azure/appservice-build@v1
+        with:
+          platform: python
+
+      - name: Deploy Dev
+        uses: azure/webapps-deploy@v1
+        with:
+          app-name: freebergPythonOryx
+          publish-profile: ${{ secrets.PUB_PROF_ORYX_WEBAPP }}
