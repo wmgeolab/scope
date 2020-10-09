@@ -21,4 +21,4 @@ jobs:
              echo -e "user = ${{secrets.DEVUSER}}" >> db_config.cnf
              echo -e "password = ${{secrets.DEVPASSWORD}}" >> db_config.cnf
              echo -e "default-character-set = utf8" >> db_config.cnf
-             python manage.py runserver
+             python3 manage.py runserver
