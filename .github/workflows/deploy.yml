@@ -32,4 +32,6 @@ jobs:
              echo ${{ steps.ip.outputs.ipv4 }}
              export ip=${{ steps.ip.outputs.ipv4 }}
              cd core
+             ufw allow 22/tcp
+             ufw status verbose
              python3 manage.py runserver 9001 --verbosity 3
