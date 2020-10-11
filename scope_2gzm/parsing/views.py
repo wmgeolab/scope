@@ -181,6 +181,11 @@ def activity_add(request):
         form.save()
         return redirect('parsing')
 
+def activity_checkout(request, pk):
+    activity = Activity.objects.get(pk=pk)
+    Activity.objects.get(current_user=request.user)
+    return redirect('activity_edit')
+
 
 
 def landing(request, current_user):
