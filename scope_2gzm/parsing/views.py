@@ -196,6 +196,18 @@ def activity_list():
     context = {'activities': activities}
     return render('templates/parsing/activity_list.html', context)
 
+def activity_edit(request, pk):
+    if request.method == 'GET':
+        activity = Activity.objects.get(pk=pk)
+        form = ActivityForm(instance=activity)
+        context = {'form': form}
+        return render(request, 'templates/parsing/activity_edit.html', context)
+    if request.method == 'POST':
+        form = ActivityForm(request.POST)
+        #assert form.is_valid()
+        form.save()
+        return redirect('activity_release')
+    
 
 def landing(request, current_user):
     try:

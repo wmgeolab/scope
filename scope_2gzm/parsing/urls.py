@@ -42,5 +42,6 @@ urlpatterns = [
     re_path('^landing$', views.landing, name='landing'),
     re_path('^activity/(?P[\w]+)/checkout', views.activity_edit, name='activity_edit'),
     re_path('^activity/(?P[\w]+)/release', views.activity_release, name='activity_release'),
-    re_path('^activity/(?P[\w]+)/list', views.activity_list, name='activity_list'),
+    re_path('^activity/list$', views.activity_list, name='activity_list'),
+    re_path('^activity/(?P[\w]+)/edit$', views.activity_edit, name='activity_edit'),
 ]
