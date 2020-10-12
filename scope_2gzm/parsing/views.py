@@ -191,6 +191,10 @@ def activity_release(request, pk):
     Activity.objects.get(current_user=request.user)
     return redirect('activity_edit')
 
+def activity_list():
+    activities = Activity.objects.filter(current_user=None)
+    context = {'activities': activities}
+    return render('templates/parsing/activity_list.html', context)
 
 
 def landing(request, current_user):
