@@ -181,7 +181,32 @@ def activity_add(request):
         form.save()
         return redirect('parsing')
 
+def activity_checkout(request, pk):
+    activity = Activity.objects.get(pk=pk)
+    Activity.objects.get(current_user=None)
+    return redirect('activity_list')
 
+def activity_release(request, pk):
+    activity = Activity.objects.get(pk=pk)
+    Activity.objects.get(current_user=request.user)
+    return redirect('activity_edit')
+
+def activity_list():
+    activities = Activity.objects.filter(current_user=None)
+    context = {'activities': activities}
+    return render('templates/parsing/activity_list.html', context)
+
+def activity_edit(request, pk):
+    if request.method == 'GET':
+        activity = Activity.objects.get(pk=pk)
+        form = ActivityForm(instance=activity)
+        context = {'form': form}
+        return render(request, 'templates/parsing/activity_edit.html', context)
+    if request.method == 'POST':
+        form = ActivityForm(request.POST)
+        #assert form.is_valid()
+        form.save()
+        return redirect('activity_release')
 
 def landing(request, current_user):
     try:
