@@ -25,7 +25,7 @@ SECRET_KEY = 'wg=e1o&-az+jd9oq%8cs(2gqfjh@+wzvhl@k(v_3&ged8uc6l='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 
 
 # Application definition
@@ -46,9 +46,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 
     # our apps
-    'sourcing',
-    'parsing',
-    'users',
+    'modSourcing',
+    'modParsing',
+    'reqUsers',
 ]
 
 MIDDLEWARE = [
@@ -66,16 +66,16 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-ROOT_URLCONF = 'scope_2gzm.urls'
+ROOT_URLCONF = 'reqCore.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'scope_2gzm'),
-            os.path.join(BASE_DIR, 'sourcing'),
-            os.path.join(BASE_DIR, 'parsing'),
-            os.path.join(BASE_DIR, 'users'),
+            os.path.join(BASE_DIR, 'reqCore'),
+            os.path.join(BASE_DIR, 'modSourcing'),
+            os.path.join(BASE_DIR, 'modParsing'),
+            os.path.join(BASE_DIR, 'reqUsers'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -89,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'scope_2gzm.wsgi.application'
+WSGI_APPLICATION = 'reqCore.wsgi.application'
 
 
 # Database
@@ -141,11 +141,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = '/site/wwwroot/static/'
 STATIC_URL = '/static/'
 
 
 # user model
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'reqUsers.User'
 #LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 
