@@ -6,7 +6,7 @@ name: Build and deploy Python app to Azure Web App - wmscope
 on:
   push:
     branches:
-      - action
+      - master
 
 jobs:
   build-and-deploy:

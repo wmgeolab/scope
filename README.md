@@ -1,4 +1,4 @@
-# scope_2gzm
+# scope
 
 SCOPE data collection+coding platform (2GZM demo)
 
