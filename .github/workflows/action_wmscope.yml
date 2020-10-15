@@ -24,6 +24,12 @@ jobs:
     - name: Build database configuration
       run: |
            ls -l
+           echo -e "[client]" >> db_config.cnf
+           echo -e "host = ${{secrets.DEVHOST}}" >> db_config.cnf
+           echo -e "database = ${{secrets.DEVDATABASE}}" >> db_config.cnf
+           echo -e "user = ${{secrets.DEVUSER}}" >> db_config.cnf
+           echo -e "password = ${{secrets.DEVPASSWORD}}" >> db_config.cnf
+           echo -e "default-character-set = utf8" >> db_config.cnf
            cd reqCore
            echo -e "[client]" >> db_config.cnf
            echo -e "host = ${{secrets.DEVHOST}}" >> db_config.cnf
