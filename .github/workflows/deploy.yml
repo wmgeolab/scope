@@ -1,0 +1,20 @@
+on:
+    workflow_dispatch
+name: Deploy Dev Environment
+jobs:
+    deployTest:
+        name: Build docker image
+        runs-on: ubuntu-latest
+        container: python:3.8-slim
+        steps:
+        - name: Install Dependencies
+          run: |
+               cd core
+               pip install -r requirements.txt
+               echo -e "[client]" >> db_config.cnf
+               echo -e "host = ${{secrets.DEVHOST}}" >> db_config.cnf
+               echo -e "database = ${{secrets.DEVDATABASE}}" >> db_config.cnf
+               echo -e "user = ${{secrets.DEVUSER}}" >> db_config.cnf
+               echo -e "password = ${{secrets.DEVPASSWORD}}" >> db_config.cnf
+               echo -e "default-character-set = utf8" >> db_config.cnf
+               python manage.py runserver

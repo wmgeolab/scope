@@ -1,0 +1,35 @@
+{% extends "templates/base.html" %}
+{% load static %}
+
+{% block page_content %}
+
+
+<table class="table">
+	<thead>
+		<tr align="center">
+			<th>activity id</th>
+			<th>actor code</th>
+			<th>activity code</th>
+			<th>activity date</th>
+			<th>fuzzy date</th>
+			<th>status code</th>
+			<th>notes</th>
+			<th>source id</th>
+			<th>current user</th>
+    	</tr>
+    </thead>
+    <tbody>
+    	{% for row in activities %}
+    	<tr align="center">
+    		{% for cell in row %}
+    			<td> {{ cell }} </td>
+    		{% endfor %}
+    		<td><a href = "{% url 'acivity_checkout' pk=row.pk %}"> Checkout </a></td>
+    	</tr>
+    	{% endfor %}
+    </tbody>
+
+</table>
+
+
+{% endblock %}
