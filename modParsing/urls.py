@@ -40,8 +40,8 @@ urlpatterns = [
     re_path('^activity/add$', views.activity_add, name='activity_add'),
     re_path('^activity/(?<pk>[\w]+)/view$', views.activity_view, name='activity_view'),
     re_path('^landing$', views.landing, name='landing'),
-    re_path('^activity/(?[\w]+)/checkout', views.activity_edit, name='activity_edit'),
-    re_path('^activity/(?[\w]+)/release', views.activity_release, name='activity_release'),
+    re_path('^activity/(?<name>[\w]+)/checkout', views.activity_edit, name='activity_edit'),
+    re_path('^activity/(?<name>[\w]+)/release', views.activity_release, name='activity_release'),
     re_path('^activity/list$', views.activity_list, name='activity_list'),
-    re_path('^activity/(?[\w]+)/edit$', views.activity_edit, name='activity_edit'),
+    re_path('^activity/(?<name>[\w]+)/edit$', views.activity_edit, name='activity_edit'),
 ]
