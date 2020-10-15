@@ -18,10 +18,7 @@ jobs:
     - name: Build database configuration
       run: |
            ls -l
-           cd core
-           pip3 install wheel
-           pip3 install setuptools
-           pip3 install -r requirements.txt
+           cd reqCore
            echo -e "[client]" >> db_config.cnf
            echo -e "host = ${{secrets.DEVHOST}}" >> db_config.cnf
            echo -e "database = ${{secrets.DEVDATABASE}}" >> db_config.cnf
