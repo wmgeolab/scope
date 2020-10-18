@@ -76,6 +76,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'modSourcing'),
             os.path.join(BASE_DIR, 'modParsing'),
             os.path.join(BASE_DIR, 'reqUsers'),
+            os.path.join(BASE_DIR, 'reqUsers', 'templates', 'reqUsers'), # allows direct access to 'account' folder templates, for overriding allauth templates
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -88,6 +89,7 @@ TEMPLATES = [
         },
     },
 ]
+print(TEMPLATES[0]['DIRS'])
 
 WSGI_APPLICATION = 'reqCore.wsgi.application'
 
@@ -164,8 +166,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '123',
-            'secret': '456',
+            'client_id': '93f8c4506cfd09ff7b95',
+            'secret': 'eed3d61ddfefc3533ad36a4695ad12e870b33bd2',
             'key': '',
         },
         'SCOPE': [

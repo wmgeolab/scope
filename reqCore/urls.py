@@ -20,8 +20,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('reqUsers.urls')),
     path('', views.home, name='home'),
     path('modSourcing/', include('modSourcing.urls')),
     path('modParsing/', include('modParsing.urls')),
-    path('reqUsers/', include('reqUsers.urls')),
 ]

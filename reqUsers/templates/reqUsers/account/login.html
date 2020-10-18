@@ -1,0 +1,30 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Sign In" %}</h1>
+
+{% get_providers as socialaccount_providers %}
+
+<p>Please sign in with one
+of your existing third party accounts.</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers" style="list-style-type:none">
+	<li>
+    <a href="{% provider_login_url 'github' %}?process=login" style="text-decoration:none">
+		<img height="50px" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+		<b>GitHub</b>
+	</a>
+	</li>
+  </ul>
+
+</div>
+
+{% endblock %}

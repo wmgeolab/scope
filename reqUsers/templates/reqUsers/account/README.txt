@@ -1,0 +1,1 @@
+The templates in this folder overrides django-allauth templates. Because we are using the django-allauth builtin urls and views, the folder must be named 'account', and the parent settings.py TEMPLATES DIR must include the parent path of the 'account' folder. 

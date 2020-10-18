@@ -13,13 +13,17 @@ Your Profile
 
 <div style="margin-left:20px">
 
-<table>
-	{{ form.as_table }}
-</table>
+<img height="200px" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%; float:left; padding-right:50px">
 
-<a class="btn btn-secondary" href="logout">
-Logout?
-</a>
+<div>
+	<table>
+		{{ form.as_table }}
+	</table>
+
+	<a class="btn btn-secondary" href="logout">
+	Logout?
+	</a>
+</div>
 
 </div>
 	

@@ -7,4 +7,4 @@ from .forms import UserForm
 
 def profile(request):
     form = UserForm(instance=request.user)
-    return render(request, 'templates/users/profile.html', {'form':form})
+    return render(request, 'templates/reqUsers/profile.html', {'form':form})
