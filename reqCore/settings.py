@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     # our apps
     'modSourcing',
+    'modExtracts',
     'modParsing',
     'reqUsers',
 ]
@@ -74,6 +75,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'reqCore'),
             os.path.join(BASE_DIR, 'modSourcing'),
+            os.path.join(BASE_DIR, 'modExtracts'),
             os.path.join(BASE_DIR, 'modParsing'),
             os.path.join(BASE_DIR, 'reqUsers'),
             os.path.join(BASE_DIR, 'reqUsers', 'templates', 'reqUsers'), # allows direct access to 'account' folder templates, for overriding allauth templates
