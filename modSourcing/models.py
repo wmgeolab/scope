@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from reqUsers.models import User
+
 # Create your models here.
 
 class SourceCode(models.Model):
@@ -16,5 +18,4 @@ class Source(models.Model):
     source_text = models.TextField(blank=True, null=True)
     source_url = models.URLField(blank=True)
     date_added = models.DateTimeField(default=timezone.now, blank=True)
-
-
+    current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
