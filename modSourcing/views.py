@@ -13,7 +13,7 @@ def home(request):
     return render(request, 'templates/sourcing/home.html', {'sources':sources})
 
 def settings(request):
-    datamodels = list(apps.get_app_config('sourcing').get_models())
+    datamodels = list(apps.get_app_config('modSourcing').get_models())
     for datamodel in datamodels:
         datamodel.get_class_name = datamodel._meta.object_name
         datamodel.get_count = datamodel.objects.all().count()
@@ -22,7 +22,7 @@ def settings(request):
 # generic model
 
 def datamodel(request, name):
-    datamodel = apps.get_app_config('sourcing').get_model(name)
+    datamodel = apps.get_app_config('modSourcing').get_model(name)
     datamodel.get_class_name = datamodel._meta.object_name
     datamodel.get_count = datamodel.objects.all().count()
     datamodel.get_fields = datamodel._meta.fields
@@ -30,7 +30,7 @@ def datamodel(request, name):
     return render(request, 'templates/sourcing/datamodel.html', {'datamodel':datamodel, 'objects':objects})
 
 def datamodel_view(request, name, pk):
-    datamodel = apps.get_app_config('sourcing').get_model(name)
+    datamodel = apps.get_app_config('modSourcing').get_model(name)
     inst = datamodel.objects.get(pk=pk)
     from . import forms
     formclass = getattr(forms, name+'Form')
@@ -46,7 +46,7 @@ def datamodel_view(request, name, pk):
             print(form.errors)
 
 def datamodel_add(request, name):
-    app_models = apps.get_app_config('sourcing').get_model(name)
+    app_models = apps.get_app_config('modSourcing').get_model(name)
     from . import forms
     formclass = getattr(forms, name+'Form')
     
@@ -63,7 +63,7 @@ def datamodel_add(request, name):
 
 def datamodel_add_from_csv(request, name, csvstream):
     import csv
-    datamodel = apps.get_app_config('sourcing').get_model(name)
+    datamodel = apps.get_app_config('modSourcing').get_model(name)
     dialect = csv.Sniffer().sniff(csvstream.read(1024))
     csvstream.seek(0)
     
@@ -90,7 +90,7 @@ def datamodel_add_from_csv(request, name, csvstream):
 def import_from_data_folder(request):
     for name in ['SourceCode', 'Source']:
         print(name)
-        fil = 'sourcing/data/'+name+'.csv'
+        fil = 'modSourcing/data/'+name+'.csv'
         if os.path.lexists(fil):
             print('importing from', fil)
             csvstream = open(fil, encoding='utf-8')
