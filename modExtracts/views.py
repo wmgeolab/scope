@@ -17,7 +17,7 @@ def source_list(request):
 
 def source_checkout(request, pk):
     source = Source.objects.get(pk = pk)
-    Source.objects.get(current_user=request.user)
+    source.current_user = request.user
     return redirect('source_extract')
 
 
