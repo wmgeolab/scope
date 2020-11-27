@@ -1,0 +1,26 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+{% block page_content %}
+
+<h1>Source Extraction</h1>
+
+<div>
+
+<form action="{% url 'source_extraction' %}" method="post">
+    
+	{% csrf_token %}
+	
+	<h3>Extracts:</h3>
+	
+	<div class="form-group">
+		<table>
+		{{ formset.as_table }}
+		</table>
+	</div>
+	
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
+</div>
+{% endblock %}
