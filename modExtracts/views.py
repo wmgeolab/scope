@@ -20,5 +20,9 @@ def source_checkout(request, pk):
     source.current_user = request.user
     return redirect('source_extract')
 
+def source_release(request, pk):
+    source = Source.objects.get(pk = pk)
+    source.current_user = None
+    return redirect('source_extract')
 
 
