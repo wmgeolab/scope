@@ -3,24 +3,56 @@
 {% load static %}
 {% block page_content %}
 
-<h1>Source Extraction</h1>
-
 <div>
+	<h1>Source Extraction</h1>
 
-<form action="{% url 'source_extraction' source.pk %}" method="post">
-    
-	{% csrf_token %}
-	
-	<h3>Extracts:</h3>
-	
-	<div class="form-group">
-		<table>
-		{{ formset.as_table }}
+	<div id="id_source_viewer" style="display:inline-block; width:55%; margin-right:20px">
+		
+		<table id="id_source_info">
+			<tr>
+				<td>Source ID: </td>
+				<td>{{ source.pk }}</td>
+			</tr>
+			<tr>
+				<td>Source Code: </td>
+				<td>{{ source.source_code }}</td>
+			</tr>
+			<tr>
+				<td>URL: </td>
+				<td><a href="{{ source.source_url }}" target="_blank">{{ source.source_url }}</a></td>
+			</tr>
 		</table>
+		
+		<div id="id_source_html" style="overflow:scroll; border:solid black; margin-top:20px">
+			{{ source_html|safe }}
+		</div>
+		
 	</div>
-	
-    <input class="btn btn-primary" type="submit" value="Submit">
-</form>
 
+	<div id="id_extracts_viewer" style="display:inline-block; width:39%; vertical-align:top">
+
+		<form id="id_extracts_form" action="{% url 'source_extraction' source.pk %}" method="post">
+			
+			{% csrf_token %}
+			
+			<h3>Extracts:</h3>
+			
+			<div id="id_extracts_container" class="form-group">
+				<table id="id_table_of_extracts">
+					{{ formset.as_table }}
+					<tr>
+						<td></td>
+						<td style="text-align:right"><button class="btn btn-secondary">Add Extract</button></td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="">
+				<input class="btn btn-primary" type="submit" value="Finish">
+				<input class="btn btn-danger" type="submit" value="Cancel">
+			</div>
+		</form>
+
+	</div>
 </div>
 {% endblock %}
