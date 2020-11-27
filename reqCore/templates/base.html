@@ -65,7 +65,7 @@
 		
 		{% if not request.user.is_anonymous %}
 			<a href="{% url 'profile' %}" style="color:black">
-				<b>{{ request.user.email }}</b>
+				<b>{{ request.user.email|lower }}</b>
 				<img height="40px" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%;">
 			</a>
 		{% else %}

@@ -16,7 +16,7 @@ def home(request):
         
     if cont:
         # if yes, redirect to source extraction page
-        redirect('source_extraction', cont.pk)
+        return redirect('source_extraction', cont.pk)
     else:
         # otherwise, show list of sources available for checking out
         return redirect('source_list')
@@ -28,12 +28,14 @@ def source_list(request):
 def source_checkout(request, pk):
     source = Source.objects.get(pk = pk)
     source.current_user = request.user
+    source.save()
     return redirect('source_extraction', pk)
 
 def source_release(request, pk):
     source = Source.objects.get(pk = pk)
     source.current_user = None
-    return redirect('source_extraction', pk)
+    source.save()
+    return redirect('source_list')
 
 def source_extraction(request, pk):
     if request.method == 'GET':
