@@ -7,7 +7,7 @@
 
 <div>
 
-<form action="{% url 'source_extraction' %}" method="post">
+<form action="{% url 'source_extraction' source.pk %}" method="post">
     
 	{% csrf_token %}
 	

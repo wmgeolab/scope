@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from modSourcing.models import Source
+from modExtracts.models import Extract
 
 from modExtracts.forms import ExtractFormSet
 
@@ -27,19 +28,19 @@ def source_list(request):
 def source_checkout(request, pk):
     source = Source.objects.get(pk = pk)
     source.current_user = request.user
-    return redirect('source_extract')
+    return redirect('source_extraction', pk)
 
 def source_release(request, pk):
     source = Source.objects.get(pk = pk)
     source.current_user = None
-    return redirect('source_extract')
+    return redirect('source_extraction', pk)
 
 def source_extraction(request, pk):
     if request.method == 'GET':
         source = Source.objects.get(pk=pk)
         extracts = source.extracts.all()
         formset = ExtractFormSet(queryset=Extract.objects.filter(pk__in=extracts))
-        return render(request, 'templates/extracts/source_extraction.html', {'formset':formset,})
+        return render(request, 'templates/extracts/source_extraction.html', {'source':source, 'formset':formset,})
 
     elif request.method == 'POST':
         formset = ExtractFormSet(request.POST)
