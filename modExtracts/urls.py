@@ -21,4 +21,5 @@ from . import views
 urlpatterns = [
     re_path('^$', views.home, name='extracts_home'),
     re_path('^source/(?P<pk>[\w]+)/checkout', views.source_checkout, name='source_checkout')
+    re_path('^source/list', views.source_list, name='source_list')
 ]
