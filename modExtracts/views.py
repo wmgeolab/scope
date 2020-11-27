@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 from modSourcing.models import Source
 
+from modExtracts.forms import ExtractFormSet
+
 
 # Create your views here.
 def home(request, pk):
@@ -24,5 +26,21 @@ def source_release(request, pk):
     source = Source.objects.get(pk = pk)
     source.current_user = None
     return redirect('source_extract')
+
+def source_extraction(request, pk):
+    if request.method == 'GET':
+        source = Source.objects.get(pk=pk)
+        extracts = source.extracts.all()
+        formset = ExtractFormSet(queryset=Extract.objects.filter(pk__in=extracts))
+        return render(request, 'templates/extracts/source_extraction.html', {'formset':formset,})
+
+    elif request.method == 'POST':
+        formset = ExtractFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+        else:
+            raise Exception('Failed to save...') # need better handling here
+        
+        return redirect('source_release')
 
 
