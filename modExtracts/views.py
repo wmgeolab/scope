@@ -6,12 +6,19 @@ from modExtracts.forms import ExtractFormSet
 
 
 # Create your views here.
-def home(request, pk):
+def home(request):
+    # check if user already has checked out a source
     try:
-        cont = Source.objects.get(pk = pk)
+        cont = Source.objects.get(current_user=request.user)
     except:
         cont = None
-    return render(request, 'templates/extracts/home.html', {'continue':cont,})
+        
+    if cont:
+        # if yes, redirect to source extraction page
+        redirect('source_extraction', cont.pk)
+    else:
+        # otherwise, show list of sources available for checking out
+        return redirect('source_list')
 
 def source_list(request):
     sources = Source.objects.filter(current_user = None)
