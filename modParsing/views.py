@@ -183,12 +183,12 @@ def activity_add(request):
 
 def activity_checkout(request, pk):
     activity = Activity.objects.get(pk=pk)
-    Activity.objects.get(current_user=None)
+    activity.current_user = None
     return redirect('activity_list')
 
 def activity_release(request, pk):
     activity = Activity.objects.get(pk=pk)
-    Activity.objects.get(current_user=request.user)
+    activity.current_user = request.user
     return redirect('activity_edit')
 
 def activity_list():
