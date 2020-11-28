@@ -41,7 +41,14 @@
 			
 			<div id="id_extracts_container" class="form-group">
 				<table id="id_table_of_extracts">
-					{{ formset.as_table }}
+					{% for form in formset %}
+						<tr style="vertical-align:top">
+						{% for field in form.visible_fields %}
+							<td><b>{{ field.label }}: </b></td>
+							<td>{{ field }}</td>
+						{% endfor %}
+						</tr>
+					{% endfor %}
 					<tr>
 						<td></td>
 						<td style="text-align:right"><button class="btn btn-secondary">Add Extract</button></td>
