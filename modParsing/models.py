@@ -27,19 +27,6 @@ class StatusCode(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.status_code, self.status_desc)
 
-##from . import IATI
-##loctypes = IATI.LocationTypes['LocationType']
-##loctypes = sorted(loctypes, key=lambda l: l['code'])
-##
-##class Location(models.Model):
-##    name = models.CharField(max_length=400)
-##    type = models.CharField(max_length=50,
-##                          choices=[(l['code'],l['name'])
-##                                   for l in loctypes]
-##                            )
-##    note = models.TextField(blank=True, null=True)
-##    geom = models.TextField(blank=True, null=True)
-
 class Activity(models.Model):
     activity_id = models.AutoField(primary_key=True)
     actor_code = models.ForeignKey(ActorCode, related_name='activities', on_delete=models.PROTECT)

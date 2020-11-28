@@ -16,102 +16,14 @@ def home(request):
     return render(request, 'templates/parsing/home.html', {'sources':sources,
                                                       })
 
-##def settings(request):
-##    activities = Activity.objects.all()
-##    actorcodes = ActorCode.objects.all()
-##    activitycodes = ActivityCode.objects.all()
-##    statuscodes = StatusCode.objects.all()
-##    return render(request, 'templates/parsing/settings.html', {'activities':activities,
-##                                                         'actorcodes':actorcodes,
-##                                                         'activitycodes':activitycodes,
-##                                                      'statuscodes':statuscodes
-##                                                      })
-
-def settings(request):
-    datamodels = list(apps.get_app_config('parsing').get_models())
-    for datamodel in datamodels:
-        datamodel.get_class_name = datamodel._meta.object_name
-        datamodel.get_count = datamodel.objects.all().count()
-    return render(request, 'templates/parsing/settings.html', {'datamodels':datamodels})
-
-# generic model
-
-def datamodel(request, name):
-    datamodel = apps.get_app_config('parsing').get_model(name)
-    datamodel.get_class_name = datamodel._meta.object_name
-    datamodel.get_count = datamodel.objects.all().count()
-    datamodel.get_fields = datamodel._meta.fields
-    objects = [(obj,[getattr(obj,fl.name) for fl in datamodel.get_fields]) for obj in datamodel.objects.all()]
-    return render(request, 'templates/parsing/datamodel.html', {'datamodel':datamodel, 'objects':objects})
-
-def datamodel_view(request, name, pk):
-    datamodel = apps.get_app_config('parsing').get_model(name)
-    inst = datamodel.objects.get(pk=pk)
-    from . import forms
-    formclass = getattr(forms, name+'Form')
-    if request.method == 'GET':
-        form = formclass(instance=inst)
-        return render(request, 'templates/parsing/datamodel_view.html', {'form':form, 'name':name, 'pk':pk})
-    elif request.method == 'POST':
-        form = formclass(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('parsing')
-        else:
-            print(form.errors)
-
-def datamodel_add(request, name):
-    app_models = apps.get_app_config('parsing').get_model(name)
-    from . import forms
-    formclass = getattr(forms, name+'Form')
-
-    if request.method == 'GET':
-        form = formclass()
-        return render(request, 'templates/parsing/datamodel_add.html', {'form':form, 'name':name})
-    elif request.method == 'POST':
-        form = formclass(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('parsing')
-        else:
-            print(form.errors)
-
-def datamodel_add_from_csv(request, name, csvstream):
-    import csv
-    datamodel = apps.get_app_config('parsing').get_model(name)
-    dialect = csv.Sniffer().sniff(csvstream.read(1024))
-    csvstream.seek(0)
-
-    reader = csv.DictReader(csvstream, dialect=dialect)
-    for row in reader:
-        for k in list(row.keys()):
-            # some csv files have annoying start-of-file junk characters
-            if k.startswith('\ufeff'):
-                val = row.pop(k)
-                k = k.replace('\ufeff','')
-                row[k] = val
-            # get related model instance from id
-            field = getattr(datamodel, k).field
-            if field.is_relation:
-                _id = row[k]
-                obj = field.related_model.objects.get(pk=_id)
-                row[k] = obj
-        print(row)
-
-        obj = datamodel(**row)
-        obj.save()
-        print(obj)
-
-def import_from_data_folder(request):
-    for name in ['ActivityCode', 'ActorCode', 'StatusCode', 'Activity']:
-        print(name)
-        fil = 'parsing/data/'+name+'.csv'
-        if os.path.lexists(fil):
-            print('importing from', fil)
-            csvstream = open(fil, encoding='utf-8')
-            datamodel_add_from_csv(request, name, csvstream)
-
-    return redirect('parsing_settings')
+def landing(request, current_user):
+    # NOTE: maybe rename, and maybe just integrate directly into home? 
+    try:
+        continue_event = Activity.objects.get(current_user=current_user)
+    except:
+        continue_event = None
+    context = {'continue_event': continue_event}
+    return render(request, 'templates/parsing/landing.html', context)
 
 # actorcode
 
@@ -208,10 +120,3 @@ def activity_edit(request, pk):
         form.save()
         return redirect('activity_release')
 
-def landing(request, current_user):
-    try:
-        continue_event = Activity.objects.get(current_user=current_user)
-    except:
-        continue_event = None
-    context = {'continue_event': continue_event}
-    return render(request, 'templates/parsing/landing.html', context)

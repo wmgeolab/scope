@@ -23,10 +23,7 @@ class StatusCodeForm(ModelForm):
         model = StatusCode
         exclude = []
 
-##class LocationForm(ModelForm):
-##    class Meta:
-##        model = Location
-##        exclude = []
+
 
 
 

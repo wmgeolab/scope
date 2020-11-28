@@ -21,12 +21,6 @@ from . import views
 urlpatterns = [
     # parsing data table
     re_path('^$', views.home, name='parsing'),
-    re_path('^settings$', views.settings, name='parsing_settings'),
-    # generic datamodel
-    re_path('^datamodel/(?P<name>[\w]+)/$', views.datamodel, name='parsing_datamodel'),
-    re_path('^datamodel/(?P<name>[\w]+)/add$', views.datamodel_add, name='parsing_datamodel_add'),
-    re_path('^datamodel/(?P<name>[\w]+)/view(?P<pk>[\w]+)/$', views.datamodel_view, name='parsing_datamodel_view'),
-    re_path('^import_from_data_folder$', views.import_from_data_folder, name='parsing_import_from_data_folder'),
     # actorcodes
     re_path('^actorcode/add$', views.actorcode_add, name='actorcode_add'),
     re_path('^actorcode/(?P<pk>[\w]+)/view$', views.actorcode_view, name='actorcode_view'),
