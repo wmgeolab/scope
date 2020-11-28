@@ -21,7 +21,7 @@ To extract information from a source, select a source from the list below:
 		<th>Source ID</th>
 		<th>Code</th>
 		<th>URL</th>
-		<th>Added</th>
+		<th>Extracts</th>
 		<th>Action</th>
 	  </tr>
 	</thead>
@@ -31,7 +31,7 @@ To extract information from a source, select a source from the list below:
 			<td>{{ source.pk }}</td>
 			<td>{{ source.source_code }}</td>
 			<td>{{ source.source_url }}</td>
-			<td>{{ source.date_added }}</td>
+			<td>{{ source.extracts.count }}</td>
 			<td>
 				<a href="{% url 'source_checkout' pk=source.pk %}" class="btn btn-secondary">
 				Checkout
