@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
+
+# Add the apps folder to sys path, to allow app imports
+sys.path.insert(0, os.path.abspath('apps'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,11 +78,11 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'core'),
-            os.path.join(BASE_DIR, 'sourcing'),
-            os.path.join(BASE_DIR, 'extraction'),
-            os.path.join(BASE_DIR, 'parsing'),
-            os.path.join(BASE_DIR, 'users'),
-            os.path.join(BASE_DIR, 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
+            os.path.join(BASE_DIR, 'apps', 'sourcing'),
+            os.path.join(BASE_DIR, 'apps', 'extraction'),
+            os.path.join(BASE_DIR, 'apps', 'parsing'),
+            os.path.join(BASE_DIR, 'apps', 'users'),
+            os.path.join(BASE_DIR, 'apps', 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
             ],
         'APP_DIRS': True,
         'OPTIONS': {
