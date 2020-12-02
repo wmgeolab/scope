@@ -33,9 +33,13 @@ To extract information from a source, select a source from the list below:
 			<td>{{ source.source_url }}</td>
 			<td>{{ source.extracts.count }}</td>
 			<td>
+			{% if source.current_user %}
+				<img height="40px" src="{{ source.current_user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%" title="{{ source.current_user.email|lower }}">
+			{% else %}
 				<a href="{% url 'source_checkout' pk=source.pk %}" class="btn btn-secondary">
 				Checkout
 				</a>
+			{% endif %}
 			</td>
 		</tr>
 	{% endfor %}

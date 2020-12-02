@@ -22,7 +22,7 @@ def home(request):
         return redirect('source_list')
 
 def source_list(request):
-    sources = Source.objects.filter(current_user = None)
+    sources = Source.objects.all() #filter(current_user = None)
     return render(request, 'templates/extraction/source_list.html', {'sources':sources,})
 
 def source_checkout(request, pk):
