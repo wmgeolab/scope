@@ -4,7 +4,17 @@
 {% block page_content %}
 
 <div>
-	<h2>Checking out source for extraction</h2>
+	<h2>
+	Checking out source for extraction
+	<div style="float:right">
+		<button class="btn btn-primary" onclick="document.getElementById('id_extracts_form').submit();">
+		Submit
+		</button>
+		<a class="btn btn-danger" href="{% url 'source_release' source.pk %}">
+		Release
+		</a>
+	</div>
+	</h2>
 	
 	<hr>
 
@@ -39,7 +49,7 @@
 			
 			{{ formset.management_form }}
 			
-			<h3>Extracts ({{ formset|length }})</h3>
+			<h3>Extracts ({{ formset.initial_form_count }})</h3>
 			
 			<div id="id_extracts_errors" style="color:red">
 				{{ formset.non_form_errors }}
@@ -92,10 +102,6 @@
 				}
 			</script>
 			
-			<div id="">
-				<input class="btn btn-primary" type="submit" value="Submit">
-				<a class="btn btn-danger" href="{% url 'source_release' source.pk %}">Release</a>
-			</div>
 		</form>
 
 	</div>
