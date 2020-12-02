@@ -43,19 +43,36 @@ def source_extraction(request, pk):
         import urllib
         source_html = urllib.request.urlopen(source.source_url).read()
         extracts = source.extracts.all()
-        formset = ExtractFormSet(queryset=Extract.objects.filter(pk__in=extracts))
+        formset = ExtractFormSet(queryset=Extract.objects.filter(pk__in=extracts),
+                                 initial=[{'source':pk}]
+                                 )
         return render(request, 'templates/extraction/source_extraction.html', {'source':source,
                                                                              'source_html':source_html,
                                                                              'formset':formset,}
                       )
 
     elif request.method == 'POST':
-        formset = ExtractFormSet(request.POST)
+        source = Source.objects.get(pk=pk)
+        extracts = source.extracts.all()
+        # get data
+        data = request.POST.copy()
+        print(data)
+        # force set the source
+##        num_forms = int(data['form-TOTAL_FORMS'])
+##        for i in range(num_forms):
+##            data['form-{}-source'.format(i)] = str(pk)
+##        print(data)
+        # create form
+        formset = ExtractFormSet(data,
+                                 queryset=Extract.objects.filter(pk__in=extracts), # to compare with original instances which were changed
+                                 )
         if formset.is_valid():
             formset.save()
         else:
-            raise Exception('Failed to save...') # need better handling here
+            for err in formset.errors:
+                print(err)
+            raise Exception
         
-        return redirect('source_release')
+        return redirect('source_release', pk)
 
 

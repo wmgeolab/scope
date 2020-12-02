@@ -37,24 +37,60 @@
 			
 			{% csrf_token %}
 			
-			<h3>Extracts:</h3>
+			{{ formset.management_form }}
+			
+			<h3>Extracts ({{ formset|length }})</h3>
+			
+			<div id="id_extracts_errors" style="color:red">
+				{{ formset.non_form_errors }}
+			</div>
 			
 			<div id="id_extracts_container" class="form-group">
 				<table id="id_table_of_extracts">
 					{% for form in formset %}
-						<tr style="vertical-align:top">
+						<tr class="formsetform" style="vertical-align:top">
+						{% for hidden in form.hidden_fields %}
+							{{ hidden }}
+						{% endfor %}
 						{% for field in form.visible_fields %}
 							<td><b>{{ field.label }}: </b></td>
 							<td>{{ field }}</td>
 						{% endfor %}
 						</tr>
 					{% endfor %}
-					<tr>
-						<td></td>
-						<td style="text-align:right"><button class="btn btn-secondary">Add Extract</button></td>
-					</tr>
 				</table>
 			</div>
+			
+			<div style="text-align:center">
+				<button id="id_add_form" class="btn btn-secondary">+</button>
+			</div>
+			
+			<script>
+				let form = document.querySelectorAll(".formsetform")
+				let container = document.querySelector("#id_table_of_extracts")
+				let addButton = document.querySelector("#id_add_form")
+				//let addFormBefore = document.querySelector("#id_add_form_here")
+				let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+				let formNum = form.length-1
+				addButton.addEventListener('click', addForm)
+
+				function addForm(e){
+					e.preventDefault()
+
+					let newForm = form[form.length-1].cloneNode(true)
+					let formRegex = RegExp(`form-(\\d){1}-`,'g')
+
+					formNum++
+					newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+					//container.insertBefore(newForm, null); //, addFormBefore)
+					container.appendChild(newForm);
+					newTextArea = document.getElementById('id_form-'+formNum+'-text');
+					newTextArea.textContent = '';
+					
+					totalForms.setAttribute('value', `${formNum+1}`)
+				}
+			</script>
 			
 			<div id="">
 				<input class="btn btn-primary" type="submit" value="Submit">
