@@ -40,14 +40,11 @@ def source_release(request, pk):
 def source_extraction(request, pk):
     if request.method == 'GET':
         source = Source.objects.get(pk=pk)
-        import urllib
-        source_html = urllib.request.urlopen(source.source_url).read()
         extracts = source.extracts.all()
         formset = ExtractFormSet(queryset=Extract.objects.filter(pk__in=extracts),
                                  initial=[{'source':pk}]
                                  )
         return render(request, 'templates/extraction/source_extraction.html', {'source':source,
-                                                                             'source_html':source_html,
                                                                              'formset':formset,}
                       )
 
