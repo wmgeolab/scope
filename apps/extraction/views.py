@@ -54,20 +54,47 @@ def source_extraction(request, pk):
     elif request.method == 'POST':
         source = Source.objects.get(pk=pk)
         extracts = source.extracts.all()
+
         # get data
         data = request.POST.copy()
         print(data)
+
         # force set the source
 ##        num_forms = int(data['form-TOTAL_FORMS'])
 ##        for i in range(num_forms):
 ##            data['form-{}-source'.format(i)] = str(pk)
 ##        print(data)
+        
         # create form
         formset = ExtractFormSet(data,
                                  queryset=Extract.objects.filter(pk__in=extracts), # to compare with original instances which were changed
                                  )
+
+        # handle models marked for deletion
+        for form in formset.deleted_forms:
+            print('del',form.cleaned_data)
+            obj = form.cleaned_data['id']
+            obj.delete()
+
+        # save valid and non-empty forms
         if formset.is_valid():
-            formset.save()
+            # register changed, new, and deleted objects (without saving to db)
+            formset.save(commit=False) 
+
+            # manually save changed objects to db
+            for obj in formset.changed_objects:
+                obj.save()
+
+            # manually save new objects to db    
+            for obj in formset.new_objects:
+                if obj.text.strip():
+                    # only save if form text is non-empty (ie the 'extra' forms)
+                    obj.save()
+
+            # manually delete objects from db
+            for obj in formset.deleted_objects:
+                obj.delete()
+                
         else:
             for err in formset.errors:
                 print(err)
