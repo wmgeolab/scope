@@ -50,16 +50,15 @@ Source Extraction
 			<td>{{ source.extracts.count }}</td>
 			<td>
 			{% if source.current_user %}
-				<a href="{% url 'source_checkout' pk=source.pk %}" class="btn btn-secondary">
+				<a href="{% url 'source_checkout' pk=source.pk %}">
 				<img height="40px" src="{{ source.current_user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%" title="{{ source.current_user.email|lower }}">
-				Checkout
 				</a>
 			{% else %}
 				{% if not cont %}
 					<a href="{% url 'source_checkout' pk=source.pk %}" class="btn btn-secondary">
 					Checkout
 					</a>
-					{% endif %}
+				{% endif %}
 			{% endif %}
 			</td>
 		</tr>
