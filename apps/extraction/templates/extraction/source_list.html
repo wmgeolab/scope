@@ -12,15 +12,17 @@ Source Extraction
 
 
 {% if cont %}
-	<div>
-
-	<p style = "display:inline-block">
-	You currently have a source checked out
-	</p>
-
-	<a href="{% url 'source_checkout' pk=cont.pk %}" class="btn btn-primary" stlye = "display:inline-block">
-	Hello
-	</a>
+	<div style="width:100%">
+		<p style="display:inline-block">
+			You currently have a source checked out: 
+			<a href="{% url 'source_checkout' pk=cont.pk %}" class="btn btn-primary" style="display:inline-block">
+			Continue Now
+			</a>
+			or
+			<a href="{% url 'source_release' pk=cont.pk %}" class="btn btn-warning" style="display:inline-block">
+			Release
+			</a>
+		</p>
 	</div>
 	{% else %}
 		<p>
