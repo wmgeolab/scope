@@ -15,7 +15,9 @@ class SourceCode(models.Model):
 class Source(models.Model):
     source_id = models.AutoField(primary_key=True)
     source_code = models.ForeignKey('SourceCode', on_delete=models.PROTECT)
-    source_text = models.TextField(blank=True, null=True)
     source_url = models.URLField(blank=True)
+    source_html = models.TextField(blank=True, null=True)
+    source_text = models.TextField(blank=True, null=True)
+    source_date = models.DateTimeField(blank=True, null=True)
     date_added = models.DateTimeField(default=timezone.now, blank=True)
-    current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
+    current_user = models.OneToOneField(User, on_delete=models.PROTECT, blank=True, null=True)
