@@ -6,70 +6,72 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
 <h2>Import New HTML Sources</h2>
-
 <hr>
-
 <div>
-	<h5>
-		<!--Change the button urls later to accurately reflect their functions-->
-		Browse your local computer for a data file (.csv) to upload:
-			<!--Fix this later so the path shows here in light grey once selected-->
-		<br>
-		<br>
-
-		<form method="post" enctype="multipart/form-data">
-			{% csrf_token %}
+	<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+		<h5>
+			<!--Change the button urls later to accurately reflect their functions-->
+			Browse your local computer for a data file (.csv) to upload.
+				<!--Fix this later so the path shows here in light grey once selected-->
+			<br>
+			<br>
 
 			<input type="file" name="importdocument" accept=".csv">
 			<!--This only filters for .csv, but other docs can still be selected. A more robust method would not allow any other files to be selected.-->
-
 			<br>
 			<br>
 
-			<input type="submit" class="btn btn-primary" value="Submit">
+			<input type="button" id="test_button" class="btn btn-primary" value="Test">
 			<!--This button is not clickable until a local file has been selected-->
 
 			<a href="{% url 'sourcing' %}">
-				<input type="button" class="btn btn-warning" value="Cancel">
+				<input type="button" id="cancel_button1" class="btn btn-warning" value="Cancel">
 			</a>
 			<!--This button is not clickable after the submit button has been selected-->
+			<hr>
 
-		</form>
-	</h5>
+			Once the test import starts, progress will show below.
+			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
+			<br>
+			<br>
 
-	<hr>
+			<textarea id="test_window" cols="100" style="color:grey; font-size:15px; pointer-events:none;" hidden>Running test...</textarea>
 
-	<h5>
-		Once the import starts, progress will show below:
-		<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
-		<br>
-		<br>
-		<a href="{% url 'sourcing' %}">
-			<button type="button" class="btn btn-primary" hidden>
-				Return to Sourcing
-			</button>
-		</a>
-		<!--This button should only be visible after the submit button has been clicked and only be clickable after the import has completed-->
-	</h5>
+			<br>
+			<br>
 
+			<input type="submit" class="btn btn-primary" value="Submit" hidden>
+			<!--This button should only be visible after the submit button has been clicked and only be clickable after the import has completed-->
+			<a href="{% url 'sourcing' %}">
+				<input type="button" id="cancel_button2" class="btn btn-warning" value="Cancel" hidden>
+			</a>
+			<!--This button should only be visible and clickable after the submit button has been clicked-->
+		</h5>
+	</form>
 </div>
+
 
 <script type="text/javascript" language="javascript">
 	$(document).ready(
 	    function(){
-	        $('input:submit').attr('disabled',true);
+	        $('#test_button').attr('disabled',true);
 	        $('input:file').change(
 	            function(){
 	                if ($(this).val()){
-	                    $('input:submit').removeAttr('disabled'); 
+	                    $('#test_button').removeAttr('disabled'); 
 	                }
 	                else {
-	                    $('input:submit').attr('disabled',true);
+	                    $('#test_button').attr('disabled',true);
 	                }
-	        $('input:submit').on('click',
+	        $('#test_button').on('click',
 	        	function(){
-	        		$('input:button').attr('disabled',true);
-	        		$('button:button').removeAttr('hidden')
+	        		$('#cancel_button1').attr('disabled',true);
+	        		$('input:file').css('pointer-events','none');
+	        		$('#test_button').attr('disabled',true);
+	        		$('#test_window').removeAttr('hidden');
+	        		$('input:submit').removeAttr('hidden');
+	        		$('#cancel_button2').removeAttr('hidden');
 	        	})
 	        });
 	    });

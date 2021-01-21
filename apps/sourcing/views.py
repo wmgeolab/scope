@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.apps import apps
+
 from django.core.files.storage import FileSystemStorage
 
 import os
@@ -36,11 +37,10 @@ def source_add(request):
 
 def source_import(request):
     if request.method == 'GET':
-        form = SourceForm()
-        return render(request, 'templates/sourcing/source_import.html', {'form':form})
+        return render(request, 'templates/sourcing/source_import.html')
     elif request.method == 'POST':
         uploaded_file = request.FILES['importdocument']
         fs = FileSystemStorage()
         fs.save(uploaded_file.name, uploaded_file)
-        return render(request, 'templates/sourcing/source_import.html')
+        return redirect('sourcing')
         
