@@ -152,6 +152,8 @@ USE_TZ = True
 STATIC_ROOT = '/site/wwwroot/static/'
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #change to temp later
+MEDIA_URL = '/media/' #change to temp later
 
 # user model
 AUTH_USER_MODEL = 'users.User'
