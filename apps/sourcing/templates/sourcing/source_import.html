@@ -8,7 +8,7 @@
 <h2>Import New HTML Sources</h2>
 <hr>
 <div>
-	<form method="post" enctype="multipart/form-data">
+	<form action="{% url 'source_import' %}" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 		<h5>
 			<!--Change the button urls later to accurately reflect their functions-->

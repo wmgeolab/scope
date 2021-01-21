@@ -35,12 +35,29 @@ def source_add(request):
             print(form.errors)
 
 
+#this is not working yet
 def source_import(request):
     if request.method == 'GET':
         return render(request, 'templates/sourcing/source_import.html')
     elif request.method == 'POST':
         uploaded_file = request.FILES['importdocument']
-        fs = FileSystemStorage()
-        fs.save(uploaded_file.name, uploaded_file)
+        file_data = uploaded_file.read().decode("utf-8")
+        lines = file_data.split("\n")
+        for line in lines:
+            fields = line.split(",")
+            data_dict = {}
+            data_dict["source_code"] = fields[0]
+            data_dict["source_url"] = fields[1]
+            data_dict["source_html"] = fields[2]
+            data_dict["source_text"] = fields[3]
+            data_dict["source_date"] = fields[4]
+            form = SourceForm(data_dict)
+            if form.is_valid():
+                form.save()
+            else:
+                #print(line)
+                # return to same page for testing
+                return render(request, 'templates/sourcing/source_import.html')
+                #logging.getLogger("error_logger").error(form.errors.as_json())
         return redirect('sourcing')
         
