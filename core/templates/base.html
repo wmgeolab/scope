@@ -10,13 +10,13 @@
 		</div>
 		</a>
 		
-		<a class="navbar-brand" href="{% url 'sourcing' %}">
+		<a class="navbar-brand" href="{% url 'sourcing' %}" style="{% if 'sourcing' in request.path %}text-decoration:underline{% endif %}">
 		Sourcing
 		</a>
-		<a class="navbar-brand" href="{% url 'extraction' %}">
+		<a class="navbar-brand" href="{% url 'extraction' %}" style="{% if 'extraction' in request.path %}text-decoration:underline{% endif %}">
 		Extraction
 		</a>
-		<a class="navbar-brand" href="{% url 'parsing' %}">
+		<a class="navbar-brand" href="{% url 'parsing' %}" style="{% if 'parsing' in request.path %}text-decoration:underline{% endif %}">
 		Parsing
 		</a>
 		
