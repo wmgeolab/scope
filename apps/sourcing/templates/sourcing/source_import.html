@@ -36,12 +36,13 @@
 			<br>
 			<br>
 
-			<textarea id="test_window" cols="100" style="color:grey; font-size:15px; pointer-events:none;" hidden>Running test...</textarea>
+			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly hidden>Please wait until testing is complete before submitting data for import. Or cancel.
+Running test...</textarea>
 
 			<br>
 			<br>
 
-			<input type="submit" class="btn btn-primary" value="Submit" hidden>
+			<input type="submit" class="btn btn-primary" value="Submit" hidden disabled>
 			<!--This button should only be visible after the submit button has been clicked and only be clickable after the import has completed-->
 			<a href="{% url 'sourcing' %}">
 				<input type="button" id="cancel_button2" class="btn btn-warning" value="Cancel" hidden>
@@ -72,6 +73,9 @@
 	        		$('#test_window').removeAttr('hidden');
 	        		$('input:submit').removeAttr('hidden');
 	        		$('#cancel_button2').removeAttr('hidden');
+
+	        		/* I'm putting this later so hopefully it only becomes clickable after the testing is finished? */
+	        		$('input:submit').removeAttr('disabled');
 	        	})
 	        });
 	    });
