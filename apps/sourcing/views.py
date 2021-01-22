@@ -34,8 +34,20 @@ def source_add(request):
         else:
             print(form.errors)
 
+# fix this later
+def source_import_test(request):
+    testresults = {}
+    sdfghj
+    #return testresults
+    # if request.method == 'GET':
+    #     return render(request, 'templates/sourcing/source_import.html')
+    # elif request.method == 'POST':
+    #     testresults = {}
+    #     uploaded_file = request.FILES['importdocument']
+    #     file_data = uploaded_file.read().decode("utf-8")
+    return render(request, 'templates/sourcing/source_import.html', testresults)
 
-#this is not working yet
+# make this more robust later
 def source_import(request):
     if request.method == 'GET':
         return render(request, 'templates/sourcing/source_import.html')
@@ -55,9 +67,8 @@ def source_import(request):
             if form.is_valid():
                 form.save()
             else:
-                #print(line)
-                # return to same page for testing
+                print(line)
+                print(form.errors.as_data())
                 return render(request, 'templates/sourcing/source_import.html')
-                #logging.getLogger("error_logger").error(form.errors.as_json())
         return redirect('sourcing')
         

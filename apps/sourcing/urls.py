@@ -23,5 +23,6 @@ urlpatterns = [
     # source
     re_path('^source/add$', views.source_add, name='source_add'),
     re_path('^source/import$', views.source_import, name='source_import'),
+    re_path('^source/test_import$', views.source_import_test, name='source_import_test'),
     re_path('^source/(?P<pk>[\w]+)/view$', views.source_view, name='source_view'),
 ]

@@ -8,7 +8,7 @@
 <h2>Import New HTML Sources</h2>
 <hr>
 <div>
-	<form action="{% url 'source_import' %}" method="post" enctype="multipart/form-data">
+	<form method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 		<h5>
 			<!--Change the button urls later to accurately reflect their functions-->
@@ -22,7 +22,7 @@
 			<br>
 			<br>
 
-			<input type="button" id="test_button" class="btn btn-primary" value="Test">
+			<input type="submit" id="test_button" class="btn btn-primary" formaction="{% url 'source_import_test' %}" value="Test">
 			<!--This button is not clickable until a local file has been selected-->
 
 			<a href="{% url 'sourcing' %}">
@@ -33,21 +33,28 @@
 
 			Once the test import starts, progress will show below.
 			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
+			{% if testresults %}
+
 			<br>
 			<br>
 
-			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly hidden>Please wait until testing is complete before submitting data for import. Or cancel.
+			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly>Please wait until testing is complete before submitting data for import. Or cancel.
 Running test...</textarea>
+<!--
+{{ testresults }}</textarea>
+-->
 
 			<br>
 			<br>
 
-			<input type="submit" class="btn btn-primary" value="Submit" hidden disabled>
+			<input type="submit" id="submit_button" class="btn btn-primary" formaction="{% url 'source_import' %}" value="Submit" disabled>
 			<!--This button should only be visible after the submit button has been clicked and only be clickable after the import has completed-->
 			<a href="{% url 'sourcing' %}">
-				<input type="button" id="cancel_button2" class="btn btn-warning" value="Cancel" hidden>
+				<input type="button" id="cancel_button2" class="btn btn-warning" value="Cancel">
 			</a>
 			<!--This button should only be visible and clickable after the submit button has been clicked-->
+
+			{% endif %}
 		</h5>
 	</form>
 </div>
@@ -70,12 +77,14 @@ Running test...</textarea>
 	        		$('#cancel_button1').attr('disabled',true);
 	        		$('input:file').css('pointer-events','none');
 	        		$('#test_button').attr('disabled',true);
+	        		/*
 	        		$('#test_window').removeAttr('hidden');
-	        		$('input:submit').removeAttr('hidden');
+	        		$('#submit_button').removeAttr('hidden');
 	        		$('#cancel_button2').removeAttr('hidden');
+	        		*/
 
 	        		/* I'm putting this later so hopefully it only becomes clickable after the testing is finished? */
-	        		$('input:submit').removeAttr('disabled');
+	        		$('#submit_button').removeAttr('disabled');
 	        	})
 	        });
 	    });
