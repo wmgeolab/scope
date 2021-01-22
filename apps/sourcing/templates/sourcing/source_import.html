@@ -29,31 +29,34 @@
 				<input type="button" id="cancel_button1" class="btn btn-warning" value="Cancel">
 			</a>
 			<!--This button is not clickable after the submit button has been selected-->
+			
 			<hr>
-
-			Once the test import starts, progress will show below.
-			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
+			
 			{% if testresults %}
+			
+			Results of test import shown below.
 
 			<br>
 			<br>
 
-			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly>Please wait until testing is complete before submitting data for import. Or cancel.
-Running test...</textarea>
-<!--
-{{ testresults }}</textarea>
--->
+			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
+			
+			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly>{{ testresults }}</textarea>
 
 			<br>
 			<br>
 
-			<input type="submit" id="submit_button" class="btn btn-primary" formaction="{% url 'source_import' %}" value="Submit" disabled>
+			<input type="submit" id="submit_button" class="btn btn-primary" formaction="{% url 'source_import' %}" value="Submit">
 			<!--This button should only be visible after the submit button has been clicked and only be clickable after the import has completed-->
 			<a href="{% url 'sourcing' %}">
 				<input type="button" id="cancel_button2" class="btn btn-warning" value="Cancel">
 			</a>
 			<!--This button should only be visible and clickable after the submit button has been clicked-->
 
+			{% else %}
+			
+			Once the test import starts, progress will show below.
+			
 			{% endif %}
 		</h5>
 	</form>
