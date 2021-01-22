@@ -17,7 +17,7 @@
 			<br>
 			<br>
 
-			<input type="file" name="importdocument" accept=".csv">
+			<input type="file" name="importdocument" accept=".csv" required>
 			<!--This only filters for .csv, but other docs can still be selected. A more robust method would not allow any other files to be selected.-->
 			<br>
 			<br>
@@ -59,35 +59,5 @@ Running test...</textarea>
 	</form>
 </div>
 
-
-<script type="text/javascript" language="javascript">
-	$(document).ready(
-	    function(){
-	        $('#test_button').attr('disabled',true);
-	        $('input:file').change(
-	            function(){
-	                if ($(this).val()){
-	                    $('#test_button').removeAttr('disabled'); 
-	                }
-	                else {
-	                    $('#test_button').attr('disabled',true);
-	                }
-	        $('#test_button').on('click',
-	        	function(){
-	        		$('#cancel_button1').attr('disabled',true);
-	        		$('input:file').css('pointer-events','none');
-	        		$('#test_button').attr('disabled',true);
-	        		/*
-	        		$('#test_window').removeAttr('hidden');
-	        		$('#submit_button').removeAttr('hidden');
-	        		$('#cancel_button2').removeAttr('hidden');
-	        		*/
-
-	        		/* I'm putting this later so hopefully it only becomes clickable after the testing is finished? */
-	        		$('#submit_button').removeAttr('disabled');
-	        	})
-	        });
-	    });
-</script>
 
 {% endblock %}
