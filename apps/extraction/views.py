@@ -16,7 +16,7 @@ def source_list(request):
 
     # check if user already has checked out a source
     try:
-        cont = Source.objects.get(current_user=request.user)
+        cont = Source.objects.get(current_user=request.user)#, current_status='UN')
         print(cont)
     except:
         cont = None

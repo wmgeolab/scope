@@ -8,24 +8,24 @@
 	Checking out source for extraction
 	<div style="float:right">
 		<button class="btn btn-primary" onclick="document.getElementById('id_extracts_form').submit();">
-		Submit
+		Finish
 		</button>
 		<a class="btn btn-warning" href="{% url 'source_release' source.pk %}">
-		Release
+		Cancel
 		</a>
 	</div>
 	</h2>
-	
+
 	<hr>
 
 	<div id="id_source_viewer" style="width:100%">
-	
+
 		<h4>Source:</h4>
-		
+
 		<div style="display:inline-block; vertical-align:top; padding:10px">
 			<img src="https://www.freeiconspng.com/thumbs/document-icon/document-icon-19.png" height="60px">
 		</div>
-		
+
 		<table id="id_source_info" style="display:inline-block">
 			<tr>
 				<td>Source ID: </td>
@@ -40,25 +40,25 @@
 				<td><a href="{{ source.source_url }}" target="_blank">{{ source.source_url }}</a></td>
 			</tr>
 		</table>
-		
+
 	</div>
-	
+
 	<hr>
 
 	<div id="id_extracts_viewer" style="width:100%; vertical-align:top">
 
 		<form id="id_extracts_form" action="{% url 'source_extraction' source.pk %}" method="post">
-			
+
 			{% csrf_token %}
-			
+
 			{{ formset.management_form }}
-			
+
 			<h4>Extracts:</h4>
-			
+
 			<div id="id_extracts_errors" style="color:red">
 				{{ formset.non_form_errors }}
 			</div>
-			
+
 			<div id="id_extracts_container" class="form-group">
 				<table id="id_table_of_extracts" style="margin-left:2%; width:98%">
 					{% for form in formset %}
@@ -80,11 +80,11 @@
 					{% endfor %}
 				</table>
 			</div>
-			
+
 			<div style="text-align:center">
 				<button id="id_add_form" class="btn btn-secondary">+</button>
 			</div>
-			
+
 			<script>
 				let form = document.querySelectorAll(".formsetform")
 				let container = document.querySelector("#id_table_of_extracts")
@@ -107,11 +107,11 @@
 					container.appendChild(newForm);
 					newTextArea = document.getElementById('id_form-'+formNum+'-text');
 					newTextArea.textContent = '';
-					
+
 					totalForms.setAttribute('value', `${formNum+1}`)
 				}
 			</script>
-			
+
 		</form>
 
 	</div>

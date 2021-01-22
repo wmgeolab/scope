@@ -20,4 +20,5 @@ class Source(models.Model):
     source_text = models.TextField(blank=True, null=True)
     source_date = models.DateTimeField(blank=True, null=True)
     date_added = models.DateTimeField(default=timezone.now, blank=True)
-    current_user = models.OneToOneField(User, on_delete=models.PROTECT, blank=True, null=True)
+    current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
+    #current_status = models.CharField(max_length=10, default='UN', choices=[('UN','unprocessed'),('EX','extracted'),('PAR','parsed')])
