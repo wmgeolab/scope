@@ -10,7 +10,27 @@
 <div>
 	<form method="post" enctype="multipart/form-data">
 	{% csrf_token %}
-		<h5>
+		<h5>			
+			{% if importresults %}
+			
+			File has been imported, results are shown below.
+
+			<br>
+			<br>
+
+			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
+			
+			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly>{{ importresults }}</textarea>
+
+			<br>
+			<br>
+			
+			<a href="{% url 'sourcing' %}">
+				<input type="button" id="finish_button" class="btn btn-primary" value="Finish">
+			</a>
+
+			{% else %}
+			
 			<!--Change the button urls later to accurately reflect their functions-->
 			Browse your local computer for a data file (.csv) to upload.
 				<!--Fix this later so the path shows here in light grey once selected-->
@@ -22,40 +42,13 @@
 			<br>
 			<br>
 
-			<input type="submit" id="test_button" class="btn btn-primary" formaction="{% url 'source_import_test' %}" value="Test">
+			<input type="submit" id="test_button" class="btn btn-primary" formaction="{% url 'source_import' %}" value="Submit">
 			<!--This button is not clickable until a local file has been selected-->
 
 			<a href="{% url 'sourcing' %}">
 				<input type="button" id="cancel_button1" class="btn btn-warning" value="Cancel">
 			</a>
 			<!--This button is not clickable after the submit button has been selected-->
-			
-			<hr>
-			
-			{% if testresults %}
-			
-			Results of test import shown below.
-
-			<br>
-			<br>
-
-			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
-			
-			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly>{{ testresults }}</textarea>
-
-			<br>
-			<br>
-
-			<input type="submit" id="submit_button" class="btn btn-primary" formaction="{% url 'source_import' %}" value="Submit">
-			<!--This button should only be visible after the submit button has been clicked and only be clickable after the import has completed-->
-			<a href="{% url 'sourcing' %}">
-				<input type="button" id="cancel_button2" class="btn btn-warning" value="Cancel">
-			</a>
-			<!--This button should only be visible and clickable after the submit button has been clicked-->
-
-			{% else %}
-			
-			Once the test import starts, progress will show below.
 			
 			{% endif %}
 		</h5>

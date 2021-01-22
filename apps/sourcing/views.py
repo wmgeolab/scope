@@ -34,32 +34,17 @@ def source_add(request):
         else:
             print(form.errors)
 
-# fix this later
-def source_import_test(request):
-    if request.method == 'GET':
-        return render(request, 'templates/sourcing/source_import.html')
-    elif request.method == 'POST':
-        testresults = [] # each entry will become a new line in the textresults
-        # load file
-        uploaded_file = request.FILES['importdocument']
-        filename = uploaded_file._name
-        file_data = uploaded_file.read().decode("utf-8")
-        testresults.append('file received')
-        # do whichever tests
-        # ... 
-        # finish up
-        testresults.append('test finished')
-        testresults = '\n'.join(testresults) # make testresults into a multiline string
-        return render(request, 'templates/sourcing/source_import.html', {'testresults':testresults, 'filename':filename} )
-
 # make this more robust later
 def source_import(request):
     if request.method == 'GET':
         return render(request, 'templates/sourcing/source_import.html')
     elif request.method == 'POST':
+        importresults = [] # each entry will become a new line in a textstring
         uploaded_file = request.FILES['importdocument']
         file_data = uploaded_file.read().decode("utf-8")
+        importresults.append('file received')
         lines = file_data.split("\n")
+        count = 0
         for line in lines:
             fields = line.split(",")
             data_dict = {}
@@ -71,9 +56,13 @@ def source_import(request):
             form = SourceForm(data_dict)
             if form.is_valid():
                 form.save()
+                count += 1
             else:
                 print(line)
-                print(form.errors.as_data())
-                return render(request, 'templates/sourcing/source_import.html')
-        return redirect('sourcing')
+                importresults.append(str(line) + ' --> ' + str(form.errors.as_data()))
+        # finish up
+        importresults.append('import finished')
+        importresults.append('successfully imported {} sources'.format(count))
+        importresults = '\n'.join(importresults) # make importresults into a multiline textstring
+        return render(request, 'templates/sourcing/source_import.html', {'importresults':importresults})
         
