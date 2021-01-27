@@ -3,6 +3,13 @@
 {% load static %}
 {% block page_content %}
 
+<style>
+	table {width: 100%;}
+	select {width: 100%;}
+	textarea {width: 100%;}
+	input {width: 100%;}
+</style>
+
 <div>
 	<h2>
 	HTML Source {{ form.pk }}
@@ -12,7 +19,7 @@
 
 	<div>
 		<div class="form-group">
-		<table style="width:100%;">
+		<table>
 	    {{ form.as_table }}
 		</table>
 		</div>
