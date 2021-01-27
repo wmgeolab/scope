@@ -12,11 +12,11 @@ def home(request):
 
 def source_list(request):
     # get all sources
-    sources = Source.objects.all() #filter(current_user = None)
+    sources = Source.objects.filter(current_status='UN') #filter(current_user = None)
 
     # check if user already has checked out a source
     try:
-        cont = Source.objects.get(current_user=request.user)#, current_status='UN')
+        cont = Source.objects.get(current_user=request.user)
         print(cont)
     except:
         cont = None
