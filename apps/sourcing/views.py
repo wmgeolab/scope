@@ -39,30 +39,24 @@ def source_import(request):
     if request.method == 'GET':
         return render(request, 'templates/sourcing/source_import.html')
     elif request.method == 'POST':
-        importresults = [] # each entry will become a new line in a textstring
+        logger = [] # each entry will become a new line in a textstring
         uploaded_file = request.FILES['importdocument']
-        file_data = uploaded_file.read().decode("utf-8")
-        importresults.append('file received')
-        lines = file_data.split("\n")
+        import csv
+        import io
+        filewrapper = io.TextIOWrapper(uploaded_file, encoding=request.encoding) # see https://stackoverflow.com/questions/16243023/how-to-resolve-iterator-should-return-strings-not-bytes
+        reader = csv.DictReader(filewrapper, delimiter=',') 
+        logger.append('file received')
         count = 0
-        for line in lines:
-            fields = line.split(",")
-            data_dict = {}
-            data_dict["source_code"] = fields[0]
-            data_dict["source_url"] = fields[1]
-            data_dict["source_html"] = fields[2]
-            data_dict["source_text"] = fields[3]
-            data_dict["source_date"] = fields[4]
+        for data_dict in reader:
             form = SourceForm(data_dict)
             if form.is_valid():
                 form.save()
                 count += 1
             else:
-                print(line)
-                importresults.append(str(line) + ' --> ' + str(form.errors.as_data()))
+                logger.append(str(list(data_dict.values())) + ' --> ' + str(form.errors.as_data()))
         # finish up
-        importresults.append('import finished')
-        importresults.append('successfully imported {} sources'.format(count))
-        importresults = '\n'.join(importresults) # make importresults into a multiline textstring
+        logger.append('import finished')
+        logger.append('successfully imported {} sources'.format(count))
+        importresults = '\n'.join(logger) # make logs into a multiline textstring
         return render(request, 'templates/sourcing/source_import.html', {'importresults':importresults})
         
