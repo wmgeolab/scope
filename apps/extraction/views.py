@@ -52,6 +52,7 @@ def source_extraction(request, pk):
 
         # get data
         data = request.POST.copy()
+        finish = request.POST.get('finish', 'no')
         print(data)
 
         # force set the source
@@ -95,4 +96,19 @@ def source_extraction(request, pk):
                 print(err)
             raise Exception
 
-        return redirect('source_release', pk)
+        # what to do after saving the data
+        print(finish)
+        if finish == 'yes':
+            print('finish')
+            # finish by marking the source as extracted
+            source.current_status = 'EX'
+            source.current_user = None # also release from checkout
+            source.save()
+            # then redirect to list of sources for extraction
+            return redirect('source_list')
+        else:
+            print('save')
+            # only save, stay on the same page (reload the extraction page)
+            return redirect('source_extraction', pk)
+
+

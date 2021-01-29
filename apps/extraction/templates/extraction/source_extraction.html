@@ -3,16 +3,25 @@
 {% load static %}
 {% block page_content %}
 
+<form id="id_extracts_form" action="{% url 'source_extraction' source.pk %}" method="post">
+
+{% csrf_token %}
+
+{{ formset.management_form }}
+
 <div>
 	<h2>
 	Checking out source for extraction
 	<div style="float:right">
-		<button class="btn btn-primary" onclick="document.getElementById('id_extracts_form').submit();">
+		<a class="btn btn-warning" href="{% url 'source_release' source.pk %}">
+		Release
+		</a>
+		<button type="submit" class="btn btn-primary" name="finish" value="no">
+		Save
+		</button>
+		<button type="submit" class="btn btn-primary" name="finish" value="yes">
 		Finish
 		</button>
-		<a class="btn btn-warning" href="{% url 'source_release' source.pk %}">
-		Cancel
-		</a>
 	</div>
 	</h2>
 
@@ -46,12 +55,6 @@
 	<hr>
 
 	<div id="id_extracts_viewer" style="width:100%; vertical-align:top">
-
-		<form id="id_extracts_form" action="{% url 'source_extraction' source.pk %}" method="post">
-
-			{% csrf_token %}
-
-			{{ formset.management_form }}
 
 			<h4>Extracts:</h4>
 
@@ -112,8 +115,9 @@
 				}
 			</script>
 
-		</form>
-
 	</div>
 </div>
+
+</form>
+
 {% endblock %}
