@@ -1,7 +1,5 @@
 from django.db import models
 
-from sourcing.models import Source
-
 from extraction.models import Extract
 
 from users.models import User
@@ -36,10 +34,10 @@ class Activity(models.Model):
     activity_code = models.ForeignKey(ActivityCode, related_name='activities', on_delete=models.PROTECT)
     activity_date = models.DateField()
     fuzzy_date = models.CharField(max_length=30, blank=True, null=True)
-    status_code = models.ForeignKey(StatusCode, related_name='+', on_delete=models.PROTECT, null=True)
+    status_code = models.ForeignKey(StatusCode, related_name='activities', on_delete=models.PROTECT, null=True)
     dollar_amount = models.CharField(max_length=30, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     locations = models.CharField(max_length=50, blank=True, null=True)
     #for now, this is extract. in the next version, we'll include modules between extracting and parsing
-    extract = models.ForeignKey(Extract, related_name='+', on_delete=models.PROTECT)
+    extract = models.ForeignKey(Extract, related_name='activities', on_delete=models.PROTECT)
     current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
