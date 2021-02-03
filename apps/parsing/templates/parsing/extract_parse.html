@@ -1,0 +1,148 @@
+{% extends "templates/base.html" %}
+{% load static %}
+
+{% block page_content %}
+
+<style>
+	table {width: 100%;}
+	select {width: 100%;}
+	textarea {width: 100%;}
+	input {width: 100%;}
+</style>
+
+<form id="id_parsing_form" action="{% url 'extract_parse' pk=extract.pk %}" method="post">
+
+{% csrf_token %}
+
+<div>
+	<h2>
+	Checking out extract for parsing
+	<div style="float:right">
+		<a class="btn btn-warning" href="{% url 'extract_release' extract.pk %}">
+		Release
+		</a>
+		<button type="submit" class="btn btn-primary" name="finish" value="no">
+		Save
+		</button>
+		<button type="submit" class="btn btn-primary" name="finish" value="yes">
+		Finish
+		</button>
+	</div>
+	</h2>
+
+	<hr>
+
+	<div id="id_extract_viewer" style="width:100%">
+
+		<h4>Extract:</h4>
+
+		<div style="display:inline-block; vertical-align:top; padding:10px">
+			<img src="https://www.freeiconspng.com/thumbs/document-icon/document-icon-19.png" height="60px">
+		</div>
+
+		<table id="id_extract_info" style="display:inline-block">
+			<tr>
+				<td>Extract ID: </td>
+				<td>{{ extract.pk }}</td>
+			</tr>
+			<tr>
+				<td>Source ID: </td>
+				<td>{{ extract.source_id }}</td>
+			</tr>
+			<!--Fix this once I figure out how to link the source and extract models
+			<tr>				
+				<td>URL: </td>
+				<td><a href="{{ extract.source_url }}" target="_blank">{{ extract.source_url }}</a></td>
+			</tr>
+			-->
+			<tr>
+				<td>Text: </td>
+				<td>{{ extract.text }}</td>
+			</tr>
+		</table>
+	</div>
+
+	<hr>
+
+	<div id="id_parsing_viewer" class="form-group" style="width:100%;">
+
+		<table>
+	
+		<tr>
+			<td>
+		    	{{ form.activity_code.label_tag }}
+			</td>
+			<td>
+				{{ form.activity_code }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.actor_code.label_tag }}
+			</td>
+			<td>
+				{{ form.actor_code }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.activity_date.label_tag }}
+			</td>
+			<td>
+				{{ form.activity_date }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.fuzzy_date.label_tag }}
+			</td>
+			<td>
+				{{ form.fuzzy_date }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.status_code.label_tag }}
+			</td>
+			<td>
+				{{ form.status_code }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.dollar_amount.label_tag }}
+			</td>
+			<td>
+				{{ form.dollar_amount }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.notes.label_tag }}
+			</td>
+			<td>
+				{{ form.notes }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.locations.label_tag }}
+			</td>
+			<td>
+				{{ form.locations }}
+			</td>
+		</tr>
+
+		</table>
+	</div>
+</div>
+</form>
+
+{% endblock %}

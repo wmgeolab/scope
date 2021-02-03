@@ -19,23 +19,9 @@ from django.urls import re_path, include
 from . import views
 
 urlpatterns = [
-    # parsing data table
     re_path('^$', views.home, name='parsing'),
-    re_path('^landing$', views.landing, name='landing'),
-    # actorcodes
-    re_path('^actorcode/add$', views.actorcode_add, name='actorcode_add'),
-    re_path('^actorcode/(?P<pk>[\w]+)/view$', views.actorcode_view, name='actorcode_view'),
-    # activitycodes
-    re_path('^activitycode/add$', views.activitycode_add, name='activitycode_add'),
-    re_path('^activitycode/(?P<pk>[\w]+)/view$', views.activitycode_view, name='activitycode_view'),
-    # statuscodes
-    re_path('^statuscode/add$', views.statuscode_add, name='statuscode_add'),
-    re_path('^statuscode/(?P<pk>[\w]+)/view$', views.statuscode_view, name='statuscode_view'),
-    # activities
-    re_path('^activity/add$', views.activity_add, name='activity_add'),
-    re_path('^activity/(?P<pk>[\w]+)/view$', views.activity_view, name='activity_view'),
-    re_path('^activity/(?P<name>[\w]+)/checkout', views.activity_checkout, name='activity_checkout'),
-    re_path('^activity/(?P<name>[\w]+)/release', views.activity_release, name='activity_release'),
-    re_path('^activity/list$', views.activity_list, name='activity_list'),
-    re_path('^activity/(?P<name>[\w]+)/edit$', views.activity_edit, name='activity_edit'),
+    re_path('^extract/(?P<pk>[\w]+)/checkout', views.extract_checkout, name='extract_checkout'),
+    re_path('^extract/(?P<pk>[\w]+)/release', views.extract_release, name='extract_release'),
+    re_path('^extract/(?P<pk>[\w]+)/edit', views.extract_parse, name='extract_parse'),
+    re_path('^extract/list$', views.extract_list, name='extract_list'),
 ]

@@ -3,120 +3,58 @@ from django.apps import apps
 
 import os
 
-from .models import ActorCode, ActivityCode, StatusCode, Activity
-from .forms import ActorCodeForm, ActivityCodeForm, StatusCodeForm, ActivityForm
-
 from sourcing.models import Source
-from sourcing.forms import SourceForm
+from extraction.models import Extract
+from .models import Activity
+
+from .forms import  ActivityForm
+
 
 # Create your views here.
-
 def home(request):
-    sources = Source.objects.all()
-    return render(request, 'templates/parsing/home.html', {'sources':sources,
-                                                      })
+    return redirect('extract_list')
 
-def landing(request, current_user):
-    # NOTE: maybe rename, and maybe just integrate directly into home? 
+# extract_list (formerly source_list)
+def extract_list(request):
+    # get all extracts
+    #sources = Source.objects.filter(current_status='EX') #filter(current_user = None)
+    #print(sources)
+    #obviously this isn't how to access a queryset, but for illustrative purposes
+    #how do I get only the extracts which have been submitted, since we don't have a "current_status" field in the extract model
+    extracts = Extract.objects.filter(source_id__current_status="EX")
+
+    # check if user already has checked out a source
     try:
-        continue_event = Activity.objects.get(current_user=current_user)
+        cont = Extract.objects.get(current_user=request.user)
+        print(cont)
     except:
-        continue_event = None
-    context = {'continue_event': continue_event}
-    return render(request, 'templates/parsing/landing.html', context)
+        cont = None
 
-# actorcode
+    return render(request, 'templates/parsing/extract_list.html', {'extracts':extracts, 'cont':cont})
 
-def actorcode_view(request, pk):
-    actorcode = ActorCode.objects.get(pk=pk)
-    form = ActorCodeForm(instance=actorcode)
-    return render(request, 'templates/parsing/actorcode_view.html', {'form':form})
+# extract_checkout (formerly activity_checkout)
+def extract_checkout(request, pk):
+    extract = Extract.objects.get(pk=pk)
+    extract.current_user = request.user
+    extract.save()
+    return redirect('extract_parse', pk)
 
-def actorcode_add(request):
+# extract_release (formerly activity_release)
+def extract_release(request, pk):
+    extract = Extract.objects.get(pk=pk)
+    extract.current_user = None
+    extract.save()
+    return redirect('extract_list')
+
+# extract_parse (formerly activity_edit)
+def extract_parse(request, pk):
     if request.method == 'GET':
-        form = ActorCodeForm()
-        return render(request, 'templates/parsing/actorcode_add.html', {'form':form})
-    elif request.method == 'POST':
-        form = ActorCodeForm(request.POST)
-        #assert form.is_valid()
-        form.save()
-        return redirect('parsing')
-
-# activitycode
-
-def activitycode_view(request, pk):
-    activitycode = ActivityCode.objects.get(pk=pk)
-    form = ActivityCodeForm(instance=activitycode)
-    return render(request, 'templates/parsing/activitycode_view.html', {'form':form})
-
-def activitycode_add(request):
-    if request.method == 'GET':
-        form = ActivityCodeForm()
-        return render(request, 'templates/parsing/activitycode_add.html', {'form':form})
-    elif request.method == 'POST':
-        form = ActivityCodeForm(request.POST)
-        #assert form.is_valid()
-        form.save()
-        return redirect('parsing')
-
-# statuscode
-
-def statuscode_view(request, pk):
-    statuscode = StatusCode.objects.get(pk=pk)
-    form = StatusCodeForm(instance=statuscode)
-    return render(request, 'templates/parsing/statuscode_view.html', {'form':form})
-
-def statuscode_add(request):
-    if request.method == 'GET':
-        form = StatusCodeForm()
-        return render(request, 'templates/parsing/statuscode_add.html', {'form':form})
-    elif request.method == 'POST':
-        form = StatusCodeForm(request.POST)
-        #assert form.is_valid()
-        form.save()
-        return redirect('parsing')
-
-# activity
-
-def activity_view(request, pk):
-    activity = Activity.objects.get(pk=pk)
-    form = ActivityForm(instance=activity)
-    return render(request, 'templates/parsing/activity_view.html', {'form':form})
-
-def activity_add(request):
-    if request.method == 'GET':
-        form = ActivityForm()
-        return render(request, 'templates/parsing/activity_add.html', {'form':form})
-    elif request.method == 'POST':
-        form = ActivityForm(request.POST)
-        #assert form.is_valid()
-        form.save()
-        return redirect('parsing')
-
-def activity_checkout(request, pk):
-    activity = Activity.objects.get(pk=pk)
-    activity.current_user = None
-    return redirect('activity_list')
-
-def activity_release(request, pk):
-    activity = Activity.objects.get(pk=pk)
-    activity.current_user = request.user
-    return redirect('activity_edit')
-
-def activity_list():
-    activities = Activity.objects.filter(current_user=None)
-    context = {'activities': activities}
-    return render('templates/parsing/activity_list.html', context)
-
-def activity_edit(request, pk):
-    if request.method == 'GET':
-        activity = Activity.objects.get(pk=pk)
-        form = ActivityForm(instance=activity)
+        extract = Extract.objects.get(pk=pk)
+        form = ActivityForm(instance=extract)
         context = {'form': form}
-        return render(request, 'templates/parsing/activity_edit.html', context)
-    if request.method == 'POST':
+        return render(request, 'templates/parsing/extract_parse.html', {'extract':extract,'context':context})
+    elif request.method == 'POST':
         form = ActivityForm(request.POST)
-        #assert form.is_valid()
+        assert form.is_valid()
         form.save()
-        return redirect('activity_release')
-
+        return redirect('extract_release')
