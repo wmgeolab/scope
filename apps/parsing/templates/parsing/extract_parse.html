@@ -49,14 +49,12 @@
 				<td>Source ID: </td>
 				<td>{{ extract.source_id }}</td>
 			</tr>
-			<!--Fix this once I figure out how to link the source and extract models
 			<tr>				
-				<td>URL: </td>
-				<td><a href="{{ extract.source_url }}" target="_blank">{{ extract.source_url }}</a></td>
+				<td>Source URL: </td>
+				<td><a href="{{ extract.source.source_url }}" target="_blank">{{ extract.source.source_url }}</a></td>
 			</tr>
-			-->
 			<tr>
-				<td>Text: </td>
+				<td>Extract Text: </td>
 				<td>{{ extract.text }}</td>
 			</tr>
 		</table>
@@ -67,6 +65,15 @@
 	<div id="id_parsing_viewer" class="form-group" style="width:100%;">
 
 		<table>
+
+		<tr>
+			<td>
+		    	{{ form.extract.label_tag }}
+			</td>
+			<td>
+				{{ form.extract }}
+			</td>
+		</tr>
 	
 		<tr>
 			<td>

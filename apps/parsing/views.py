@@ -50,11 +50,32 @@ def extract_release(request, pk):
 def extract_parse(request, pk):
     if request.method == 'GET':
         extract = Extract.objects.get(pk=pk)
-        form = ActivityForm(instance=extract)
-        context = {'form': form}
-        return render(request, 'templates/parsing/extract_parse.html', {'extract':extract,'context':context})
+        form = ActivityForm(instance=extract, initial={'extract':pk})
+        context = {'extract':extract,'form': form}
+        return render(request, 'templates/parsing/extract_parse.html', context)
+
     elif request.method == 'POST':
+        extract = Extract.objects.get(pk=pk)
+        print(extract)
         form = ActivityForm(request.POST)
-        assert form.is_valid()
-        form.save()
-        return redirect('extract_release')
+
+        data = request.POST.copy()
+        finish = request.POST.get('finish', 'no')
+        print(data)
+
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
+
+        print(finish)
+        if finish == 'yes':
+            print('finish')
+            extract.current_user = None
+            # wait until we've revisited how things move between modules. I think the source om=mo
+            #extract.current_status = 'PAR'
+            extract.save()
+            return redirect('extract_list')
+        else:
+            print('save')
+            return redirect('extract_parse', pk)
