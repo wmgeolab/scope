@@ -50,13 +50,33 @@ def extract_release(request, pk):
 def extract_parse(request, pk):
     if request.method == 'GET':
         extract = Extract.objects.get(pk=pk)
-        form = ActivityForm(instance=extract, initial={'extract':pk})
-        context = {'extract':extract,'form': form}
+        #check if the activity has been created before, or if this first time
+        try:
+            activity = Activity.objects.get(extract=extract)
+        except:
+            activity = None
+
+        if (activity):
+            form = ActivityForm(instance=activity)
+        else:
+            form = ActivityForm(initial={'extract':pk})
+
+        context = {'extract':extract,'form':form}
         return render(request, 'templates/parsing/extract_parse.html', context)
 
     elif request.method == 'POST':
         extract = Extract.objects.get(pk=pk)
-        form = ActivityForm(request.POST)
+        #if you want to edit an existing entry, you have to give it that instance
+        try:
+            activity = Activity.objects.get(extract=extract)
+        except:
+            activity = None
+
+        if (activity):
+            form = ActivityForm(request.POST, instance=activity)
+        else:
+            form = ActivityForm(request.POST)
+
 
         data = request.POST.copy()
         finish = request.POST.get('finish', 'no')

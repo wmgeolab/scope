@@ -28,7 +28,7 @@ class StatusCode(models.Model):
         return '{} - {}'.format(self.status_code, self.status_desc)
 
 class Activity(models.Model):
-    activity_id = models.AutoField(primary_key=True)
+    #activity_id = models.AutoField(primary_key=True)
     #actor_code may need to be reassessed in the future
     actor_code = models.ForeignKey(ActorCode, related_name='activities', on_delete=models.PROTECT)
     activity_code = models.ForeignKey(ActivityCode, related_name='activities', on_delete=models.PROTECT)

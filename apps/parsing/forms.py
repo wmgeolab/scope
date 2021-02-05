@@ -1,3 +1,4 @@
+from django import forms
 
 from django.forms import ModelForm
 
@@ -7,3 +8,4 @@ class ActivityForm(ModelForm):
     class Meta:
         model = Activity
         exclude = []
+        widgets = {'pk':forms.HiddenInput(), 'extract':forms.HiddenInput()}
