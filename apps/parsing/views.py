@@ -56,7 +56,6 @@ def extract_parse(request, pk):
 
     elif request.method == 'POST':
         extract = Extract.objects.get(pk=pk)
-        print(extract)
         form = ActivityForm(request.POST)
 
         data = request.POST.copy()

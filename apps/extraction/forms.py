@@ -5,7 +5,7 @@ from .models import Extract
 
 ExtractFormSet = modelformset_factory(Extract,
                                       exclude=[], #fields=('text',),
-                                      widgets={'source':HiddenInput(),
+                                      widgets={'source':HiddenInput(), 'current_user':HiddenInput(),
                                                'text':Textarea(attrs={'rows':5,
                                                                       'style':'width:100%'})
                                                },
