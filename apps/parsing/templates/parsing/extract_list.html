@@ -36,15 +36,15 @@ Parsing
       <tr>
         <th>Extract ID</th>
         <th>Source ID</th>
-        <th>Text</th>
-        <th>Action</th>
+        <th style="width:50%">Text</th>
+        <th style="width:15%">Action</th>
       </tr>
     </thead>
     <tbody>
     {% for extract in extracts %}
         <tr>
             <td>{{ extract.pk }}</td>
-            <td>{{ extract.source_id }}</td>
+            <td>{{ extract.source.pk }}</td>
             <td>{{ extract.text }}</td>
             <td>
             {% if extract.current_user %}
