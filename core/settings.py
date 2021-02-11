@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic', # enable whitenoise for dev, to get same behaviour as production environment
     'django.contrib.staticfiles',
 
     # required by allauth
