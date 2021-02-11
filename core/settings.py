@@ -23,6 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+PRODUCTION_ENV = not (len(sys.argv) >= 2 and sys.argv[1] == 'runserver')
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'wg=e1o&-az+jd9oq%8cs(2gqfjh@+wzvhl@k(v_3&ged8uc6l='
 
@@ -170,20 +172,49 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '93f8c4506cfd09ff7b95',
-            'secret': 'eed3d61ddfefc3533ad36a4695ad12e870b33bd2',
-            'key': '',
-        },
-        'SCOPE': [
-            'user',
-            'repo',
-            'read:org',
-        ],
+if PRODUCTION_ENV:
+    # for the online heroku site
+    SOCIALACCOUNT_PROVIDERS = {
+        'github': {
+            # For each OAuth based provider, either add a ``SocialApp``
+            # (``socialaccount`` app) containing the required client
+            # credentials, or list them here:
+            'APP': {
+                'client_id': '99d72dbdef3baa6cfd3e',
+                'secret': '7009cba471ef5105ab7f1ba839fa3c2d43f66173',
+                'key': '',
+            },
+            'SCOPE': [
+                'user',
+                'repo',
+                'read:org',
+            ],
+        }
     }
-}
+else:
+    # for local testing via 'python manage.py runserver'
+    SOCIALACCOUNT_PROVIDERS = {
+        'github': {
+            # For each OAuth based provider, either add a ``SocialApp``
+            # (``socialaccount`` app) containing the required client
+            # credentials, or list them here:
+            'APP': {
+                'client_id': '93f8c4506cfd09ff7b95',
+                'secret': 'eed3d61ddfefc3533ad36a4695ad12e870b33bd2',
+                'key': '',
+            },
+            'SCOPE': [
+                'user',
+                'repo',
+                'read:org',
+            ],
+        }
+    }
+
+
+
+
+
+
+
+
