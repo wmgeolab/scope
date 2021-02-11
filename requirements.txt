@@ -1,3 +1,4 @@
 Django==3.1.2
 django-allauth==0.42.0
 mysqlclient==2.0.1
+whitenoise==5.2.0
