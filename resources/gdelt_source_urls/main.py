@@ -1,58 +1,84 @@
+from time import gmtime
+import time
+import shutil
+import webbrowser
 import pandas as pd
-import sqlite3
-import urllib.request
+from pandas import ExcelWriter
+from pandas import ExcelFile
+import mechanize as m
 import zipfile
+import os
+import pathlib
+from pathlib import Path
 
-def iter_gdelt_sources(file_url):
+br = m.Browser()
 
-    # read the mentions csv file
-    mentions = pd.read_csv(file_url)
-    # store only the language code
-    mentions['MentionDocTranslationInfo'] = mentions['MentionDocTranslationInfo'].str[6:9]
+#waitTime_int is how many seconds you want the program to wait for the file
+#to download before moving it
+waitTime_int = 15
 
-    # loop through rows and yield the columns:
-    # file_url
-    # MentionType
-    # MentionSourceName
-    # MentionIdentifier
-    # MentionDocTranslationInfo (only the language code)
-    ment_dict = dict.fromkeys(['url', 'MentionType', 'MentionSourceName', 'MentionIdentifier', 'MentionDocTranslationInfo'])
+#interval_int is how many minutes the script will wait before executing
+#GetData() again.  THIS VALUE MUST BE A DIVISOR OF 60!  Note that you
+#will have to manually enter the minutes at which you want the script
+#to grab the file, see the While Loop at the bottom of the script.
+interval_int = 15
 
-    ment_dict['url'] = file_url
+secondsPerMinute_int = 60
 
-    for column in ['MentionType', 'MentionSourceName', 'MentionIdentifier', 'MentionDocTranslationInfo']:
-        data = mentions[column]
-        ment_dict[column] = data
+def GetData():
+    gmTime = time.strftime("%Y%m%d%H%M", time.gmtime())
+    dayHour = gmTime[0 : 10]
+    minutes = gmTime[10 : 12]
+    intervalCount_int = int(int(minutes) / interval_int)
+    minutes_int = intervalCount_int * interval_int
+    padding = "0" if minutes_int < 10 else ""
+        #this code constructs the links for mechanize to grab files from
+    dateTime = dayHour + padding + str(minutes_int) + "00"
+    #these variables are the names of the files as listed on gdelt - these
+        #are also the names that the files will be given once downloaded
+    exportFileName = dateTime + ".export.CSV.zip"
+    print(exportFileName)
+    mentionsFileName = dateTime + ".mentions.CSV.zip"
+    gkgFileName = dateTime + ".gkg.csv.zip"
+        #these variables are the URLs at which each file can be found
+    exportURL = "http://data.gdeltproject.org/gdeltv2/" + exportFileName
+    mentionsURL = "http://data.gdeltproject.org/gdeltv2/" + mentionsFileName
+    gkgURL = "http://data.gdeltproject.org/gdeltv2/" + gkgFileName
+    print(exportURL)
+        #this code uses mechanize to download then name the files
+    br.retrieve(exportURL, filename=exportFileName)
+    br.retrieve(mentionsURL, filename=mentionsFileName)
+    br.retrieve(gkgURL, filename=gkgFileName)
+        #this code waits for the specified time to ensure the files were successfully downloaded
+    time.sleep(waitTime_int)
+        #dir is the filepath to the folder containing this python application
+    dir = "C:/Users/Garrison/Documents/13th Grade/geoparsing/SUMMER/"
+        #initialDir is the filepath for where the files are downloaded by default
+    initialDir = dir + "GDELTFinalDataGetter/GDELTFinalDataGetter/"
+        #sourcePaths show where the files naturally end up once downloaded
+    exportSourcePath = initialDir + exportFileName
+    mentionsSourcePath = initialDir + mentionsFileName
+    gkgSourcePath = initialDir + gkgFileName
+        #destPaths show where you want the files to be moved/unzipped to
+    exportDestPath = dir + "UnzippedExports"
+    print(exportDestPath)
+    mentionsDestPath = dir + "DLoadedFiles"
+    gkgDestPath = dir + "DLoadedFiles"
+        #this code unzips the desired files to their destPath
+    with zipfile.ZipFile(exportSourcePath, 'r') as zip_ref:
+        zip_ref.extractall(exportDestPath)
+        #this code moves the desired files to their destPath
+    shutil.move(mentionsSourcePath, mentionsDestPath)
+    shutil.move(gkgSourcePath, gkgDestPath)
+    time.sleep(10)
+    #this code removes the folders that have already been unzipped
+    os.remove(exportSourcePath)
+    time.sleep(10)
+    dataframe = pd.read_csv(Path(exportDestPath + "/" + dateTime + ".export.CSV"), encoding = "iso-8859-1", sep='\t', lineterminator='\n')
+    print(dataframe)
 
-    yield ment_dict
-
-def scrape_gdelt_sources():
-
-    # connect to scope database
-    conn = pymysql.connect(host="mysql.scopedata.org", user="scopesql",
-                         password="fY7Ukl52UI", db="scopesourcedata")
-
-    curs = conn.cursor()
-
-
-    # read master file list
-    masterfileurl = "http://data.gdeltproject.org/gdeltv2/masterfilelist.txt"
-
-
-    masterfilelist = urllib.request.urlopen(masterfileurl)
-
-    for line in masterfilelist:
-        if 'mentions' in line:
-            # extract url from masterfilelist
-            index = line.find('http:')
-            url = line[index:]
-
-            # loop through csv with iter_gdelt_sources
-            zf = zipfile.ZipFile(url)
-            iter_gdelt_sources(zf.open(url[:-4]))
-            # slice is to drop the .zip extension from the url
-
-            # "If row key 'MentionIdentifier' does not already exist in the database:
-                # Add to database"
-
-            # ^^not entirely sure how to do this
+while (True):
+    currentTime = int(time.strftime("%M", time.gmtime()))
+    if ((currentTime % interval_int) == 0):
+        time.sleep(180)
+        GetData()
