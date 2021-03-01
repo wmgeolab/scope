@@ -18,7 +18,7 @@ class SourceForm(ModelForm):
         data = self.cleaned_data['source_text']
         code = self.data['source_code']
         if data == "": #with this, it should work for either source_add or source_import (for any empty rows)
-            if code == "S_4": #currently, this method is limited to articles (media reports)
+            if code == "SCOPE_S_1": #currently, this method is limited to articles (media reports)
                 url = self.data['source_url']
                 import requests
                 exist = requests.head(url).status_code
@@ -41,7 +41,7 @@ class SourceForm(ModelForm):
         data = self.cleaned_data['source_html']
         code = self.data['source_code']
         if data == "":
-            if code == "S_4":
+            if code == "SCOPE_S_1":
                 url = self.data['source_url']
                 import requests
                 exist = requests.head(url).status_code

@@ -6,7 +6,7 @@ from users.models import User
 # Create your models here.
 
 class SourceCode(models.Model):
-    source_code = models.CharField(max_length=10, primary_key=True)
+    source_code = models.CharField(max_length=15, primary_key=True)
     source_desc = models.CharField(max_length=255)
 
     def __str__(self):
