@@ -1,3 +1,4 @@
+
 {% extends "templates/base.html" %}
 {% load static %}
 
@@ -6,28 +7,29 @@
 {% block page_content %}
 
 <h2>
-Parsing - Manual
+Extracting - QA
 </h2>
 
+
 {% if cont %}
-    <div style="width:100%">
-        <p style="display:inline-block; width:74%">
-            You already have an extract checked out: 
-        </p>
-        <p style="display:inline-block">
-            <a href="{% url 'extract_checkout' pk=cont.pk %}" class="btn btn-primary" style="display:inline-block">
-            Continue Now
-            </a>
-            or
-            <a href="{% url 'extract_release' pk=cont.pk %}" class="btn btn-warning" style="display:inline-block">
-            Release
-            </a>
-        </p>
-    </div>
+	<div style="width:100%">
+		<p style="display:inline-block; width:74%">
+			You already have an extract checked out: 
+		</p>
+		<p style="display:inline-block">
+			<a href="{% url 'extract_qa' pk=cont.pk %}" class="btn btn-primary" style="display:inline-block">
+			Continue Now
+			</a>
+			or
+			<a href="{% url 'extract_release_qa' pk=cont.pk %}" class="btn btn-warning" style="display:inline-block">
+			Release
+			</a>
+		</p>
+	</div>
 {% else %}
-    <p>
-    To parse activities, select an extracted event to checkout from the list below:
-    </p>
+	<p>
+	To quality assure an extract, select from the list below:
+	</p>
 {% endif %}
 
 <div class="table-striped table-hover table-responsive">
@@ -51,8 +53,8 @@ Parsing - Manual
                 <img height="40px" src="{{ extract.current_user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%" title="{{ extract.current_user.email|lower }}">
             {% else %}
                 {% if not cont %}
-                    <a href="{% url 'extract_checkout' pk=extract.pk %}" class="btn btn-secondary">
-                    Checkout
+                    <a href="{% url 'extract_qa' pk=extract.pk %}" class="btn btn-secondary">
+                    QA
                     </a>
                 {% endif %}
             {% endif %}
@@ -62,4 +64,5 @@ Parsing - Manual
     <tbody>
   </table>
 </div>
+
 {% endblock %}

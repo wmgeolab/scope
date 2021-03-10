@@ -21,4 +21,4 @@ class Source(models.Model):
     source_date = models.DateTimeField(blank=True, null=True)
     date_added = models.DateTimeField(default=timezone.now, blank=True)
     current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True)
-    current_status = models.CharField(max_length=10, blank=True, default='UN', choices=[('UN','unprocessed'),('EX','extracted'),('PAR','parsed')])
+    current_status = models.CharField(max_length=10, blank=True, default='SRCM', choices=[('SRCM','sourced_m'),('EXTM','extracted_m')])

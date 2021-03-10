@@ -12,7 +12,7 @@ def home(request):
 
 def source_list(request):
     # get all sources
-    sources = Source.objects.filter(current_status='UN') #filter(current_user = None)
+    sources = Source.objects.filter(current_status='SRCM') #filter(current_user = None)
 
     # check if user already has checked out a source
     try:
@@ -49,6 +49,18 @@ def source_extraction(request, pk):
     elif request.method == 'POST':
         source = Source.objects.get(pk=pk)
         extracts = source.extracts.all()
+
+        #if you want to edit an existing entry, you have to give it that instance
+        # do this next time maybe, for now just delete if it fails QAing
+        #try:
+        #    extract = Extract.objects.get(source=source.source_id)
+        #except:
+        #    extract = None
+
+        #if (extract):
+        #form = ExtractQAForm(request.POST, instance=extract)
+        #else:
+        #    form = ExtractQAForm(request.POST)
 
         # get data
         data = request.POST.copy()
@@ -101,7 +113,7 @@ def source_extraction(request, pk):
         if finish == 'yes':
             print('finish')
             # finish by marking the source as extracted
-            source.current_status = 'EX'
+            source.current_status = 'EXTM'
             source.current_user = None # also release from checkout
             source.save()
             # then redirect to list of sources for extraction

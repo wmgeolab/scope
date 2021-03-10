@@ -1,4 +1,4 @@
-"""scope_2gzm URL Configuration
+"""scope_site URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -14,16 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import re_path, include
 
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('users.urls')),
-    path('', views.home, name='home'),
-    path('sourcing/', include('sourcing.urls')),
-    path('extraction/', include('extraction.urls')),
-    path('extracting_qa/', include('extracting_qa.urls')),
-    path('parsing/', include('parsing.urls')),
+    re_path('^$', views.home, name='extracting_qa'),
+    re_path('^extract/(?P<pk>[\w]+)/qa', views.extract_qa, name='extract_qa'),
+    re_path('^extract/(?P<pk>[\w]+)/release', views.extract_release_qa, name='extract_release_qa'),
+    re_path('^extract/(?P<pk>[\w]+)/assess', views.extract_assess, name='extract_assess'),
+    re_path('^extract/list$', views.extract_list_qa, name='extract_list_qa'),
 ]

@@ -21,7 +21,7 @@ def extract_list(request):
     #print(sources)
     #obviously this isn't how to access a queryset, but for illustrative purposes
     #how do I get only the extracts which have been submitted, since we don't have a "current_status" field in the extract model
-    extracts = Extract.objects.filter(source_id__current_status="EX")
+    extracts = Extract.objects.filter(current_status="EXTQ")
 
     # check if user already has checked out a source
     try:
@@ -92,7 +92,7 @@ def extract_parse(request, pk):
             print('finish')
             extract.current_user = None
             # wait until we've revisited how things move between modules. I think the source om=mo
-            #extract.current_status = 'PAR'
+            #extract.current_status = 'PARM'
             extract.save()
             return redirect('extract_list')
         else:

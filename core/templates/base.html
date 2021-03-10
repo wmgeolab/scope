@@ -14,13 +14,16 @@
 		</a>
 		
 		<a class="navbar-brand" href="{% url 'sourcing' %}" style="{% if 'sourcing' in request.path %}text-decoration:underline{% endif %}">
-		Sourcing
+		Sourcing (M)
 		</a>
 		<a class="navbar-brand" href="{% url 'extraction' %}" style="{% if 'extraction' in request.path %}text-decoration:underline{% endif %}">
-		Extraction
+		Extracting (M)
+		</a>
+		<a class="navbar-brand" href="{% url 'extracting_qa' %}" style="{% if 'extracting_qa' in request.path %}text-decoration:underline{% endif %}">
+		Extracting (Q)
 		</a>
 		<a class="navbar-brand" href="{% url 'parsing' %}" style="{% if 'parsing' in request.path %}text-decoration:underline{% endif %}">
-		Parsing
+		Parsing (M)
 		</a>
 		
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

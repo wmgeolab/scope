@@ -10,3 +10,5 @@ class Extract(models.Model):
     #may add a reference field to source_url
     text = models.TextField(blank=True, null=True)
     current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True)
+    current_status = models.CharField(max_length=10, blank=True, choices=[('EXTM','extracted_m'),('EXTQ','extracted_q'),('PARM','parsed_m')])
+

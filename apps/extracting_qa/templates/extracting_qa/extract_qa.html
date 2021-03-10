@@ -1,0 +1,74 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Extracting - QA
+</h2>
+
+
+<style>
+    table {width: 100%;}
+    select {width: 100%;}
+    textarea {width: 100%;}
+    input {width: 100%;}
+</style>
+
+<form id="id_extracting_qa_form" action="{% url 'extract_assess' pk=extract.pk %}" method="post">
+
+{% csrf_token %}
+
+<div>
+    <h2>
+    Checking out extract for parsing
+    <div style="float:right">
+        <a class="btn btn-warning" href="{% url 'extract_release_qa' extract.pk %}">
+        Release
+        </a>
+        <button type="submit" class="btn btn-primary" name="finish" value="no">
+        Send Back
+        </button>
+        <button type="submit" class="btn btn-primary" name="finish" value="yes">
+        Send Forward
+        </button>
+    </div>
+    </h2>
+
+        <hr>
+
+    <div id="id_extract_viewer" style="width:100%">
+
+        <h4>Extract:</h4>
+
+        <div style="display:inline-block; vertical-align:top; padding:10px">
+            <img src="https://www.freeiconspng.com/thumbs/document-icon/document-icon-19.png" height="60px">
+        </div>
+
+        <table id="id_extract_info" style="display:inline-block">
+            <tr>
+                <td>Extract ID: </td>
+                <td>{{ extract.pk }}</td>
+            </tr>
+            <tr>
+                <td>Source ID: </td>
+                <td>{{ extract.source_id }}</td>
+            </tr>
+            <tr>                
+                <td>Source URL: </td>
+                <td><a href="{{ extract.source.source_url }}" target="_blank">{{ extract.source.source_url }}</a></td>
+            </tr>
+            <tr>
+                <td>Extract Text: </td>
+                <td>{{ extract.text }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</form>
+
+
+{% endblock %}

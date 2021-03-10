@@ -2,10 +2,10 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import Activity
+from extraction.models import Extract
 
-class ActivityForm(ModelForm):
+class ExtractQAForm(ModelForm):
     class Meta:
-        model = Activity
-        exclude = ['current_status']
+        model = Extract
+        exclude = ['source','text']
         widgets = {'pk':forms.HiddenInput(), 'extract':forms.HiddenInput()}
