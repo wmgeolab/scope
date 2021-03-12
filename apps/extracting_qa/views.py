@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
-from sourcing.models import Source
+from sourcing_m.models import Source
 
-from extraction.models import Extract
+from extracting_m.models import Extract
 
 from .forms import ExtractQAForm
 

@@ -54,10 +54,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 
     # our apps
-    'sourcing',
-    'extraction',
+    'sourcing_m',
+    'extracting_m',
     'extracting_qa',
-    'parsing',
+    'parsing_m',
     'users',
 ]
 
@@ -84,10 +84,10 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'core'),
-            os.path.join(BASE_DIR, 'apps', 'sourcing'),
-            os.path.join(BASE_DIR, 'apps', 'extraction'),
+            os.path.join(BASE_DIR, 'apps', 'sourcing_m'),
+            os.path.join(BASE_DIR, 'apps', 'extracting_m'),
             os.path.join(BASE_DIR, 'apps', 'extracting_qa'),
-            os.path.join(BASE_DIR, 'apps', 'parsing'),
+            os.path.join(BASE_DIR, 'apps', 'parsing_m'),
             os.path.join(BASE_DIR, 'apps', 'users'),
             os.path.join(BASE_DIR, 'apps', 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
             ],

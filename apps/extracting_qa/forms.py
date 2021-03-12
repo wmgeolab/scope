@@ -2,7 +2,7 @@ from django import forms
 
 from django.forms import ModelForm
 
-from extraction.models import Extract
+from extracting_m.models import Extract
 
 class ExtractQAForm(ModelForm):
     class Meta:
