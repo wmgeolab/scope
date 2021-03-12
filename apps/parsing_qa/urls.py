@@ -24,4 +24,5 @@ urlpatterns = [
     re_path('^activity/(?P<pk>[\w]+)/release', views.activity_release_qa, name='activity_release_qa'),
     re_path('^activity/(?P<pk>[\w]+)/assess', views.activity_assess, name='activity_assess'),
     re_path('^activity/list$', views.activity_list_qa, name='activity_list_qa'),
+    re_path('^activity/listcomplete$', views.activity_list_complete, name='activity_list_complete'),
 ]

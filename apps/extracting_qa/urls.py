@@ -24,4 +24,5 @@ urlpatterns = [
     re_path('^extract/(?P<pk>[\w]+)/release', views.extract_release_qa, name='extract_release_qa'),
     re_path('^extract/(?P<pk>[\w]+)/assess', views.extract_assess, name='extract_assess'),
     re_path('^extract/list$', views.extract_list_qa, name='extract_list_qa'),
+    re_path('^extract/listcomplete$', views.extract_list_complete, name='extract_list_complete'),
 ]

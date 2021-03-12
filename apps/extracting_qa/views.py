@@ -13,6 +13,7 @@ from .forms import ExtractQAForm
 def home(request):
     return redirect('extract_list_qa')
 
+
 def extract_list_qa(request):
     # get all extracts
     extracts = Extract.objects.filter(source_id__current_status="EXTM", current_status="EXTM")
@@ -27,6 +28,13 @@ def extract_list_qa(request):
     return render(request, 'templates/extracting_qa/extract_list_qa.html', {'extracts':extracts, 'cont':cont})
 
 
+def extract_list_complete(request):
+    # get all extracts
+    extracts = Extract.objects.all()
+
+    return render(request, 'templates/extracting_qa/extract_list_complete.html', {'extracts':extracts})
+
+
 # extract_qa
 def extract_qa(request, pk):
     extract = Extract.objects.get(pk=pk)
@@ -34,12 +42,14 @@ def extract_qa(request, pk):
     extract.save()
     return redirect('extract_assess', pk)
 
+
 # extract_release
 def extract_release_qa(request, pk):
     extract = Extract.objects.get(pk=pk)
     extract.current_user = None
     extract.save()
     return redirect('extract_list_qa')
+
 
 # extract_assess (formerly activity_edit)
 def extract_assess(request, pk):

@@ -27,6 +27,13 @@ def activity_list_qa(request):
     return render(request, 'templates/parsing_qa/activity_list_qa.html', {'activities':activities, 'cont':cont})
 
 
+def activity_list_complete(request):
+    # get all extracts
+    activities = Activity.objects.all()
+
+    return render(request, 'templates/parsing_qa/activity_list_complete.html', {'activities':activities})
+
+
 # activity_qa
 def activity_qa(request, pk):
     activity = Activity.objects.get(pk=pk)

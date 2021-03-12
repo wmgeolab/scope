@@ -1,0 +1,36 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Extracting - QA
+</h2>
+
+<div class="table-striped table-hover table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Extract ID</th>
+        <th>Source ID</th>
+        <th style="width:70%">Text</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for extract in extracts %}
+        <tr>
+            <td>{{ extract.pk }}</td>
+            <td>{{ extract.source.pk }}</td>
+            <td>{{ extract.text }}</td>
+            <td>{{ extract.current_status}}</td>
+        </tr>
+    {% endfor %}
+    <tbody>
+  </table>
+</div>
+
+{% endblock %}

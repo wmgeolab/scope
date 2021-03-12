@@ -1,0 +1,36 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Parsing - QA
+</h2>
+
+<div class="table-striped table-hover table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Activity ID</th>
+        <th>Extract ID</th>
+        <th>Source ID</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for activity in activities %}
+        <tr>
+            <td>{{ activity.pk }}</td>
+            <td>{{ activity.extract.pk }}</td>
+            <td>{{ activity.extract.source_id }}</td>
+            <td>{{ activity.current_status}}</td>
+        </tr>
+    {% endfor %}
+    <tbody>
+  </table>
+</div>
+
+{% endblock %}
