@@ -78,11 +78,13 @@ def activity_assess(request, pk):
         if finish == 'yes':
             print('send forward')
             activity.current_status = 'PARQ'
+            activity.current_user = None
             activity.save()
         else:
         	print('send backward')
         	extract.current_status = 'EXTQ'
         	extract.save()
-        
-        activity.current_user = None
+        	activity.current_user = None
+        	activity.save()
+
         return redirect('activity_list_qa')

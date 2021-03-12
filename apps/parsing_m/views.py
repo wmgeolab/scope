@@ -86,10 +86,11 @@ def extract_parse(request, pk):
         else:
             print(form.errors)
 
+        extract.current_user = None
+        activity.current_user = None
         print(finish)
         if finish == 'yes':
             print('finish')
-            extract.current_user = None
             # wait until we've revisited how things move between modules. I think the source om=mo
             extract.current_status = 'PARM'
             extract.save()
