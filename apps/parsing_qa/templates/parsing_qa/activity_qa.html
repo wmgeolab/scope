@@ -1,0 +1,98 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Parsing - QA
+</h2>
+
+
+<style>
+    table {width: 100%;}
+    select {width: 100%;}
+    textarea {width: 100%;}
+    input {width: 100%;}
+</style>
+
+<form id="id_parsing_qa_form" action="{% url 'activity_assess' pk=activity.pk %}" method="post">
+
+{% csrf_token %}
+
+<div>
+    <h2>
+    Checking out activity for parsing
+    <div style="float:right">
+        <a class="btn btn-warning" href="{% url 'activity_release_qa' activity.pk %}">
+        Release
+        </a>
+        <button type="submit" class="btn btn-primary" name="finish" value="no">
+        Send Back
+        </button>
+        <button type="submit" class="btn btn-primary" name="finish" value="yes">
+        Send Forward
+        </button>
+    </div>
+    </h2>
+
+        <hr>
+
+    <div id="id_activity_viewer" style="width:100%">
+
+        <h4>Activity:</h4>
+
+        <div style="display:inline-block; vertical-align:top; padding:10px">
+            <img src="https://www.freeiconspng.com/thumbs/document-icon/document-icon-19.png" height="60px">
+        </div>
+
+        <table id="id_activity_info" style="display:inline-block">
+            <tr>
+                <td>Activity ID: </td>
+                <td>{{ activity.pk }}</td>
+            </tr>
+            <tr>
+                <td>Extract ID: </td>
+                <td>{{ activity.extract.id }}</td>
+            </tr>
+            <tr>
+                <td>Source ID: </td>
+                <td>{{ activity.extract.source_id }}</td>
+            </tr>
+            <tr>                
+                <td>Source URL: </td>
+                <td><a href="{{ activity.extract.source.source_url }}" target="_blank">{{ activity.extract.source.source_url }}</a></td>
+            </tr>
+            <tr>
+                <td>Extract Text: </td>
+                <td>{{ activity.extract.text }}</td>
+            </tr>
+            <tr>
+                <td>Activity Code: </td>
+                <td>{{ activity.activity_code }}</td>
+            </tr>
+            <tr>
+                <td>Activity Date: </td>
+                <td>{{ activity.activity_date }}</td>
+            </tr>
+            <tr>
+                <td>Status Code: </td>
+                <td>{{ activity.status_code }}</td>
+            </tr>
+            <tr>
+                <td>Dollar Amount: </td>
+                <td>{{ activity.dollar_amount }}</td>
+            </tr>
+            <tr>
+                <td>Locations: </td>
+                <td>{{ activity.locations }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</form>
+
+
+{% endblock %}

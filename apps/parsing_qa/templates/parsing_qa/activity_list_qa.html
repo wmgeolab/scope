@@ -1,0 +1,68 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Parsing - QA
+</h2>
+
+
+{% if cont %}
+    <div style="width:100%">
+        <p style="display:inline-block; width:74%">
+            You already have an activity checked out: 
+        </p>
+        <p style="display:inline-block">
+            <a href="{% url 'activity_qa' pk=cont.pk %}" class="btn btn-primary" style="display:inline-block">
+            Continue Now
+            </a>
+            or
+            <a href="{% url 'activity_release_qa' pk=cont.pk %}" class="btn btn-warning" style="display:inline-block">
+            Release
+            </a>
+        </p>
+    </div>
+{% else %}
+    <p>
+    To quality assure an activity, select from the list below:
+    </p>
+{% endif %}
+
+<div class="table-striped table-hover table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Activity ID</th>
+        <th>Extract ID</th>
+        <th>Source ID</th>
+        <th style="width:15%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for activity in activities %}
+        <tr>
+            <td>{{ activity.pk }}</td>
+            <td>{{ activity.extract.pk }}</td>
+            <td>{{ activity.extract.source_id }}</td>
+            <td>
+            {% if activity.current_user %}
+                <img height="40px" src="{{ activity.current_user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%" title="{{ activity.current_user.email|lower }}">
+            {% else %}
+                {% if not cont %}
+                    <a href="{% url 'activity_qa' pk=activity.pk %}" class="btn btn-secondary">
+                    QA
+                    </a>
+                {% endif %}
+            {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    <tbody>
+  </table>
+</div>
+
+{% endblock %}

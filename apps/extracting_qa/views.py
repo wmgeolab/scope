@@ -4,6 +4,8 @@ from sourcing_m.models import Source
 
 from extracting_m.models import Extract
 
+from parsing_m.models import Activity
+
 from .forms import ExtractQAForm
 
 
@@ -13,7 +15,7 @@ def home(request):
 
 def extract_list_qa(request):
     # get all extracts
-    extracts = Extract.objects.filter(source_id__current_status="EXTM", current_status="")
+    extracts = Extract.objects.filter(source_id__current_status="EXTM", current_status="EXTM")
 
     # check if user already has checked out a source
     try:
@@ -79,9 +81,10 @@ def extract_assess(request, pk):
             extract.current_user = None
             extract.save()
         else:
-        	print('send backward')
-        	source.current_status = 'SRCM'
-        	source.save()
-        	Extract.objects.filter(source=extract.source.source_id).delete() #change this later to edit instead of delete. Requires checking for existing extract in the extraction/views.py
+            print('send backward')
+            Activity.objects.filter(extract__in=Extract.objects.filter(source=extract.source.source_id)).delete() #any way to save this in another model or should we just completely delete it?
+            source.current_status = 'SRCM'
+            source.save()
+            Extract.objects.filter(source=extract.source.source_id).delete() #change this later to edit instead of delete. Requires checking for existing extract in the extraction/views.py
 
         return redirect('extract_list_qa')

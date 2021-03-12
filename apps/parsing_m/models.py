@@ -40,4 +40,4 @@ class Activity(models.Model):
     #for now, this is extract. in the next version, we'll include modules between extracting and parsing
     extract = models.ForeignKey(Extract, related_name='activities', on_delete=models.PROTECT)
     current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True)
-    current_status = models.CharField(max_length=10, blank=True, choices=[('EXTQ','extracted_q'),('PARM','parsed_m')])
+    current_status = models.CharField(max_length=10, blank=True, choices=[('PARM','parsed_m'),('PARQ','parsed_q')])

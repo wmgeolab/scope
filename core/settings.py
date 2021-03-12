@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'extracting_m',
     'extracting_qa',
     'parsing_m',
+    'parsing_qa',
     'users',
 ]
 
@@ -88,6 +89,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'apps', 'extracting_m'),
             os.path.join(BASE_DIR, 'apps', 'extracting_qa'),
             os.path.join(BASE_DIR, 'apps', 'parsing_m'),
+            os.path.join(BASE_DIR, 'apps', 'parsing_qa'),
             os.path.join(BASE_DIR, 'apps', 'users'),
             os.path.join(BASE_DIR, 'apps', 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
             ],

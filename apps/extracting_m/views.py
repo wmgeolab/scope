@@ -91,11 +91,13 @@ def source_extraction(request, pk):
 
             # manually save changed objects to db
             for obj in formset.changed_objects:
+                obj.current_status = 'EXTM'
                 obj.save()
 
             # manually save new objects to db
             for obj in formset.new_objects:
                 if obj.text.strip():
+                    obj.current_status = 'EXTM'
                     # only save if form text is non-empty (ie the 'extra' forms)
                     obj.save()
 

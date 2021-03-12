@@ -77,7 +77,6 @@ def extract_parse(request, pk):
         else:
             form = ActivityForm(request.POST)
 
-
         data = request.POST.copy()
         finish = request.POST.get('finish', 'no')
         print(data)
@@ -92,8 +91,10 @@ def extract_parse(request, pk):
             print('finish')
             extract.current_user = None
             # wait until we've revisited how things move between modules. I think the source om=mo
-            #extract.current_status = 'PARM'
+            extract.current_status = 'PARM'
             extract.save()
+            activity.current_status = 'PARM'
+            activity.save()
             return redirect('extract_list')
         else:
             print('save')
