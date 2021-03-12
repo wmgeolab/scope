@@ -7,5 +7,5 @@ from .models import Activity
 class ActivityForm(ModelForm):
     class Meta:
         model = Activity
-        exclude = ['current_status']
+        exclude = ['fuzzy_date','current_status']
         widgets = {'pk':forms.HiddenInput(), 'extract':forms.HiddenInput()}
