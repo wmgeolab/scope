@@ -24,8 +24,10 @@ urlpatterns = [
     re_path('^overview$', views.overview, name='overview'),
     re_path('^edit/domain$', views.edit_domain, name='edit_domain'),
     re_path('^edit/activitycodes$', views.edit_activitycodes, name='edit_activitycodes'),
+    re_path('^edit/activitysubcodes$', views.edit_activitysubcodes, name='edit_activitysubcodes'),
     re_path('^edit/actorcodes$', views.edit_actorcodes, name='edit_actorcodes'),
     re_path('^edit/statuscodes$', views.edit_statuscodes, name='edit_statuscodes'),
+    re_path('^edit/financialcodes$', views.edit_financialcodes, name='edit_financialcodes'),
     re_path('^edit/sourcecodes$', views.edit_sourcecodes, name='edit_sourcecodes'),
     re_path('^edit/triggerwords$', views.edit_triggerwords, name='edit_triggerwords'),
 ]

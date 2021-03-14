@@ -1,7 +1,7 @@
 
 from django.forms import ModelForm
 
-from .models import Domain, ActivityCode, ActorCode, StatusCode, SourceCode, TriggerWord
+from .models import Domain, ActivityCode, ActivitySubcode, ActorCode, StatusCode, FinancialCode, SourceCode, TriggerWord
 
 
 class DomainForm(ModelForm):
@@ -14,6 +14,11 @@ class ActivityCodeForm(ModelForm):
         model = ActivityCode
         exclude = []
 
+class ActivitySubcodeForm(ModelForm):
+    class Meta:
+        model = ActivitySubcode
+        exclude = []
+
 class ActorCodeForm(ModelForm):
     class Meta:
         model = ActorCode
@@ -22,6 +27,11 @@ class ActorCodeForm(ModelForm):
 class StatusCodeForm(ModelForm):
     class Meta:
         model = StatusCode
+        exclude = []
+
+class FinancialCodeForm(ModelForm):
+    class Meta:
+        model = FinancialCode
         exclude = []
 
 class SourceCodeForm(ModelForm):

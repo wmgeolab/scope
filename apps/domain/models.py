@@ -19,6 +19,13 @@ class ActivityCode(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.activity_code, self.activity_desc)
 
+class ActivitySubcode(models.Model):
+    activity_subcode = models.CharField(max_length=30, primary_key=True)
+    activity_subdesc = models.CharField(max_length=255)
+
+    def __str__(self):
+        return '{} - {}'.format(self.activity_subcode, self.activity_subdesc)
+
 class ActorCode(models.Model):
     actor_code = models.CharField(max_length=10, primary_key=True)
     actor_desc = models.CharField(max_length=255)
@@ -32,6 +39,13 @@ class StatusCode(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.status_code, self.status_desc)
+
+class FinancialCode(models.Model):
+    financial_code = models.CharField(max_length=10, primary_key=True)
+    financial_desc = models.CharField(max_length=255)
+
+    def __str__(self):
+        return '{} - {}'.format(self.financial_code, self.financial_desc)
 
 class SourceCode(models.Model):
     source_code = models.CharField(max_length=15, primary_key=True)

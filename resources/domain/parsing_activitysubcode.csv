@@ -1,0 +1,9 @@
+activity_subcode,activity_subdesc
+A_1001,Humanitarian Aid
+A_1002,Transportation
+A_2001,Arms Deal
+A_3001,Treaty
+A_4001,Trade Deal
+A_5001,"Progranda, Misinformation, or Disinformation"
+A_6000,Vague
+U_9999,Does not fit the current coding scheme
