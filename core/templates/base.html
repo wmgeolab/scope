@@ -3,6 +3,16 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+<style type=”text/css”>
+    .navbar ul li {
+        list-style-type: none;
+        padding: 0;
+    }
+    .navbar .dropdown-item {
+        width: auto;
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
 	
@@ -12,34 +22,67 @@
 				<img height="25px" src="{% static 'core/COVER.jpg' %}" style="filter:invert(1)">
 			</div>
 		</a>
-		
-		<a class="navbar-brand" href="{% url 'domain' %}" style="{% if 'domain' in request.path %}text-decoration:underline{% endif %}">
-			Domain
-		</a>
-		<a class="navbar-brand" href="{% url 'sourcing_m' %}" style="{% if 'sourcing_m' in request.path %}text-decoration:underline{% endif %}">
-			Sourcing (M)
-		</a>
-		<a class="navbar-brand" href="{% url 'extracting_m' %}" style="{% if 'extracting_m' in request.path %}text-decoration:underline{% endif %}">
-			Extracting (M)
-		</a>
-		<a class="navbar-brand" href="{% url 'extracting_qa' %}" style="{% if 'extracting_qa' in request.path %}text-decoration:underline{% endif %}">
-			Extracting (Q)
-		</a>
-		<a class="navbar-brand" href="{% url 'parsing_m' %}" style="{% if 'parsing_m' in request.path %}text-decoration:underline{% endif %}">
-			Parsing (M)
-		</a>
-		<a class="navbar-brand" href="{% url 'parsing_qa' %}" style="{% if 'parsing_qa' in request.path %}text-decoration:underline{% endif %}">
-			Parsing (Q)
-		</a>
-		
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-          </ul>
-        </div>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+						Administration
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'domain' %}" style="{% if 'domain' in request.path %}text-decoration:underline{% endif %}">
+							Domain
+						</a>
+					</div>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+						Pipelines
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					</div>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+						Workflows
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'sourcing_m' %}" style="{% if 'sourcing_m' in request.path %}text-decoration:underline{% endif %}">
+							Sourcing (M)
+						</a>
+						<a class="dropdown-item" href="{% url 'extracting_m' %}" style="{% if 'extracting_m' in request.path %}text-decoration:underline{% endif %}">
+							Extracting (M)
+						</a>
+						<a class="dropdown-item" href="{% url 'extracting_qa' %}" style="{% if 'extracting_qa' in request.path %}text-decoration:underline{% endif %}">
+							Extracting (Q)
+						</a>
+						<a class="dropdown-item" href="{% url 'parsing_m' %}" style="{% if 'parsing_m' in request.path %}text-decoration:underline{% endif %}">
+							Parsing (M)
+						</a>
+						<a class="dropdown-item" href="{% url 'parsing_qa' %}" style="{% if 'parsing_qa' in request.path %}text-decoration:underline{% endif %}">
+							Parsing (Q)
+						</a>
+					</div>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+						Analytics
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					</div>
+				</li>				
+			</ul>
+		</div>
+
+		
 		
 		{% if not request.user.is_anonymous %}
 			<a href="{% url 'profile' %}" style="color:black">
