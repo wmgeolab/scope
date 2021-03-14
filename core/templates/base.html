@@ -7,29 +7,29 @@
     <div class="container">
 	
         <a class="navbar-brand" href="{% url 'home' %}">
-		<img height="20px" src="{% static 'core/SCOPE_word_white.png' %}" style="filter:invert(1)">
-		<div style="width:100%; text-align:center">
-		<img height="25px" src="{% static 'core/COVER.jpg' %}" style="filter:invert(1)">
-		</div>
+			<img height="20px" src="{% static 'core/SCOPE_word_white.png' %}" style="filter:invert(1)">
+			<div style="width:100%; text-align:center">
+				<img height="25px" src="{% static 'core/COVER.jpg' %}" style="filter:invert(1)">
+			</div>
 		</a>
 		
 		<a class="navbar-brand" href="{% url 'domain' %}" style="{% if 'domain' in request.path %}text-decoration:underline{% endif %}">
-		Domain
+			Domain
 		</a>
 		<a class="navbar-brand" href="{% url 'sourcing_m' %}" style="{% if 'sourcing_m' in request.path %}text-decoration:underline{% endif %}">
-		Sourcing (M)
+			Sourcing (M)
 		</a>
 		<a class="navbar-brand" href="{% url 'extracting_m' %}" style="{% if 'extracting_m' in request.path %}text-decoration:underline{% endif %}">
-		Extracting (M)
+			Extracting (M)
 		</a>
 		<a class="navbar-brand" href="{% url 'extracting_qa' %}" style="{% if 'extracting_qa' in request.path %}text-decoration:underline{% endif %}">
-		Extracting (Q)
+			Extracting (Q)
 		</a>
 		<a class="navbar-brand" href="{% url 'parsing_m' %}" style="{% if 'parsing_m' in request.path %}text-decoration:underline{% endif %}">
-		Parsing (M)
+			Parsing (M)
 		</a>
 		<a class="navbar-brand" href="{% url 'parsing_qa' %}" style="{% if 'parsing_qa' in request.path %}text-decoration:underline{% endif %}">
-		Parsing (Q)
+			Parsing (Q)
 		</a>
 		
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
