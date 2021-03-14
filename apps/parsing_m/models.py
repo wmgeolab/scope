@@ -3,29 +3,9 @@ from django.db import models
 from extracting_m.models import Extract
 
 from users.models import User
+from domain.models import ActivityCode, ActorCode, StatusCode
 
 # Create your models here.
-
-class ActivityCode(models.Model):
-    activity_code = models.CharField(max_length=30, primary_key=True)
-    activity_desc = models.CharField(max_length=255)
-
-    def __str__(self):
-        return '{} - {}'.format(self.activity_code, self.activity_desc)
-
-class ActorCode(models.Model):
-    actor_code = models.CharField(max_length=10, primary_key=True)
-    actor_desc = models.CharField(max_length=255)
-
-    def __str__(self):
-        return '{} - {}'.format(self.actor_code, self.actor_desc)
-
-class StatusCode(models.Model):
-    status_code = models.CharField(max_length=10, primary_key=True)
-    status_desc = models.CharField(max_length=255)
-
-    def __str__(self):
-        return '{} - {}'.format(self.status_code, self.status_desc)
 
 class Activity(models.Model):
     #activity_id = models.AutoField(primary_key=True)

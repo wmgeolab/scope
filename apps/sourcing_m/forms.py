@@ -1,12 +1,9 @@
 
 from django.forms import ModelForm
 
-from .models import Source, SourceCode
+from domain.models import SourceCode
+from .models import Source
 
-class SourceCodeForm(ModelForm):
-    class Meta:
-        model = SourceCode
-        exclude = []
 
 class SourceForm(ModelForm):
     class Meta:

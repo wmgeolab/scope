@@ -53,7 +53,7 @@ def source_extraction(request, pk):
         #if you want to edit an existing entry, you have to give it that instance
         # do this next time maybe, for now just delete if it fails QAing
         #try:
-        #    extract = Extract.objects.get(source=source.source_id)
+        #    extract = Extract.objects.get(source=source.id)
         #except:
         #    extract = None
 

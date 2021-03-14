@@ -3,6 +3,7 @@ from django.apps import apps
 
 import os
 
+from domain.models import ActivityCode, ActorCode, StatusCode
 from sourcing_m.models import Source
 from extracting_m.models import Extract
 from .models import Activity

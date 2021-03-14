@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
     path('', views.home, name='home'),
+    path('domain/', include('domain.urls')),
     path('sourcing_m/', include('sourcing_m.urls')),
     path('extracting_m/', include('extracting_m.urls')),
     path('extracting_qa/', include('extracting_qa.urls')),

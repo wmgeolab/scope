@@ -16,7 +16,7 @@ def home(request):
 
 def extract_list_qa(request):
     # get all extracts
-    extracts = Extract.objects.filter(source_id__current_status="EXTM", current_status="EXTM")
+    extracts = Extract.objects.filter(source__current_status="EXTM", current_status="EXTM")
 
     # check if user already has checked out a source
     try:
@@ -63,7 +63,7 @@ def extract_assess(request, pk):
 
     elif request.method == 'POST':
         extract = Extract.objects.get(pk=pk)
-        source = Source.objects.get(source_id=extract.source.source_id)
+        source = Source.objects.get(id=extract.source.id)
         #if you want to edit an existing entry, you have to give it that instance
         #try:
         #    extract = Extract.objects.get(extract=extract)
@@ -92,9 +92,9 @@ def extract_assess(request, pk):
             extract.save()
         else:
             print('send backward')
-            Activity.objects.filter(extract__in=Extract.objects.filter(source=extract.source.source_id)).delete() #any way to save this in another model or should we just completely delete it?
+            Activity.objects.filter(extract__in=Extract.objects.filter(source=extract.source.id)).delete() #any way to save this in another model or should we just completely delete it?
             source.current_status = 'SRCM'
             source.save()
-            Extract.objects.filter(source=extract.source.source_id).delete() #change this later to edit instead of delete. Requires checking for existing extract in the extraction/views.py
+            Extract.objects.filter(source=extract.source.id).delete() #change this later to edit instead of delete. Requires checking for existing extract in the extraction/views.py
 
         return redirect('extract_list_qa')

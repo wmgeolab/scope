@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td>Source ID: </td>
-				<td>{{ extract.source_id }}</td>
+				<td>{{ extract.source }}</td>
 			</tr>
 			<tr>				
 				<td>Source URL: </td>
@@ -77,7 +77,7 @@
 	
 		<tr>
 			<td>
-		    	{{ form.activity_code.label_tag }}
+		    	{{ form.activity_code.label_tag }} *
 			</td>
 			<td>
 				{{ form.activity_code }}
@@ -86,7 +86,7 @@
 
 		<tr>
 			<td>
-		    	{{ form.actor_code.label_tag }}
+		    	{{ form.actor_code.label_tag }} *
 			</td>
 			<td>
 				{{ form.actor_code }}
@@ -95,16 +95,16 @@
 
 		<tr>
 			<td>
-		    	{{ form.activity_date.label_tag }}
+		    	{{ form.activity_date.label_tag }} *
 			</td>
 			<td>
-				{{ form.activity_date }}
+				<input type = 'date' name = 'activity_date'>
 			</td>
 		</tr>
 
 		<tr>
 			<td>
-		    	{{ form.status_code.label_tag }}
+		    	{{ form.status_code.label_tag }} *
 			</td>
 			<td>
 				{{ form.status_code }}

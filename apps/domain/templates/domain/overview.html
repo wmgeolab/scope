@@ -1,0 +1,193 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Establishing - Domain
+</h2>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Domain</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Domain</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_domain' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for domain in domain %}
+				<tr>
+					<td>{{ domain.domain }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Activity Codes</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Activity Code</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_activitycodes' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for activitycode in activitycodes %}
+				<tr>
+					<td>{{ activitycode.activity_code }} - {{ activitycode.activity_desc }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Actor Codes</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Actor Code</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_actorcodes' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for actorcode in actorcodes %}
+				<tr>
+					<td>{{ actorcode.actor_code }} - {{ actorcode.actor_desc }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Status Codes</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Status Code</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_statuscodes' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for statuscode in statuscodes %}
+				<tr>
+					<td>{{ statuscode.status_code }} - {{ statuscode.status_desc }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Source Codes</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Source Code</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_sourcecodes' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for sourcecode in sourcecodes %}
+				<tr>
+					<td>{{ sourcecode.source_code }} - {{ sourcecode.source_desc }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Trigger Words</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Trigger Word</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_triggerwords' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for triggerword in triggerwords %}
+				<tr>
+					<td>{{ triggerword.triggerword }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var collapsiblecontent = this.nextElementSibling;
+    if (collapsiblecontent.style.display === "block") {
+      collapsiblecontent.style.display = "none";
+    } else {
+      collapsiblecontent.style.display = "block";
+    }
+  });
+}
+</script>
+
+{% endblock %}

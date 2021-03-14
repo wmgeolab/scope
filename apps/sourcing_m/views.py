@@ -5,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 
 import os
 
+from domain.models import SourceCode
 from .models import Source
 from .forms import SourceForm
 

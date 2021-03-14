@@ -13,6 +13,9 @@
 		</div>
 		</a>
 		
+		<a class="navbar-brand" href="{% url 'domain' %}" style="{% if 'domain' in request.path %}text-decoration:underline{% endif %}">
+		Domain
+		</a>
 		<a class="navbar-brand" href="{% url 'sourcing_m' %}" style="{% if 'sourcing_m' in request.path %}text-decoration:underline{% endif %}">
 		Sourcing (M)
 		</a>
