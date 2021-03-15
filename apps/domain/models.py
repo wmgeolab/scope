@@ -34,6 +34,20 @@ class ActorCode(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.actor_code, self.actor_desc)
 
+class ActorRole(models.Model):
+    actor_rolecode = models.CharField(max_length=10, primary_key=True)
+    actor_roledesc = models.CharField(max_length=255)
+
+    def __str__(self):
+        return '{} - {}'.format(self.actor_rolecode, self.actor_roledesc)
+
+class DateCode(models.Model):
+    date_code = models.CharField(max_length=10, primary_key=True)
+    date_desc = models.CharField(max_length=255)
+
+    def __str__(self):
+        return '{} - {}'.format(self.date_code, self.date_desc)
+
 class StatusCode(models.Model):
     status_code = models.CharField(max_length=10, primary_key=True)
     status_desc = models.CharField(max_length=255)

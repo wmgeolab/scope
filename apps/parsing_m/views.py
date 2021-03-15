@@ -3,7 +3,7 @@ from django.apps import apps
 
 import os
 
-from domain.models import ActivityCode, ActivitySubcode, ActorCode, StatusCode, FinancialCode
+from domain.models import ActivityCode, ActivitySubcode, ActorCode, ActorRole, DateCode, StatusCode, FinancialCode
 from sourcing_m.models import Source
 from extracting_m.models import Extract
 from .models import Activity

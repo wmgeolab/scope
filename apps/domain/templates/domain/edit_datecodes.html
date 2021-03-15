@@ -1,0 +1,59 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+{% block page_content %}
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<h2>Edit Date Codes</h2>
+<hr>
+<div>
+	<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+		<h5>			
+			{% if importresults %}
+			
+			File has been imported, results are shown below.
+
+			<br>
+			<br>
+
+			<!--Fix this later so the progress shows in light grey messages like "Row x skipped... Row y skipped... Import completed. ___ rows were skipped.-->
+			
+			<textarea id="test_window" cols="100" rows="15" style="color:grey; font-size:15px;" readonly>{{ importresults }}</textarea>
+
+			<br>
+			<br>
+			
+			<a href="{% url 'domain' %}">
+				<input type="button" id="finish_button" class="btn btn-primary" value="Finish">
+			</a>
+
+			{% else %}
+			
+			<!--Change the button urls later to accurately reflect their functions-->
+			Browse your local computer for a data file (.csv) to upload.
+				<!--Fix this later so the path shows here in light grey once selected-->
+			<br>
+			<br>
+
+			<input type="file" name="importdocument" accept=".csv" required>
+			<!--This only filters for .csv, but other docs can still be selected. A more robust method would not allow any other files to be selected.-->
+			<br>
+			<br>
+
+			<input type="submit" id="test_button" class="btn btn-primary" formaction="{% url 'edit_datecodes' %}" value="Submit">
+			<!--This button is not clickable until a local file has been selected-->
+
+			<a href="{% url 'domain' %}">
+				<input type="button" id="cancel_button1" class="btn btn-warning" value="Cancel">
+			</a>
+			<!--This button is not clickable after the submit button has been selected-->
+			
+			{% endif %}
+		</h5>
+	</form>
+</div>
+
+
+{% endblock %}

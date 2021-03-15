@@ -111,11 +111,60 @@ Establishing - Domain
 			</tbody>
 		</table>
 	</div>
+	<br>
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Actor Role</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_actorroles' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for actorrole in actorroles %}
+				<tr>
+					<td>{{ actorrole.actor_rolecode }} - {{ actorrole.actor_roledesc }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <br>
 
-<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Status Codes</button>
+<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Date Codes</button>
+<div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
+	<div class="table-striped table-hover table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Date Code</th>
+					<th style="float:right;">
+						<a href="{% url 'edit_datecodes' %}" class="btn btn-primary" style='float:right'>
+							Edit
+						</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for datecode in datecodes %}
+				<tr>
+					<td>{{ datecode.date_code }} - {{ datecode.date_desc }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Status Codes</button>
 <div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
 	<div class="table-striped table-hover table-responsive">
 		<table class="table">
@@ -142,7 +191,7 @@ Establishing - Domain
 
 <br>
 
-<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Financial Codes</button>
+<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Financial Codes</button>
 <div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
 	<div class="table-striped table-hover table-responsive">
 		<table class="table">
@@ -169,7 +218,7 @@ Establishing - Domain
 
 <br>
 
-<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Source Codes</button>
+<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Source Codes</button>
 <div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
 	<div class="table-striped table-hover table-responsive">
 		<table class="table">
@@ -196,7 +245,7 @@ Establishing - Domain
 
 <br>
 
-<button type="button" class="collapsible" style="background-color: #777; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Trigger Words</button>
+<button type="button" class="collapsible" style="background-color: #999; color: white; cursor: pointer; padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 20px;">Trigger Words</button>
 <div class="collapsiblecontent" style="padding: 0 18px; display: none; overflow: hidden; background-color: #f1f1f1;">
 	<div class="table-striped table-hover table-responsive">
 		<table class="table">

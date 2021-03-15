@@ -1,0 +1,19 @@
+date_code,date_desc
+D_1,Proposed - formal
+D_2,Proposed - informal
+D_3,Proposed - unsuccessful
+D_4,Started - construction
+D_5,Under construction - on time
+D_6,Under construction - delayed
+D_7,Under construction - unknown
+D_8,Completed - extended event or activity
+D_9,Completed - change in ownership
+D_10,Started - non-construction
+D_11,Carried out - one-off events
+D_12,Cancelled
+D_13,In Progress - non-construction
+D_14,Delayed
+D_15,Disbursement
+D_16,Reception
+D_17,Vague
+U_9999,Does not fit the current coding scheme

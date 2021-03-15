@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td>Source ID: </td>
-				<td>{{ extract.source }}</td>
+				<td>{{ extract.source.pk }}</td>
 			</tr>
 			<tr>				
 				<td>Source URL: </td>
@@ -104,10 +104,19 @@
 
 		<tr>
 			<td>
-		    	{{ form.actor_desc.label_tag }} *
+		    	{{ form.actor_name.label_tag }} *
 			</td>
 			<td>
-				{{ form.actor_desc }}
+				{{ form.actor_name }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.actor_rolecode.label_tag }} *
+			</td>
+			<td>
+				{{ form.actor_rolecode }}
 			</td>
 		</tr>
 
@@ -126,6 +135,15 @@
 			</td>
 			<td>
 				{{ form.status_code }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+		    	{{ form.date_code.label_tag }} *
+			</td>
+			<td>
+				{{ form.date_code }}
 			</td>
 		</tr>
 
