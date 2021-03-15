@@ -18,7 +18,7 @@ class Activity(models.Model):
     fuzzy_date = models.CharField(max_length=30, blank=True, null=True)
     status_code = models.ForeignKey(StatusCode, related_name='activities', on_delete=models.PROTECT)
     financial_code = models.ForeignKey(FinancialCode, related_name='activities', on_delete=models.PROTECT, null=True, blank=True)
-    dollar_amount = models.CharField(max_length=30, blank=True, null=True)
+    dollar_amount = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     locations = models.CharField(max_length=50, blank=True, null=True)
     #for now, this is extract. in the next version, we'll include modules between extracting and parsing
     extract = models.ForeignKey(Extract, related_name='activities', on_delete=models.PROTECT)

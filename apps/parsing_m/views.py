@@ -87,15 +87,16 @@ def extract_parse(request, pk):
         else:
             print(form.errors)
 
-        extract.current_user = None
-        activity.current_user = None
         print(finish)
         if finish == 'yes':
             print('finish')
             # wait until we've revisited how things move between modules. I think the source om=mo
             extract.current_status = 'PARM'
+            extract.current_user = None
             extract.save()
+            activity = Activity.objects.get(extract=extract)
             activity.current_status = 'PARM'
+            activity.current_user = None
             activity.save()
             return redirect('extract_list')
         else:
