@@ -9,8 +9,10 @@ R_7,Bystander
 R_8,Accomplice
 R_9,Funder
 R_10,Implementer
-R_11,Signer
-R_12,Negotiator
-R_13,Speaker
-R_14,Vague
+R_11,Giver
+R_12,Receiver
+R_13,Signer
+R_14,Negotiator
+R_15,Speaker
+R_16,Vague
 U_9999,Does not fit the current coding scheme
