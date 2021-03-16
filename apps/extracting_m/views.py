@@ -82,7 +82,7 @@ def source_extraction(request, pk):
         for form in formset.deleted_forms:
             print('del',form.cleaned_data)
             obj = form.cleaned_data['id']
-            obj.delete()
+            obj.delete()   #this doesn't work if you try to delete a box the first time extracting from a source because the extract isn't created yet (it doesn't have an id, it is None)
 
         # save valid and non-empty forms
         if formset.is_valid():
