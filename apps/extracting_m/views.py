@@ -50,18 +50,6 @@ def source_extraction(request, pk):
         source = Source.objects.get(pk=pk)
         extracts = source.extracts.all()
 
-        #if you want to edit an existing entry, you have to give it that instance
-        # do this next time maybe, for now just delete if it fails QAing
-        try:
-            extract = Extract.objects.get(source=source.id)
-        except:
-            extract = None
-
-        if (extract):
-            form = ExtractFormSet(request.POST, instance=extract)
-        else:
-            form = ExtractFormSet(request.POST)
-
         # get data
         data = request.POST.copy()
         finish = request.POST.get('finish', 'no')
@@ -78,19 +66,13 @@ def source_extraction(request, pk):
                                  queryset=Extract.objects.filter(pk__in=extracts), # to compare with original instances which were changed
                                  )
 
-        # handle models marked for deletion
-        for form in formset.deleted_forms:
-            print('del',form.cleaned_data)
-            obj = form.cleaned_data['id']
-            obj.delete()   #this doesn't work if you try to delete a box the first time extracting from a source because the extract isn't created yet (it doesn't have an id, it is None)
-
         # save valid and non-empty forms
         if formset.is_valid():
             # register changed, new, and deleted objects (without saving to db)
             formset.save(commit=False)
 
             # manually save changed objects to db
-            for obj in formset.changed_objects:
+            for obj,changed_data in formset.changed_objects:
                 obj.current_status = 'EXTM'
                 obj.save()
 
@@ -103,7 +85,9 @@ def source_extraction(request, pk):
 
             # manually delete objects from db
             for obj in formset.deleted_objects:
-                obj.delete()
+                if obj is not None:
+                    # if you try to delete a box the first time extracting from a source then the extract isn't created yet and 'instance' will be None
+                    obj.delete()
 
         else:
             for err in formset.errors:
