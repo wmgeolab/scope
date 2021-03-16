@@ -52,15 +52,15 @@ def source_extraction(request, pk):
 
         #if you want to edit an existing entry, you have to give it that instance
         # do this next time maybe, for now just delete if it fails QAing
-        #try:
-        #    extract = Extract.objects.get(source=source.id)
-        #except:
-        #    extract = None
+        try:
+            extract = Extract.objects.get(source=source.id)
+        except:
+            extract = None
 
-        #if (extract):
-        #form = ExtractQAForm(request.POST, instance=extract)
-        #else:
-        #    form = ExtractQAForm(request.POST)
+        if (extract):
+            form = ExtractFormSet(request.POST, instance=extract)
+        else:
+            form = ExtractFormSet(request.POST)
 
         # get data
         data = request.POST.copy()

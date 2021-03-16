@@ -64,17 +64,8 @@ def extract_assess(request, pk):
     elif request.method == 'POST':
         extract = Extract.objects.get(pk=pk)
         source = Source.objects.get(id=extract.source.id)
-        #if you want to edit an existing entry, you have to give it that instance
-        #try:
-        #    extract = Extract.objects.get(extract=extract)
-        #except:
-        #    extract = None
 
-        #if (extract):
         form = ExtractQAForm(request.POST, instance=extract)
-        #else:
-        #    form = ExtractQAForm(request.POST)
-
 
         data = request.POST.copy()
         finish = request.POST.get('finish', 'no')
@@ -95,6 +86,15 @@ def extract_assess(request, pk):
             Activity.objects.filter(extract__in=Extract.objects.filter(source=extract.source.id)).delete() #any way to save this in another model or should we just completely delete it?
             source.current_status = 'SRCM'
             source.save()
-            Extract.objects.filter(source=extract.source.id).delete() #change this later to edit instead of delete. Requires checking for existing extract in the extraction/views.py
+            #Extract.objects.filter(source=extract.source.id).delete() #change this later to edit instead of delete. Requires checking for existing extract in the extraction/views.py
+            extracts = Extract.objects.filter(source=extract.source.id)
+            for obj in extracts:
+                print(obj)
+                print(obj.current_status)
+                obj.current_status = 'EXTM'
+                obj.save()
+            extract.current_status = 'EXTM'
+            extract.current_user = None
+            extract.save()
 
         return redirect('extract_list_qa')
