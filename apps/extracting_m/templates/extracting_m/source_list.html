@@ -11,17 +11,36 @@ Extracting - Manual
 </h2>
 
 
-{% if cont %}
-	<div style="width:100%">
+{% if messages %}
+	{% for message in messages %}
+		{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+			<div class="alert alert-danger" style="width:100%">
+				<p style="display:inline-block; width:100%">
+				Error! {{ message }}
+				</p>
+			</div>
+		{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+			<div class="alert alert-warning" style="width:100%">
+				<p style="display:inline-block; width:100%">
+				Warning: {{ message }}
+				</p>
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endif %}
+
+
+{% if continue_source %}
+	<div class="alert alert-primary" style="width:100%">
 		<p style="display:inline-block; width:74%">
 			You already have a source checked out: 
 		</p>
 		<p style="display:inline-block">
-			<a href="{% url 'source_checkout' pk=cont.pk %}" class="btn btn-primary" style="display:inline-block">
+			<a href="{% url 'source_extraction' pk=continue_source.pk %}" class="btn btn-primary" style="display:inline-block">
 			Continue Now
 			</a>
 			or
-			<a href="{% url 'source_release' pk=cont.pk %}" class="btn btn-warning" style="display:inline-block">
+			<a href="{% url 'source_release' pk=continue_source.pk %}" class="btn btn-warning" style="display:inline-block">
 			Release
 			</a>
 		</p>
@@ -54,7 +73,7 @@ Extracting - Manual
 			{% if source.current_user %}
 				<img height="40px" src="{{ source.current_user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%" title="{{ source.current_user.email|lower }}">
 			{% else %}
-				{% if not cont %}
+				{% if not continue_source %}
 					<a href="{% url 'source_checkout' pk=source.pk %}" class="btn btn-secondary">
 					Checkout
 					</a>
