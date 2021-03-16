@@ -17,6 +17,7 @@ Parsing - QA
         <th>Activity ID</th>
         <th>Extract ID</th>
         <th>Source ID</th>
+        <th>Extract Text</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -26,6 +27,7 @@ Parsing - QA
             <td>{{ activity.pk }}</td>
             <td>{{ activity.extract.pk }}</td>
             <td>{{ activity.extract.source.pk }}</td>
+            <td>{{ activity.extract.text }}</td>
             <td>{{ activity.current_status}}</td>
         </tr>
     {% endfor %}
