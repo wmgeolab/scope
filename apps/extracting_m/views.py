@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from sourcing_m.models import Source
 
@@ -15,15 +16,20 @@ def source_list(request):
     # get all sources
     sources = Source.objects.filter(current_status='SRCM') #filter(current_user = None)
 
-    # check if user is busy
-    error = user_is_busy(request.user, None)
-    if error:
-        continue_source = error['busy_with']
-    else:
+    # check if user is logged in or busy
+    if request.user.is_anonymous:
+        messages.warning(request, 'You need to login before performing a task.')
         continue_source = None
+    else:
+        error = user_is_busy(request.user, None)
+        if error:
+            continue_source = error['busy_with']
+        else:
+            continue_source = None
 
     return render(request, 'templates/extracting_m/source_list.html', {'sources':sources, 'continue_source':continue_source})
 
+@login_required
 def source_checkout(request, pk):
     source = Source.objects.get(pk=pk)
     
@@ -38,6 +44,7 @@ def source_checkout(request, pk):
     source.save()
     return redirect('source_extraction', pk)
 
+@login_required
 def source_release(request, pk):
     source = Source.objects.get(pk = pk)
     
@@ -52,6 +59,7 @@ def source_release(request, pk):
     source.save()
     return redirect('source_list')
 
+@login_required
 def source_extraction(request, pk):
     source = Source.objects.get(pk=pk)
 
