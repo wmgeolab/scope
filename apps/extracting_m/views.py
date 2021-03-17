@@ -21,7 +21,7 @@ def source_list(request):
         messages.warning(request, 'You need to login before performing a task.')
         continue_source = None
     else:
-        continue_source = user_is_busy(request.user, Source)
+        continue_source = user_is_busy(request.user, model=Source)
 
     return render(request, 'templates/extracting_m/source_list.html', {'sources':sources, 'continue_source':continue_source})
 

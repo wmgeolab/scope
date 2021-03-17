@@ -31,7 +31,7 @@ def extract_list(request):
         messages.warning(request, 'You need to login before performing a task.')
         continue_extract = None
     else:
-        continue_extract = user_is_busy(request.user, Extract)
+        continue_extract = user_is_busy(request.user, model=Extract)
 
     return render(request, 'templates/parsing_m/extract_list.html', {'extracts':extracts, 'continue_extract':continue_extract})
 
