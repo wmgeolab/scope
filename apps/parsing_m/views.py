@@ -102,3 +102,73 @@ def extract_parse(request, pk):
         else:
             print('save')
             return redirect('extract_parse', pk)
+
+
+# Put utility functions here
+
+def user_is_busy(user, extract):
+    # check if the user already has checked out another extract (ie different from a reference extract)
+    print('checking if user is busy')
+    try:
+        user_extract = Extract.objects.get(current_user=user)
+    except Extract.DoesNotExist:
+        user_extract = None
+    print(user_extract, extract)
+    if user_extract and user_extract != extract:
+        errormsg = {'type':'user_busy', 'busy_with':user_extract}
+        print(errormsg)
+        return errormsg
+
+def extract_is_busy(user, extract):
+    print('checking if extract is busy', user, extract, extract.current_user)
+    # check if someone else is currently working on this source
+    if extract.current_user and extract.current_user != user:
+        errormsg = {'type':'extract_busy', 'current_user':extract.current_user}
+        print(errormsg)
+        return errormsg
+
+def extract_needs_checkout(user, extract):
+    print('checking if extract needs checkout', user, extract, extract.current_user)
+    # check if the source needs to be checked out
+    if extract.current_user is None:
+        errormsg = {'type':'extract_needs_checkout'}
+        print(errormsg)
+        return errormsg
+
+def check_illegal_extract_modification(user, extract):
+    # do a number of checks to see if user is "illegally" trying to modify an extract
+    # returning the first encountered error
+    
+    # check
+    err = user_is_busy(user, extract)
+    if err:
+        msg = "You tried to modify an extract different than the one you already have checked out."
+        return msg
+
+    # check
+    err = extract_is_busy(user, extract)
+    if err:
+        msg = "You tried to modify an extract that is already checked out by {}. Please checkout a different extract.".format(err['current_user'])
+        return msg
+
+    # check
+    err = extract_needs_checkout(user, extract)
+    if err:
+        msg = "You tried to modify an extract that isn't checked out. Please checkout the extract first."
+        return msg
+
+def check_illegal_extract_checkout(user, extract):
+    # do a number of checks to see if user is "illegally" trying to checkout an extract
+    # returning the first encountered error
+    
+    # check
+    err = user_is_busy(user, extract)
+    if err:
+        msg = "You tried to checkout an extract different than the one you already have checked out."
+        return msg
+
+    # check
+    err = source_is_busy(user, extract)
+    if err:
+        msg = "You tried to checkout an extract that is already checked out by {}. Please checkout a different extract.".format(err['current_user'])
+        return msg
