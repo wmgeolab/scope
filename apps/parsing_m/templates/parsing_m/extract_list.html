@@ -12,7 +12,13 @@ Parsing - Manual
 
 {% if messages %}
 	{% for message in messages %}
-		{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+		{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+			<div class="alert alert-success" style="width:100%">
+				<p style="display:inline-block; width:100%">
+				Success: {{ message }}
+				</p>
+			</div>
+		{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
 			<div class="alert alert-danger" style="width:100%">
 				<p style="display:inline-block; width:100%">
 				Error: {{ message }}
@@ -58,6 +64,7 @@ Parsing - Manual
         <th>Extract ID</th>
         <th>Source ID</th>
         <th style="width:50%">Text</th>
+		<th>Activities</th>
         <th style="width:15%">Action</th>
       </tr>
     </thead>
@@ -67,6 +74,7 @@ Parsing - Manual
             <td>{{ extract.pk }}</td>
             <td>{{ extract.source.pk }}</td>
             <td>{{ extract.text }}</td>
+			<td>{{ extract.activities.count }}</td>
             <td>
             {% if extract.current_user %}
                 <img height="40px" src="{{ extract.current_user.socialaccount_set.all.0.get_avatar_url }}" style="border-radius:50%" title="{{ extract.current_user.email|lower }}">
