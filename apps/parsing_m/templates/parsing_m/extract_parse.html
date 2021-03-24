@@ -62,11 +62,13 @@
 
 		<h4>Extract:</h4>
 
-		<div style="display:inline-block; vertical-align:top; padding:10px">
-			<img src="https://image.flaticon.com/icons/png/512/9/9381.png" height="60px">
-		</div>
-
 		<table id="id_extract_info" style="display:inline-block">
+			<tr>
+				<td style="width:15%; vertical-align:top; padding:10px">
+					<img src="https://image.flaticon.com/icons/png/512/9/9381.png" height="60px">
+				</td>
+				<td style="vertical-align:top; padding:10px 0px">{{ extract.text }}</td>
+			</tr>
 			<tr>
 				<td style="width:15%">Extract ID: </td>
 				<td>{{ extract.pk }}</td>
@@ -78,10 +80,6 @@
 			<tr>
 				<td>Source URL: </td>
 				<td><a href="{{ extract.source.source_url }}" target="_blank">{{ extract.source.source_url }}</a></td>
-			</tr>
-			<tr>
-				<td style="vertical-align:top">Extract Text: </td>
-				<td>{{ extract.text }}</td>
 			</tr>
 		</table>
 	</div>
