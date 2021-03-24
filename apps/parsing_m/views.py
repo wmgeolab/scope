@@ -10,7 +10,7 @@ from sourcing_m.models import Source
 from extracting_m.models import Extract
 from .models import Activity
 
-from .forms import  ActivityForm
+from .forms import  ActivityFormSet
 
 
 # Create your views here.
@@ -74,44 +74,68 @@ def extract_parse(request, pk):
         return redirect('extract_list')
     
     if request.method == 'GET':
-        #check if the activity has been created before, or if this first time
-        try:
-            activity = Activity.objects.get(extract=extract)
-        except:
-            activity = None
-
-        if (activity):
-            form = ActivityForm(instance=activity)
-        else:
-            form = ActivityForm(initial={'extract':pk})
-
-        context = {'extract':extract,'form':form}
-        return render(request, 'templates/parsing_m/extract_parse.html', context)
+        activities = extract.activities.all()
+        formset = ActivityFormSet(queryset=Activity.objects.filter(pk__in=activities),
+                                 initial=[{'extract':pk}]
+                                 )
+        print(formset.__dict__)
+        return render(request, 'templates/parsing_m/extract_parse.html', {'extract':extract,
+                                                                             'formset':formset,}
+                      )
 
     elif request.method == 'POST':
-        #if you want to edit an existing entry, you have to give it that instance
-        try:
-            activity = Activity.objects.get(extract=extract)
-        except:
-            activity = None
+        activities = extract.activities.all()
 
-        if (activity):
-            form = ActivityForm(request.POST, instance=activity)
-        else:
-            form = ActivityForm(request.POST)
-
+        # get data
         data = request.POST.copy()
         finish = request.POST.get('finish', 'no')
         print(data)
 
-        if form.is_valid():
-            form.save()
-        else:
-            print(form.errors)
+        # create form
+        formset = ActivityFormSet(data,
+                                 queryset=Activity.objects.filter(pk__in=activities), # to compare with original instances which were changed
+                                 )
 
+        # save valid and non-empty forms
+        if formset.is_valid():            
+            # register changed, new, and deleted objects (without saving to db)
+            formset.save(commit=False)
+
+            # manually save changed objects to db
+            for obj,changed_data in formset.changed_objects:
+                #print('changed',obj.__dict__,changed_data)
+                obj.extract = extract
+                obj.current_status = 'PARM'
+                obj.save()
+
+            # manually save new objects to db
+            for obj in formset.new_objects:
+                #print('new',obj.__dict__)
+                obj.extract = extract
+                obj.current_status = 'PARM'
+                obj.save()
+
+            # manually delete objects from db
+            for obj in formset.deleted_objects:
+                if obj is not None:
+                    # if you try to delete a box the first time extracting from a source then the extract isn't created yet and 'instance' will be None
+                    obj.delete()
+
+        else:
+            # return to form page showing the errors
+            msg = 'One or more invalid field inputs.'
+            messages.error(request, msg)
+            return render(request, 'templates/parsing_m/extract_parse.html', {'extract':extract,
+                                                                             'formset':formset,}
+                      )
+
+        # what to do after saving the data
         print(finish)
         if finish == 'yes':
             print('finish')
+            # log to messages
+            msg = 'Parsing submitted.'
+            messages.success(request, msg)
             # wait until we've revisited how things move between modules. I think the source om=mo
             extract.current_status = 'PARM'
             extract.current_user = None
@@ -123,6 +147,9 @@ def extract_parse(request, pk):
             return redirect('extract_list')
         else:
             print('save')
+            # log to messages
+            msg = 'Parsing saved.'
+            messages.success(request, msg)
             return redirect('extract_parse', pk)
 
 

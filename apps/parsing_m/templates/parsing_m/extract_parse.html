@@ -14,6 +14,8 @@
 
 {% csrf_token %}
 
+{{ formset.management_form }}
+
 <div>
 	<h2>
 	Checking out extract for parsing
@@ -29,32 +31,56 @@
 		</button>
 	</div>
 	</h2>
-
+	
 	<hr>
+
+	{% if messages %}
+		{% for message in messages %}
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+				<div class="alert alert-success" style="width:100%">
+					<p style="display:inline-block; width:100%">
+					Success: {{ message }}
+					</p>
+				</div>
+			{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+				<div class="alert alert-danger" style="width:100%">
+					<p style="display:inline-block; width:100%">
+					Error: {{ message }}
+					</p>
+				</div>
+			{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+				<div class="alert alert-warning" style="width:100%">
+					<p style="display:inline-block; width:100%">
+					Warning: {{ message }}
+					</p>
+				</div>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 
 	<div id="id_extract_viewer" style="width:100%">
 
 		<h4>Extract:</h4>
 
 		<div style="display:inline-block; vertical-align:top; padding:10px">
-			<img src="https://www.freeiconspng.com/thumbs/document-icon/document-icon-19.png" height="60px">
+			<img src="https://image.flaticon.com/icons/png/512/9/9381.png" height="60px">
 		</div>
 
 		<table id="id_extract_info" style="display:inline-block">
 			<tr>
-				<td>Extract ID: </td>
+				<td style="width:15%">Extract ID: </td>
 				<td>{{ extract.pk }}</td>
 			</tr>
 			<tr>
 				<td>Source ID: </td>
 				<td>{{ extract.source.pk }}</td>
 			</tr>
-			<tr>				
+			<tr>
 				<td>Source URL: </td>
 				<td><a href="{{ extract.source.source_url }}" target="_blank">{{ extract.source.source_url }}</a></td>
 			</tr>
 			<tr>
-				<td>Extract Text: </td>
+				<td style="vertical-align:top">Extract Text: </td>
 				<td>{{ extract.text }}</td>
 			</tr>
 		</table>
@@ -62,130 +88,306 @@
 
 	<hr>
 
-	<div id="id_parsing_viewer" class="form-group" style="width:100%;">
+	<div id="id_parsing_viewer" style="width:100%; vertical-align:top">
 
-		<table>
+			<h4>Activities ({{ formset.queryset.count }}):</h4>
 
-		<tr>
-			<td>
-		    	{{ form.pk }}
-			</td>
-			<td>
-				{{ form.extract }}
-			</td>
-		</tr>
-	
-		<tr>
-			<td>
-		    	{{ form.activity_code.label_tag }} *
-			</td>
-			<td>
-				{{ form.activity_code }}
-			</td>
-		</tr>
+			<div id="id_parsing_errors" style="color:red">
+				{{ formset.non_form_errors }}
+			</div>
 
-		<tr>
-			<td>
-		    	{{ form.activity_subcode.label_tag }} *
-			</td>
-			<td>
-				{{ form.activity_subcode }}
-			</td>
-		</tr>
+			<div id="id_activities_container" class="form-group">
+				
+				<table id="id_table_of_activities" style="margin-left:2%; width:98%">
+				
+				{% for form in formset %}
+				
+					<tr class="formsetform" style="vertical-align:top">
+					
+						{% for hidden in form.hidden_fields %}
+							{{ hidden }}
+						{% endfor %}
+						
+						<td>
+							<div style="display:table">
+							<h2 style="display:table-cell; vertical-align:middle">{{ forloop.counter }}</h2>
+							<img src="https://static.thenounproject.com/png/1899450-200.png" height="35px" style="display:table-cell; vertical-align:middle; margin:20px 15px">
+							</div>
+						</td>
+						
+						<td>
+				
+							<table>
+							
+							<tr>
+								<td>
+									<hr>
+								</td>
+								<td>
+								</td>
+							</tr>
+						
+							<tr>
+								<td>
+									{{ form.activity_code.label_tag }} *
+								</td>
+								<td>
+									{{ form.activity_code }}
+								</td>
+							</tr>
+							
+							{% if form.activity_code.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.activity_code.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.actor_code.label_tag }} *
-			</td>
-			<td>
-				{{ form.actor_code }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.activity_subcode.label_tag }} *
+								</td>
+								<td>
+									{{ form.activity_subcode }}
+								</td>
+							</tr>
+							
+							{% if form.activity_subcode.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.activity_subcode.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.actor_name.label_tag }} *
-			</td>
-			<td>
-				{{ form.actor_name }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.actor_code.label_tag }} *
+								</td>
+								<td>
+									{{ form.actor_code }}
+								</td>
+							</tr>
+							
+							{% if form.actor_code.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.actor_code.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.actor_rolecode.label_tag }} *
-			</td>
-			<td>
-				{{ form.actor_rolecode }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.actor_name.label_tag }} *
+								</td>
+								<td>
+									{{ form.actor_name }}
+								</td>
+							</tr>
+							
+							{% if form.actor_name.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.actor_name.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.activity_date.label_tag }} *
-			</td>
-			<td>
-				<input type = 'date' name = 'activity_date'>
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.actor_rolecode.label_tag }} *
+								</td>
+								<td>
+									{{ form.actor_rolecode }}
+								</td>
+							</tr>
+							
+							{% if form.actor_rolecode.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.actor_rolecode.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.status_code.label_tag }} *
-			</td>
-			<td>
-				{{ form.status_code }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.activity_date.label_tag }} *
+								</td>
+								<td>
+									{{ form.activity_date }}
+								</td>
+							</tr>
+							
+							{% if form.activity_date.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.activity_date.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.date_code.label_tag }} *
-			</td>
-			<td>
-				{{ form.date_code }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.status_code.label_tag }} *
+								</td>
+								<td>
+									{{ form.status_code }}
+								</td>
+							</tr>
+							
+							{% if form.status_code.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.status_code.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.financial_code.label_tag }}
-			</td>
-			<td>
-				{{ form.financial_code }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.date_code.label_tag }} *
+								</td>
+								<td>
+									{{ form.date_code }}
+								</td>
+							</tr>
+							
+							{% if form.date_code.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.date_code.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	US {{ form.dollar_amount.label_tag }}
-			</td>
-			<td>
-				{{ form.dollar_amount }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.financial_code.label_tag }}
+								</td>
+								<td>
+									{{ form.financial_code }}
+								</td>
+							</tr>
+							
+							{% if form.financial_code.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.financial_code.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.locations.label_tag }}
-			</td>
-			<td>
-				{{ form.locations }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									US {{ form.dollar_amount.label_tag }}
+								</td>
+								<td>
+									{{ form.dollar_amount }}
+								</td>
+							</tr>
+							
+							{% if form.dollar_amount.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.dollar_amount.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		<tr>
-			<td>
-		    	{{ form.parser_notes.label_tag }}
-			</td>
-			<td>
-				{{ form.parser_notes }}
-			</td>
-		</tr>
+							<tr>
+								<td>
+									{{ form.locations.label_tag }}
+								</td>
+								<td>
+									{{ form.locations }}
+								</td>
+							</tr>
+							
+							{% if form.locations.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.locations.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
 
-		</table>
+							<tr>
+								<td>
+									{{ form.parser_notes.label_tag }}
+								</td>
+								<td>
+									{{ form.parser_notes }}
+								</td>
+							</tr>
+							
+							{% if form.parser_notes.errors %}
+							<tr>
+								<td></td>
+								<td>
+									<div class="alert alert-danger">{{ form.parser_notes.errors }}</div>
+								</td>
+							</tr>
+							{% endif %}
+
+							</table>
+						</td>
+						
+						<td>
+							{{ form.DELETE.label_tag }} {{ form.DELETE }}
+						</td>
+						
+					</tr>
+					
+				{% endfor %}
+				</table>
+			</div>
+			
+			<div style="text-align:center">
+				<button id="id_add_form" class="btn btn-secondary">+</button>
+			</div>
+
+			<script>
+				let form = document.querySelectorAll(".formsetform")
+				let container = document.querySelector("#id_table_of_activities")
+				let addButton = document.querySelector("#id_add_form")
+				//let addFormBefore = document.querySelector("#id_add_form_here")
+				let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+				let formNum = form.length-1
+				addButton.addEventListener('click', addForm)
+
+				function addForm(e){
+					e.preventDefault()
+
+					let newForm = form[form.length-1].cloneNode(true)
+					let formRegex = RegExp(`form-(\\d){1}-`,'g')
+
+					formNum++
+					newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+					//container.insertBefore(newForm, null); //, addFormBefore)
+					container.appendChild(newForm);
+					//newTextArea = document.getElementById('id_form-'+formNum+'-text');
+					//newTextArea.textContent = '';
+
+					totalForms.setAttribute('value', `${formNum+1}`)
+				}
+			</script>
+			
 	</div>
-</div>
 </form>
 
 {% endblock %}
