@@ -8,8 +8,6 @@ from domain.models import ActivityCode, ActivitySubcode, ActorCode, ActorRole, D
 # Create your models here.
 
 class Activity(models.Model):
-    #activity_id = models.AutoField(primary_key=True)
-    #actor_code may need to be reassessed in the future
     actor_code = models.ForeignKey(ActorCode, related_name='activities', on_delete=models.PROTECT)
     actor_name = models.CharField(max_length=255)
     actor_rolecode = models.ForeignKey(ActorRole, related_name='activities', on_delete=models.PROTECT)
@@ -27,3 +25,14 @@ class Activity(models.Model):
     extract = models.ForeignKey(Extract, related_name='activities', on_delete=models.PROTECT)
     current_user = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True)
     current_status = models.CharField(max_length=10, blank=True, choices=[('PARM','parsed_m'),('PARQ','parsed_q')])
+
+class Actor(models.Model):
+    # each Actor is just a specific mention of an actor and is only unique to each Activity
+    # so there may be several Actors with the same values spread across multiple activities
+    activity = models.ForeignKey(Activity, related_name='actors', on_delete=models.PROTECT)
+    actor_code = models.ForeignKey(ActorCode, related_name='actors', on_delete=models.PROTECT)
+    actor_name = models.CharField(max_length=255)
+    actor_rolecode = models.ForeignKey(ActorRole, related_name='actors', on_delete=models.PROTECT)
+
+
+    
