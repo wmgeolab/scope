@@ -10,7 +10,7 @@ from sourcing_m.models import Source
 from extracting_m.models import Extract
 from .models import Activity
 
-from .forms import  ActivityFormSet
+from .forms import  ActivityFormSet, ActivityActorFormSet
 
 
 # Create your views here.
@@ -75,12 +75,19 @@ def extract_parse(request, pk):
     
     if request.method == 'GET':
         activities = extract.activities.all()
+
+        # create formset
         formset = ActivityFormSet(queryset=Activity.objects.filter(pk__in=activities),
                                  initial=[{'extract':pk}]
                                  )
-        print(formset.__dict__)
+
+        # create actor formsets (gets attached to each form as .actor_formset)
+        for form in formset:
+            form.init_actor_formset()
+
         return render(request, 'templates/parsing_m/extract_parse.html', {'extract':extract,
-                                                                             'formset':formset,}
+                                                                          'formset':formset,
+                                                                          }
                       )
 
     elif request.method == 'POST':
@@ -91,13 +98,30 @@ def extract_parse(request, pk):
         finish = request.POST.get('finish', 'no')
         print(data)
 
-        # create form
+        # create formset
         formset = ActivityFormSet(data,
                                  queryset=Activity.objects.filter(pk__in=activities), # to compare with original instances which were changed
                                  )
 
+        # create actor formsets (gets attached to each form as .actor_formset)
+        for form in formset:
+            form.init_actor_formset(data)
+
+        # check that entire form is valid, including nested actor forms
+        actor_formsets_are_valid = all(form.actor_formset.is_valid()
+                                       for form in formset)
+        is_valid = formset.is_valid() and actor_formsets_are_valid
+
         # save valid and non-empty forms
-        if formset.is_valid():            
+        if is_valid:
+            # NOTE:
+            # usually saving the formset should be as simple as calling formset.save().
+            # the reason we do it more complicated and manually save the objects below
+            # ...is because we purposefully left out the required extract id from the form
+            # ...which would then fail to validate, so we have to manually add the extract before saving.
+            # and the reason we left out the extract id is that it lets the form automatically ignore empty forms when saving.
+            # we should probably make this cleaner at some point, but it works for now.
+            
             # register changed, new, and deleted objects (without saving to db)
             formset.save(commit=False)
 
@@ -120,6 +144,32 @@ def extract_parse(request, pk):
                 if obj is not None:
                     # if you try to delete a box the first time extracting from a source then the extract isn't created yet and 'instance' will be None
                     obj.delete()
+
+            # then do the same for nested actor forms
+            for form in formset:
+                # get form's saved instance
+                activity = form.instance
+                
+                # register changed, new, and deleted objects (without saving to db)
+                form.actor_formset.save(commit=False)
+
+                # manually save changed objects to db
+                for obj,changed_data in form.actor_formset.changed_objects:
+                    #print('changed',obj.__dict__,changed_data)
+                    obj.activity = activity
+                    obj.save()
+
+                # manually save new objects to db
+                for obj in form.actor_formset.new_objects:
+                    #print('new',obj.__dict__)
+                    obj.activity = activity
+                    obj.save()
+
+                # manually delete objects from db
+                for obj in form.actor_formset.deleted_objects:
+                    if obj is not None:
+                        # if you try to delete a box the first time extracting from a source then the extract isn't created yet and 'instance' will be None
+                        obj.delete()
 
         else:
             # return to form page showing the errors

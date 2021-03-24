@@ -108,7 +108,7 @@
 						
 						<td>
 							<div style="display:table">
-							<h2 style="display:table-cell; vertical-align:middle">{{ forloop.counter }}</h2>
+							<h2 class="formset_title" style="display:table-cell; vertical-align:middle">{{ forloop.counter }}</h2>
 							<img src="https://static.thenounproject.com/png/1899450-200.png" height="35px" style="display:table-cell; vertical-align:middle; margin:20px 15px">
 							</div>
 						</td>
@@ -118,7 +118,7 @@
 							<table>
 							
 							<tr>
-								<td>
+								<td style="width:20%">
 									<hr>
 								</td>
 								<td>
@@ -160,60 +160,57 @@
 								</td>
 							</tr>
 							{% endif %}
-
-							<tr>
-								<td>
-									{{ form.actor_code.label_tag }} *
-								</td>
-								<td>
-									{{ form.actor_code }}
-								</td>
-							</tr>
 							
-							{% if form.actor_code.errors %}
 							<tr>
-								<td></td>
+								<td style="vertical-align:top">
+									Actor(s): *
+								</td>
 								<td>
-									<div class="alert alert-danger">{{ form.actor_code.errors }}</div>
+									<!--necessary stuff for the actor formset-->
+									{{ form.actor_formset.management_form }}
+									
+									<!--table containing rows for each actor formset-->
+									<table id="id_table_of_actors">
+									<tr>
+									<td>
+									{% for actorform in form.actor_formset %}
+										<table class="actorformsetform">
+										<!--first hidden fields-->
+										{% for field in actorform.hidden_fields %}
+											{{ field }}
+										{% endfor %}
+										<!--one row for field labels on top-->
+										<tr>
+										{% for field in actorform.visible_fields %}
+											<td>{{ field.label_tag }}</td>
+										{% endfor %}
+										</tr>
+										<!--one row for field inputs-->
+										<tr>
+											{% for field in actorform.visible_fields %}
+												<td>{{ field }}</td>
+											{% endfor %}
+										</tr>
+										<!--one more row for form errors-->
+										<tr>
+											{% for field in actorform.visible_fields %}
+												<td style="vertical-align:top">
+												{% if field.errors %}
+													<div class="alert alert-danger">{{ field.errors }}</div>
+												{% endif %}
+												</td>
+											{% endfor %}
+										</tr>
+										</table>
+									{% endfor %}
+									</td>
+									</tr>
+									</table>
+									
+									<br>
+									
 								</td>
 							</tr>
-							{% endif %}
-
-							<tr>
-								<td>
-									{{ form.actor_name.label_tag }} *
-								</td>
-								<td>
-									{{ form.actor_name }}
-								</td>
-							</tr>
-							
-							{% if form.actor_name.errors %}
-							<tr>
-								<td></td>
-								<td>
-									<div class="alert alert-danger">{{ form.actor_name.errors }}</div>
-								</td>
-							</tr>
-							{% endif %}
-
-							<tr>
-								<td>
-									{{ form.actor_rolecode.label_tag }} *
-								</td>
-								<td>
-									{{ form.actor_rolecode }}
-								</td>
-							</tr>
-							
-							{% if form.actor_rolecode.errors %}
-							<tr>
-								<td></td>
-								<td>
-									<div class="alert alert-danger">{{ form.actor_rolecode.errors }}</div>
-								</td>
-							</tr>
-							{% endif %}
 
 							<tr>
 								<td>
@@ -354,6 +351,8 @@
 				</table>
 			</div>
 			
+			<hr>
+			
 			<div style="text-align:center">
 				<button id="id_add_form" class="btn btn-secondary">+</button>
 			</div>
@@ -376,6 +375,9 @@
 
 					formNum++
 					newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+					let formTitle = newForm.getElementsByClassName('formset_title')[0];
+					formTitle.textContent = `${formNum+1}`;
+					
 					//container.insertBefore(newForm, null); //, addFormBefore)
 					container.appendChild(newForm);
 					//newTextArea = document.getElementById('id_form-'+formNum+'-text');
