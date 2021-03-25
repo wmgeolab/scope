@@ -171,6 +171,9 @@ def extract_parse(request, pk):
                         # if you try to delete a box the first time extracting from a source then the extract isn't created yet and 'instance' will be None
                         obj.delete()
 
+            # finally add activity_subcodes
+            formset.save_m2m()
+
         else:
             # return to form page showing the errors
             msg = 'One or more invalid field inputs.'

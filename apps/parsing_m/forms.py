@@ -16,6 +16,7 @@ class ActivityForm(ModelForm):
         widgets = {#'pk':forms.HiddenInput(),
                    #'extract':forms.HiddenInput(),
                    #'current_user':HiddenInput(),
+                   #'activity_subcodes':forms.CheckboxSelectMultiple(),
                    'activity_date':NativeDateInput(format='%Y-%m-%d'),
                    }
 
@@ -69,9 +70,13 @@ class ActivityForm(ModelForm):
                 if not nonempty_actor_forms:
                     msg = 'At least one actor required.'
                     self.add_error(None, msg)
+
+                # check that at least one activity subcode
+                data = self.clean()
+                related_subcodes = data.get('activity_subcodes') 
                 
                 # cache final validation
-                self._is_valid = (valid and bool(nonempty_actor_forms))
+                self._is_valid = (valid and bool(nonempty_actor_forms) and bool(related_subcodes))
 
         return self._is_valid
         

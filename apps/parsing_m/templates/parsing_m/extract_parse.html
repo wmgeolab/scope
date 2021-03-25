@@ -142,19 +142,19 @@
 							</tr>
 
 							<tr>
-								<td>
-									{{ form.activity_subcode.label_tag }} *
+								<td style="vertical-align:top">
+									Activity subcode(s): *
 								</td>
 								<td>
-									{{ form.activity_subcode }}
+									{{ form.activity_subcodes }}
 								</td>
 							</tr>
 							
-							{% if form.activity_subcode.errors %}
+							{% if form.activity_subcodes.errors %}
 							<tr>
 								<td></td>
 								<td>
-									<div class="alert alert-danger">{{ form.activity_subcode.errors }}</div>
+									<div class="alert alert-danger">{{ form.activity_subcodes.errors }}</div>
 								</td>
 							</tr>
 							{% endif %}

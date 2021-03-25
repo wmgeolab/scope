@@ -12,8 +12,9 @@ class Activity(models.Model):
     actor_code = models.ForeignKey(ActorCode, related_name='activities', on_delete=models.PROTECT, blank=True, null=True)
     actor_name = models.CharField(max_length=255, blank=True, null=True)
     actor_rolecode = models.ForeignKey(ActorRole, related_name='activities', on_delete=models.PROTECT, blank=True, null=True)
+    activity_subcode = models.ForeignKey(ActivitySubcode, on_delete=models.PROTECT, blank=True, null=True)
     ###
-    activity_subcode = models.ForeignKey(ActivitySubcode, related_name='activities', on_delete=models.PROTECT)
+    activity_subcodes = models.ManyToManyField(ActivitySubcode, related_name='activities')
     activity_date = models.DateField()
     fuzzy_date = models.CharField(max_length=30, blank=True, null=True)
     date_code = models.ForeignKey(DateCode, related_name='activities', on_delete=models.PROTECT)
