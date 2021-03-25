@@ -22,10 +22,10 @@ class ActivityCode(models.Model):
 class ActivitySubcode(models.Model):
     activity_subcode = models.CharField(max_length=30, primary_key=True)
     activity_subdesc = models.CharField(max_length=255)
-    activity_code = models.ForeignKey('ActivityCode', on_delete=models.PROTECT)
+    activity_code = models.ForeignKey('ActivityCode', related_name='activity_subcodes', on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{} - {}'.format(self.activity_subcode, self.activity_subdesc)
+        return '{} - {} - {}'.format(self.activity_subcode, self.activity_code.activity_desc, self.activity_subdesc)
 
 class ActorCode(models.Model):
     actor_code = models.CharField(max_length=10, primary_key=True)
