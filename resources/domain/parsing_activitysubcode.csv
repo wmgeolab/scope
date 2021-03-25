@@ -1,5 +1,5 @@
 activity_subcode,activity_subdesc,activity_code
-A_1000,Vague,A_1
+A_1000,General,A_1
 A_1001,Agriculture & Non-Emergency Food,A_1
 A_1002,Climate & Environment,A_1
 A_1003,Education,A_1
@@ -13,7 +13,8 @@ A_1010,Information and Communication Technology,A_1
 A_1011,"Public, Commercial, & Connective Infrastructure",A_1
 A_1012,Tourism,A_1
 A_1013,"Water, Sanitation, & Hygiene",A_1
-A_2000,Vague,A_2
+A_1999,Vague,A_1
+A_2000,General,A_2
 A_2001,Firearms & Weapons,A_2
 A_2002,"Personnel, Training, & Support",A_2
 A_2003,Military Base,A_2
@@ -22,15 +23,19 @@ A_2005,Defense,A_2
 A_2006,Terrorist Attack,A_2
 A_2007,Nuclear Power,A_2
 A_2008,Coup & Revolution,A_2
-A_3000,Vague,A_3
+A_2999,Vague,A_2
+A_3000,General,A_3
 A_3001,Treaty,A_3
 A_3002,Conference,A_3
 A_3003,Cultural Exchange,A_3
-A_4000,Vague,A_4
+A_3999,Vague,A_3
+A_4000,General,A_4
 A_4001,"Trade Deal, Financial Settlements, & Other Exchanges and Agreements",A_4
 A_4002,Natural Resources,A_4
-A_5000,Vague,A_5
+A_4999,Vague,A_4
+A_5000,General,A_5
 A_5001,Traditional Media,A_5
 A_5002,"Propaganda, Misinformation, or Disinformation",A_5
 A_5003,Censorship & Other Acts Against Freedom of Information,A_5
+A_5999,Vague,A_5
 U_9999,Does not fit the current coding scheme,U_9999
