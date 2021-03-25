@@ -4,8 +4,10 @@ from django.forms import ModelForm, HiddenInput, Textarea
 from domain.models import ActivityCode, ActivitySubcode, ActorCode, ActorRole, DateCode, StatusCode, FinancialCode
 from .models import Activity, Actor
 
+
 class NativeDateInput(forms.DateInput):
     input_type = 'date'
+
 
 class ActivityForm(ModelForm):
     class Meta:
@@ -37,6 +39,42 @@ class ActivityForm(ModelForm):
             self.actor_formset = actor_formset
 
         return self.actor_formset
+
+    def is_empty(self):
+        data = self.clean()
+        if not data:
+            return True
+
+    def is_valid(self):
+        # the usual form validation
+        valid = super().is_valid()
+
+        # additional cached checks
+        if not hasattr(self, '_is_valid'):
+            
+            if self.is_empty():
+                # empty form, no additional checks needed
+                self._is_valid = valid
+                
+            else:
+                # check that at least one actor in actorformset
+                def is_empty(form):
+                    data = form.clean()
+                    if not data or data['DELETE']:
+                        return True
+                nonempty_actor_forms = [actorform for actorform in self.actor_formset
+                                        if not is_empty(actorform)]
+
+                # add error if not
+                if not nonempty_actor_forms:
+                    msg = 'At least one actor required.'
+                    self.add_error(None, msg)
+                
+                # cache final validation
+                self._is_valid = (valid and bool(nonempty_actor_forms))
+
+        return self._is_valid
+        
 
 class ActorForm(ModelForm):
     class Meta:

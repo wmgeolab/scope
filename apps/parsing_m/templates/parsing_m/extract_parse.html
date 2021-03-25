@@ -101,10 +101,6 @@
 				{% for form in formset %}
 				
 					<tr class="formsetform" style="vertical-align:top">
-					
-						{% for hidden in form.hidden_fields %}
-							{{ hidden }}
-						{% endfor %}
 						
 						<td>
 							<div style="display:table">
@@ -123,6 +119,26 @@
 								</td>
 								<td>
 								</td>
+							</tr>
+							
+							<!--first hidden fields-->
+							<tr>
+							<td></td>
+							<td>
+							{% for hidden in form.hidden_fields %}
+								{{ hidden }}
+							{% endfor %}
+							</td>
+							</tr>
+							
+							<!--show non_field_errors-->
+							<tr>
+							<td></td>
+							<td>
+							{% if form.non_field_errors %}
+								<div class="alert alert-danger">{{ form.non_field_errors }}</div>
+							{% endif %}
+							</td>
 							</tr>
 						
 							<tr>
