@@ -4,9 +4,9 @@ from sourcing_m.models import Source
 
 from extracting_m.models import Extract
 
-from parsing_m.models import Activity, Actor
+from parsing_m.models import Activity
 
-from .forms import ActivityQAForm, ActorQAForm
+from .forms import ActivityQAForm
 
 
 # Create your views here.
@@ -52,12 +52,8 @@ def activity_release_qa(request, pk):
 def activity_assess(request, pk):
     if request.method == 'GET':
         activity = Activity.objects.get(pk=pk)
-        actor = Actor.objects.get(activity=pk)
 
-        activityform = ActivityQAForm(initial={'activity':pk})
-        actorform = ActorQAForm(initial={'activity':pk})
-
-        context = {'activity':activity,'activityform':activityform,'actor':actor,'actorform':actorform}
+        context = {'activity':activity}
         return render(request, 'templates/parsing_qa/activity_qa.html', context)
 
     elif request.method == 'POST':

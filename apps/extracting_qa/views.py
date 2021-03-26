@@ -56,9 +56,7 @@ def extract_assess(request, pk):
     if request.method == 'GET':
         extract = Extract.objects.get(pk=pk)
 
-        form = ExtractQAForm(initial={'extract':pk})
-
-        context = {'extract':extract,'form':form}
+        context = {'extract':extract}
         return render(request, 'templates/extracting_qa/extract_qa.html', context)
 
     elif request.method == 'POST':

@@ -4,4 +4,4 @@ from extracting_m.models import Extract
 
 from users.models import User
 
-from parsing_m.models import Activity, Actor
+from parsing_m.models import Activity

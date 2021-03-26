@@ -75,15 +75,15 @@ Parsing - QA
             </tr>
             <tr>
                 <td>Actor Code: </td>
-                <td>{% for actor_code in actor.actor_code.all %}{{ actor_code }}<br/>{% endfor %}</td>
+                <td>{% for actor in activity.actors.all %}{{ actor.actor_code }}<br/>{% endfor %}</td>
             </tr>
             <tr>
                 <td>Actor Name: </td>
-                <td>{{ activity.actor_name }}</td>
+                <td>{% for actor in activity.actors.all %}{{ actor.actor_name }}<br/>{% endfor %}</td>
             </tr>
             <tr>
                 <td>Actor Role: </td>
-                <td>{{ activity.actor_rolecode }}</td>
+                <td>{% for actor in activity.actors.all %}{{ actor.actor_rolecode }}<br/>{% endfor %}</td>
             </tr>
             <tr>
                 <td>Activity Date: </td>

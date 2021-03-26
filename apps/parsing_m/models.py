@@ -8,12 +8,6 @@ from domain.models import ActivityCode, ActivitySubcode, ActorCode, ActorRole, D
 # Create your models here.
 
 class Activity(models.Model):
-    # these will be deleted later on
-    actor_code = models.ForeignKey(ActorCode, related_name='activities', on_delete=models.PROTECT, blank=True, null=True)
-    actor_name = models.CharField(max_length=255, blank=True, null=True)
-    actor_rolecode = models.ForeignKey(ActorRole, related_name='activities', on_delete=models.PROTECT, blank=True, null=True)
-    activity_subcode = models.ForeignKey(ActivitySubcode, on_delete=models.PROTECT, blank=True, null=True)
-    ###
     activity_subcodes = models.ManyToManyField(ActivitySubcode, related_name='activities')
     activity_date = models.DateField()
     fuzzy_date = models.CharField(max_length=30, blank=True, null=True)
