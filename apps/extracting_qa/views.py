@@ -16,7 +16,7 @@ def home(request):
 
 def extract_list_qa(request):
     # get all extracts
-    extracts = Extract.objects.filter(source__current_status="EXTM", current_status="EXTM")
+    extracts = Extract.objects.filter(current_status="EXTM")
 
     # check if user already has checked out a source
     try:

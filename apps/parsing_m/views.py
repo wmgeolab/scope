@@ -129,14 +129,14 @@ def extract_parse(request, pk):
             for obj,changed_data in formset.changed_objects:
                 #print('changed',obj.__dict__,changed_data)
                 obj.extract = extract
-                obj.current_status = 'PARM'
+                #obj.current_status = 'PARM'
                 obj.save()
 
             # manually save new objects to db
             for obj in formset.new_objects:
                 #print('new',obj.__dict__)
                 obj.extract = extract
-                obj.current_status = 'PARM'
+                #obj.current_status = 'PARM'
                 obj.save()
 
             # manually delete objects from db
@@ -193,10 +193,11 @@ def extract_parse(request, pk):
             extract.current_status = 'PARM'
             extract.current_user = None
             extract.save()
-            activity = Activity.objects.get(extract=extract)
-            activity.current_status = 'PARM'
-            activity.current_user = None
-            activity.save()
+            activity = Activity.objects.filter(extract=extract)
+            for obj in activity:
+                obj.current_status = 'PARM'
+                obj.current_user = None
+                obj.save()
             return redirect('extract_list')
         else:
             print('save')

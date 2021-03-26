@@ -70,16 +70,12 @@ Parsing - QA
                 <td>{{ activity.extract.text }}</td>
             </tr>
             <tr>
-                <td>Activity Code: </td>
-                <td>{{ activity.activity_code }}</td>
-            </tr>
-            <tr>
                 <td>Activity Subcode: </td>
-                <td>{{ activity.activity_subcode }}</td>
+                <td>{% for activity_subcode in activity.activity_subcodes.all %}{{ activity_subcode }}<br/>{% endfor %}</td>
             </tr>
             <tr>
                 <td>Actor Code: </td>
-                <td>{{ activity.actor_code }}</td>
+                <td>{% for actor_code in actor.actor_code.all %}{{ actor_code }}<br/>{% endfor %}</td>
             </tr>
             <tr>
                 <td>Actor Name: </td>

@@ -4,9 +4,9 @@ from sourcing_m.models import Source
 
 from extracting_m.models import Extract
 
-from parsing_m.models import Activity
+from parsing_m.models import Activity, Actor
 
-from .forms import ActivityQAForm
+from .forms import ActivityQAForm, ActorQAForm
 
 
 # Create your views here.
@@ -15,7 +15,7 @@ def home(request):
 
 def activity_list_qa(request):
     # get all activities
-    activities = Activity.objects.filter(extract__current_status="PARM", current_status="PARM")
+    activities = Activity.objects.filter(current_status="PARM")
 
     # check if user already has checked out a source
     try:
@@ -52,10 +52,12 @@ def activity_release_qa(request, pk):
 def activity_assess(request, pk):
     if request.method == 'GET':
         activity = Activity.objects.get(pk=pk)
+        actor = Actor.objects.get(activity=pk)
 
-        form = ActivityQAForm(initial={'activity':pk})
+        activityform = ActivityQAForm(initial={'activity':pk})
+        actorform = ActorQAForm(initial={'activity':pk})
 
-        context = {'activity':activity,'form':form}
+        context = {'activity':activity,'activityform':activityform,'actor':actor,'actorform':actorform}
         return render(request, 'templates/parsing_qa/activity_qa.html', context)
 
     elif request.method == 'POST':
