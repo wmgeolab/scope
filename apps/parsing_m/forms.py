@@ -22,6 +22,14 @@ class ActivityForm(ModelForm):
                    'activity_date':NativeDateInput(format='%Y-%m-%d'),
                    }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # set empty label for all choice fields to blank '' instead of default '--------'
+        for fl in self.fields.values():
+            if hasattr(fl, 'empty_label'):
+                fl.empty_label = ''
+
     def init_actor_formset(self, data=None):
         # gets nested actor formset
         if not hasattr(self, 'actor_formset'):
@@ -87,6 +95,16 @@ class ActorForm(ModelForm):
     class Meta:
         model = Actor
         exclude = ['pk', 'id', 'activity']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # set empty label for all choice fields to blank '' instead of default '--------'
+        for fl in self.fields.values():
+            if hasattr(fl, 'empty_label'):
+                fl.empty_label = ''
+
+# formsets
 
 ActivityFormSet = forms.modelformset_factory(Activity,
                                           form=ActivityForm,

@@ -21,7 +21,7 @@ class SelectMultipleDropdowns(forms.Widget):
         context = super().get_context(name, value, attrs)
 
         choices = tuple(self.choices) # each call to self.choices hits the db, instead get the choices only once
-        choices = (self.none_value,) + choices # include empty choice
+        #choices = (self.none_value,) + choices # include empty choice
 
         values = context['widget']['value'] or [] # gets the values
         for _ in range(self.extraselects):

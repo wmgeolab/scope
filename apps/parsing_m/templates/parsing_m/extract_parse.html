@@ -160,6 +160,10 @@
 							{% endif %}
 							
 							<tr>
+								<td><br></td>
+							</tr>
+							
+							<tr>
 								<td style="vertical-align:top">
 									Actor(s): *
 								</td>
@@ -167,47 +171,42 @@
 									<!--necessary stuff for the actor formset-->
 									{{ form.actor_formset.management_form }}
 									
-									<!--table containing rows for each actor formset-->
+									<!--table containing rows for each actor form-->
 									<table id="id_table_of_actors">
+									
+									<!--field labels on top-->
 									<tr>
-									<td>
+									{% for field in form.actor_formset.0.visible_fields %}
+										<td>{{ field.label_tag }}</td>
+									{% endfor %}
+									</tr>
+									
+									<!--one row per actorform-->
 									{% for actorform in form.actor_formset %}
-										<table class="actorformsetform">
+										<tr class="actorformsetform">
 										<!--first hidden fields-->
 										{% for field in actorform.hidden_fields %}
 											{{ field }}
 										{% endfor %}
-										<!--one row for field labels on top-->
-										<tr>
+										<!--then field inputs-->
 										{% for field in actorform.visible_fields %}
-											<td>{{ field.label_tag }}</td>
+											<td>
+											{{ field }}
+											<!--then field errors-->
+											{% if field.errors %}
+												<div class="alert alert-danger">{{ field.errors }}</div>
+											{% endif %}
+											</td>
 										{% endfor %}
 										</tr>
-										<!--one row for field inputs-->
-										<tr>
-											{% for field in actorform.visible_fields %}
-												<td>{{ field }}</td>
-											{% endfor %}
-										</tr>
-										<!--one more row for form errors-->
-										<tr>
-											{% for field in actorform.visible_fields %}
-												<td style="vertical-align:top">
-												{% if field.errors %}
-													<div class="alert alert-danger">{{ field.errors }}</div>
-												{% endif %}
-												</td>
-											{% endfor %}
-										</tr>
-										</table>
 									{% endfor %}
-									</td>
-									</tr>
 									</table>
 									
-									<br>
-									
 								</td>
+							</tr>
+							
+							<tr>
+								<td><br></td>
 							</tr>
 
 							<tr>
