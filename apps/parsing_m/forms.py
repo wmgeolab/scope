@@ -4,6 +4,7 @@ from django.forms import ModelForm, HiddenInput, Textarea
 from domain.models import ActivityCode, ActivitySubcode, ActorCode, ActorRole, DateCode, StatusCode, FinancialCode
 from .models import Activity, Actor
 
+from .widgets import SelectMultipleDropdowns
 
 class NativeDateInput(forms.DateInput):
     input_type = 'date'
@@ -17,6 +18,7 @@ class ActivityForm(ModelForm):
                    #'extract':forms.HiddenInput(),
                    #'current_user':HiddenInput(),
                    #'activity_subcodes':forms.CheckboxSelectMultiple(),
+                   'activity_subcodes':SelectMultipleDropdowns(extraselects=3),
                    'activity_date':NativeDateInput(format='%Y-%m-%d'),
                    }
 
