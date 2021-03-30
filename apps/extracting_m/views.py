@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+import nltk
+from nltk import find
+from nltk import sent_tokenize
+
+from domain.models import TriggerWord
 from sourcing_m.models import Source
 
 from .models import Extract
@@ -137,6 +142,41 @@ def source_extraction(request, pk):
             return redirect('source_extraction', pk)
 
 
+
+@login_required
+def source_autoassist(request, pk):
+    source = Source.objects.get(pk=pk)
+
+    # redirect if illegal source modification
+    error = check_illegal_object_modification(request, source)
+    if error:
+        return redirect('source_list')
+
+    source_text = source.source_text
+    print(source_text)
+    triggerwords = TriggerWord.objects.all()
+
+    for trigger in triggerwords:
+        tw = trigger.triggerword
+        if (source_text.find(tw) > 0):
+            print(tw, " - found")
+            sent_tokens = sent_tokenize(source_text)
+            n = 0
+            for sent in sent_tokens:
+                e = n + 3
+                if (sent.find(tw) > 0):
+
+                    try:
+                        extract_text = ' '.join(sent_tokens[n:e])
+                    except:
+                        extract_text = sent_tokens[n]
+
+                    extract = Extract(source=source, text=extract_text)
+                    extract.save()
+
+                n += 1
+
+    return redirect('source_extraction', pk)
 
 # Put utility functions here
 

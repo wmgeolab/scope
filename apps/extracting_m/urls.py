@@ -23,5 +23,6 @@ urlpatterns = [
     re_path('^source/(?P<pk>[\w]+)/checkout', views.source_checkout, name='source_checkout'),
     re_path('^source/(?P<pk>[\w]+)/release', views.source_release, name='source_release'),
     re_path('^source/(?P<pk>[\w]+)/extraction', views.source_extraction, name='source_extraction'),
+    re_path('^source/(?P<pk>[\w]+)/autoassist', views.source_autoassist, name='source_autoassist'),
     re_path('^source/list', views.source_list, name='source_list'),
 ]

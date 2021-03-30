@@ -18,11 +18,15 @@ conn = pymysql.connect(host="mysql.scopedata.org", user="scopesql",
 
 # query the db
 
-sql = """SELECT source_id, source_text
-			FROM sourcing_source;"""
+sql = """SELECT id, source_text
+			FROM sourcing_m_source;"""
 
 x = pd.read_sql(sql,conn)
 
+sql = """SELECT id, triggerword
+			FROM domain_triggerword"""
+
+y = pd.read_sql(sql,conn)
 #kw = "arrest"
 
 #def findWholeWord(w):
@@ -31,16 +35,18 @@ x = pd.read_sql(sql,conn)
 #for row in x.values:
 #	findWorldWord(kw)(row[1])
 
-for row in x.values:
-	tokens = word_tokenize(row[1])
-	text = nltk.Text(tokens)
-	if (text.find("arrest") > 0):
-		sent_tokens = sent_tokenize(row[1])
-		n = 0
-		for sent in sent_tokens:
-			e = n + 2
-			if (sent.find("arrest") > 0):
-				print(' '.join(sent_tokens[n:e]))
-			n += 1
-
+for xrow in x.values:
+	for yrow in y.values:
+		trigger = yrow[1]
+		if (xrow[1].find(trigger) > 0):
+			sent_tokens = sent_tokenize(xrow[1])
+			n = 0
+			for sent in sent_tokens:
+				e = n + 3
+				if (sent.find(trigger) > 0):
+					print(trigger)
+					print(' '.join(sent_tokens[n:e]))
+				n += 1
+	#else:
+	#	print('No events found')
 

@@ -56,7 +56,16 @@
 
 	<div id="id_extracts_viewer" style="width:100%; vertical-align:top">
 
-			<h4>Extracts:</h4>
+			<h4>
+			Extracts:
+				<div style="float:right">
+					<a class="btn btn-info" href="{% url 'source_autoassist' source.pk %}">
+						Auto Assist
+					</a>
+				</div>
+			</h4>
+
+			<br>
 
 			<div id="id_extracts_errors" style="color:red">
 				{{ formset.non_form_errors }}
