@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 import nltk
+nltk.download('punkt')
 from nltk import find
 from nltk import sent_tokenize
 
