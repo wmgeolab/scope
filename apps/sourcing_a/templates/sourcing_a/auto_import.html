@@ -1,0 +1,71 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+{% block page_content %}
+
+<h2>Auto Sourcing</h2>
+
+<h3> To import sources from the master database, fill out the fields and click Run </h3>
+
+<div>
+
+<form action="{% url 'auto_import' %}" method="post">
+    {% csrf_token %}
+	<div class="form-group">
+	<table>
+
+	<tr>
+	<td>
+    {{ form.primary_keywords.label_tag }}
+	</td>
+	<td>
+	{{ form.primary_keywords }}
+	</td>
+	</tr>
+
+
+  <tr>
+	<td>
+    {{ form.secondary_keywords.label_tag }}
+	</td>
+	<td>
+	{{ form.secondary_keywords }}
+	</td>
+	</tr>
+
+  <tr>
+	<td>
+    {{ form.tertiary_keywords.label_tag }}
+	</td>
+	<td>
+	{{ form.tertiary_keywords }}
+	</td>
+	</tr>
+
+  <tr>
+  <td>
+    {{ form.start_date.label_tag }}
+  </td>
+  <td>
+  <input type = 'date' name = 'source_date'>
+  </td>
+  </tr>
+
+  <tr>
+  <td>
+    {{ form.end_date.label_tag }}
+  </td>
+  <td>
+  <input type = 'date' name = 'source_date'>
+  </td>
+  </tr>
+
+
+	</table>
+	</div>
+
+    <input class="btn btn-primary" type="submit" value="Run">
+</form>
+
+</div>
+{% endblock %}

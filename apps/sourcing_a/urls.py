@@ -21,5 +21,5 @@ from . import views
 urlpatterns = [
     re_path('^$', views.home, name='sourcing_a'),
     # source
-    #re_path('^source/auto_import$', views.auto_import, name='auto_import')
+    re_path('^auto_import$', views.auto_import, name='auto_import')
 ]
