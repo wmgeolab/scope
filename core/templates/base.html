@@ -38,6 +38,9 @@
 						<a class="dropdown-item" href="{% url 'domain' %}" style="{% if 'domain' in request.path %}text-decoration:underline{% endif %}">
 							Domain
 						</a>
+						<a class="dropdown-item" href="{% url 'download' %}" style="{% if 'download' in request.path %}text-decoration:underline{% endif %}">
+							Download
+						</a>
 					</div>
 				</li>
 
@@ -58,7 +61,7 @@
 						<a class="dropdown-item" href="{% url 'sourcing_m' %}" style="{% if 'sourcing_m' in request.path %}text-decoration:underline{% endif %}">
 							Sourcing (M)
 						</a>
-            <a class="dropdown-item" href="{% url 'sourcing_a' %}" style="{% if 'sourcing_a' in request.path %}text-decoration:underline{% endif %}">
+						<a class="dropdown-item" href="{% url 'sourcing_a' %}" style="{% if 'sourcing_a' in request.path %}text-decoration:underline{% endif %}">
 							Sourcing (A)
 						</a>
 						<a class="dropdown-item" href="{% url 'extracting_m' %}" style="{% if 'extracting_m' in request.path %}text-decoration:underline{% endif %}">

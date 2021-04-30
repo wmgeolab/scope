@@ -7,7 +7,7 @@ class Domain(models.Model):
 	#this needs to always only be at most 1 row (or 0 if it hasn't been set yet)
 
 class TriggerWord(models.Model):
-    triggerword = models.TextField() #should probably make this a primary_key so we don't get duplicates
+    triggerword = models.TextField() #should probably make this a primary_key so we don't get duplicates; needs to be a charfield not a textfield
     #in the future should also add a Domain module which will determine which activity_codes and trigger words to preload in
     	#this is where the PM can design the fields to include, etc.
     #may add a field later which counts the number of relevant detections for each triggerword

@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/', include('users.urls')),
     path('', views.home, name='home'),
     path('domain/', include('domain.urls')),
+    path('download/', include('download.urls')),
     #path('GDELT_a/', include('GDELT_a.urls')),
     path('sourcing_m/', include('sourcing_m.urls')),
     path('sourcing_a/', include('sourcing_a.urls')),

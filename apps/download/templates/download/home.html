@@ -1,0 +1,29 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2>
+Download
+</h2>
+
+<br>
+
+<h5>
+	To download data from a module, select one of the options below:
+</h5>
+
+<h5> 
+	<a href="{% url 'download_sources' %}" class="btn btn-primary">
+		Sources
+	</a>
+		<a href="{% url 'download_extracts' %}" class="btn btn-primary">
+	Extracts
+	</a>
+</h5>
+
+{% endblock %}
+
