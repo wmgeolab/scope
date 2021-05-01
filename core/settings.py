@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
     # our apps
     'domain',
-    'downloads',
+    'download',
     'users',
     'twitter_a',
     'sourcing_m',
