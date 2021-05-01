@@ -1,0 +1,33 @@
+
+{% extends "templates/base.html" %}
+{% load static %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+{% block page_content %}
+
+<h2> Sourcing - Automatic </h2>
+
+<h5 style="padding:15px; float:right"> 
+<a href="{% url 'twitter_import' %}" class="btn btn-primary">
+Return to Search
+</a></h5>
+
+<div class="table-striped table-hover table-responsive">
+  <table class="table">
+	<thead>
+	  <tr>
+		<th>Tweet ID</th>
+		<th>Tweet Text</th>
+		<th>Tweet URL</th>
+		<th>Tweet Date</th>
+	  </tr>
+	</thead>
+	<tbody>
+        <h1> {{ vals }} </h1>
+	<tbody>
+  </table>
+</div>
+
+{% endblock %}
+

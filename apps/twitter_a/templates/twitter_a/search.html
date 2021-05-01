@@ -1,0 +1,14 @@
+{% extends "templates/base.html" %}
+{% load static %}
+{% block page_content %}
+
+<div class="table-striped table-hover table-responsive">
+    <table class="table">
+        <form action="results" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    </table>
+</div>
+{% endblock %}
