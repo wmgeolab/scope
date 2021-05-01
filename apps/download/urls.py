@@ -24,4 +24,5 @@ urlpatterns = [
     re_path('^overview$', views.overview, name='overview'),
     re_path('^download/sources$', views.download_sources, name='download_sources'),
     re_path('^download/extracts$', views.download_extracts, name='download_extracts'),
+    re_path('^download/activities$', views.download_activities, name='download_activities'),
 ]
