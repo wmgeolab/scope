@@ -55,9 +55,11 @@ INSTALLED_APPS = [
 
     # our apps
     'domain',
+    'downloads',
     'users',
     'twitter_a',
     'sourcing_m',
+    'sourcing_a',
     'extracting_m',
     'extracting_qa',
     'parsing_m',
@@ -65,7 +67,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware', 
+    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # added this for whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -88,10 +90,12 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'core'),
             os.path.join(BASE_DIR, 'apps', 'domain'),
+            os.path.join(BASE_DIR, 'apps', 'download'),
             os.path.join(BASE_DIR, 'apps', 'users'),
             os.path.join(BASE_DIR, 'apps', 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
             os.path.join(BASE_DIR, 'apps', 'twitter_a'),
             os.path.join(BASE_DIR, 'apps', 'sourcing_m'),
+            os.path.join(BASE_DIR, 'apps', 'sourcing_a'),
             os.path.join(BASE_DIR, 'apps', 'extracting_m'),
             os.path.join(BASE_DIR, 'apps', 'extracting_qa'),
             os.path.join(BASE_DIR, 'apps', 'parsing_m'),
@@ -218,11 +222,4 @@ else:
             ],
         }
     }
-
-
-
-
-
-
-
 
