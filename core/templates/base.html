@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-	
+
         <a class="navbar-brand" href="{% url 'home' %}">
 			<img height="20px" src="{% static 'core/SCOPE_word_white.png' %}" style="filter:invert(1)">
 			<div style="width:100%; text-align:center">
@@ -37,6 +37,9 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" href="{% url 'domain' %}" style="{% if 'domain' in request.path %}text-decoration:underline{% endif %}">
 							Domain
+						</a>
+						<a class="dropdown-item" href="{% url 'download' %}" style="{% if 'download' in request.path %}text-decoration:underline{% endif %}">
+							Download
 						</a>
 					</div>
 				</li>
@@ -60,6 +63,9 @@
 						<a class="dropdown-item" href="{% url 'sourcing_m' %}" style="{% if 'sourcing_m' in request.path %}text-decoration:underline{% endif %}">
 							Sourcing (M)
 						</a>
+						<a class="dropdown-item" href="{% url 'sourcing_a' %}" style="{% if 'sourcing_a' in request.path %}text-decoration:underline{% endif %}">
+							Sourcing (A)
+						</a>
 						<a class="dropdown-item" href="{% url 'extracting_m' %}" style="{% if 'extracting_m' in request.path %}text-decoration:underline{% endif %}">
 							Extracting (M)
 						</a>
@@ -81,12 +87,10 @@
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					</div>
-				</li>				
+				</li>
 			</ul>
 		</div>
 
-		
-		
 		{% if not request.user.is_anonymous %}
 			<a href="{% url 'profile' %}" style="color:black">
 				<b>{{ request.user.email|lower }}</b>
