@@ -92,6 +92,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'apps', 'domain'),
             os.path.join(BASE_DIR, 'apps', 'download'),
             os.path.join(BASE_DIR, 'apps', 'users'),
+            #os.path.join(BASE_DIR, 'apps', 'GDELT_a'),
             os.path.join(BASE_DIR, 'apps', 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
             os.path.join(BASE_DIR, 'apps', 'twitter_a'),
             os.path.join(BASE_DIR, 'apps', 'sourcing_m'),
