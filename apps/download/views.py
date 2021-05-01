@@ -4,7 +4,6 @@ from django.apps import apps
 from django.http import HttpResponse
 
 import csv
-import pandas as pd
 
 from domain.models import SourceCode
 from sourcing_m.models import Source
