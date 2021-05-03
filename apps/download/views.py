@@ -14,10 +14,10 @@ from parsing_m.models import Actor
 # Create your views here.
 
 def home(request):
-    return redirect('overview')
+    return redirect('select')
 
 # download
-def overview(request):
+def select(request):
     return render(request, 'templates/download/home.html')
 
 #function to download sources
