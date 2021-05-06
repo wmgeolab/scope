@@ -27,14 +27,11 @@ def twitter_import(request):
             for i in form.cleaned_data['tertiary_keywords'].split(','):  tkw.append(i.strip())
             tweets = twitter_search(form.cleaned_data['start_date'].strftime('%m/%d/%Y'), form.cleaned_data['end_date'].strftime('%m/%d/%Y'), pkw, skw, tkw)
             for x in tweets:
-                TwitterSource.objects.create(source_id=x.source_id, source_text=x.source_text, source_date=x.source_created_at, source_url=x.source_url).save()
+                TwitterSource.objects.create(source_id=x.source_id, source_text=x.source_text, source_date=x.source_created_at, source_url=x.source_url)
             vals = TwitterSource.objects.all()
             return render(request, "templates/twitter_a/results.html", {'vals': vals})
     else:  form = TwitterSearchForm()
     return render(request, 'templates/twitter_a/search.html', {'form': form})
-
-def twitter_loading(request):
-    return render(request, 'templates/twitter_a/loading.html')
 
 def twitter_results(request):
     if request.method == 'POST':
