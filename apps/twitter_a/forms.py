@@ -35,3 +35,12 @@ class TwitterSearchForm(forms.ModelForm):
     def clean_end_date(self):
         data = self.cleaned_data['end_date']
         return data
+
+class TwitterSourceForm(forms.ModelForm):
+    source_id = forms.CharField()
+    source_url = forms.CharField()
+    source_text = forms.CharField()
+    source_date = forms.CharField()
+    class Meta:
+        model = TwitterSourceForm
+        fields = '__all__'
