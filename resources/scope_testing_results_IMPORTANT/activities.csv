@@ -1,0 +1,363 @@
+id,extract,activity_subcodes,actor_codes,actor_names,actor_rolecodes,activity_date,date_code,status_code,financial_code,dollar_amount,locations,parser_notes,current_status
+2,15,A_1004,C_16,China's Offshore Oil Corporation,R_10,2016-12-05,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+3,9,A_1011,C_1,Bolivian Energy Minister Rafael Alarcon,R_15,2017-08-19,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+4,16,A_1004,C_7,China's Offshore Oil Corporation,R_10,2016-12-05,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+5,17,A_1006,C_1,People's Republic of China,R_13,2911-03-29,D_11 - Carried out - one-off events,E_1 - Independent event,F_1 - Contract,,,,PARM
+6,10,A_1005,U_9999,N/A,U_9999,2017-08-19,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+7,14,A_4001,C_9,Alibaba Group Holding Ltd,R_14,2021-01-05,D_0 - Vague,E_2 - Extended event or activity,,,,,PARQ
+8,23,A_4001,C_9,China’s West Pacific Petrochemical Corp,R_11,2019-07-18,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,,,,PARM
+9,38,A_1007,C_5,Unclear,R_14,2013-06-01,D_1 - Proposed - formal,E_1 - Independent event,F_7 - Loan,975000000.00,,,PARM
+10,26,A_1007,C_1,China,R_11,2020-06-16,D_2 - Proposed - informal,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+11,25,A_4001,C_7,PetroChina,R_11,2019-07-18,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,,,,PARM
+12,37,A_1007,C_8,China Export Import Bank,R_9,2015-10-17,D_7 - Under construction - unknown,E_1 - Independent event,F_7 - Loan,,,,PARM
+13,27,A_1007,C_2,Ecuadorian President Lenin Moreno,R_12,2020-06-16,D_2 - Proposed - informal,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+14,24,A_4001,C_1,Mexico,R_12,2019-07-18,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,,,,PARM
+15,28,A_1011,C_1,Trinidad and Tobago,R_10,2020-01-05,D_5 - Under construction - on time,E_1 - Independent event,F_0 - Vague,221000000.00,"Churchill Roosevelt Highway, Macoya, Piarco",,PARM
+16,39,A_1002,C_1,China,R_1,2021-03-15,D_13 - In Progress - non-construction,E_1 - Independent event,F_0 - Vague,0.00,China,,PARM
+17,36,A_1007,C_1,Trinidad and Tobago,R_1,2015-10-17,D_7 - Under construction - unknown,E_1 - Independent event,F_7 - Loan,239000000.00,,,PARM
+18,31,A_1002,C_1,China,R_11,2014-04-27,D_11 - Carried out - one-off events,E_1 - Independent event,F_2 - Donation,,,,PARM
+19,40,A_1002,C_1,China,R_1,2021-03-15,D_13 - In Progress - non-construction,E_1 - Independent event,F_0 - Vague,0.00,China,,PARM
+20,32,A_1002,C_0,Vague,U_9999,2018-02-01,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+21,33,A_1002,C_2,Chen Xi,R_0,2018-04-26,D_0 - Vague,E_1 - Independent event,F_0 - Vague,,,,PARM
+22,41,A_4001,C_1,China,R_10,2021-03-15,D_0 - Vague,E_2 - Extended event or activity,F_4 - Investment,,,,PARM
+23,34,A_1002,C_2,Ruben Cid,R_12,2018-04-26,D_0 - Vague,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+24,35,A_1002,C_1,Cuba,R_1,2018-04-26,D_1 - Proposed - formal,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+26,79,A_2002,C_11,Russia,R_11,2018-01-01,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+27,86,A_1011,C_9,RJD,R_10,2019-10-23,D_10 - Started - non-construction,E_1 - Independent event,F_1 - Contract,500000000.00,COD,,PARM
+28,71,A_2001,C_1,Russian Federation,R_11,2017-12-01,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+29,81,A_1009,C_1,Russia,R_1,1900-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_0 - Vague,,Central African republic,,PARM
+30,87,A_1011,C_9,RJD,R_10,2019-10-23,D_10 - Started - non-construction,E_1 - Independent event,F_1 - Contract,500000000.00,COD,,PARM
+31,76,A_3002,C_2,French President Emmanuel Macron,R_14,2018-12-22,D_8 - Completed - extended event or activity,E_1 - Independent event,,,Chad,,PARM
+32,93,A_2002,C_1,Russia,R_14,2018-08-21,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+33,83,A_2003,C_2,Sudan,R_1,2020-11-16,D_1 - Proposed - formal,E_1 - Independent event,F_1 - Contract,,Port of Sudan,This event was a deal that allows Russia to have vessels there.,PARM
+34,72,A_2002,C_1,Russian Federation,R_11,1900-01-01,D_0 - Vague,E_1 - Independent event,,,,,PARM
+35,74,A_2003,C_1,Dmitry Medvedev,R_14,2019-01-12,D_1 - Proposed - formal,E_2 - Extended event or activity,F_1 - Contract,,,,PARM
+36,88,A_1011,C_9,RJD,R_10,2019-10-23,D_10 - Started - non-construction,E_1 - Independent event,F_1 - Contract,500000000.00,COD,,PARM
+37,75,A_2003,C_1,Russia,R_1,1900-01-19,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,Sudan,,PARM
+38,106,A_2002,C_11,Russian Mercenaries,R_2,2019-02-13,D_11 - Carried out - one-off events,E_1 - Independent event,,,Bambari,,PARM
+39,117,A_2005,C_1,Russian Defense Ministry,R_10,2021-01-27,D_11 - Carried out - one-off events,E_1 - Independent event,F_2 - Donation,,Central African Republic,,PARM
+40,118,A_2005,C_1,Russian Ministry of Foreign Affairs,R_10,2021-01-27,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+41,100,A_4001,C_1,Democratic Republic of Congo,R_1,1900-01-01,D_2 - Proposed - informal,E_2 - Extended event or activity,,,,,PARM
+42,111,A_5001,C_20,Sputnik and RTNC,R_1,2019-05-22,D_10 - Started - non-construction,E_2 - Extended event or activity,F_1 - Contract,,,Media partnership.,PARM
+43,115,A_1010,C_19,Mr. Matemulane,R_10,1500-01-01,D_0 - Vague,E_1 - Independent event,,,,,PARM
+44,102,A_3001,C_2,President Faustin-Archange Touadera,R_14,2019-03-03,D_4 - Started - construction,E_1 - Independent event,,,CAR,,PARM
+45,119,A_1006,C_1,Russia,R_11,2020-12-01,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,Central African Republic,,PARM
+46,107,A_3002,C_2,President Vladimir Putin,R_1,2017-01-01,D_16 - Reception,E_1 - Independent event,,,"Sochi, Russia",,PARM
+47,112,A_5001,C_7,Sputnik and RTNC,R_1,2019-05-22,D_1 - Proposed - formal,E_2 - Extended event or activity,F_1 - Contract,,,,PARM
+48,109,A_1006,C_9,M-Invest,R_10,2019-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,SDN,,PARM
+49,116,A_1010,C_2,Russian ambassador to Ghana,R_11,2019-01-01,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+50,101,A_3003,C_3,Leonard She Okitundu,R_11,2017-03-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+51,124,A_2002,C_1,Russia,R_11,2019-04-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,,PARM
+52,126,A_4001,C_10,VTB,R_11,1900-01-01,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+53,120,A_2005,C_1,Russia,R_11,2020-12-22,D_2 - Proposed - informal,E_2 - Extended event or activity,F_2 - Donation,,,Central African Republic,PARM
+54,123,A_1011,C_1,Russian Federation,R_9,2019-10-22,D_1 - Proposed - formal,E_1 - Independent event,F_4 - Investment,500000000.00,"Sochi, Russian Federation",,PARM
+55,125,A_5003,C_0,Unknown,R_0,2018-07-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,,PARM
+56,122,A_2002,C_1,Russia,R_11,2020-12-22,D_16 - Reception,E_1 - Independent event,,,CAF,,PARM
+57,127,A_4001,C_10,VTB,R_1,2017-07-05,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+58,129,A_2003,C_1,Omar Bashir,R_15,0009-11-28,D_0 - Vague,E_1 - Independent event,F_8 - Proposal,,"Port Sudan, Red Sea",A deal that Bashir proposed before his ousting.,PARM
+59,140,A_2004,C_20,"Orkhan Dzhemal, Aleksandr Rastorguev and Kirill Radchenko",R_4,1600-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,,,PARM
+60,121,A_2002,C_1,Russia,R_11,2020-12-01,D_0 - Vague,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,Central African Republic,,PARM
+61,130,A_2003,C_1,Oman Bashir,R_15,2019-11-28,D_0 - Vague,E_1 - Independent event,F_8 - Proposal,,"Port Sudan, Red Sea",,PARM
+62,141,A_2003,C_2,Omar al-Bashir,R_14,2999-01-01,D_1 - Proposed - formal,E_1 - Independent event,F_8 - Proposal,,,,PARM
+63,128,A_4001,C_10,VTB,R_11,0001-01-01,D_0 - Vague,E_2 - Extended event or activity,,2000000000.00,,,PARM
+64,134,A_2004,C_12,UN soldiers and a humanitarian aid worker,R_4,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,CAR,,PARM
+65,147,A_4002,C_3,Alexei Moiseev,R_15,2020-02-24,D_2 - Proposed - informal,E_1 - Independent event,,,,,PARM
+66,142,A_1006,C_1,DCR Government,R_10,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,DRC,,PARM
+67,148,A_2005,C_1,Russia,R_10,2021-02-13,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,F_2 - Donation,,Bangui,,PARM
+68,150,A_2001,C_1,Russia,R_11,2019-08-16,D_11 - Carried out - one-off events,E_1 - Independent event,F_2 - Donation,,"Bangui, Central African Republic",,PARM
+69,143,A_1006,C_1,DRC government,R_10,2018-01-11,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+70,151,A_2001,C_1,Russia,R_11,2018-08-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_2 - Donation,,Central African Republic,,PARM
+71,161,A_1006,C_1,Russian Deputy Foreign Minister Mikhail Bogdanov,R_1,2019-04-12,D_0 - Vague,E_1 - Independent event,F_0 - Vague,,Sudan,Really just a statement from the Russian government to support Sudan through the overthrow of Bashir.,PARM
+72,144,A_1006,C_1,DRC government,R_10,2018-01-11,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Kinshasa, DRC",,PARM
+73,149,A_3002,C_1,Russian Federation,R_1,2019-01-11,D_8 - Completed - extended event or activity,E_1 - Independent event,,,Unknown,,PARM
+74,160,A_1010,C_9,Facebook,R_10,2019-10-30,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,,Facebook took down Russian-backed facebook networks linked to Yevgeny Prigozhin,PARM
+75,162,A_1006,C_1,Russian Deputy Foreign Minister Mikhail Bogdanov,R_1,2019-04-12,D_0 - Vague,E_1 - Independent event,F_0 - Vague,,Sudan,A statement that was trying to usher along relations between the countries in a difficult situation. Not much set information because nothing tied to it.,PARM
+76,154,A_2002,C_1,Central African Republic,R_10,2019-01-01,D_8 - Completed - extended event or activity,E_1 - Independent event,F_0 - Vague,,CAF,,PARM
+77,163,U_9999,C_21,China,R_0,2021-02-24,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,0.00,China,,PARM
+78,167,A_1007,C_1,China,R_11,2020-03-29,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_2 - Donation,,Latin America,,PARM
+79,173,A_3003,C_1,Hong Kong,U_9999,2021-03-11,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,,,,,PARM
+80,179,A_1010,C_21,Alex Tabor,R_1,2014-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_8 - Proposal,,,,PARM
+81,164,A_0000,C_21,China,U_9999,2021-02-24,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,F_0 - Vague,0.00,,,PARM
+82,174,A_3001,C_1,China,R_14,2021-03-11,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+83,180,A_1004,C_21,Felipe Henriquez,R_1,2017-01-01,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+84,165,A_1005,C_16,Odebrecht,R_11,2017-08-25,D_2 - Proposed - informal,E_1 - Independent event,F_9 - Purchase,1390000000.00,Peru,,PARM
+85,181,A_1010,C_1,China,R_9,2018-01-01,D_0 - Vague,E_2 - Extended event or activity,F_4 - Investment,,,,PARM
+86,175,A_2004,U_9999,Protestors,R_1,2021-03-11,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,,,,,PARM
+87,168,A_1006,C_1,China,R_11,2018-01-01,D_0 - Vague,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+88,170,A_1007,C_9,China Railway Construction Company,R_10,2021-04-03,D_8 - Completed - extended event or activity,E_1 - Independent event,F_0 - Vague,1900.00,Arima General Hospital,,PARM
+89,166,A_1005,C_16,Odebrecht,R_11,2017-08-25,D_2 - Proposed - informal,E_1 - Independent event,,,,,PARM
+90,191,A_1007,C_1,China,R_10,2021-03-15,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,F_9 - Purchase,0.00,,,PARM
+91,197,A_4001,C_1,China,R_10,2020-01-01,D_0 - Vague,E_2 - Extended event or activity,F_7 - Loan,,,,PARM
+92,201,A_1004,C_1,China,R_12,2020-01-30,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_9 - Purchase,,,,PARM
+93,192,A_1007,C_1,China,R_10,2021-03-15,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,F_9 - Purchase,0.00,China,,PARM
+94,198,A_4001,C_1,China,R_10,2020-01-01,D_10 - Started - non-construction,E_2 - Extended event or activity,F_7 - Loan,,,,PARM
+95,186,A_1009,C_16,China’s Xinjiang TBEA Group Co Ltd,R_1,2019-02-06,D_4 - Started - construction,E_1 - Independent event,F_6 - Joint Venture,,,,PARM
+96,188,U_9999,C_1,China,R_1,2021-03-10,D_1 - Proposed - formal,E_1 - Independent event,,,,Partnership,PARM
+97,202,A_1004,C_5,OPEC,R_1,2020-01-30,D_13 - In Progress - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+98,187,A_1009,C_16,China’s Xinjiang TBEA Group Co Ltd,R_1,2019-02-06,D_4 - Started - construction,E_1 - Independent event,F_6 - Joint Venture,,,,PARM
+99,203,A_1004,C_1,Brazil,R_11,2020-01-30,D_0 - Vague,E_2 - Extended event or activity,F_9 - Purchase,,,,PARM
+100,199,A_1007,C_9,Shanghai Construction,R_10,2019-02-08,D_1 - Proposed - formal,E_1 - Independent event,F_1 - Contract,1000000000.00,,,PARM
+101,190,U_9999,C_1,USA,R_10,2021-03-10,D_2 - Proposed - informal,E_1 - Independent event,,,,,PARM
+102,204,A_1004,C_21,Chinese Trader,R_15,2020-01-30,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,F_0 - Vague,,,,PARM
+103,200,A_1007,C_9,China Railway,R_10,2021-02-08,D_1 - Proposed - formal,E_1 - Independent event,F_0 - Vague,,,,PARM
+104,193,A_1011,C_9,Huawei,R_10,2019-05-09,D_13 - In Progress - non-construction,E_1 - Independent event,F_0 - Vague,0.00,Mexico,,PARM
+105,189,U_9999,C_1,China,R_1,2021-03-10,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+106,205,A_1004,C_1,China,R_12,2020-01-30,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+107,206,A_1005,C_16,China Gezhouba Group Co Ltd,R_10,2017-08-28,D_1 - Proposed - formal,E_2 - Extended event or activity,F_1 - Contract,,,,PARM
+118,212,A_2002,C_1,Russia,R_11,2017-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_2 - Donation,,Central African Republic,,PARM
+119,210,A_3002,C_14,CAR Rebel Groups,R_14,2018-08-29,D_10 - Started - non-construction,E_1 - Independent event,,,"Khartoum, Sudan",,PARM
+120,219,A_2002,C_1,Russian Federation,R_11,0001-01-01,D_0 - Vague,E_2 - Extended event or activity,,,,General Trend,PARM
+121,224,A_2001,C_1,Russia,R_11,2017-12-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,,,PARM
+122,227,A_2003,C_1,Russia,R_10,2019-01-11,D_2 - Proposed - informal,E_2 - Extended event or activity,,,,,PARM
+123,211,A_2002,C_1,Russia,R_11,2018-08-01,D_10 - Started - non-construction,E_2 - Extended event or activity,F_0 - Vague,,CAR,,PARM
+124,214,A_4001,C_1,Russia,R_9,2018-11-26,D_11 - Carried out - one-off events,E_1 - Independent event,F_7 - Loan,12000000000.00,CAR,,PARM
+125,235,A_5003,C_0,"Unknown, but probably Wagner",R_2,2018-08-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,,PARM
+126,213,A_4001,C_2,President Touadera,U_9999,2017-10-01,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,"Sochi, Russia",,PARM
+127,228,A_2003,C_1,Russia,R_10,2019-01-11,D_2 - Proposed - informal,E_1 - Independent event,,,,,PARM
+128,231,A_2003,C_1,Russian Federation,R_9,2019-10-01,D_2 - Proposed - informal,E_2 - Extended event or activity,F_0 - Vague,,Central African Republic,,PARM
+129,215,A_4001,C_1,Russia,R_9,2018-11-26,D_11 - Carried out - one-off events,E_1 - Independent event,F_7 - Loan,12000000000.00,CAR,,PARM
+130,225,A_2001,C_1,Russia,R_11,2018-01-01,D_13 - In Progress - non-construction,E_1 - Independent event,F_2 - Donation,,,,PARM
+131,220,A_5003,C_11,Wagner Group,R_2,2018-07-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+132,239,A_2002,C_1,Russia,R_11,2017-12-01,D_8 - Completed - extended event or activity,E_1 - Independent event,,,,,PARM
+133,229,A_2005,C_1,Russia,R_11,2019-01-11,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,,,,,PARM
+134,247,A_5003,C_11,Wagner,R_0,2018-08-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,"Sibut, CAR",,PARM
+135,223,A_2003,C_1,Russian Federation,R_10,2018-08-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+136,243,A_3003,C_1,Russia,R_10,2018-12-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+137,244,A_2002,C_1,Russia,R_11,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+138,248,A_2001,C_1,Russian Federation,R_11,2017-12-01,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+139,253,A_2002,C_1,Russia,R_11,0001-01-01,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,,,Central African Republic,,PARM
+140,262,A_0000,C_1,CAR,R_10,2017-09-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,,,PARM
+141,245,A_2001,C_1,France and Russia,R_11,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+142,259,A_2002,C_6,Russian military,R_11,2017-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,,,PARM
+143,249,A_2001,C_1,Russian Federation,R_11,2018-01-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+144,265,A_2002,C_1,France,R_15,2018-10-29,D_0 - Vague,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,Central African Republic,,PARM
+145,268,A_1006,C_2,Karim Meckassoua,R_0,2018-10-01,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+146,260,A_2001,C_1,Russia,R_11,2017-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+147,246,A_3003,C_1,Russia,R_9,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+148,250,A_2002,C_2,Faustin-Archange Touadéra,R_1,2018-03-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+149,269,A_1006,C_2,Karim Meckassoua,R_0,2018-10-01,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+150,263,A_4001,C_1,Russia,R_13,1000-01-01,D_1 - Proposed - formal,E_1 - Independent event,F_0 - Vague,,,,PARM
+151,255,A_3002,C_1,Russia,R_14,2018-03-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,,PARM
+152,270,A_1006,C_2,Karim Meckassoua,R_0,2018-10-01,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+153,261,A_5003,C_20,Three Russian journalists,R_4,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+154,266,A_2001,C_15,United Nations Security Council,R_14,2017-01-01,D_8 - Completed - extended event or activity,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,Central African Republic,,PARM
+155,264,A_2001,C_1,Russia,R_11,2018-01-26,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+156,257,A_4001,C_1,Russia,R_14,2018-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+157,251,A_2005,C_3,Russian Officials,R_1,2018-03-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+189,330,A_4001,C_1 | C_1,China | Dominican Republic,R_10 | R_12,2018-04-10,D_8 - Completed - extended event or activity,E_1 - Independent event,F_4 - Investment,10600000.00,"Santo Domingo province, Dominican Republic",,PARM
+190,331,A_4001,C_1 | C_1,China | Dominican Republic,R_1 | R_12,2018-04-10,D_8 - Completed - extended event or activity,E_1 - Independent event,F_4 - Investment,10600000.00,"Santo Domingo province, Dominican Republic",,PARM
+191,332,A_1011,C_1 | C_1,China | Cuba,R_11 | R_12,2019-05-21,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+192,339,A_1001 | A_4001,C_3 | C_1 | C_1,Ivan Ontaneda | Ecuador | China,R_15 | R_11 | R_12,2020-07-22,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+193,335,A_1002 | A_1009,C_1 | C_15,Dominican Republic | Grupo HAYCO,R_1 | R_10,2019-02-28,D_8 - Completed - extended event or activity,E_1 - Independent event,F_1 - Contract,60000000.00,,,PARM
+194,333,A_1011,C_1 | C_1,China | Cuba,R_11 | R_12,2019-05-21,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+195,340,A_1001 | A_4001,C_1 | C_1,Ecuador | China,R_11 | R_12,2020-07-22,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+196,345,A_1004,C_7,CNOOC,R_10,2016-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Gulf of Mexico,,PARM
+197,334,A_1011,C_1 | C_1,China | Cuba,R_11 | R_12,2019-05-21,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+198,336,A_1002 | A_1009,C_1 | C_15,Dominican Republic | Grupo HAYCO,R_1 | R_10,2019-02-28,D_8 - Completed - extended event or activity,E_1 - Independent event,F_1 - Contract,60000000.00,,,PARM
+199,341,A_4001,C_1,China,U_9999,2020-07-10,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,,,PARM
+200,337,A_1004,C_1 | C_9 | C_7,Costa Rica | Sinohydro Corp | Centrais Eletricas Brasileiras SA,R_12 | R_10 | R_14,2011-08-11,D_1 - Proposed - formal,E_1 - Independent event,F_4 - Investment,1200000000.00,Costa Rica,,PARM
+201,338,A_3001 | A_4001,C_1 | C_1,Costa Rica | China,R_12 | R_11,2008-09-12,D_11 - Carried out - one-off events,E_1 - Independent event,F_4 - Investment,,,,PARM
+202,352,A_1011,C_1 | C_1 | C_1,Cuba | China | Russia,R_12 | R_11 | R_11,2019-07-13,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+203,356,A_1011,C_1,China,R_9,2018-03-02,D_7 - Under construction - unknown,E_1 - Independent event,F_0 - Vague,,"Route 32, Costa Rica",,PARM
+204,353,A_1011,C_1 | C_1,China | Cuba,R_11 | R_12,2019-07-13,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+205,348,A_1004,C_15 | C_1,Company | Dominican Republic,R_10 | R_1,2018-07-13,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+206,358,A_1010,C_1 | C_1 | C_2,China | El Salvador | Salvador Sanchez,R_11 | R_12 | R_15,2018-11-07,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_2 - Donation,,,,PARM
+207,350,A_1007,C_1 | C_1,Dominica | China,R_12 | R_11,2016-08-09,D_7 - Under construction - unknown,E_1 - Independent event,F_2 - Donation,40000000.00,,,PARM
+208,346,A_1011 | A_4001,C_8 | C_1,China Development Bank | Dominican Republic,R_9 | R_12,2017-09-29,D_1 - Proposed - formal,E_1 - Independent event,F_4 - Investment,550000000.00,"Yuna River, Dominican Republic",,PARM
+209,357,A_1011,C_7,CHEC,R_10,2018-03-02,D_7 - Under construction - unknown,E_1 - Independent event,,,"Route 32, Costa Rica",,PARM
+210,354,A_1011,C_1 | C_1,Cuba | Russia,R_12 | R_9,2019-07-13,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+211,351,A_1007 | A_3001,C_1 | C_1,Dominica | China,R_12 | R_11,2016-08-09,D_11 - Carried out - one-off events,E_1 - Independent event,F_1 - Contract,40000000.00,,,PARM
+212,359,A_0000 | A_1010,C_1 | C_1 | C_1,China | El Salvador | Taiwan,R_11 | R_1 | R_1,2018-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_2 - Donation,150000000.00,,,PARM
+213,349,A_1004,C_15 | C_1,Company | Dominican Republic,R_10 | R_1,2018-07-13,D_1 - Proposed - formal,E_1 - Independent event,F_0 - Vague,,,,PARM
+214,355,A_1011,C_1 | C_1,Russia | Cuba,R_11 | R_12,2019-07-13,D_3 - Proposed - unsuccessful,E_2 - Extended event or activity,,,,,PARM
+215,364,A_1010 | A_4001,C_9 | C_1,Huawei Technologies Co. | US,R_10 | R_0,2019-03-12,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,F_1 - Contract,1900.00,,,PARM
+216,347,U_9999,C_21,Fu Xinrong,U_9999,2017-09-29,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+217,360,A_4001 | A_5001,C_3,Hua Chunying,R_15,2018-11-07,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,,,PARM
+218,361,A_1001,C_1 | C_1,China | El Salvador,R_11 | R_12,2018-11-07,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_2 - Donation,,,,PARM
+219,369,A_1003 | A_1011,C_1 | C_1,Antigua and Barbuda | China,R_12 | R_11,2014-08-26,D_1 - Proposed - formal,E_2 - Extended event or activity,F_2 - Donation,18000000.00,,,PARM
+220,371,A_1012,C_8 | C_1 | C_15,China | Barbados | Wyndham,R_10 | R_1 | R_10,2019-01-19,D_6 - Under construction - delayed,E_2 - Extended event or activity,F_7 - Loan,30000000.00,,,PARM
+221,384,A_4001,C_1 | C_1,China | Costa Rica,R_1 | R_1,2010-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Costa Rica, China",,PARM
+222,377,A_4001,C_7 | C_1,CHINA Harbour Engineering Company (CHEC) | Jamaica,R_9 | R_12,2019-04-26,D_1 - Proposed - formal,E_1 - Independent event,F_6 - Joint Venture,1000000000.00,"Portmore, St Catherine and St Thomas",,PARM
+223,370,A_1003 | A_1011,C_1 | C_1,Antigua and Barbuda | China,R_12 | R_11,2014-08-26,D_1 - Proposed - formal,E_2 - Extended event or activity,F_2 - Donation,18000000.00,,,PARM
+224,372,U_9999,C_2,Andrew Holness,U_9999,2020-06-18,D_4 - Started - construction,E_1 - Independent event,,,,,PARM
+225,374,U_9999,C_1 | C_1 | C_3,Barbados | China | Dr. Jerome Walcott,R_1 | R_1 | R_15,2019-02-21,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,,,PARM
+226,385,A_0000,C_1 | C_1,China | Costa Rica,R_11 | R_12,2018-04-23,D_0 - Vague,E_2 - Extended event or activity,F_4 - Investment,1000000000.00,Costa Rica,,PARM
+227,375,A_3003 | U_9999,C_1,China,R_10,2013-01-01,D_10 - Started - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+228,378,A_4001,C_7 | C_0 | C_1,CHINA Harbour Engineering Company (CHEC) | Factories Corporation of Jamaica (FCJ) | Jamaica,R_9 | R_9 | R_12,2019-04-26,D_1 - Proposed - formal,E_1 - Independent event,F_6 - Joint Venture,,,,PARM
+229,373,U_9999,C_5 | C_7,Housing Agency of Jamaica | China Harbour Engineering Company,R_10 | R_10,2020-06-18,D_4 - Started - construction,E_2 - Extended event or activity,,,,,PARM
+230,380,A_1010,C_1 | C_9,Mexico | Altán,R_12 | R_10,2016-11-17,D_1 - Proposed - formal,E_1 - Independent event,,7000000000.00,Mexico,,
+231,379,A_4001,C_0 | C_1,Factories Corporation of Jamaica (FCJ) | Jamaica,R_9 | R_12,2019-04-26,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+232,376,U_9999,C_1 | C_1 | C_1,Guyana | Trinidad | Tobago,R_13 | R_13 | R_13,0001-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,,,PARM
+233,386,A_1003,C_1 | C_1,Dominica | China,R_12 | R_11,2016-01-20,D_11 - Carried out - one-off events,E_1 - Independent event,F_1 - Contract,6000000.00,,,PARM
+234,387,A_1003,C_1 | C_1,China | Antigua and Barbuda,R_11 | R_12,2013-11-13,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+235,395,A_3001,C_1 | C_1,China | Barbados,R_1 | R_1,1977-05-30,D_11 - Carried out - one-off events,E_1 - Independent event,,,"China, Barbados",,PARM
+236,388,A_1003,C_2,Dr. Jacqui Quinn-Leandro,R_15,2013-11-18,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,,,,PARM
+237,391,A_1007,C_7 | C_1,HUNAN Construction Company | China,R_10 | R_11,2016-09-13,D_4 - Started - construction,E_2 - Extended event or activity,F_5 - Grant,40000000.00,,,PARM
+238,389,A_1011,C_1 | C_7 | C_1,China | China Railway 14th Bureau Group Corporation Limited | Dominican Republic,R_9 | R_10 | R_12,2018-07-13,D_8 - Completed - extended event or activity,E_1 - Independent event,F_5 - Grant,11000000.00,,,PARM
+239,392,U_9999,C_1 | C_1,China | Dominica,R_1 | R_1,2004-03-01,D_10 - Started - non-construction,E_1 - Independent event,F_6 - Joint Venture,,,,PARM
+240,394,A_3002,C_3 | C_3,"Yan Xiusheng, Ambassador of the People's Republic of China to Barbados | Dwight Sutherland, Barbados' Minister of Small Business, Entrepreneurship and Commerce",R_1 | R_1,2019-08-11,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Warren's Office Complex, Warrens, St. Michael",,PARM
+241,396,A_1011,C_5 | C_1,"Finance Minister, | PRC",R_12 | R_10,2019-11-07,D_1 - Proposed - formal,E_1 - Independent event,,,Area between Woodfordhill and Wesley in Dominica,,
+242,396,A_1011,C_5 | C_1,"Finance Minister, | PRC",R_12 | R_10,2019-11-07,D_1 - Proposed - formal,E_1 - Independent event,,,Area between Woodfordhill and Wesley in Dominica,,
+243,390,A_1011,C_1 | C_7 | C_1,China | China Railway 14th Bureau Group Corporation Limited | Dominican Republic,R_9 | R_10 | R_12,2018-07-13,D_8 - Completed - extended event or activity,E_1 - Independent event,F_5 - Grant,,,,PARM
+244,393,U_9999,U_9999,residents,R_1,2016-09-13,D_4 - Started - construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+245,445,A_2002,C_1,Russia,R_11,2018-03-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+246,443,A_1003,C_1,Russia,R_10,1960-01-01,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,,,,,PARM
+247,432,A_2002,C_11 | C_6,Wagner Group | FACA,R_1 | R_1,2018-01-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+248,446,A_2001 | A_2002,C_1,Russia,R_11,2018-03-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,,PARM
+249,433,A_5003,C_20 | C_11,Three Russian Journalists | Wagner Group,R_4 | R_0,2018-07-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+250,429,A_1007,C_2,Valery Zakharov,R_11,2018-09-29,D_11 - Carried out - one-off events,E_1 - Independent event,F_2 - Donation,,"Moto-Wakombo, Central African Republic",,PARM
+251,440,A_1009,C_1 | C_1 | C_1,Russia | Central African Republic | China,R_12 | R_11 | R_4,0001-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_1 - Contract,,Central African Republic,,PARM
+252,430,A_2002,C_1 | C_1,Russia | Republic of Congo,R_11 | R_12,2019-05-24,D_1 - Proposed - formal,E_1 - Independent event,F_0 - Vague,,,,PARM
+253,436,A_2003 | A_3002,C_1 | C_1,Central African Republic | Russian Federation,R_14 | R_14,2019-10-23,D_1 - Proposed - formal,E_1 - Independent event,F_8 - Proposal,,"Sochi, Russian Federation",,PARM
+254,447,A_1006 | A_3002 | A_4001,C_3,Sergei Lavrov,R_1,2017-10-09,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Sochi, Russia",,PARM
+255,444,A_0000,C_3,Russian Foreign Minister Sergei Lavrov,R_15,0001-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+256,450,A_1006,C_1 | C_1,Russia | CAR,R_1 | R_1,2018-08-09,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+257,434,A_0000,C_21 | C_21,Russian political strategists | Madagascar presidential candidates,R_11 | R_12,2018-01-01,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+258,441,A_2002,C_1 | C_1,Russia | Democratic Republic of the Congo,R_11 | R_12,0001-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Democratic Republic of the Congo,,PARM
+259,431,A_2002 | A_4001,C_1,Russia,R_11,1500-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,,,PARM
+260,437,A_2002,C_1 | C_1,Central African Republic | Russian Federation,R_12 | R_11,2012-01-01,D_0 - Vague,E_1 - Independent event,,,,,
+261,466,A_2001,C_1 | C_1,Russia | CAR,R_11 | R_12,2018-01-26,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+262,471,A_0000,C_1 | C_21,Russia | Yevgeny Prigozhin,R_10 | R_1,2019-01-01,D_0 - Vague,E_2 - Extended event or activity,,,Africa,,PARM
+263,454,A_2002,C_1 | C_1,Russia | CAR,R_1 | R_1,2018-08-01,D_1 - Proposed - formal,E_1 - Independent event,F_0 - Vague,,,,PARM
+264,458,A_5002,C_0,Vague,U_9999,2018-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_0 - Vague,,"Bangui, Central African Republic",,PARM
+265,456,A_2002,C_1,Russia,R_11,2019-01-01,D_1 - Proposed - formal,E_2 - Extended event or activity,,,Republic of Congo,,PARM
+266,475,A_2002,C_2 | C_1,President Touadera | Russia,R_14 | R_14,2018-01-01,D_1 - Proposed - formal,E_2 - Extended event or activity,,,Central African Republic,,PARM
+267,459,A_1001 | A_3003,C_1 | C_1,Russia | CAR,R_11 | R_12,2019-08-01,D_4 - Started - construction,E_1 - Independent event,,,"Gbokolgbo, in the Ouaka prefecture",Goes into other potential activities,PARM
+268,463,A_3002,C_2 | C_3 | C_3,Faustin Touadera | Sergei Lavrov | PM Ngrebada,R_1 | R_1 | R_1,2017-10-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+269,472,A_2002,C_1,Russia,R_11,2019-05-24,D_10 - Started - non-construction,E_2 - Extended event or activity,,,DRC,,PARM
+270,469,A_2002,C_11,Wagner Group,R_1,2018-04-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+271,460,A_1001 | A_3003,C_1 | C_1,Russia | CAR,R_11 | R_12,2019-08-01,D_4 - Started - construction,E_1 - Independent event,,,"Gbokolgbo, in the Ouaka prefecture",,PARM
+272,457,A_5003,C_20,Three Russian journalists,R_4,2019-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,CAR,,PARM
+273,478,A_2001 | A_2002,C_2 | C_1,President Touadera | Russia,R_14 | R_14,0001-01-01,D_2 - Proposed - informal,E_1 - Independent event,,,Central African Republic,,PARM
+274,473,A_3002,C_1,Russia,R_10,2019-01-01,D_0 - Vague,E_1 - Independent event,,,Black Sea,,PARM
+275,461,A_1001 | A_3003,C_1 | C_1,Russia | CAR,R_11 | R_12,2019-08-01,D_4 - Started - construction,E_1 - Independent event,,,"Gbokolgbo, in the Ouaka prefecture",,PARM
+276,455,A_2001 | A_2002,C_1 | C_1,Russia | CAR,R_11 | R_12,2018-01-01,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+277,467,A_4002,C_3 | C_7,Leopold Mboli Fatran | Lobaye Invest Sarlu,R_11 | R_12,2018-06-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+278,479,A_2001,C_1 | C_1,Russia | Central African Republic,R_11 | R_12,2018-01-26,D_11 - Carried out - one-off events,E_1 - Independent event,,,Bangui M'Poko International Airport,,PARM
+279,483,A_1006,C_1,Central African Republic,R_1,2021-03-17,D_10 - Started - non-construction,E_1 - Independent event,,,Central African Republic,,PARM
+280,492,A_2002,C_1 | C_1 | C_9,Central African Republic | Rwanda | Wagner Group,R_12 | R_11 | R_11,0001-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+281,489,A_2003,C_11,Wagner Company,R_10,2018-01-01,D_0 - Vague,E_1 - Independent event,,,Central African Republic,,PARM
+282,487,A_0000,C_3,Fidele Gouandjika,R_15,2021-03-15,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+283,482,A_2004 | A_2006,C_11,Wagner Group,R_2,2021-03-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,"Bambari, Central African Republic",,PARM
+284,488,A_5001,C_21,Female leaders in CAR,R_15,2021-03-26,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+285,494,A_2004,C_11 | C_1 | C_14,Wagner Group | Central African Republic | Rebels,R_2 | R_2 | R_3,2021-02-24,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Bossangoa, Central African Republic",,PARM
+286,485,A_2004,C_14 | C_11,Patriots for Change | Wagner,R_16 | R_16,2021-03-23,D_13 - In Progress - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,Bambari,,PARM
+287,497,A_1006,C_2,President Faustin Touadéra,R_1,2017-10-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Sochi, Russia",,PARM
+288,490,A_3001,C_14 | C_11 | C_5,FPRC | Wanger Company | Central African Republic,R_13 | R_0 | R_13,2019-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,Central African Republic,,PARM
+289,496,A_2004,C_11 | C_6,Wagner | Rwanda Troops,R_2 | R_2,2021-02-19,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,"Boda, Boali, Bossembélé, Yaloké, Bouar, Béloko",,PARM
+290,486,A_2004,C_14 | C_11,Patriots for Change | Wagner,R_16 | R_16,2021-03-23,D_13 - In Progress - non-construction,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,Bambari,,PARM
+291,493,A_2004,C_6 | C_11 | C_6,Rwandan Military | Wagner Group | Central African Military,R_2 | R_2 | R_2,2021-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+292,507,A_0000,C_11 | C_21,Russian Mercenaries | Bambari young people,R_2 | R_4,2021-03-05,D_8 - Completed - extended event or activity,E_1 - Independent event,,,"Bambari, Central African Republic",,PARM
+293,514,A_1006,C_1,Central African Republic,R_0,2021-03-13,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central african Republic,,PARM
+294,510,U_9999,C_2,President Touadera,R_10,2021-03-16,U_9999 - Does not fit the current coding scheme,U_9999 - Does not fit the current coding scheme,U_9999 - Does not fit the current coding scheme,,Central African Republic,,PARM
+295,512,A_2006,C_14 | C_14,Patriote Coalition for the Change | FACA,R_2 | R_2,2021-03-24,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Bouar and Bessen,,PARM
+296,508,A_0000,C_0,Potentially public officials in Bangui and Bouar,R_10,2021-03-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+297,523,A_2004,C_11 | C_1 | C_1,Wagner Group | Rwanda | Central African Republic,R_2 | R_2 | R_2,5678-12-31,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+298,511,A_2004,C_6 | U_9999,National army soldiers backed by Russian mercenaries | Rebels of Patriots for Change coalition,R_16 | R_16,2021-02-20,D_13 - In Progress - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+299,515,A_2004,C_14,Coalition of Rebels,R_2,2020-12-27,D_10 - Started - non-construction,E_2 - Extended event or activity,,,Central African Republic,Towards Bangui,PARM
+300,521,A_2004,C_6 | C_11 | C_14,Central African Armed Forces | Wagner | Unity for Peace,R_2 | R_2 | R_3,2021-02-10,D_11 - Carried out - one-off events,E_1 - Independent event,,,Kombélé village,,PARM
+301,513,A_2004,C_14 | C_14,FACA | Patriote Coalition for the Change,R_2 | R_2,2021-03-24,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Bouar and Bessan,,PARM
+302,509,A_2004,C_11 | C_6 | C_6,"""Russian forces"" - potentially Wagner | FACA | Rwandan forces",R_1 | R_1 | R_1,2021-01-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+303,518,A_2002,C_1 | C_14 | C_11,Russian Federation | Muslim Rebel Group | Christian Anti-Balaka militia,R_14 | R_16 | R_16,2013-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,"Hundreds of Russian police officers and over 2,200 soldiers deployed.",PARM
+304,516,A_2005,C_11 | C_6 | C_6,Russian Mercenaries | Rwandan Soldiers | Central African army,R_3 | R_3 | R_3,2020-12-27,D_10 - Started - non-construction,E_2 - Extended event or activity,,,Central African Republic,,PARM
+305,522,A_2004,C_6 | C_14,Central African Armed Forces | Unity for Peace,R_16 | R_16,2021-02-11,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+306,527,A_2004,C_6 | C_11 | C_6,FACA | Wagner Group | Rwandan Military,R_16 | R_16 | R_16,2021-02-22,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,"Haute-Kotto Prefecture, Central African Republic",,PARM
+307,525,A_2004,C_11 | C_6 | C_14,Wagner Group | Central African Armed Forces (FACA) | CPC,R_2 | R_2 | R_3,2021-02-10,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,"Kombele, Central African Republic",,PARM
+308,528,A_2004,C_14,CPC,R_2,2021-02-22,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Bambari, Central African Republic",,PARM
+309,531,U_9999,C_14,Patriots' Coalition for Change (CPC),R_1,2021-02-20,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+310,533,A_2002 | A_3003,C_1 | C_1,Russia | Sudan,R_13 | R_13,2019-05-24,D_1 - Proposed - formal,E_1 - Independent event,F_1 - Contract,,,,PARM
+311,529,A_2004,C_14 | C_11 | C_6,CPC | Wanger Company | Rwandan Troops,R_2 | R_3 | R_3,2021-01-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,"Bangui, Central African Republic",,PARM
+312,532,U_9999,C_21,General of local anti-Balaka militia,R_15,2021-02-21,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+313,526,A_2004,C_11 | C_7,Wagner Group | Lobaye Invest,R_2 | U_9999,2021-02-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,"Bambari, Central African Republic",,PARM
+314,534,A_2002,C_1 | C_1,Russia | Sudan,R_13 | R_13,2019-05-24,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+315,530,A_2005,C_11 | C_14,Wagner | CPC,R_16 | R_16,2021-02-19,D_8 - Completed - extended event or activity,E_1 - Independent event,,,Central African Republic,This article is about the lack of accountability when it comes to crimes committed by the Wagner mercenary group in CAR.,PARM
+316,535,A_2006 | A_3002,C_1 | C_1 | C_4,Russian ambassador | CAR | François Bozizé  and CPC,R_15 | R_1 | R_2,2021-02-21,D_11 - Carried out - one-off events,E_1 - Independent event,,,Bangui,,PARM
+317,539,A_2001 | A_2002,C_1,Russia,R_11,2021-12-22,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,,,Bangui,,PARM
+318,536,A_2006 | A_3002,C_1 | C_1 | C_4,Russia | CAR | François Bozizé,R_15 | R_1 | R_2,2021-02-21,D_0 - Vague,E_2 - Extended event or activity,,,Bangui,,PARM
+319,548,A_1007 | A_4001,C_1 | C_1,Jamaica | China,R_12 | R_11,2019-10-23,D_4 - Started - construction,E_1 - Independent event,F_8 - Proposal,43000000.00,,,PARM
+320,543,A_1011,C_16 | C_1,China Harbour Engineering Company Limited | Jamaica,R_10 | R_12,2017-07-20,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+321,546,A_4001,C_7 | C_1,Jiuquan Iron and Steel Company (JISCO) | Jamaica,R_9 | R_12,2018-06-20,D_1 - Proposed - formal,E_1 - Independent event,F_4 - Investment,3000000000.00,"Nain, St Elizabeth, Jamaica",,PARM
+322,544,A_1011,C_16,China Harbour Engineering Company Limited,R_10,2017-07-20,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+323,547,A_4001,C_7 | C_1,Jiuquan Iron and Steel Company (JISCO) | Jamaica,R_9 | R_12,2018-06-20,D_1 - Proposed - formal,E_1 - Independent event,F_4 - Investment,3000000000.00,,,PARM
+324,545,A_1011,C_21,Dr Zhimin Hu,R_10,2017-07-20,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+325,549,A_1011,C_7 | C_5,China Railway Construction Corporation Limited | Ministry of Transport and Communications of Peru,R_12 | R_13,2018-11-05,D_11 - Carried out - one-off events,E_1 - Independent event,F_1 - Contract,,,,PARM
+326,550,A_1011,C_1 | C_1,China | Peru,R_10 | R_12,2018-10-05,D_2 - Proposed - informal,E_2 - Extended event or activity,F_8 - Proposal,375250000.00,,,PARM
+327,551,A_1011,C_16 | C_1,Sinohydro | Bolivia,R_10 | R_12,2018-07-08,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARM
+328,552,A_1005,C_2,Evo Morales,R_0,2019-06-11,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,,,,PARM
+329,553,A_1005,C_1 | C_1,Spain | Bolivia,R_1 | R_12,2015-04-27,D_0 - Vague,E_2 - Extended event or activity,,,,,PARM
+330,559,A_0000,C_1 | C_1,Sinohydro | Bolivia,R_10 | R_12,2020-02-06,D_5 - Under construction - on time,E_1 - Independent event,F_7 - Loan,362100000.00,,,PARM
+331,561,U_9999,C_21,Four Chinese explosives experts,R_4,2014-04-03,U_9999 - Does not fit the current coding scheme,E_1 - Independent event,,,,,PARM
+332,560,A_0000,C_8 | C_1,Eximbank of China | Bolivia,R_9 | R_12,2020-02-06,D_5 - Under construction - on time,E_1 - Independent event,F_7 - Loan,362100000.00,,,PARM
+333,562,A_1005,C_1 | C_8,Ecuador | China Export-Import Bank,R_12 | R_11,2014-04-03,D_8 - Completed - extended event or activity,E_1 - Independent event,,,,,PARM
+334,555,A_1005,C_9 | C_7 | C_9 | C_9 | C_9,China Gezhouba Group | Sinohydro | Impsa | Ceosa | Oasa,R_1 | R_1 | R_1 | R_1 | R_1,2020-07-08,D_11 - Carried out - one-off events,E_1 - Independent event,F_1 - Contract,,,,PARM
+335,556,A_1005,C_9,Emesa,R_10,2020-07-08,U_9999 - Does not fit the current coding scheme,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+336,554,A_1008,C_7 | C_1,"China Harbour Engineering Company | Jamaica, via Housing Agency of Jamaica",R_9 | R_10,2019-10-15,D_1 - Proposed - formal,E_1 - Independent event,F_5 - Grant,9500000000.00,St. Catherine,,PARM
+337,557,A_1005,C_1 | C_2,Agentina | Mendoza officials,R_0 | R_15,2020-07-08,D_0 - Vague,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,,,PARM
+338,563,A_1005,C_7 | C_1,Sinohydro | Bolivia,R_10 | R_12,2017-08-22,D_7 - Under construction - unknown,E_1 - Independent event,F_7 - Loan,,,,PARM
+339,558,A_1005,C_9,Impsa,R_10,2020-07-08,D_0 - Vague,U_9999 - Does not fit the current coding scheme,F_8 - Proposal,,,,PARM
+340,564,A_1005,C_1,Bolivia,R_9,2017-08-22,D_7 - Under construction - unknown,E_1 - Independent event,F_5 - Grant,520000000.00,,,PARM
+341,565,A_1005,C_7 | C_9,Pacific Hydro Chile | Astaldi,R_13 | R_13,2017-03-08,D_2 - Proposed - informal,E_1 - Independent event,F_1 - Contract,44000000.00,Chile,,PARM
+342,569,A_1005,C_7 | C_7,Sinohydro | Empresa Electrica Corani,R_10 | R_13,2014-06-26,D_1 - Proposed - formal,E_1 - Independent event,F_1 - Contract,240000000.00,"Cochabamba, Bolivia",,PARM
+343,566,A_1005,C_7 | C_9,China Three Gorges Corp. | China's Hubei Energy Group Co. Ltd.,R_9 | R_9,2017-08-25,D_11 - Carried out - one-off events,E_1 - Independent event,F_9 - Purchase,1390000000.00,,,PARM
+344,570,A_1005,C_7 | C_0 | C_1,China Railway First Group (CRFG) | Sithe | Guyana,R_9 | R_9 | R_12,2012-09-01,D_12 - Cancelled,E_1 - Independent event,F_0 - Vague,,,,PARM
+345,567,A_1005,C_7,China Three Gorges Corp.,R_10,2017-08-25,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+346,568,A_1005,C_0 | C_5,RC Hydro | Ministry of Mines and Energy,R_10 | R_0,2017-08-25,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,60000000.00,,,PARM
+347,573,A_2002,C_1,Russia,R_11,2019-04-15,D_1 - Proposed - formal,E_2 - Extended event or activity,,,CAR,,PARM
+348,571,A_5003,C_20 | C_20 | C_20,Orkhan Dzhemal | Kirill Radchenko | Alexander Rastorguev,R_4 | R_4 | R_4,2020-01-13,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Sibut, CAR",,PARM
+349,576,U_9999,C_11 | C_21,"""Russian soldiers"" | Mahamat Nour Mamadou",R_2 | R_4,2019-01-15,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+350,578,A_1004,C_1 | C_0,Russia | sub-Saharan Africa,R_13 | R_13,2017-02-01,D_0 - Vague,E_2 - Extended event or activity,,,,,PARQ
+351,575,A_2002 | A_2005,C_1 | C_1,Cameroon | CAR,R_11 | R_12,2019-09-05,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,,,PARM
+352,574,A_5003,C_20 | C_20 | C_6,Charles Bouessel | Florent Vergnes | Security officers of Central Office for the Suppression of Banditry,R_4 | R_4 | R_2,2019-06-16,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,"Bangui, CAR",,PARM
+353,586,A_1001 | A_1009,C_0,Russian Partners,R_11,2019-06-01,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,"Bokolobo, Central African Republic",,PARM
+354,580,A_1004,C_7 | C_0,"ROSATOM | Sudan, Kenya, Uganda, Nigeria, Rwanda, Zambia and Ghana",R_1 | R_12,2019-02-01,D_1 - Proposed - formal,E_2 - Extended event or activity,,,,,PARQ
+355,581,A_1008,C_1 | C_15 | C_14,CAR | UN | FACA,R_1 | R_1 | R_1,2019-02-13,D_0 - Vague,E_1 - Independent event,,,Bangui,,PARM
+356,579,A_1004,C_1,Ethiopia,R_10,2019-02-01,D_0 - Vague,E_2 - Extended event or activity,,,,,PARQ
+357,582,A_1008,C_1 | C_15 | C_14,CAR | UN | FACA,R_1 | R_1 | R_1,2019-02-13,D_0 - Vague,E_1 - Independent event,,,Bangui,,PARM
+358,593,A_1003 | A_1010 | A_4001,C_16,New Cloud Technologies,R_11,2019-10-21,D_10 - Started - non-construction,E_2 - Extended event or activity,F_0 - Vague,,Democratic Republic of Congo,,PARM
+359,588,U_9999,C_15,MINUSCA,R_4,2019-09-27,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,Bouar,,PARM
+360,596,A_3002,C_1 | C_1 | C_7,Russia | Central African Republic | Rosatom,R_1 | R_1 | R_1,2019-10-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+361,583,A_1008,C_1 | C_15 | C_14,CAR | UN | FACA,R_1 | R_1 | R_1,2019-02-13,D_0 - Vague,E_1 - Independent event,,,Bangui,,PARM
+362,587,A_1003,C_1 | C_21,Russia | Alexander Pokkhof,R_10 | R_15,2019-01-01,D_1 - Proposed - formal,E_2 - Extended event or activity,,,"Barthelemy-Boganda High School, Bangui, CAR",,PARM
+363,595,A_1003 | A_1004,C_1 | C_9,Government of DRC | Novie Oblatchnie Tekhnologii,R_13 | R_13,2019-10-24,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARM
+364,594,A_3002,C_2 | C_2,Vladimir Putin | Abdel Fattah al-Sisi,R_15 | R_15,2019-10-23,D_11 - Carried out - one-off events,E_1 - Independent event,U_9999 - Does not fit the current coding scheme,,"Sochi, Russia",,PARM
+365,590,A_2004,C_14 | C_15,"Return, Reclamation, Rehabilitation | MINUSCA",R_3 | R_2,2019-09-26,D_11 - Carried out - one-off events,E_1 - Independent event,,,CAR,,PARM
+366,597,A_2002 | A_2005,C_3 | C_3,Russian Defense Minister Sergey Shoygu | CAR Defense Minister Marie-Noelle Koyara,R_13 | R_13,2018-08-21,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Moscow, Russian Federation",,PARM
+367,601,A_2001,C_1,France,R_11,2018-11-12,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+368,602,A_2002,C_1,Russia,R_0,2018-11-12,D_0 - Vague,E_2 - Extended event or activity,,,,,PARQ
+369,604,A_3002,C_7 | C_3 | C_3,Gazprom | Ambroise Tshiyoyo | Simon Tuma Waku,R_1 | R_1 | R_1,2015-04-26,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+370,603,A_3003,C_9,Lengo Songo,R_10,2018-01-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+371,608,A_3001,C_1 | C_1,Russia | Democratic Republic of the Congo,R_13 | R_13,2018-06-11,D_8 - Completed - extended event or activity,E_2 - Extended event or activity,,,,,PARM
+372,606,A_2002,C_1 | C_2 | C_2,Russia | Vladimir Putin | Denis Sassou Nguesso,R_11 | R_13 | R_13,2019-05-23,D_1 - Proposed - formal,E_2 - Extended event or activity,,,DRC,,PARM
+373,605,A_1007 | A_4001,C_1 | C_5,Russia | Rospotrebnadzor,R_11 | R_12,2019-10-01,D_1 - Proposed - formal,E_2 - Extended event or activity,F_4 - Investment,,,,PARM
+374,610,U_9999,C_21,Russian crew members - vague,R_4,2019-10-10,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+375,609,A_4001,C_3 | C_3,DRC Minister of Foreign Affairs and Regional Integration Leonard She Okitundu | Russian Foreign Minister Sergey Lavrov,R_14 | R_14,2017-03-22,D_1 - Proposed - formal,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,"Unknown, possibly over phone call",,PARM
+376,612,A_0000,C_1 | C_1 | C_2,Russia | France | Felix Tshisekedi,R_11 | R_11 | R_12,2019-01-22,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+377,611,A_1009,C_2 | C_3,Firmin Ngrebada | Vladimir Titorenko,R_14 | R_14,2019-09-05,D_1 - Proposed - formal,E_2 - Extended event or activity,,,Bangui,,PARM
+378,613,A_4001,C_1 | C_1,Russia | DRC,R_1 | R_1,2019-01-22,D_0 - Vague,E_1 - Independent event,,,,,PARQ
+379,614,A_0000,C_21 | C_21,Vitaly Shumkov | Vladimir Sadovnichy,R_1 | R_1,2019-10-16,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+380,615,A_3002,C_1 | C_1 | C_1,Russia | Sudan | Democratic Republic of the Congo,R_14 | R_14 | R_14,2019-10-23,D_11 - Carried out - one-off events,E_1 - Independent event,F_0 - Vague,,Sochi,,PARM
+381,624,A_5002,C_9 | C_21,Facebook | Yevgeny Prigozhin,R_10 | R_0,2019-10-30,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+382,623,U_9999,C_21,Modest Kikunga,R_10,2019-05-08,D_11 - Carried out - one-off events,E_1 - Independent event,,,Kinshasa,,PARM
+383,629,A_5002,C_16 | C_21,IRA | Yevgeny Prigozhin,R_10 | R_10,2016-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,,,PARM
+384,625,A_3002,C_2,Vladimir Putin,R_10,2019-10-01,D_10 - Started - non-construction,E_2 - Extended event or activity,,,,,PARM
+385,628,A_5002,C_21 | C_9,Yevgeny Prigozhin | M-Invest,R_1 | R_1,1111-01-01,D_0 - Vague,E_2 - Extended event or activity,F_0 - Vague,,,,PARM
+386,622,A_1008 | A_3002 | A_4001,C_3 | C_3,Russian Foreign Minister Sergey Lavrov | DRC Foreign Minister Leonard She Okitundu,R_14 | R_14,2017-04-22,D_1 - Proposed - formal,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,"Moscow, Russian Federation",,PARM
+387,631,A_2002,C_2 | C_11,President Touadera | Russian Instructors,R_1 | R_1,2018-09-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+388,627,A_5002,C_9,Facebook,R_10,2019-10-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+389,630,U_9999,C_21 | C_5,Yevgeny Prigozhin | US Treasury Department,R_12 | R_11,2016-12-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARM
+390,632,A_2002,C_6,FACA,R_0,2018-08-08,D_11 - Carried out - one-off events,E_2 - Extended event or activity,,,,,PARQ
+391,637,A_3001,C_1 | C_1,Sudan | Russia,R_14 | R_14,2017-11-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,F_8 - Proposal,,,,PARM
+392,633,A_2002,C_3,Sergey Lebanov,R_1,2018-09-01,D_11 - Carried out - one-off events,E_1 - Independent event,,,Central African Republic,,PARM
+393,634,A_3002,C_16 | C_1,Russia-Africa Forum | DRC,R_10 | R_1,2019-10-23,D_11 - Carried out - one-off events,E_1 - Independent event,,,Sochi,Meeting with many countries.,PARM
+394,639,A_1007 | A_1008,C_1 | C_1,Russia | Unidentified African Countries,R_11 | R_12,1111-01-01,D_1 - Proposed - formal,E_1 - Independent event,F_0 - Vague,,,,PARM
+395,638,A_2002,C_11,Unnamed private Russian military companies,R_1,2019-01-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,,,Sudan,,PARM
+396,635,A_3002,C_16 | C_1,Russia-Africa Forum | DRC,R_10 | R_1,2019-10-23,D_11 - Carried out - one-off events,E_1 - Independent event,,,Sochi,,PARM
+397,641,A_2004 | A_2005,C_6 | C_6 | C_2,Russian Military | Ukrainian Military | Dmitry Kozak,R_2 | R_3 | R_15,2021-03-01,D_13 - In Progress - non-construction,E_2 - Extended event or activity,U_9999 - Does not fit the current coding scheme,,Ukraine's eastern border,,PARM
+398,642,A_1004 | A_4001,C_5 | C_1,Sudanese Ministry of Energy | Russia,R_1 | R_1,2018-03-12,D_11 - Carried out - one-off events,E_1 - Independent event,,,,,PARQ
+399,640,A_1004 | A_1005,C_1,Russian Federation,R_9,2019-08-04,D_1 - Proposed - formal,E_2 - Extended event or activity,F_1 - Contract,,Northern Sea,,PARM
+400,643,A_1004 | A_4001,C_1 | C_1,Sudan | Russia,R_13 | R_13,2018-11-01,D_1 - Proposed - formal,E_1 - Independent event,,,,,PARQ
+401,645,A_1011,C_21,Russian civilians,R_1,2019-10-11,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Goma, DRC",,PARM
+402,644,A_1004,C_1 | C_9,Democratic Republic of the Congo | New Cloud Technologies,R_13 | R_13,2019-10-01,D_1 - Proposed - formal,E_2 - Extended event or activity,,,DRC,,PARM
+403,646,A_1011,C_21,Russian civilians,R_1,2019-10-11,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Goma, DRC",,PARM
+404,647,A_1011,C_21,Russian civilians,R_1,2019-10-11,D_11 - Carried out - one-off events,E_1 - Independent event,,,"Goma, DRC",,PARM
+405,648,A_1006,C_3,Yevgeny Prigozhin,R_10,2020-11-03,D_0 - Vague,E_2 - Extended event or activity,,,Russia and throughout Africa,,PARM
