@@ -19,12 +19,19 @@ Return to Search
 	  <tr>
 		<th>Tweet ID</th>
 		<th>Tweet Text</th>
-		<th>Tweet URL</th>
 		<th>Tweet Date</th>
+		<th>Tweet URL</th>
 	  </tr>
 	</thead>
 	<tbody>
-        <h1> {{ vals }} </h1>
+        { % for v in vals % }
+        <tr>
+            <td>{{ v.id }}</td>
+			<td>{{ v.text }}</td>
+			<td>{{ v.date }}</td>
+			<td>{{ v.url }}</td>
+        </tr>
+        { % endfor % }
 	<tbody>
   </table>
 </div>
