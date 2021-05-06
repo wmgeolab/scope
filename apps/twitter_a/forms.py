@@ -5,7 +5,7 @@ from .models import *
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-class TwitterSearchForm(forms.ModelForm):
+class TwitterSearchForm(forms.Form):
     primary_keywords = forms.CharField(help_text="\nEnter primary keywords\n\n")
     secondary_keywords = forms.CharField(help_text="\nEnter secondary keywords\n\n")
     tertiary_keywords = forms.CharField(required=False, help_text="\nEnter tertiary keywords\n\n")
