@@ -9,6 +9,10 @@ class TwitterSearch(models.Model):
     end_date = models.DateTimeField(max_length=100)
 
 class TwitterSource(models.Model):
+    source_id = models.TextField(primary_key=True, max_length=50, blank=True, unique = True)
     source_url = models.URLField(blank=True, unique = True)
     source_text = models.TextField(blank=True, null=True)
-    source_date = models.DateTimeField(blank=True, null=True)
+    source_date = models.TextField(blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'twitter_a_twittersource'
