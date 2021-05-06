@@ -1,7 +1,7 @@
 import datetime
 
 from django import forms
-from .models import TwitterSearch
+from .models import *
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -42,5 +42,5 @@ class TwitterSourceForm(forms.ModelForm):
     source_text = forms.CharField()
     source_date = forms.CharField()
     class Meta:
-        model = TwitterSourceForm
+        model = TwitterSource
         fields = '__all__'
