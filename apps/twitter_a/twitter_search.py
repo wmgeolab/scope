@@ -1,5 +1,6 @@
 import csv
 import datetime
+import os
 import requests
 import random
 import re
@@ -114,12 +115,15 @@ def twitter_search(start_date, end_date, primary, secondary = [], tertiary = [])
     sd = parse_date(start_date)
     ed = parse_date(end_date)
     n = 1
-
+    lines = []
     # api keys, change later after academic twitter dev request
-    API_KEY = "PrZnFLvUulWbCX5dXauSGzFGJ"
-    API_SECRET_KEY = "ARVUc8q2M29P83i2plU4rZTlNYKFCXHxU18ANx5HS5wHoZmbAS"
-    ACCESS_TOKEN = "1374811944629252103-OsZ3d8FmAUTALcnR3nxZOzp26C8iTm"
-    ACCESS_TOKEN_SECRET = "ImI8Kw6xifEGRIwSCp59nw4M2OewtxhC67eLz0jyl6pwu"
+    with open(os.path.join(os.getcwd(), 'apps/twitter_a/api.txt')) as f:
+        lines = f.readlines()
+    print(lines)
+    API_KEY = str(lines[1]).strip('\n')
+    API_SECRET_KEY = str(lines[3]).strip('\n')
+    ACCESS_TOKEN = str(lines[5]).strip('\n')
+    ACCESS_TOKEN_SECRET = str(lines[7]).strip('\n')
 
     auth = tw.OAuthHandler(API_KEY, API_SECRET_KEY)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
