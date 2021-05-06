@@ -22,6 +22,5 @@ urlpatterns = [
     re_path('^$', views.home, name='twitter_a'),
     # source
     re_path('^twitter/import$', views.twitter_import, name='twitter_import'),
-    re_path('^twitter/loading$', views.twitter_loading, name='twitter_loading'),
     re_path('^twitter/results$', views.twitter_results, name='twitter_results'),
 ]
