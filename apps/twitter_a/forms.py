@@ -12,7 +12,6 @@ class TwitterSearchForm(forms.ModelForm):
     start_date = forms.DateTimeField(help_text="\nPlease enter a date (later than March 2006)\n\n")
     end_date = forms.DateTimeField(help_text="\nPlease enter a date (up to or earlier than the current date)\n\n")
     class Meta:
-        model = TwitterSearch
         fields = '__all__'
 
     def clean_primary_kw(self):
@@ -42,5 +41,4 @@ class TwitterSourceForm(forms.ModelForm):
     source_text = forms.CharField()
     source_date = forms.CharField()
     class Meta:
-        model = TwitterSource
         fields = '__all__'
