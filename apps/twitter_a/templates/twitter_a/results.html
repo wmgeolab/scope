@@ -24,12 +24,12 @@ Return to Search
 	  </tr>
 	</thead>
 	<tbody>
-        { % for v in vals % }
+        { % for val in vals % }
         <tr>
-            <td>{{ v.id }}</td>
-            <td>{{ v.text }}</td>
-            <td>{{ v.date }}</td>
-            <td>{{ v.url }}</td>
+            <td>{{ val.id }}</td>
+            <td>{{ val.text }}</td>
+            <td>{{ val.date }}</td>
+            <td>{{ val.url }}</td>
         </tr>
         { % endfor % }
 	<tbody>
