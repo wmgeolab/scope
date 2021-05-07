@@ -36,6 +36,7 @@ class TwitterSearchForm(forms.Form):
         return data
 
 class TwitterSourceForm(forms.ModelForm):
+    source_search_id = forms.CharField()
     source_id = forms.CharField()
     source_url = forms.CharField()
     source_text = forms.CharField()
