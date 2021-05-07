@@ -25,6 +25,7 @@ urlpatterns = [
     path('domain/', include('domain.urls')),
     path('download/', include('download.urls')),
     #path('GDELT_a/', include('GDELT_a.urls')),
+    path('twitter_a/', include('twitter_a.urls')),
     path('sourcing_m/', include('sourcing_m.urls')),
     path('sourcing_a/', include('sourcing_a.urls')),
     path('extracting_m/', include('extracting_m.urls')),

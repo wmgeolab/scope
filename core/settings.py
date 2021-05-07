@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'domain',
     'download',
     'users',
+    'twitter_a',
     'sourcing_m',
     'sourcing_a',
     'extracting_m',
@@ -93,6 +94,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'apps', 'users'),
             #os.path.join(BASE_DIR, 'apps', 'GDELT_a'),
             os.path.join(BASE_DIR, 'apps', 'users', 'templates', 'users'), # allows direct access to 'account' folder templates, for overriding allauth templates
+            os.path.join(BASE_DIR, 'apps', 'twitter_a'),
             os.path.join(BASE_DIR, 'apps', 'sourcing_m'),
             os.path.join(BASE_DIR, 'apps', 'sourcing_a'),
             os.path.join(BASE_DIR, 'apps', 'extracting_m'),
@@ -221,3 +223,4 @@ else:
             ],
         }
     }
+
