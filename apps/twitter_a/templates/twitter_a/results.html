@@ -26,13 +26,13 @@ Return to Search
 	<tbody>
         { % for val in vals % }
         <tr>
-            <td>{{ val.id }}</td>
-            <td>{{ val.text }}</td>
-            <td>{{ val.date }}</td>
-            <td>{{ val.url }}</td>
+            <td> {{ val.source_id }} </td>
+            <td> {{ val.source_text }} </td>
+            <td> {{ val.source_date }} </td>
+            <td> {{ val.source_url }} </td>
         </tr>
         { % endfor % }
-	<tbody>
+    </tbody>
   </table>
 </div>
 
