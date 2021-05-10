@@ -10,6 +10,7 @@ import pymysql
 
 class SourceType3:
     def __init__(self, tweet, html):
+        # TODO break rarer/more complex data and add to db. unable to do so currently due to free twitter dev account rate limits/termination analysis
         self.tweet = tweet # Status object
         self.source_api = str(tweet._api) # str api call reference
         self.source_type_code = "SCOPE_S_3"
@@ -114,12 +115,11 @@ def twitter_search(start_date, end_date, primary, secondary = [], tertiary = [])
     # get dates into right format for api
     sd = parse_date(start_date)
     ed = parse_date(end_date)
-    n = 1
+    n = 2
     lines = []
     # api keys, change later after academic twitter dev request
     with open(os.path.join(os.getcwd(), 'apps/twitter_a/api.txt')) as f:
         lines = f.readlines()
-    print(lines)
     API_KEY = str(lines[1]).strip('\n')
     API_SECRET_KEY = str(lines[3]).strip('\n')
     ACCESS_TOKEN = str(lines[5]).strip('\n')
@@ -158,8 +158,8 @@ def sql_conn(tweet, create=False):
     db = "scopesourcedata"
     conn = pymysql.connect(host=host, user=user, password=pwd, db=db)
     curs = conn.cursor()
-    curs.execute("DROP TABLE IF EXISTS SourceType3")
     if create:
+        curs.execute("DROP TABLE IF EXISTS SourceType3")
         sql_create = """CREATE TABLE SourceType3 (source_id VARCHAR(255) PRIMARY KEY, source_type_code VARCHAR(10), source_json LONGTEXT, source_text LONGTEXT, source_documentation LONGTEXT, source_url TEXT,
             source_created_at TEXT, source_in_reply_to_status_id TEXT, source_in_reply_to_user_id TEXT, source_in_reply_to_screen_name TEXT, source_user_id TEXT, source_user_name TEXT, 
             source_user_screenname TEXT, source_user_location TEXT, source_user_description MEDIUMTEXT, source_user_url TEXT, source_user_created_at TEXT, source_user_followers_count INT,
@@ -186,24 +186,10 @@ def sql_conn(tweet, create=False):
     curs.execute(sql, val)
     conn.commit()
     output = curs.fetchall()
-    # print(output)
     conn.close()
 
 def main():
-    a = twitter_search("03/23/2021", "03/24/2021", ["covid"], ["19"])
-    # print(twitter_search("02/24/2021", "02/25/2021", ["America", "green"], ["plant", "tree"]))
-    print(sql_conn(a[0]))
-
-
-
-
-
-# with open('foo1.txt', 'w', encoding="utf-8") as f:
-#   for i in a:
-#     attrs = vars(i)
-#     f.write(', '.join("%s: %s" % item for item in attrs.items()))
-#     f.write("\n=========================================================\n")
-
+    pass
 
 if __name__ == '__main__':
     main()
