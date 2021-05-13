@@ -28,9 +28,9 @@ def twitter_import(request):
             for i in form.cleaned_data['tertiary_keywords'].split(','):  tkw.append(i.strip())
             tweets = twitter_search(form.cleaned_data['start_date'].strftime('%m/%d/%Y'), form.cleaned_data['end_date'].strftime('%m/%d/%Y'), pkw, skw, tkw)
             for x in tweets:
+                sql_conn(x)
                 TwitterSource.objects.create(source_search_id=x.source_id+datetime.datetime.now().strftime("%m/%d/%Y-%H:%M:%S"), source_id=x.source_id, source_text=x.source_text, source_date=x.source_created_at, source_url=x.source_url)
             vals = TwitterSource.objects.all()
-            print(vals)
             return render(request, "templates/twitter_a/results.html", {'vals': vals})
     else:  form = TwitterSearchForm()
     return render(request, 'templates/twitter_a/search.html', {'form': form})
