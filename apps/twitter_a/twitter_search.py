@@ -10,7 +10,6 @@ import pymysql
 
 class SourceType3:
     def __init__(self, tweet, html):
-        # TODO break rarer/more complex data and add to db. unable to do so currently due to free twitter dev account rate limits/termination analysis
         self.tweet = tweet # Status object
         self.source_api = str(tweet._api) # str api call reference
         self.source_type_code = "SCOPE_S_3"
@@ -90,6 +89,7 @@ class SourceType3:
         self.source_hashtags = []
         self.source_hyperlinks = []
         self.source_relevance = 0
+        self.source_search_id = self.source_id + "-" + datetime.datetime.now().strftime("%m/%d/%Y-%H:%M:%S")
 
         for i in self.source_text.split(' '):
             if len(i) > 1 and i[0] == "#":
@@ -115,7 +115,7 @@ def twitter_search(start_date, end_date, primary, secondary = [], tertiary = [])
     # get dates into right format for api
     sd = parse_date(start_date)
     ed = parse_date(end_date)
-    n = 2
+    n = 100
     lines = []
     # api keys, change later after academic twitter dev request
     with open(os.path.join(os.getcwd(), 'apps/twitter_a/api.txt')) as f:
@@ -160,7 +160,7 @@ def sql_conn(tweet, create=False):
     curs = conn.cursor()
     if create:
         curs.execute("DROP TABLE IF EXISTS SourceType3")
-        sql_create = """CREATE TABLE SourceType3 (source_id VARCHAR(255) PRIMARY KEY, source_type_code VARCHAR(10), source_json LONGTEXT, source_text LONGTEXT, source_documentation LONGTEXT, source_url TEXT,
+        sql_create = """CREATE TABLE SourceType3 (source_search_id VARCHAR(255) PRIMARY KEY, source_id VARCHAR(25), source_type_code VARCHAR(10), source_json LONGTEXT, source_text LONGTEXT, source_documentation LONGTEXT, source_url TEXT,
             source_created_at TEXT, source_in_reply_to_status_id TEXT, source_in_reply_to_user_id TEXT, source_in_reply_to_screen_name TEXT, source_user_id TEXT, source_user_name TEXT, 
             source_user_screenname TEXT, source_user_location TEXT, source_user_description MEDIUMTEXT, source_user_url TEXT, source_user_created_at TEXT, source_user_followers_count INT,
             source_user_friends_count INT, source_user_listed_count INT, source_user_favorites_count INT, source_user_statuses_count INT, source_user_geo_enabled BIT, source_user_verified BIT, 
@@ -169,18 +169,18 @@ def sql_conn(tweet, create=False):
             source_quote_count INT, source_reply_count INT, source_favorite_count INT, source_retweet_count INT, source_favorited BIT, source_retweeted BIT, source_lang TEXT, source_relevance INT, 
             source_api TEXT);"""
         curs.execute(sql_create)
-    sql = """INSERT INTO SourceType3 (source_id, source_type_code, source_json, source_text, source_documentation, source_url, source_created_at, source_in_reply_to_status_id, source_in_reply_to_user_id, 
-        source_in_reply_to_screen_name, source_user_id, source_user_name, source_user_screenname, source_user_location, source_user_description, source_user_url, source_user_created_at,
-        source_user_followers_count, source_user_friends_count, source_user_listed_count, source_user_favorites_count, source_user_statuses_count, source_user_geo_enabled, source_user_verified,
-        source_user_lang, source_user_contributors_enabled, source_user_is_translator, source_user_is_translation_enabled, source_user_profile_background_color,
+    sql = """INSERT INTO SourceType3 (source_search_id, source_id, source_type_code, source_json, source_text, source_documentation, source_url, source_created_at, source_in_reply_to_status_id, 
+        source_in_reply_to_user_id, source_in_reply_to_screen_name, source_user_id, source_user_name, source_user_screenname, source_user_location, source_user_description, source_user_url, 
+        source_user_created_at, source_user_followers_count, source_user_friends_count, source_user_listed_count, source_user_favorites_count, source_user_statuses_count, source_user_geo_enabled, 
+        source_user_verified, source_user_lang, source_user_contributors_enabled, source_user_is_translator, source_user_is_translation_enabled, source_user_profile_background_color,
         source_user_profile_image_url_https, source_user_default_profile, source_possibly_sensitive, source_possibly_sensitive_appealable, source_quoted_status_id, source_quote_count,
-        source_reply_count, source_favorite_count, source_retweet_count, source_favorited, source_retweeted, source_lang, source_relevance, source_api) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+        source_reply_count, source_favorite_count, source_retweet_count, source_favorited, source_retweeted, source_lang, source_relevance, source_api) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-    val = (tweet.source_id, tweet.source_type_code, tweet.source_json, tweet.source_text, tweet.source_documentation, tweet.source_url, tweet.source_created_at, tweet.source_in_reply_to_status_id, 
-        tweet.source_in_reply_to_user_id, tweet.source_in_reply_to_screen_name, tweet.source_user_id, tweet.source_user_name, tweet.source_user_screenname, tweet.source_user_location, 
-        tweet.source_user_description, tweet.source_user_url, tweet.source_user_created_at, tweet.source_user_followers_count, tweet.source_user_friends_count, tweet.source_user_listed_count, 
-        tweet.source_user_favorites_count, tweet.source_user_statuses_count, tweet.source_user_geo_enabled, tweet.source_user_verified, tweet.source_user_lang, tweet.source_user_contributors_enabled, 
-        tweet.source_user_is_translator, tweet.source_user_is_translation_enabled, tweet.source_user_profile_background_color, tweet.source_user_profile_image_url_https, 
+    val = (tweet.source_search_id, tweet.source_id, tweet.source_type_code, tweet.source_json, tweet.source_text, tweet.source_documentation, tweet.source_url, tweet.source_created_at,  
+        tweet.source_in_reply_to_status_id, tweet.source_in_reply_to_user_id, tweet.source_in_reply_to_screen_name, tweet.source_user_id, tweet.source_user_name, tweet.source_user_screenname, 
+        tweet.source_user_location, tweet.source_user_description, tweet.source_user_url, tweet.source_user_created_at, tweet.source_user_followers_count, tweet.source_user_friends_count, 
+        tweet.source_user_listed_count, tweet.source_user_favorites_count, tweet.source_user_statuses_count, tweet.source_user_geo_enabled, tweet.source_user_verified, tweet.source_user_lang, 
+        tweet.source_user_contributors_enabled, tweet.source_user_is_translator, tweet.source_user_is_translation_enabled, tweet.source_user_profile_background_color, tweet.source_user_profile_image_url_https, 
         tweet.source_user_default_profile, tweet.source_possibly_sensitive, tweet.source_possibly_sensitive_appealable, tweet.source_quoted_status_id, tweet.source_quote_count, 
         tweet.source_reply_count, tweet.source_favorite_count, tweet.source_retweet_count, tweet.source_favorited, tweet.source_retweeted, tweet.source_lang, tweet.source_relevance, tweet.source_api)
     curs.execute(sql, val)
@@ -188,8 +188,5 @@ def sql_conn(tweet, create=False):
     output = curs.fetchall()
     conn.close()
 
-def main():
-    pass
-
 if __name__ == '__main__':
-    main()
+    pass
