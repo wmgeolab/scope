@@ -6,7 +6,7 @@
 
 {% block page_content %}
 
-<h2> Sourcing - Automatic </h2>
+<h2> Twitter Sourcing - Automatic </h2>
 
 <h5 style="padding:15px; float:right"> 
 <a href="{% url 'twitter_import' %}" class="btn btn-primary">
@@ -24,17 +24,16 @@ Return to Search
 	  </tr>
 	</thead>
 	<tbody>
-        { % for val in vals % }
+        {% for val in vals %}
         <tr>
             <td> {{ val.source_id }} </td>
             <td> {{ val.source_text }} </td>
             <td> {{ val.source_date }} </td>
             <td> {{ val.source_url }} </td>
         </tr>
-        { % endfor % }
+        {% endfor %}
     </tbody>
   </table>
 </div>
 
 {% endblock %}
-
