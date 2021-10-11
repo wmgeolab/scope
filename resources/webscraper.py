@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from time import time
+import json
 
 def get_only_text(p_array):
     output = ''
@@ -17,11 +18,14 @@ if __name__ == "__main__":
     driver.set_page_load_timeout(10)
 
     # getting list of relevant sources
-    file1 = open('relevant_sources.txt', 'r')
+    file1 = open('all_sources.txt', 'r')
     Lines = file1.readlines()
 
-    data = []   # fill with text from sources both relevant and not (string array)
-    target = [] # fill with 1s and 0s if source is relevant or not (int array)
+    #data = []   # fill with text from sources both relevant and not (string array)
+    #target = [] # fill with 1s and 0s if source is relevant or not (int array)
+
+    data = {}
+    data['sources'] = []
 
     t0 = time() # tracking progress variables
     count = 0   #
@@ -33,7 +37,7 @@ if __name__ == "__main__":
 
         count += 1
 
-        url = line.strip()
+        url = line.strip().split()[1]
         print(url)
         try:
             driver.get(url)
@@ -43,8 +47,16 @@ if __name__ == "__main__":
         except:
             print("AAAAAAAAAAAAAAAAA", url, " didn't work")
         else:
-            data.append(get_only_text(soup.find_all("p")))
-            target.append(1)
+            data['sources'].append({
+                'relevant': line.strip().split()[0],
+                'url': url,
+                'text': get_only_text(soup.find_all("p"))
+            })
+            #data.append(get_only_text(soup.find_all("p")))
+            #target.append(1)
 
     print("Completed " + str(count) + " jobs in %0.3fs" % (time() - t0))
     #print(target)
+
+    with open('sources_json.txt', 'w') as outfile:
+        json.dump(data, outfile, indent=4)
