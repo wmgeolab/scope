@@ -41,9 +41,9 @@ def query_gdelt(args):
 if __name__ == "__main__":
   args = {}
   args["query"] = "china ecuador"
-  args["startdatetime"] = "20140630235959"
+  args["startdatetime"] = "20170103000000"
   args["maxrecords"] = "10"
-  args['enddatetime'] = '20150630235959'
+  args['enddatetime'] = '20181011235959'
 
   print(query_gdelt(args))
   #print(query_gdelt({"query":'china ecuador','startdatetime':'2y','maxrecords':'10'}))
