@@ -1,6 +1,6 @@
-#import os
+import os
 
-#os.system("pip3 install tweepy")
+os.system("pip3 install tweepy")
 
 import csv
 import datetime
@@ -9,9 +9,13 @@ import requests
 import random
 import re
 import tweepy as tw
+#import pymysql
 
-import pymysql
+data = {} # data will be returned to the model after scraping
+data['tweets'] = []
 
+# This class takes in a tweet object and html string, then gets relevant data from it (only some of this data
+# is returned in the model, but expansion is possible by accessing other variables)
 class SourceType3:
     def __init__(self, tweet, html):
         self.tweet = tweet # Status object
@@ -103,33 +107,16 @@ class SourceType3:
         for j in url:
             self.source_hyperlinks.append(j[0])
 
-def parse_date(d):
-    """
-    # assert isinstance(d, str)
-    w = d.strip()
-    w = w.split(" ") # handles leading and trailing spaces
-    ds = w[0].split("/")
-    # if no time specified, defaults to midnight, first second of the day
-    t = ["00", "00"] if len(w) == 1 else w[1].split(":")
-    return "{}{}{}{}{}".format(ds[2], ds[0], ds[1], t[0], t[1])
-    """
-    return d
 
+# Using the arguments provided, this function querys the tweepy API and returns a list of tweet variables
 def twitter_search(args):
 
-    start_date = args['start_date']
+    sd = args['start_date']
     if 'end_date' in args:
-      end_date = args['end_date']
+      ed = args['end_date']
     primary = args['primary']
     secondary = args['secondary']
-    tertiary = args['tertiary']
 
-    # assert isinstance(primary, list)
-    # from the Twitter docs: "Limit your searches to 10 keywords and operators. Queries can be limited due to complexity."
-    # assert((len(primary) + len(secondary)) < 11)
-    # get dates into right format for api
-    sd = parse_date(start_date)
-    ed = parse_date(end_date)
     n = 100
     lines = []
     # api keys, change later after academic twitter dev request
@@ -143,7 +130,7 @@ def twitter_search(args):
     auth = tw.OAuthHandler(API_KEY, API_SECRET_KEY)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     api = tw.API(auth)
-    ret = []
+
 
     # twitter query system is quite flexible, in the future we could add more params for more targeted searches
     search_query = " ".join(primary) + " (" + " OR ".join(secondary) + ")"
@@ -154,30 +141,53 @@ def twitter_search(args):
                 fromDate=sd,
                 toDate=ed).items(n)
 
-    for tweet in tweets:
+    return tweets
+
+
+# The function called by the cdsw model, takes in arguments to search for tweets and returns a json
+# with the urls, text content, and relevancy based on tertiary words
+def get_tweets(args):
+
+  tertiary = args['tertiary']
+
+  tweets = twitter_search(args)
+
+  # ret = []
+
+  for tweet in tweets:
         tweet_link = "https://twitter.com/{}/status/{}".format(tweet.user.screen_name, tweet.id)
         req = requests.get(tweet_link)
         html = req.text
         tmp = SourceType3(tweet, html)
-        ret.append(tmp)
-    for i in ret:
-        for j in tertiary:
-            if j in i.source_text:
-                i.source_relevance += 1
-    return ret
 
+        for j in tertiary: # Increases relevancy based on the appearance of tertiary words
+          if j.lower() in tmp.source_text.lower():
+            tmp.source_relevance += 1
+
+        data['tweets'].append({ # Add the scraped data as a dictionary to be converted to json
+          'relevance': tmp.source_relevance,
+          'url': tmp.source_url,
+          'text': tmp.source_text
+        })
+
+  temp_data = data.copy()
+  data['tweets'] = []
+
+  return temp_data
+
+
+# Use the main method to test argument input. This is not run during model calls
 if __name__ == '__main__':
 
-    args = {}
-    args['start_date'] = '202110010000'
-    args['end_date'] = '202110180000'
-    args['primary'] = 'russia'
-    args['secondary'] = ['africa']
-    args['tertiary'] = ['water']
+    args = {
+      "start_date": "202109150000",
+      "end_date": "202109180000",
+      "primary": "russia",
+      "secondary": ["africa"],
+      "tertiary": ["education"]
 
-    ret = twitter_search(args)
-    for i in ret:
-      print (i.source_text)
+    }
 
+    print(get_tweets(args))
 
     pass

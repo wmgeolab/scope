@@ -1,17 +1,19 @@
-import requests
-from bs4 import BeautifulSoup
+# This program takes in arugments as keywords, the length of time they want to
+# query their data from, and how many articles they want returned (further expansion
+# for parameters possible.) It then returns a json of all articles found.
 
+# Here are some examples of the url based queries
 # https://api.gdeltproject.org/api/v2/doc/doc?format=html&timespan=2Y&query=ecuador&mode=artlist&maxrecords=250&format=json&sort=hybridrel
 # https://api.gdeltproject.org/api/v2/summary/summary?d=web&t=summary
 # https://api.gdeltproject.org/api/v2/doc/doc?format=html&startdatetime=20170103000000&enddatetime=20181011235959&query=ecuador%20china&mode=artlist&maxrecords=75&format=json&sort=hybridrel
 
-# This program uses the gdelt project apis to query for articles based on keywords and timespans
-# It takes in arguments
-#   "query" : A string of keywords separated by spaces
-#   "startdatetime" : A string in the YYYYMMDDHHMMSS that marks the start date/time to look for sources
-#   "enddatetime" : A string in the YYYYMMDDHHMMSS that marks the end date/time to look for sources
-#   "maxrecords" : A string of the number of sources wanted, maxes out at 250 sources
+import requests
+from bs4 import BeautifulSoup
 
+
+# This function is called by the "GDELT API Query" model. Pass in an args dictionary with
+# query = your keywords, startdatetime (and optional enddatatime) to specify query timeframe
+# and maxrecords to limit the number of articles returned. This function returns a json of the articles
 def query_gdelt(args):
 
   url = "https://api.gdeltproject.org/api/v2/doc/doc?format=html&mode=artlist&format=json&sort=hybridrel"
@@ -38,12 +40,14 @@ def query_gdelt(args):
   req = requests.get(url, headers)
   return req.json()
 
+
+# Use this to test specific arguments for querying. This is not run in the model call.
 if __name__ == "__main__":
-  args = {}
-  args["query"] = "china ecuador"
-  args["startdatetime"] = "20170103000000"
-  args["maxrecords"] = "10"
-  args['enddatetime'] = '20181011235959'
+  args = {
+    "query": "china ecuador",
+    "startdatetime": "2y",
+    "maxrecords": "10"
+  }
+  # args['enddatetime'] = '20150630235959'
 
   print(query_gdelt(args))
-  #print(query_gdelt({"query":'china ecuador','startdatetime':'2y','maxrecords':'10'}))
