@@ -2,6 +2,8 @@
 
 SCOPE data collection+coding platform (2GZM demo)
 
+WARNING (THIS README NEEDS TO BE UPDATES)
+
 ## Instructions for Collaborators + Django Basics
 
 The SCOPE data collection 2GZM demo website is implemented in a Python web framework called Django. All you need is a laptop, a Python installation, and a browser for testing the website. 
