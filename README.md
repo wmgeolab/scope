@@ -2,7 +2,7 @@
 
 SCOPE data collection+coding platform (2GZM demo)
 
-WARNING (THIS README NEEDS TO BE UPDATES)
+WARNING (THIS README NEEDS TO BE UPDATED)
 
 ## Instructions for Collaborators + Django Basics
 
