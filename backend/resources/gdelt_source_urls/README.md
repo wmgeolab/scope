@@ -1,0 +1,3 @@
+# Scripts for downloading and keeping a local version of GDELT's url sources
+
+...

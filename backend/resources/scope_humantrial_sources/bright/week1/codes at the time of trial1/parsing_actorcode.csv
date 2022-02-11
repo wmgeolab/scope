@@ -1,0 +1,26 @@
+actor_code,actor_desc
+C_1,Country
+C_2,Government Official (Elected)
+C_3,Government Official (Unelected)
+C_4,Former Government Official
+C_5,"Government Agency, Department, or Branch "
+C_6,Military
+C_7,State-owned Company
+C_8,State-owned Bank
+C_9,Private Company
+C_10,Private Bank
+C_11,Private Military Company
+C_12,NGO or Non-Profit Organization
+C_13,Terrorist Group
+C_14,Rebel Group
+C_15,International Organization
+C_16,"Organization, Consortium, or Group"
+C_17,Refugee
+C_18,Asylum Seeker
+C_19,Migrant
+C_20,Journalist or Other Member of the Media
+C_21,Individual
+C_22,Educational Institution
+C_23,"Hospital, Clinic, or Other Medical Facility"
+C_0,Vague
+U_9999,Does not fit the current coding scheme
