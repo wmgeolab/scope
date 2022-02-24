@@ -10,8 +10,8 @@ class User(models.Model):
     first = models.CharField(max_length=120)
     last = models.CharField(max_length=120)
 
-    def _str_(self):
-        return username
+    def __str__(self):
+        return self.username
 
 class Query(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
@@ -19,8 +19,47 @@ class Query(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
 
-    def _str_(self):
+    def __str__(self):
+        return self.name
+
+class KeyWord(models.Model):
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    word = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.word
+
+class SourceType(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    description = models.TextField()
+    name = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.name
+
+class Source(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    text = models.TextField()
+    url = models.URLField()
+    sourceType = models.ForeignKey(SourceType, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.url
+
+class Result(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    src = models.ForeignKey(Source, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.id
+
+class Run(models.Model):
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    result = models.ForeignKey(Result, on_delete=models.CASCADE)
+
+    def __str__(self):
         return self.title
+
 
 """
 class ScopeBackend(models.Model):
@@ -28,7 +67,7 @@ class ScopeBackend(models.Model):
     description = models.TextField()
     completed = models.BooleanField(default=False)
 
-    def _str_(self):
+    def __str__(self):
         return self.title
 """
 
@@ -39,7 +78,7 @@ class KeyWord(models.Model):
     name = models.CharField(max_length=120)
     #start_datetime = models.DateTimeField(default=datetime.now, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.title
 
 
@@ -55,6 +94,6 @@ class Query(models.Model):
     end_date = models.DateField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.title
 """
