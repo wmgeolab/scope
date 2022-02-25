@@ -16,38 +16,39 @@ from bs4 import BeautifulSoup
 # and maxrecords to limit the number of articles returned. This function returns a json of the articles
 def query_gdelt(args):
 
-  url = "https://api.gdeltproject.org/api/v2/doc/doc?format=html&mode=artlist&format=json&sort=hybridrel"
+    url = "https://api.gdeltproject.org/api/v2/doc/doc?format=html&mode=artlist&format=json&sort=hybridrel"
 
-  parameter_list = ['query', 'startdatetime', 'enddatetime', 'maxrecords']
-  for i in parameter_list:
-    if i not in args:
-      continue
+    parameter_list = ['query', 'startdatetime', 'enddatetime', 'maxrecords']
+    for i in parameter_list:
+        if i not in args:
+            continue
 
-    if i == 'startdatetime' and 'enddatetime' not in args:
-      url += '&timespan=' + args[i]
-      continue
+        if i == 'startdatetime' and 'enddatetime' not in args:
+            url += '&timespan=' + args[i]
+            continue
 
-    url += '&' + i + '=' + args[i]
+        url += '&' + i + '=' + args[i]
 
-  headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '3600',
-    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '3600',
+        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
     }
 
-  req = requests.get(url, headers)
-  return req.json()
+    req = requests.get(url, headers)
+    return req.json()
 
 
 # Use this to test specific arguments for querying. This is not run in the model call.
 if __name__ == "__main__":
-  args = {
-    "query": "china ecuador",
-    "startdatetime": "2y",
-    "maxrecords": "10"
-  }
-  # args['enddatetime'] = '20150630235959'
+    args = {
+        "query": "china ecuador",
+        "startdatetime": "20170615000000",
+        "enddatetime": "20170625000000",
+        "maxrecords": "10"
+    }
+    #args['enddatetime'] = '20160620000000'
 
-  print(query_gdelt(args))
+    print(query_gdelt(args))
