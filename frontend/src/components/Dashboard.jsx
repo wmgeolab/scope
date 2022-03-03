@@ -1,12 +1,15 @@
 import React from "react";
 // import { Link } from "react-router-dom";
+import Link from 'react-dom';
+import Queries from "./Queries";
 
 const Dashboard = () => {
   return (
     <div>
       {/* <Navigation /> */}
-      <h2>Dashboard</h2>
       
+				<h1>Dashboard </h1>
+				{/* <Link to='/queries'>Go to Queries</Link> */}
     </div>
   );
 };

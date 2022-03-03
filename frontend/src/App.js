@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Link from 'react-dom';
 import {BrowserRouter, Router, Routes, Route, Navigate} from "react-router-dom";
 import './App.css';
 
@@ -10,11 +10,14 @@ import Results from "./components/Results";
 
 function App() {
   return (
-    <div className="App">
-      <h2>SCOPE</h2>
-
+    
+      
+    
     <BrowserRouter>
       {/* <Router> */}
+      <div className="App">
+      <h2>SCOPE</h2>
+      </div>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -23,7 +26,9 @@ function App() {
         </Routes>
       {/* </Router> */}
     </BrowserRouter>
-    </div>
+
+
+    
   );
 }
 
