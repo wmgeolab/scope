@@ -22,12 +22,12 @@ class Query(models.Model):
     def __str__(self):
         return self.name
 
-class KeyWord(models.Model):
-    query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    word = models.CharField(max_length=120)
+#class KeyWord(models.Model):
+#    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+#    word = models.CharField(max_length=120)
 
-    def __str__(self):
-        return self.word
+#    def __str__(self):
+#        return self.word
 
 class SourceType(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
