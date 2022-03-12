@@ -1,6 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
-import Link from 'react-dom';
+import { Link } from "react-router-dom";
 import Queries from "./Queries";
 
 const Dashboard = () => {
@@ -10,6 +9,7 @@ const Dashboard = () => {
       
 				<h1>Dashboard </h1>
 				{/* <Link to='/queries'>Go to Queries</Link> */}
+        
     </div>
   );
 };

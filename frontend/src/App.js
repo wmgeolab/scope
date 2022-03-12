@@ -12,7 +12,6 @@ function App() {
   return (
     
       
-    
     <BrowserRouter>
       {/* <Router> */}
       <div className="App">
@@ -20,9 +19,12 @@ function App() {
       </div>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/queries" element={<Queries />} />
-          <Route path="/results" element={<Results />} />
+          {/* this makes it so I can't go to any of the routes without logging in */}
+           <Route element={<Login />}>   
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/queries" element={<Queries />} />
+            <Route path="/results" element={<Results />} />
+          </Route>  
         </Routes>
       {/* </Router> */}
     </BrowserRouter>
