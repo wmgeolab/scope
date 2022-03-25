@@ -1,20 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import LoginGithub from 'react-login-github';
-import {Outlet, Navigate} from "react-router-dom";
-
+import {BrowserRouter, Outlet, Navigate, Link, useNavigate} from "react-router-dom";
 import Dashboard from "./Dashboard";
 
 
 
 const Login = () => { //changed from function
+    let navigate = useNavigate();
+
     const [state, setState] = useState({
         auth: false
       });
+  
 
     useEffect(() => {  //is a listener
         if(state.auth){
-            ReactDOM.render(<Dashboard />, document.getElementById('root'));
+          console.log("Navgiate to dashboard here");
+        //  BrowserRouter.navigateByUrl('/dashboard' + <Dashboard />);
+            // ReactDOM.render(<Dashboard />, document.getElementById('root'));
+            // navigate("/dashboard");
+            //<Link  to="/dashboard" element={<Dashboard />} /> //<Link to='/queries'>Go to Queries</Link>
+          //  localStorage.setItem("isLoggedin", true);
+          //window.location.href = "/dashboard";
+          // navigate("/dashboard");
+        //    const history = createBrowserHistory();
+        //    history.push({
+        //     pathname:"/dashboard"});
+        navigate("/dashboard");
         }
     }, [state.auth]);
     // const onSuccess = response => console.log(response);
@@ -29,6 +42,7 @@ const Login = () => { //changed from function
 
     return (//have the div below to be able to add headers
         <><div></div> 
+      
         <LoginGithub clientId="75729dd8f6e08419c896"
             onSuccess={onSuccess} //this is a callback
 
