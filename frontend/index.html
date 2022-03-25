@@ -1,24 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Queries from "./Queries";
-import Results from "./Results";
-import "../assets/css/main.css";
-
-const Dashboard = () => {
-  return (
-    // <div>
-    //   {/* <Navigation /> */}
-      
-		// 		<h1>Dashboard </h1>
-		// 		 <Link to='/queries'>Go to Queries</Link> 
-    //      <br></br> 
-    //      <Link to='/results'>Go to Results</Link>
-        
-    // </div>
-
-  <div>
-    <head>
-		<title>SCOPE</title>
+<!DOCTYPE HTML>
+<!--
+	Escape Velocity by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Escape Velocity by HTML5 UP</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -26,31 +14,47 @@ const Dashboard = () => {
 	<body class="homepage is-preload">
 		<div id="page-wrapper">
 
-			{/* <!-- Header --> */}
+			<!-- Header -->
 				<section id="header" class="wrapper">
 
-					{/* <!-- Logo --> */}
+					<!-- Logo -->
 						<div id="logo">
-							<h1><a href="index.html">SCOPE</a></h1>
+							<h1><a href="index.html">Escape Velocity</a></h1>
 							<p>A free responsive site template by HTML5 UP</p>
 						</div>
 
-					{/* <!-- Nav --> */}
+					<!-- Nav -->
 						<nav id="nav">
 							<ul>
-								{/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-								{/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-								{/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-								<li class="current"><a href="/">Dashboard</a></li>
-								<li><a href='/queries'>Queries</a></li>
-								<li><a href='/results'>Results</a></li>
-								<li><a href='/login'>Login</a></li>
+								<li class="current"><a href="index.html">Home</a></li>
+								<li>
+									<a href="#">Dropdown</a>
+									<ul>
+										<li><a href="#">Lorem ipsum</a></li>
+										<li><a href="#">Magna veroeros</a></li>
+										<li><a href="#">Etiam nisl</a></li>
+										<li>
+											<a href="#">Sed consequat</a>
+											<ul>
+												<li><a href="#">Lorem dolor</a></li>
+												<li><a href="#">Amet consequat</a></li>
+												<li><a href="#">Magna phasellus</a></li>
+												<li><a href="#">Etiam nisl</a></li>
+												<li><a href="#">Sed feugiat</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Nisl tempus</a></li>
+									</ul>
+								</li>
+								<li><a href="left-sidebar.html">Left Sidebar</a></li>
+								<li><a href="right-sidebar.html">Right Sidebar</a></li>
+								<li><a href="no-sidebar.html">No Sidebar</a></li>
 							</ul>
 						</nav>
 
 				</section>
 
-			{/* <!-- Intro --> */}
+			<!-- Intro -->
 				<section id="intro" class="wrapper style1">
 					<div class="title">The Introduction</div>
 					<div class="container">
@@ -68,17 +72,17 @@ const Dashboard = () => {
 					</div>
 				</section>
 
-			{/* <!-- Main --> */}
+			<!-- Main -->
 				<section id="main" class="wrapper style2">
 					<div class="title">The Details</div>
 					<div class="container">
 
-						{/* <!-- Image --> */}
+						<!-- Image -->
 							<a href="#" class="image featured">
 								<img src="images/pic01.jpg" alt="" />
 							</a>
 
-						{/* <!-- Features --> */}
+						<!-- Features -->
 							<section id="features">
 								<header class="style1">
 									<h2>Dolor consequat feugiat amet veroeros</h2>
@@ -133,7 +137,7 @@ const Dashboard = () => {
 					</div>
 				</section>
 
-			{/* <!-- Highlights --> */}
+			<!-- Highlights -->
 				<section id="highlights" class="wrapper style3">
 					<div class="title">The Endorsements</div>
 					<div class="container">
@@ -172,7 +176,7 @@ const Dashboard = () => {
 					</div>
 				</section>
 
-			{/* <!-- Footer --> */}
+			<!-- Footer -->
 				<section id="footer" class="wrapper">
 					<div class="title">The Rest Of It</div>
 					<div class="container">
@@ -186,7 +190,7 @@ const Dashboard = () => {
 						<div class="row">
 							<div class="col-6 col-12-medium">
 
-								{/* <!-- Contact Form --> */}
+								<!-- Contact Form -->
 									<section>
 										<form method="post" action="#">
 											<div class="row gtr-50">
@@ -212,7 +216,7 @@ const Dashboard = () => {
 							</div>
 							<div class="col-6 col-12-medium">
 
-								{/* <!-- Contact --> */}
+								<!-- Contact -->
 									<section class="feature-list small">
 										<div class="row">
 											<div class="col-6 col-12-small">
@@ -266,7 +270,7 @@ const Dashboard = () => {
 
 		</div>
 
-		{/* <!-- Scripts --> */}
+		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
@@ -275,10 +279,4 @@ const Dashboard = () => {
 			<script src="assets/js/main.js"></script>
 
 	</body>
-  </div>
-
-
-  );
-};
-  
-export default Dashboard;
+</html>
