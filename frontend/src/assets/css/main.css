@@ -1474,9 +1474,7 @@ input, select, textarea {
 
 /* Table */
 
-	table {
-		width: 100%;
-	}
+
 
 		table.default {
 			width: 100%;
@@ -1503,6 +1501,59 @@ input, select, textarea {
 
 			table.default tfoot {
 				background: #eee;
+			}
+
+/* Query Table */
+
+			table.content-table {
+			  border-collapse: collapse;
+			  margin: 25px 0;
+			  font-size: 0.9em;
+			  min-width: 400px;
+				margin-left: auto;
+				margin-right: auto;
+				width: 60%;
+			  border-radius: 5px 5px 0 0;
+			  overflow: hidden;
+			  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+			}
+
+			table.content-table thead tr {
+			  background-color: #F8867F;
+			  color: #ffffff;
+			  text-align: left;
+			  font-weight: bold;
+			}
+
+			table.content-table th,
+			table.content-table td {
+			  padding: 12px 15px;
+			}
+
+			table.content-table tbody tr {
+			  border-bottom: 1px solid #dddddd;
+			}
+
+			table.content-table tbody tr:nth-of-type(even) {
+			  background-color: #f3f3f3;
+			}
+
+			table.content-table tbody tr:nth-of-type(odd) {
+			  background-color: #fafafa;
+			}
+
+			table.content-table tbody tr:last-of-type {
+			  border-bottom: 2px solid #F8867F;
+			}
+
+			table.content-table tbody tr.active-row {
+			  font-weight: bold;
+			  color: #E97770;
+			}
+
+			table.content-table tbody tr:hover {
+			  filter: brightness(95%);
+			  color: #E97770;
 			}
 
 /* Form */

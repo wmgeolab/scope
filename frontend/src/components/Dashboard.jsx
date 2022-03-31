@@ -8,12 +8,12 @@ const Dashboard = () => {
   return (
     // <div>
     //   {/* <Navigation /> */}
-      
+
 		// 		<h1>Dashboard </h1>
-		// 		 <Link to='/queries'>Go to Queries</Link> 
-    //      <br></br> 
+		// 		 <Link to='/queries'>Go to Queries</Link>
+    //      <br></br>
     //      <Link to='/results'>Go to Results</Link>
-        
+
     // </div>
 
   <div>
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
 					{/* <!-- Logo --> */}
 						<div id="logo">
-							<h1><a href="index.html">SCOPE</a></h1>
+							<h1><a>SCOPE</a></h1>
 							<p>A free responsive site template by HTML5 UP</p>
 						</div>
 
@@ -280,5 +280,5 @@ const Dashboard = () => {
 
   );
 };
-  
+
 export default Dashboard;
