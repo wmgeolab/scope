@@ -32,12 +32,11 @@ const Queries = () => {
   								<li><a href="/">Dashboard</a></li>
   								<li class="current"><a href='/queries'>Queries</a></li>
   								<li><a href='/results'>Results</a></li>
-  								<li><a href='/login'>Login</a></li>
+  								{/* <li><a href='/login'>Login</a></li> */}
   							</ul>
   						</nav>
 
   				</section>
-
 
 
   			{/* <!-- Main --> */}
@@ -95,10 +94,6 @@ const Queries = () => {
 
   					</div>
   				</section>
-
-
-
-  		
 
   		</div>
 

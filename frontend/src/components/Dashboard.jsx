@@ -1,21 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Queries from "./Queries";
 import Results from "./Results";
 import "../assets/css/main.css";
-import GithubButton from "react-github-login-button";
 import LoginGithub from "react-login-github";
+import axios from "axios";
 
 const Dashboard = () => {
-  const onSuccess = (response) => {
-    console.log(response); //url doesn't change,
-    //  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
-    //{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
-    //need to check if the state is authenticated or not, need to set the state to authenticated at some point
-    //need to figure out what to do with callback
-  };
-  const onFailure = (response) => console.error(response);
-  return (
+const onSuccess = (response) => {
+console.log(response); //url doesn't change,
+//  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
+//{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
+//need to check if the state is authenticated or not, need to set the state to authenticated at some point
+//need to figure out what to do with callback
+};
+const onFailure = (response) => console.error(response);
+
+// https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
+const [username, setUsername] = useState("");
+// const [password, setPassword] = useState("");
+const [user, setUser] = useState()
+
+useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+		const foundUser = JSON.parse(loggedInUser);
+		setUser(foundUser);
+    }
+}, []);
+
+const handleSubmit = async e => {
+    e.preventDefault();
+    // const user = { username, password };
+	const user = { username };
+    // send the username and password to the server
+    const response = await axios.post(
+      	"http://blogservice.herokuapp.com/api/login",
+      user
+    );
+    // set the state of the user
+    setUser(response.data)
+    // store the user in localStorage
+    localStorage.setItem('user', response.data)
+    console.log(response.data)
+};
+
+const handleLogout = () => {
+	setUser({});
+    setUsername("");
+    // setPassword("");
+	localStorage.clear();
+};
+
+
+return (
     // <div>
     //   {/* <Navigation /> */}
 
@@ -39,7 +77,8 @@ const Dashboard = () => {
             width: "40px",
           }}
           clientId="75729dd8f6e08419c896"
-          onSuccess={onSuccess} //this is a callback
+        //   onSuccess={onSuccess} //this is a callback
+		  onSuccess={handleSubmit}
           // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
           //maybe can do something like onSuccess = this.setState...
           onFailure={onFailure}
@@ -69,9 +108,9 @@ const Dashboard = () => {
               <li>
                 <a href="/results">Results</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="/login">Login</a>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </section>
