@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Queries from "./Queries";
 import Results from "./Results";
 import "../assets/css/main.css";
-import GithubButton from "react-github-login-button";
 import LoginGithub from "react-login-github";
 
 const Dashboard = () => {
@@ -35,9 +34,6 @@ const Dashboard = () => {
           /> */}
         <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
           className="button style1 large"
-          style={{
-            width: "40px",
-          }}
           clientId="75729dd8f6e08419c896"
           onSuccess={onSuccess} //this is a callback
           // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}

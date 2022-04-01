@@ -16,7 +16,6 @@ function App() {
     <BrowserRouter>
       {/* <Router> */}
       <div className="App">
-      <h2>SCOPE</h2>
       </div>
 
         <Routes>
