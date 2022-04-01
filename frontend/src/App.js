@@ -8,10 +8,11 @@ import Login from "./components/Login"; //  can have code here or on different c
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
+import CreateQuery from  "./components/CreateQuery";
 
 function App() {
 
-  
+
   return (
     <BrowserRouter>
       {/* <Router> */}
@@ -22,8 +23,9 @@ function App() {
           {/* this makes it so I can't go to any of the routes without logging in */}
            {/* <Route path="/dashboard" render={() => <Dashboard />}/>  */}
             {/* <Route element={<Login />}>    */}
-             <Route exact path="/" element={<Dashboard />} /> 
+             <Route exact path="/" element={<Dashboard />} />
             <Route exact path="/queries" element={<Queries />} />
+            <Route exact path="/create-query" element={<CreateQuery />} />
             <Route exact path="/results" element={<Results />} />
          {/* </Route>  */}
         </Routes>
@@ -45,22 +47,22 @@ function App() {
 //         console.log("Navigate to the dashboard isn't working here");
 //      <Navigate path="/dashboard" element={<Dashboard />}/>
 //       }
-      
+
 
 //   }, [state.auth]);
 //   // const onSuccess = response => console.log(response);
 //   const onSuccess = response => {
-//       setState({ auth: true }); //url doesn't change, 
+//       setState({ auth: true }); //url doesn't change,
 //     //  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
-//   //{ReactDOM.render(<Dashboard />, document.getElementById('root'))}; 
+//   //{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
 //       //need to check if the state is authenticated or not, need to set the state to authenticated at some point
 //       //need to figure out what to do with callback
 //   };
-//   const onFailure = response => console.error(response); 
+//   const onFailure = response => console.error(response);
 
 //   return (//have the div below to be able to add headers
-//       <><div></div> 
-    
+//       <><div></div>
+
 //       <LoginGithub clientId="75729dd8f6e08419c896"
 //           onSuccess={onSuccess} //this is a callback
 
@@ -69,7 +71,7 @@ function App() {
 //           // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
 //           //maybe can do something like onSuccess = this.setState...
 //           onFailure={onFailure} />
-          
+
 //           </>
 
 //       //need to set state again when user logs out -- need a logout button?
