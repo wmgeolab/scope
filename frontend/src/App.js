@@ -10,6 +10,7 @@ import Queries from "./components/Queries";
 import Results from "./components/Results";
 
 function App() {
+
   return (
     <BrowserRouter>
       {/* <Router> */}

@@ -73,9 +73,6 @@ return (
           /> */}
         <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
           className="button style1 large"
-          style={{
-            width: "40px",
-          }}
           clientId="75729dd8f6e08419c896"
         //   onSuccess={onSuccess} //this is a callback
 		  onSuccess={handleSubmit}

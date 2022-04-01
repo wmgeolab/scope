@@ -88,7 +88,7 @@ const Queries = () => {
 
 
   								<ul class="actions special">
-  									<li><a href="#" class="button style1 large">Create New Query</a></li>
+  									<li><a href="/create-query" class="button style1 large">Create New Query</a></li>
   								</ul>
   							</section>
 
