@@ -72,25 +72,42 @@ const CreateQuery = () => {
         <section id="highlights" className="wrapper style3">
           <div className="title">Create Query</div>
           <div className="container">
-            <div class="form-style-5">
-            <form>
-            <fieldset>
-            <legend> Query Info</legend>
-            <input type="text" name="field1" placeholder="User Name *"></input>
-            <input type="text" name="field2" placeholder="Query Name *"></input>
-            <input type="email" name="field3" placeholder="Primary Keyword (Only 1) *"></input>
-            <input type="email" name="field4" placeholder="Secondary Keywords *"></input>
-            </fieldset>
-            <ul class="actions special">
-              <li><a href="/queries" class="button style1 large">Submit Query</a></li>
-            </ul>
-
-            </form>
+            <div className="form-style-5">
+              <form>
+                <fieldset>
+                  <legend> Query Info</legend>
+                  <input
+                    type="text"
+                    name="field1"
+                    placeholder="User Name *"
+                  ></input>
+                  <input
+                    type="text"
+                    name="field2"
+                    placeholder="Query Name *"
+                  ></input>
+                  <input
+                    type="email"
+                    name="field3"
+                    placeholder="Primary Keyword (Only 1) *"
+                  ></input>
+                  <input
+                    type="email"
+                    name="field4"
+                    placeholder="Secondary Keywords *"
+                  ></input>
+                </fieldset>
+                <ul className="actions special">
+                  <li>
+                    <a href="/queries" className="button style1 large">
+                      Submit Query
+                    </a>
+                  </li>
+                </ul>
+              </form>
             </div>
-
           </div>
         </section>
-
       </div>
 
       {/* <!-- Scripts --> */}

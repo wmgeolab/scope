@@ -4,57 +4,65 @@ import Queries from "./Queries";
 import Results from "./Results";
 import "../assets/css/main.css";
 import LoginGithub from "react-login-github";
-import axios from "axios";
+//import axios from "axios";
 
 const Dashboard = () => {
-const onSuccess = (response) => {
-console.log(response); //url doesn't change,
-//  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
-//{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
-//need to check if the state is authenticated or not, need to set the state to authenticated at some point
-//need to figure out what to do with callback
-};
-const onFailure = (response) => console.error(response);
+  const onSuccess = (response) => {
+    console.log(response); //url doesn't change,
+    //  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
+    //{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
+    //need to check if the state is authenticated or not, need to set the state to authenticated at some point
+    //need to figure out what to do with callback
+  };
+  const onFailure = (response) => console.error(response);
 
-// https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
-const [username, setUsername] = useState("");
-// const [password, setPassword] = useState("");
-const [user, setUser] = useState()
+  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
+  const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
 
-useEffect(() => {
+  useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
-		const foundUser = JSON.parse(loggedInUser);
-		setUser(foundUser);
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
     }
-}, []);
+  }, []);
 
-const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     console.log(e.code);
-  //   e.preventDefault();
-  //   // const user = { username, password };
-	// const user = { username };
-  //   // send the username and password to the server
-  //   const response = await axios.post(
-  //     	"http://blogservice.herokuapp.com/api/login",
-  //     user
-  //   );
-  //   // set the state of the user
-  //   setUser(response.data)
-  //   // store the user in localStorage
-  //   localStorage.setItem('user', response.data)
-  //   console.log(response.data)
-};
+    let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
+      method: "POST",
+      headers: {
+        // "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code: e.code }),
+    });
+    token.json().then((res) => console.log(res));
+    //   e.preventDefault();
+    //   // const user = { username, password };
+    // const user = { username };
+    //   // send the username and password to the server
+    //   const response = await axios.post(
+    //     	"http://blogservice.herokuapp.com/api/login",
+    //     user
+    //   );
+    //   // set the state of the user
+    //   setUser(response.data)
+    //   // store the user in localStorage
+    //   localStorage.setItem('user', response.data)
+    //   console.log(response.data)
+  };
 
-const handleLogout = () => {
-	setUser({});
+  const handleLogout = () => {
+    setUser({});
     setUsername("");
     // setPassword("");
-	localStorage.clear();
-};
+    localStorage.clear();
+  };
 
-
-return (
+  return (
     // <div>
     //   {/* <Navigation /> */}
 
@@ -75,8 +83,8 @@ return (
         <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
           className="button style1 large"
           clientId="75729dd8f6e08419c896"
-        //   onSuccess={onSuccess} //this is a callback
-		  onSuccess={handleSubmit}
+          //   onSuccess={onSuccess} //this is a callback
+          onSuccess={handleSubmit}
           // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
           //maybe can do something like onSuccess = this.setState...
           onFailure={onFailure}
