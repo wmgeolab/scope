@@ -24,5 +24,5 @@ class QueryView(viewsets.ModelViewSet):
 
 class GithubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
-    callback_url = "http://127.0.0.1:8000/accounts/github/login/callback/"
+    callback_url = "http://localhost:3000/login"
     client_class = OAuth2Client
