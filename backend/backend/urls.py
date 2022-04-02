@@ -22,6 +22,7 @@ from scopeBackend import views
 
 router = routers.DefaultRouter()
 router.register(r'scope', views.UserView, 'User')
+router.register(r'queries', views.QueryView, 'Queries')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
