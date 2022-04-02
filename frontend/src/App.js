@@ -8,6 +8,7 @@ import Login from "./components/Login"; //  can have code here or on different c
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
+import CreateQuery from "./components/CreateQuery";
 
 function App() {
 
@@ -20,9 +21,10 @@ function App() {
           {/* this makes it so I can't go to any of the routes without logging in */}
            {/* <Route path="/dashboard" render={() => <Dashboard />}/>  */}
             {/* <Route element={<Login />}>    */}
-             <Route exact path="/" element={<Dashboard />} /> 
+             <Route exact path="/" element={<Dashboard />} />
             <Route exact path="/queries" element={<Queries />} />
             <Route exact path="/results" element={<Results />} />
+            <Route exact path="/create-query" element={<CreateQuery />} />
          {/* </Route>  */}
         </Routes>
       {/* </Router> */}
