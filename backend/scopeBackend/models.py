@@ -5,7 +5,7 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=120)
     first = models.CharField(max_length=120)
     last = models.CharField(max_length=120)
@@ -14,7 +14,7 @@ class User(models.Model):
         return self.username
 
 class Query(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     description = models.TextField()
@@ -30,7 +30,7 @@ class Query(models.Model):
 #        return self.word
 
 class SourceType(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     description = models.TextField()
     name = models.CharField(max_length=120)
 
@@ -38,7 +38,7 @@ class SourceType(models.Model):
         return self.name
 
 class Source(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     text = models.TextField()
     url = models.URLField()
     sourceType = models.ForeignKey(SourceType, on_delete=models.CASCADE)
@@ -47,7 +47,7 @@ class Source(models.Model):
         return self.url
 
 class Run(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     time = models.DateTimeField(default=datetime.now, blank=True)
 
