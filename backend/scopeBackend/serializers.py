@@ -8,8 +8,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 class QuerySerializer(serializers.ModelSerializer):
     keywords = serializers.StringRelatedField(many=True)
-
+    user = serializers.SlugRelatedField(read_only=True, slug_field='username')
     class Meta:
         model = Query
-        fields = ('id', 'name', 'description', 'user_id', 'keywords')
+        fields = ('id', 'name', 'description', 'user', 'keywords')
     
