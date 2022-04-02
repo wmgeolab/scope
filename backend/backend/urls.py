@@ -27,4 +27,6 @@ router.register(r'queries', views.QueryView, 'Queries')
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('api/', include(router.urls)),
+
+    path('dj-rest-auth/github', views.GithubLogin.as_view(), name = 'github_login')
 ]

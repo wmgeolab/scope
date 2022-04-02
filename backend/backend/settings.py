@@ -38,10 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'corsheaders',
+    # rest framework
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
 
+    # apps created by SCOPE
     'scopeBackend',
+
+    # social login
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+
+    # CORS (Cross Origin Resource Sharing)
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +142,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SITE_ID = 1
