@@ -40,6 +40,7 @@ const Dashboard = () => {
       body: JSON.stringify({ code: e.code }),
     });
     token.json().then((res) => console.log(res));
+
     //   e.preventDefault();
     //   // const user = { username, password };
     // const user = { username };

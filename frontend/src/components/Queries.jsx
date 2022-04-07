@@ -5,7 +5,9 @@ const Queries = () => {
   const [state, setState] = useState(true);
 
   const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/queries/");
+    let response = await fetch("http://127.0.0.1:8000/api/queries/", {
+      headers: { "Content-Type": "application/json", "Authorization":"Token 78084b1ca809e78afa939448921b4ba3151d9748"}
+    });
     let q = await response.json();
 
     console.log(q);
@@ -19,12 +21,8 @@ const Queries = () => {
   };
 
   useEffect(() => {
-    //works but should be cleaned up later
-    if (state) {
-      handleSubmit();
-      setState(false);
-    }
-  });
+    handleSubmit();
+  }, []);
 
   return (
     <div>
@@ -135,7 +133,7 @@ const Queries = () => {
                 </td>
                 <td>China, Russia, Talks</td>
                 <td>devsaxena974</td>
-              </tr> 
+              </tr>
             </tbody>
           </table> */}
           <div className="container">
