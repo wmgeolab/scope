@@ -21,14 +21,7 @@ const Dashboard = () => {
   // const [password, setPassword] = useState("");
   const [user, setUser] = useState();
 
-<<<<<<< Updated upstream
   useEffect(() => {
-=======
-//const GITHUB_ENDPOINT = "http://localhost:8000/ghauth"
-const GITHUB_ENDPOINT = "https://github.com/login/oauth/access_token"
-
-useEffect(() => {
->>>>>>> Stashed changes
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
@@ -36,7 +29,6 @@ useEffect(() => {
     }
   }, []);
 
-<<<<<<< Updated upstream
   const handleSubmit = async (e) => {
     console.log(e.code);
     let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
@@ -62,35 +54,6 @@ useEffect(() => {
     //   localStorage.setItem('user', response.data)
     //   console.log(response.data)
   };
-=======
-  const handleSubmit = async (res) => {
-    console.log('armadillo');
-    console.log("code = " + res.code);
-    let body = {
-      "code": res.code,
-    }
-    let token = await fetch(GITHUB_ENDPOINT, {
-                          method: "POST",
-                          body: JSON.stringify(body)
-                        })
-  }
-
-// const handleSubmit = async e => {
-//     e.preventDefault();
-//     // const user = { username, password };
-// 	   const user = { username };
-//     // send the username and password to the server
-//     const response = await axios.post(
-//       	"http://blogservice.herokuapp.com/api/login",
-//       user
-//     );
-//     // set the state of the user
-//     setUser(response.data)
-//     // store the user in localStorage
-//     localStorage.setItem('user', response.data)
-//     console.log(response.data)
-// };
->>>>>>> Stashed changes
 
   const handleLogout = () => {
     setUser({});
@@ -120,14 +83,8 @@ useEffect(() => {
         <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
           className="button style1 large"
           clientId="75729dd8f6e08419c896"
-<<<<<<< Updated upstream
           //   onSuccess={onSuccess} //this is a callback
           onSuccess={handleSubmit}
-=======
-        //   onSuccess={onSuccess} //this is a callback
-		  onSuccess={handleSubmit}
-
->>>>>>> Stashed changes
           // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
           //maybe can do something like onSuccess = this.setState...
           onFailure={onFailure}

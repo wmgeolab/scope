@@ -41,13 +41,9 @@ INSTALLED_APPS = [
     # rest framework
     'rest_framework',
     'rest_framework.authtoken',
-<<<<<<< Updated upstream
     'rest_auth',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-=======
-    'rest_auth'
->>>>>>> Stashed changes
 
     # apps created by SCOPE
     'scopeBackend',
@@ -80,7 +76,7 @@ MIDDLEWARE = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = [ 
+CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000" #delete later
 ]
 
