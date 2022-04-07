@@ -5,6 +5,9 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import UserSerializer, QuerySerializer
 from .models import User, Query
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
@@ -21,8 +24,14 @@ class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
 
 class QueryView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     serializer_class = QuerySerializer
     queryset = Query.objects.all()
+    def create(self, request):
+        print(self.request.headers)
+        print(self.request.user)
+        # q = self.get_object()
+        return Response({'status': 'post received'})
 
 class GithubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
