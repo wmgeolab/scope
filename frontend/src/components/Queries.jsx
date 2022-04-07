@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 const Queries = () => {
   const [queries, setQueries] = useState([]);
-  const [state, setState] = useState(true);
 
   const handleSubmit = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/queries/", {
-      headers: { "Content-Type": "application/json", "Authorization":"Token 78084b1ca809e78afa939448921b4ba3151d9748"}
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token 78084b1ca809e78afa939448921b4ba3151d9748",
+      },
     });
     let q = await response.json();
 
@@ -22,7 +24,7 @@ const Queries = () => {
 
   useEffect(() => {
     handleSubmit();
-  }, []);
+  }, []); //listening on an empty array
 
   return (
     <div>
