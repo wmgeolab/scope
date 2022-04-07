@@ -29,7 +29,7 @@ class QueryView(viewsets.ModelViewSet):
     queryset = Query.objects.all()
     def create(self, request):
         print(self.request.headers)
-        print(self.request.user)
+        print(self.request.user.id)
         # q = self.get_object()
         return Response({'status': 'post received'})
 
@@ -39,9 +39,11 @@ class GithubLogin(SocialLoginView):
     client_class = OAuth2Client
     
 class ResultView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     serializer_class = ResultSerializer
     queryset = Result.objects.all()
 
 class SourceView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     serializer_class = SourceSerializer
     queryset = Source.objects.all()
