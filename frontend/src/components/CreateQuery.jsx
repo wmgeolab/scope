@@ -21,15 +21,18 @@ const CreateQuery = () => {
     let secondaryKeywords = document.getElementById("secondaryKeywords").value;
 
     var data = {
-      name:queryName,
-      description:queryDescription,
-      keywords:[primaryKeyword, secondaryKeywords]
-    }
+      name: queryName,
+      description: queryDescription,
+      keywords: [primaryKeyword, secondaryKeywords],
+    };
 
-    fetch('http://127.0.0.1:8000/api/queries/', {
-      method:"POST",
-      headers: { "Content-Type": "application/json", "Authorization":"Token 78084b1ca809e78afa939448921b4ba3151d9748"},
-      body:JSON.stringify(data)
+    fetch("http://127.0.0.1:8000/api/queries/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
     });
   }
 

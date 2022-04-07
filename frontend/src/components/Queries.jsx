@@ -7,7 +7,7 @@ const Queries = () => {
     let response = await fetch("http://127.0.0.1:8000/api/queries/", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Token 78084b1ca809e78afa939448921b4ba3151d9748",
+        Authorization: "Token " + localStorage.getItem("user"),
       },
     });
     let q = await response.json();
