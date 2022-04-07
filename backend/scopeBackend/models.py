@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from datetime import datetime
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class User(models.Model):
@@ -9,7 +10,6 @@ class User(models.Model):
     username = models.CharField(max_length=120)
     first = models.CharField(max_length=120)
     last = models.CharField(max_length=120)
-
     def __str__(self):
         return self.username
 

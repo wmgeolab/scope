@@ -36,6 +36,7 @@ print('Old tables dropped!')
 #-----PART THREE: CREATE NEW TABLES-----
 
 # tUser
+# table that saves the information of the user
 sql = """CREATE TABLE tUser (
            user_id INT PRIMARY KEY,
            first VARCHAR(30),
@@ -45,6 +46,7 @@ sql = """CREATE TABLE tUser (
 curs.execute(sql)
 
 # tQuery
+# table that saves information about each query
 sql = """CREATE TABLE tQuery (
            query_id INT PRIMARY KEY,
            name VARCHAR(150),
@@ -54,6 +56,7 @@ sql = """CREATE TABLE tQuery (
 curs.execute(sql)
 
 # tSourceType
+# table that has information about each source type i.e. GDELT, Twitter, etc.
 sql = """CREATE TABLE tSourceType (
            type_id INT PRIMARY KEY,
            description LONGTEXT,
@@ -62,6 +65,7 @@ sql = """CREATE TABLE tSourceType (
 curs.execute(sql)
 
 # tSource
+# table that has information about each source
 sql = """CREATE TABLE tSource (
            source_id INT PRIMARY KEY,
            text LONGTEXT,
@@ -72,6 +76,7 @@ sql = """CREATE TABLE tSource (
 curs.execute(sql)
 
 # tResult
+# table that has infomation about which sources should be returned when the user calls the result for the query
 sql = """CREATE TABLE tResult (
            result_id INT PRIMARY KEY,
            source_id INT, FOREIGN KEY (source_id) REFERENCES tSource(source_id)
@@ -79,6 +84,7 @@ sql = """CREATE TABLE tResult (
 curs.execute(sql)
 
 # tRun
+# table that has information about each run for the query i.e. information pull from GDELT, Twitter
 sql = """CREATE TABLE tRun (
            run_id INT PRIMARY KEY,
            result_id INT, FOREIGN KEY (result_id) REFERENCES tResult(result_id),
