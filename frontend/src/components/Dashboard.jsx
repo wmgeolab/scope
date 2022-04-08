@@ -23,9 +23,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
+    console.log(loggedInUser);
     if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
+      // const foundUser = JSON.parse(loggedInUser);
+      setUser(loggedInUser);
     }
   }, []);
 
@@ -39,7 +40,11 @@ const Dashboard = () => {
       },
       body: JSON.stringify({ code: e.code }),
     });
-    token.json().then((res) => console.log(res));
+
+    token.json().then((res) => {
+      console.log(res);
+      localStorage.setItem("user", res.key);
+    });
     //   e.preventDefault();
     //   // const user = { username, password };
     // const user = { username };
@@ -51,7 +56,6 @@ const Dashboard = () => {
     //   // set the state of the user
     //   setUser(response.data)
     //   // store the user in localStorage
-    //   localStorage.setItem('user', response.data)
     //   console.log(response.data)
   };
 
