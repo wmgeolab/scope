@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import UserSerializer, QuerySerializer
-from .models import User, Query
+from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer
+from .models import User, Query, Result, Source, Run
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -14,8 +14,6 @@ from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 
-from .serializers import SourceSerializer, UserSerializer, QuerySerializer, ResultSerializer
-from .models import User, Query, Result, Source, Run
 # from backend.scopeBackend import serializers
 
 # Create your views here.
@@ -47,8 +45,6 @@ class QueryView(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         # return Response({'status': 'post received'})
 
-
-
 class GithubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
     callback_url = "http://localhost:3000/login"
@@ -57,27 +53,25 @@ class GithubLogin(SocialLoginView):
 class ResultView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ResultSerializer
-    # queryset = Result.objects.all()
+    #queryset = Result.objects.all()
     
     #@api_view(['GET'])
     #@permission_classes([IsAuthenticated])
-    
-    # def get_queryset(self):
+
+    def get_queryset(self):
+        print(self.request)
     #     serializer = self.get_serializer(data = self.request.data)
     #     serializer.is_valid(raise_exception = True)
-    #     queryset = Result.objects.all()
-    #     user = self.request.user.id
-    #     queries = Query.objects.filter(user_id = user)
-    #     runs = []
-    #     for query in queries:
-    #         run = Run.objects.filter(query_id = query.id)
-    #         #print(run.id)
-    #     #for run in runs:
-    #         #result = 
-    #     #run = Run.objects.filter(query_id = query).order_by('-time')
-    #     #results = Result.objects.filter(run_id = run)
-    #     return Response(serializer.data) #queries
+        queryset = Result.objects.all()
+        user = self.request.user.id
+        if user:
+            queryset = Result.objects.filter(run__query__user = user)
+        return queryset
     
+class RunView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = RunSerializer
+    queryset = Run.objects.all()
 
 class SourceView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

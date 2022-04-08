@@ -23,6 +23,7 @@ from scopeBackend import views
 router = routers.DefaultRouter()
 router.register(r'scope', views.UserView, 'User')
 router.register(r'queries', views.QueryView, 'Queries')
+router.register(r'run', views.RunView, 'Run')
 router.register(r'results', views.ResultView, 'Results')
 router.register(r'sources', views.SourceView, 'Sources')
 
