@@ -67,16 +67,6 @@ const Dashboard = () => {
   };
 
   return (
-    // <div>
-    //   {/* <Navigation /> */}
-
-    // 		<h1>Dashboard </h1>
-    // 		 <Link to='/queries'>Go to Queries</Link>
-    //      <br></br>
-    //      <Link to='/results'>Go to Results</Link>
-
-    // </div>
-
     <div>
       <div id="page-wrapper">
         {/* <GithubButton
@@ -93,6 +83,10 @@ const Dashboard = () => {
           //maybe can do something like onSuccess = this.setState...
           onFailure={onFailure}
         />
+        <div>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+
         {/* <!-- Header --> */}
         <section id="header" className="wrapper">
           {/* <!-- Logo --> */}
