@@ -11,6 +11,31 @@ const CreateQuery = () => {
     //need to figure out what to do with callback
   };
   const onFailure = (response) => console.error(response);
+
+  function submitQuery(e) {
+    e.preventDefault();
+    // Create the Post Request with the parameters
+    let queryName = document.getElementById("queryName").value;
+    let queryDescription = document.getElementById("queryDescription").value;
+    let primaryKeyword = document.getElementById("primaryKeyword").value;
+    let secondaryKeywords = document.getElementById("secondaryKeywords").value;
+
+    var data = {
+      name: queryName,
+      description: queryDescription,
+      keywords: [primaryKeyword, secondaryKeywords],
+    };
+
+    fetch("http://127.0.0.1:8000/api/queries/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
   return (
     // <div>
     //   {/* <Navigation /> */}
@@ -78,28 +103,28 @@ const CreateQuery = () => {
                   <legend> Query Info</legend>
                   <input
                     type="text"
-                    name="field1"
-                    placeholder="User Name *"
-                  ></input>
-                  <input
-                    type="text"
-                    name="field2"
+                    id="queryName"
                     placeholder="Query Name *"
                   ></input>
                   <input
-                    type="email"
-                    name="field3"
+                    type="text"
+                    id="queryDescription"
+                    placeholder="Query Description *"
+                  ></input>
+                  <input
+                    type="text"
+                    id="primaryKeyword"
                     placeholder="Primary Keyword (Only 1) *"
                   ></input>
                   <input
-                    type="email"
-                    name="field4"
+                    type="text"
+                    id="secondaryKeywords"
                     placeholder="Secondary Keywords *"
                   ></input>
                 </fieldset>
                 <ul className="actions special">
                   <li>
-                    <a href="/queries" className="button style1 large">
+                    <a onClick={submitQuery} className="button style1 large">
                       Submit Query
                     </a>
                   </li>

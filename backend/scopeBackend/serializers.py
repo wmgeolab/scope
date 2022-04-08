@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, KeyWord
+from .models import User, Query, Source, Result, Run, SourceType
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,12 +47,36 @@ class QuerySerializer(serializers.ModelSerializer):
         model = Query
         fields = ('id', 'name', 'description', 'user', 'keywords')
 
+class SourceTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SourceType
+        fields = ( 'name', 'description')
+
 class SourceSerializer(serializers.ModelSerializer):
+    sourceType = SourceTypeSerializer()
     class Meta:
         model = Source
         fields = ('id', 'text', 'url', 'sourceType')
 
-class ResultSerializer(serializers.ModelSerializer):
+class RunSerializer(serializers.ModelSerializer):
+    query = QuerySerializer()
+    class Meta:
+        model = Run
+        fields = ('query', 'time')
+
+class ResultSerializer(serializers.ModelSerializer): 
+    # run = RunSerializer()
+    # source = SourceSerializer(many=True)
+    # run foreign key -> query primary key 
+    # source = serializers.StringRelatedField(read_only=True)
+    source = SourceSerializer()
+    run = RunSerializer()
+    # result foreign key -> run primary key
+    # run = serializers.PrimaryKeyRelatedField(read_only=True)
+    # source foreign key -> result primary key
+    # source = serializers.PrimaryKeyRelatedField(many = True, read_only=True)
+    # source = serializers.StringRelatedField(many = True, read_only=True)
+
     class Meta:
         model = Result
-        fields = ('run_id', 'source_id')
+        fields = ('id', 'run', 'source')
