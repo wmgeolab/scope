@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
