@@ -14,7 +14,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 
 from .serializers import SourceSerializer, UserSerializer, QuerySerializer, ResultSerializer
-from .models import User, Query, Result, Source
+from .models import User, Query, Result, Source, Run
 # from backend.scopeBackend import serializers
 
 # Create your views here.
@@ -26,7 +26,15 @@ class UserView(viewsets.ModelViewSet):
 class QueryView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = QuerySerializer
-    queryset = Query.objects.all()
+
+    #queryset = Query.objects.all()
+    def get_queryset(self):
+        queryset = Query.objects.all()
+        user = self.request.user.id
+        if user:
+            queryset = queryset.filter(user_id = user)
+        return queryset
+
     def create(self, request):
         print(self.request.headers)
         print(self.request.user.id)
@@ -41,7 +49,27 @@ class GithubLogin(SocialLoginView):
 class ResultView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ResultSerializer
-    queryset = Result.objects.all()
+    # queryset = Result.objects.all()
+    
+    #@api_view(['GET'])
+    #@permission_classes([IsAuthenticated])
+    
+    # def get_queryset(self):
+    #     serializer = self.get_serializer(data = self.request.data)
+    #     serializer.is_valid(raise_exception = True)
+    #     queryset = Result.objects.all()
+    #     user = self.request.user.id
+    #     queries = Query.objects.filter(user_id = user)
+    #     runs = []
+    #     for query in queries:
+    #         run = Run.objects.filter(query_id = query.id)
+    #         #print(run.id)
+    #     #for run in runs:
+    #         #result = 
+    #     #run = Run.objects.filter(query_id = query).order_by('-time')
+    #     #results = Result.objects.filter(run_id = run)
+    #     return Response(serializer.data) #queries
+    
 
 class SourceView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
