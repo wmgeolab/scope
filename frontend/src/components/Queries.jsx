@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
+import Dashboard from "./Dashboard";
 const Queries = () => {
   const [queries, setQueries] = useState([]);
+  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/queries/", {
@@ -16,11 +20,6 @@ const Queries = () => {
     setQueries(q.results);
 
     return q;
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     console.log("Success: ", JSON.stringify(response));
-    //   })
-    //   .catch((error) => console.error("Error: ", error));
   };
 
 
@@ -29,16 +28,28 @@ const Queries = () => {
     handleSubmit();
   }, []); //listening on an empty array
 
-  if(localStorage.getItem("user") === null) {    // fix?
-    return(
-      <div>
-      <h2>lol</h2>
-    </div>
-    );
-  }
-  else {
+  const handleLogout = () => {
+    // setUser({});
+    // setUsername("");
+    // setPassword("");
+    localStorage.clear();
+    setLogin(false);
+    navigate("/");
+
+    <a href="/dashboard">Dashboard</a>;
+  };
+
+  if (localStorage.getItem("user") === null) {
+    // fix?
     return (
       <div>
+        <h2>lol</h2>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <button onClick={handleLogout}>Logout</button>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -102,6 +113,7 @@ const Queries = () => {
                 })}
               </tbody>
             </table>
+<<<<<<< HEAD
 
             {/* <table className="content-table">
               <thead>
@@ -149,6 +161,8 @@ const Queries = () => {
                 </tr>
               </tbody>
             </table> */}
+=======
+>>>>>>> f4d395599308dbedee74a20b8318e04cc8edf1aa
             <div className="container">
               {/* <!-- Features --> */}
               <section id="features">
@@ -174,7 +188,6 @@ const Queries = () => {
         <script src="assets/js/main.js"></script>
       </div>
     );
-
   }
 };
 

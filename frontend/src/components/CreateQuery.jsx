@@ -54,6 +54,8 @@ const CreateQuery = () => {
 
             }}
           /> */}
+
+        {/* do we want all the pages to have the login/logout button? */}
         <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
           className="button style1 large"
           clientId="75729dd8f6e08419c896"
