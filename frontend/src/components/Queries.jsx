@@ -88,7 +88,10 @@ const Queries = () => {
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
-            <table className="content-table">
+
+            <input type="text" id="search" onkeyup="myFunction()" placeholder="Search queries.."/>
+
+            <table className="content-table" id="query-table">
               <thead>
                 <tr>
                   <th>ID</th>

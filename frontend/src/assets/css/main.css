@@ -1472,9 +1472,27 @@ input, select, textarea {
 			line-height: 1.5em;
 		}
 
+/* Search bar */
+
+	#search {
+		background-image: url('images/searchicon.png'); /* Add a search icon to input */
+		background-position: 10px 12px; /* Position the search icon */
+		background-repeat: no-repeat; /* Do not repeat the icon image */
+		background-size: 2.5%; 
+		/* width: 100%; /* Full-width */		
+		display: block;
+		min-width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 60%;
+		font-size: 16px; /* Increase font-size */
+		padding: 12px 20px 12px 40px; /* Add some padding */
+		border: 1px solid #ddd; /* Add a grey border */
+		margin-bottom: 12px; /* Add some space below the input */
+	}
+
+
 /* Table */
-
-
 
 		table.default {
 			width: 100%;
@@ -2677,17 +2695,11 @@ input, select, textarea {
 
 		/* Nav */
 
-<<<<<<< HEAD
 		/*
 		#nav {
 			display: none;
 		}
 		*/
-=======
-			/* #nav {
-				display: none;
-			} */
->>>>>>> a20be00d763c63588f70ff54ccd8919bb7469372
 
 		/* Logo */
 
