@@ -17,9 +17,12 @@ const Queries = () => {
     let q = await response.json();
 
     console.log(q);
-    setQueries(q);
+    setQueries(q.results);
+
     return q;
   };
+
+
 
   useEffect(() => {
     handleSubmit();
