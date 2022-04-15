@@ -113,56 +113,6 @@ const Queries = () => {
                 })}
               </tbody>
             </table>
-<<<<<<< HEAD
-
-            {/* <table className="content-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Keywords</th>
-                  <th>User</th>
-                </tr>
-              </thead>
-              <tbody>
-                 <tr>
-                  <td>1</td>
-                  <td>
-                    <a href="/">Russian hydroelectric activity in Africa</a>
-                  </td>
-                  <td>Russia, Water, Africa</td>
-                  <td>michaelrfoster</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>
-                    <a href="/">Covid-19 impact on USA vs Russia</a>
-                  </td>
-                  <td>Covid, USA, Russia</td>
-                  <td>LazyRiver18</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>
-                    <a href="/">
-                      Food shortages in Ukrane resulting from Russian invasion
-                    </a>
-                  </td>
-                  <td>Ukrane, Russia, Food, Shortages</td>
-                  <td>istwu</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>
-                    <a href="/">Recent communication between China and Russia</a>
-                  </td>
-                  <td>China, Russia, Talks</td>
-                  <td>devsaxena974</td>
-                </tr>
-              </tbody>
-            </table> */}
-=======
->>>>>>> f4d395599308dbedee74a20b8318e04cc8edf1aa
             <div className="container">
               {/* <!-- Features --> */}
               <section id="features">
