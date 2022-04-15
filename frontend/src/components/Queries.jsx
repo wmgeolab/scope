@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
+import Dashboard from "./Dashboard";
 const Queries = () => {
   const [queries, setQueries] = useState([]);
+  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/queries/", {
@@ -15,27 +19,34 @@ const Queries = () => {
     console.log(q);
     setQueries(q);
     return q;
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     console.log("Success: ", JSON.stringify(response));
-    //   })
-    //   .catch((error) => console.error("Error: ", error));
   };
 
   useEffect(() => {
     handleSubmit();
   }, []); //listening on an empty array
 
-  if(localStorage.getItem("user") === null) {    // fix?
-    return(
-      <div>
-      <h2>lol</h2>
-    </div>
-    );
-  }
-  else {
+  const handleLogout = () => {
+    // setUser({});
+    // setUsername("");
+    // setPassword("");
+    localStorage.clear();
+    setLogin(false);
+    navigate("/");
+
+    <a href="/dashboard">Dashboard</a>;
+  };
+
+  if (localStorage.getItem("user") === null) {
+    // fix?
     return (
       <div>
+        <h2>lol</h2>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <button onClick={handleLogout}>Logout</button>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -53,7 +64,7 @@ const Queries = () => {
                 <a>SCOPE</a>
               </h1>
             </div>
-  
+
             {/* <!-- Nav --> */}
             <nav id="nav">
               <ul>
@@ -73,7 +84,7 @@ const Queries = () => {
               </ul>
             </nav>
           </section>
-  
+
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
@@ -99,53 +110,6 @@ const Queries = () => {
                 })}
               </tbody>
             </table>
-  
-            {/* <table className="content-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Keywords</th>
-                  <th>User</th>
-                </tr>
-              </thead>
-              <tbody>
-                 <tr>
-                  <td>1</td>
-                  <td>
-                    <a href="/">Russian hydroelectric activity in Africa</a>
-                  </td>
-                  <td>Russia, Water, Africa</td>
-                  <td>michaelrfoster</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>
-                    <a href="/">Covid-19 impact on USA vs Russia</a>
-                  </td>
-                  <td>Covid, USA, Russia</td>
-                  <td>LazyRiver18</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>
-                    <a href="/">
-                      Food shortages in Ukrane resulting from Russian invasion
-                    </a>
-                  </td>
-                  <td>Ukrane, Russia, Food, Shortages</td>
-                  <td>istwu</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>
-                    <a href="/">Recent communication between China and Russia</a>
-                  </td>
-                  <td>China, Russia, Talks</td>
-                  <td>devsaxena974</td>
-                </tr>
-              </tbody>
-            </table> */}
             <div className="container">
               {/* <!-- Features --> */}
               <section id="features">
@@ -161,7 +125,7 @@ const Queries = () => {
             </div>
           </section>
         </div>
-  
+
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.dropotron.min.js"></script>
@@ -171,7 +135,6 @@ const Queries = () => {
         <script src="assets/js/main.js"></script>
       </div>
     );
-
   }
 };
 

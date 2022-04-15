@@ -10,7 +10,7 @@ const Dashboard = () => {
   const onFailure = (response) => console.error(response);
 
   // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   const [user, setUser] = useState();
   const [login, setLogin] = useState(false);
@@ -24,10 +24,6 @@ const Dashboard = () => {
       setUser(loggedInUser);
     }
   }, []);
-
-  // useEffect(() => {
-  //   setLogin(false);
-  // }, user);
 
   const handleSubmit = async (e) => {
     console.log(e.code);
@@ -60,24 +56,14 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    setUser({});
-    setUsername("");
+    // setUser({});
+    // setUsername("");
     // setPassword("");
     localStorage.clear();
     setLogin(false);
   };
 
   return (
-    // <div>
-    //   {/* <Navigation /> */}
-
-    // 		<h1>Dashboard </h1>
-    // 		 <Link to='/queries'>Go to Queries</Link>
-    //      <br></br>
-    //      <Link to='/results'>Go to Results</Link>
-
-    // </div>
-
     <div>
       <div id="page-wrapper">
         {/* <GithubButton
@@ -169,187 +155,6 @@ const Dashboard = () => {
             </ul>
           </div>
         </section>
-        {/* <!-- Main --> */}
-        <section id="main" className="wrapper style2">
-          <div className="title">The Details</div>
-          <div className="container">
-            {/* <!-- Image --> */}
-            <a href="#" className="image featured">
-              <img src="images/pic01.jpg" alt="" />
-            </a>
-
-            {/* <!-- Features --> */}
-            <section id="features">
-              <header className="style1">
-                <h2>Dolor consequat feugiat amet veroeros</h2>
-                <p>Feugiat dolor nullam orci pretium phasellus justo</p>
-              </header>
-              <div className="feature-list">
-                <div className="row">
-                  <div className="col-6 col-12-medium">
-                    <section>
-                      <h3 className="icon fa-comment">
-                        Mattis velit diam vulputate
-                      </h3>
-                      <p>
-                        Eget mattis at, laoreet vel et velit aliquam diam ante,
-                        aliquet sit amet vulputate et magna feugiat laoreet vel
-                        velit lorem.
-                      </p>
-                    </section>
-                  </div>
-                  <div className="col-6 col-12-medium">
-                    <section>
-                      <h3 className="icon solid fa-sync">
-                        Lorem ipsum dolor sit veroeros
-                      </h3>
-                      <p>
-                        Eget mattis at, laoreet vel et velit aliquam diam ante,
-                        aliquet sit amet vulputate et magna feugiat laoreet vel
-                        velit lorem.
-                      </p>
-                    </section>
-                  </div>
-                  <div className="col-6 col-12-medium">
-                    <section>
-                      <h3 className="icon fa-image">
-                        Pretium phasellus justo lorem
-                      </h3>
-                      <p>
-                        Eget mattis at, laoreet vel et velit aliquam diam ante,
-                        aliquet sit amet vulputate et magna feugiat laoreet vel
-                        velit lorem.
-                      </p>
-                    </section>
-                  </div>
-                  <div className="col-6 col-12-medium">
-                    <section>
-                      <h3 className="icon solid fa-cog">
-                        Tempus sed pretium orci
-                      </h3>
-                      <p>
-                        Eget mattis at, laoreet vel et velit aliquam diam ante,
-                        aliquet sit amet vulputate et magna feugiat laoreet vel
-                        velit lorem.
-                      </p>
-                    </section>
-                  </div>
-                  <div className="col-6 col-12-medium">
-                    <section>
-                      <h3 className="icon solid fa-wrench">
-                        Aliquam consequat et feugiat
-                      </h3>
-                      <p>
-                        Eget mattis at, laoreet vel et velit aliquam diam ante,
-                        aliquet sit amet vulputate et magna feugiat laoreet vel
-                        velit lorem.
-                      </p>
-                    </section>
-                  </div>
-                  <div className="col-6 col-12-medium">
-                    <section>
-                      <h3 className="icon solid fa-check">
-                        Dolore laoreet aliquam mattis
-                      </h3>
-                      <p>
-                        Eget mattis at, laoreet vel et velit aliquam diam ante,
-                        aliquet sit amet vulputate et magna feugiat laoreet vel
-                        velit lorem.
-                      </p>
-                    </section>
-                  </div>
-                </div>
-              </div>
-              <ul className="actions special">
-                <li>
-                  <a href="#" className="button style1 large">
-                    Get Started
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="button style2 large">
-                    More Info
-                  </a>
-                </li>
-              </ul>
-            </section>
-          </div>
-        </section>
-        {/* <!-- Highlights --> */}
-        <section id="highlights" className="wrapper style3">
-          <div className="title">The Endorsements</div>
-          <div className="container">
-            <div className="row aln-center">
-              <div className="col-4 col-12-medium">
-                <section className="highlight">
-                  <a href="#" className="image featured">
-                    <img src="images/pic02.jpg" alt="" />
-                  </a>
-                  <h3>
-                    <a href="#">Aliquam diam consequat</a>
-                  </h3>
-                  <p>
-                    Eget mattis at, laoreet vel amet sed velit aliquam diam
-                    ante, dolor aliquet sit amet vulputate mattis amet laoreet
-                    lorem.
-                  </p>
-                  <ul className="actions">
-                    <li>
-                      <a href="#" className="button style1">
-                        Learn More
-                      </a>
-                    </li>
-                  </ul>
-                </section>
-              </div>
-              <div className="col-4 col-12-medium">
-                <section className="highlight">
-                  <a href="#" className="image featured">
-                    <img src="images/pic03.jpg" alt="" />
-                  </a>
-                  <h3>
-                    <a href="#">Nisl adipiscing sed lorem</a>
-                  </h3>
-                  <p>
-                    Eget mattis at, laoreet vel amet sed velit aliquam diam
-                    ante, dolor aliquet sit amet vulputate mattis amet laoreet
-                    lorem.
-                  </p>
-                  <ul className="actions">
-                    <li>
-                      <a href="#" className="button style1">
-                        Learn More
-                      </a>
-                    </li>
-                  </ul>
-                </section>
-              </div>
-              <div className="col-4 col-12-medium">
-                <section className="highlight">
-                  <a href="#" className="image featured">
-                    <img src="images/pic04.jpg" alt="" />
-                  </a>
-                  <h3>
-                    <a href="#">Mattis tempus lorem</a>
-                  </h3>
-                  <p>
-                    Eget mattis at, laoreet vel amet sed velit aliquam diam
-                    ante, dolor aliquet sit amet vulputate mattis amet laoreet
-                    lorem.
-                  </p>
-                  <ul className="actions">
-                    <li>
-                      <a href="#" className="button style1">
-                        Learn More
-                      </a>
-                    </li>
-                  </ul>
-                </section>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* <!-- Footer --> */}
         <section id="footer" className="wrapper">
           <div className="title">The Rest Of It</div>
           <div className="container">

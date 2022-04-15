@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Dashboard from "./Dashboard";
 const Results = () => {
   const [queries, setQueries] = useState([]);
+  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/queries/", {
@@ -26,16 +29,28 @@ const Results = () => {
     handleSubmit();
   }, []); //listening on an empty array
 
-  if(localStorage.getItem("user") === null) {    // fix?
-    return(
-      <div>
-      <h2>lol</h2>
-    </div>
-    );
-  }
-  else {
+  const handleLogout = () => {
+    // setUser({});
+    // setUsername("");
+    // setPassword("");
+    localStorage.clear();
+    setLogin(false);
+    navigate("/");
+
+    <a href="/dashboard">Dashboard</a>;
+  };
+
+  if (localStorage.getItem("user") === null) {
+    // fix?
     return (
       <div>
+        <h2>lol</h2>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <button onClick={handleLogout}>Logout</button>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -53,7 +68,7 @@ const Results = () => {
                 <a>SCOPE</a>
               </h1>
             </div>
-  
+
             {/* <!-- Nav --> */}
             <nav id="nav">
               <ul>
@@ -70,7 +85,7 @@ const Results = () => {
               </ul>
             </nav>
           </section>
-  
+
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <div className="title">Results</div>
@@ -112,7 +127,7 @@ const Results = () => {
             </div>
           </section>
         </div>
-  
+
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.dropotron.min.js"></script>
@@ -122,7 +137,6 @@ const Results = () => {
         <script src="assets/js/main.js"></script>
       </div>
     );
-
   }
 };
 
