@@ -13,7 +13,8 @@ const Queries = () => {
     let q = await response.json();
 
     console.log(q);
-    setQueries(q);
+    setQueries(q.results);
+
     return q;
     //   .then((res) => res.json())
     //   .then((response) => {
@@ -21,6 +22,8 @@ const Queries = () => {
     //   })
     //   .catch((error) => console.error("Error: ", error));
   };
+
+
 
   useEffect(() => {
     handleSubmit();
@@ -53,7 +56,7 @@ const Queries = () => {
                 <a>SCOPE</a>
               </h1>
             </div>
-  
+
             {/* <!-- Nav --> */}
             <nav id="nav">
               <ul>
@@ -73,7 +76,7 @@ const Queries = () => {
               </ul>
             </nav>
           </section>
-  
+
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
@@ -99,7 +102,7 @@ const Queries = () => {
                 })}
               </tbody>
             </table>
-  
+
             {/* <table className="content-table">
               <thead>
                 <tr>
@@ -161,7 +164,7 @@ const Queries = () => {
             </div>
           </section>
         </div>
-  
+
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.dropotron.min.js"></script>
