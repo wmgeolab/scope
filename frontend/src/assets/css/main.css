@@ -2677,11 +2677,17 @@ input, select, textarea {
 
 		/* Nav */
 
+<<<<<<< HEAD
 		/*
 		#nav {
 			display: none;
 		}
 		*/
+=======
+			/* #nav {
+				display: none;
+			} */
+>>>>>>> a20be00d763c63588f70ff54ccd8919bb7469372
 
 		/* Logo */
 
@@ -2725,7 +2731,7 @@ input, select, textarea {
 
 		/* Nav */
 
-			#page-wrapper {
+			/* #page-wrapper {
 				-moz-backface-visibility: hidden;
 				-webkit-backface-visibility: hidden;
 				-ms-backface-visibility: hidden;
@@ -2898,7 +2904,7 @@ input, select, textarea {
 				-webkit-transform: translateX(0);
 				-ms-transform: translateX(0);
 				transform: translateX(0);
-			}
+			} */
 
 	}
 

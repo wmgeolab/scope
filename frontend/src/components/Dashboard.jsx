@@ -7,28 +7,27 @@ import LoginGithub from "react-login-github";
 //import axios from "axios";
 
 const Dashboard = () => {
-  const onSuccess = (response) => {
-    console.log(response); //url doesn't change,
-    //  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
-    //{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
-    //need to check if the state is authenticated or not, need to set the state to authenticated at some point
-    //need to figure out what to do with callback
-  };
   const onFailure = (response) => console.error(response);
 
   // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
   const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   const [user, setUser] = useState();
+  const [login, setLogin] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     console.log(loggedInUser);
     if (loggedInUser) {
       // const foundUser = JSON.parse(loggedInUser);
+      setLogin(true); //need to figure out where to place this so it will change states, but the changes persist across refresh (store in local storage along with user?)
       setUser(loggedInUser);
     }
   }, []);
+
+  // useEffect(() => {
+  //   setLogin(false);
+  // }, user);
 
   const handleSubmit = async (e) => {
     console.log(e.code);
@@ -44,6 +43,7 @@ const Dashboard = () => {
     token.json().then((res) => {
       console.log(res);
       localStorage.setItem("user", res.key);
+      setLogin(true);
     });
     //   e.preventDefault();
     //   // const user = { username, password };
@@ -64,6 +64,7 @@ const Dashboard = () => {
     setUsername("");
     // setPassword("");
     localStorage.clear();
+    setLogin(false);
   };
 
   return (
@@ -84,15 +85,26 @@ const Dashboard = () => {
 
             }}
           /> */}
-        <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
-          className="button style1 large"
-          clientId="75729dd8f6e08419c896"
-          //   onSuccess={onSuccess} //this is a callback
-          onSuccess={handleSubmit}
-          // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
-          //maybe can do something like onSuccess = this.setState...
-          onFailure={onFailure}
-        />
+        <div>
+          {login ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
+              className="button style1 large"
+              clientId="75729dd8f6e08419c896"
+              //   onSuccess={onSuccess} //this is a callback
+              onSuccess={handleSubmit}
+              // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
+              //maybe can do something like onSuccess = this.setState...
+              onFailure={onFailure}
+            />
+          )}
+        </div>
+        {/* <div>
+          {!login.loggedIn}
+          <button onClick={handleLogout}>Logout</button>
+        </div> */}
+
         {/* <!-- Header --> */}
         <section id="header" className="wrapper">
           {/* <!-- Logo --> */}
@@ -461,12 +473,12 @@ const Dashboard = () => {
       </div>
 
       {/* <!-- Scripts --> */}
-      <script src="assets/js/jquery.min.js"></script>
+      {/* <script src="assets/js/jquery.min.js"></script>
       <script src="assets/js/jquery.dropotron.min.js"></script>
       <script src="assets/js/browser.min.js"></script>
       <script src="assets/js/breakpoints.min.js"></script>
       <script src="assets/js/util.js"></script>
-      <script src="assets/js/main.js"></script>
+      <script src="assets/js/main.js"></script> */}
     </div>
   );
 };
