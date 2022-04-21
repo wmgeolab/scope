@@ -27,20 +27,17 @@ const Queries = () => {
   }, []); //listening on an empty array
 
   const handleLogout = () => {
-    // setUser({});
-    // setUsername("");
-    // setPassword("");
     localStorage.clear();
     setLogin(false);
     navigate("/");
-    //  <a href="/dashboard">Dashboard</a>;
   };
 
   if (localStorage.getItem("user") === null) {
     // fix?
     return (
       <div>
-        You are not logged in, please return to the <a href="/">dashboard</a>{" "}
+        Oops, looks like you've exceeded the SCOPE of your access, please return
+        to the <a href="/">dashboard</a> to log in
         {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
@@ -130,7 +127,6 @@ const Queries = () => {
                     </a>
                   </li>
                 </ul>
-                {/* <button onClick={handleSubmit}>Look at Queries</button> */}
               </section>
             </div>
           </section>

@@ -40,96 +40,101 @@ const CreateQuery = () => {
     });
     navigate("/queries");
   }
-
-  return (
-    <div>
-      <div id="page-wrapper">
-        {/* <GithubButton
-            onClick={() => {
-
-            }}
-          /> */}
-
-        <button onClick={handleLogout}>Logout</button>
-        {/* <!-- Header --> */}
-        <section id="header" className="wrapper">
-          {/* <!-- Logo --> */}
-          <div id="logo">
-            <h1>
-              <a>SCOPE</a>
-            </h1>
-          </div>
-
-          {/* <!-- Nav --> */}
-          <nav id="nav">
-            <ul>
-              {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-              {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-              {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-              <li className="current">
-                <a href="/">Dashboard</a>
-              </li>
-              <li>
-                <a href="/queries">Queries</a>
-              </li>
-              <li>
-                <a href="/results">Results</a>
-              </li>
-            </ul>
-          </nav>
-        </section>
-
-        {/* <!-- Highlights --> */}
-        <section id="highlights" className="wrapper style3">
-          <div className="title">Create Query</div>
-          <div className="container">
-            <div className="form-style-5">
-              <form>
-                <fieldset>
-                  <legend> Query Info</legend>
-                  <input
-                    type="text"
-                    id="queryName"
-                    placeholder="Query Name *"
-                  ></input>
-                  <input
-                    type="text"
-                    id="queryDescription"
-                    placeholder="Query Description *"
-                  ></input>
-                  <input
-                    type="text"
-                    id="primaryKeyword"
-                    placeholder="Primary Keyword (Only 1) *"
-                  ></input>
-                  <input
-                    type="text"
-                    id="secondaryKeywords"
-                    placeholder="Secondary Keywords *"
-                  ></input>
-                </fieldset>
-                <ul className="actions special">
-                  <li>
-                    <a onClick={submitQuery} className="button style1 large">
-                      Submit Query
-                    </a>
-                  </li>
-                </ul>
-              </form>
-            </div>
-          </div>
-        </section>
+  if (localStorage.getItem("user") === null) {
+    // fix?
+    return (
+      <div>
+        Oops, looks like you've exceeded the SCOPE of your access, please return
+        to the <a href="/">dashboard</a> to log in
+        {/*do we want a popup so user is never taken to queries*/}
       </div>
+    );
+    // alert("Please log in")
+  } else {
+    return (
+      <div>
+        <div id="page-wrapper">
+          <button onClick={handleLogout}>Logout</button>
+          {/* <!-- Header --> */}
+          <section id="header" className="wrapper">
+            {/* <!-- Logo --> */}
+            <div id="logo">
+              <h1>
+                <a>SCOPE</a>
+              </h1>
+            </div>
 
-      {/* <!-- Scripts --> */}
-      <script src="assets/js/jquery.min.js"></script>
-      <script src="assets/js/jquery.dropotron.min.js"></script>
-      <script src="assets/js/browser.min.js"></script>
-      <script src="assets/js/breakpoints.min.js"></script>
-      <script src="assets/js/util.js"></script>
-      <script src="assets/js/main.js"></script>
-    </div>
-  );
+            {/* <!-- Nav --> */}
+            <nav id="nav">
+              <ul>
+                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
+                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
+                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
+                <li className="current">
+                  <a href="/">Dashboard</a>
+                </li>
+                <li>
+                  <a href="/queries">Queries</a>
+                </li>
+                <li>
+                  <a href="/results">Results</a>
+                </li>
+              </ul>
+            </nav>
+          </section>
+
+          {/* <!-- Highlights --> */}
+          <section id="highlights" className="wrapper style3">
+            <div className="title">Create Query</div>
+            <div className="container">
+              <div className="form-style-5">
+                <form>
+                  <fieldset>
+                    <legend> Query Info</legend>
+                    <input
+                      type="text"
+                      id="queryName"
+                      placeholder="Query Name *"
+                    ></input>
+                    <input
+                      type="text"
+                      id="queryDescription"
+                      placeholder="Query Description *"
+                    ></input>
+                    <input
+                      type="text"
+                      id="primaryKeyword"
+                      placeholder="Primary Keyword (Only 1) *"
+                    ></input>
+                    <input
+                      type="text"
+                      id="secondaryKeywords"
+                      placeholder="Secondary Keywords *"
+                    ></input>
+                  </fieldset>
+                  <ul className="actions special">
+                    <li>
+                      <a onClick={submitQuery} className="button style1 large">
+                        Submit Query
+                      </a>
+                    </li>
+                  </ul>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* <!-- Scripts --> */}
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.dropotron.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+      </div>
+    );
+  }
 };
 
 export default CreateQuery;
