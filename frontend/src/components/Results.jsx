@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
-const Results = () => {
+const Queries = () => {
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
@@ -16,13 +17,9 @@ const Results = () => {
     let q = await response.json();
 
     console.log(q);
-    setQueries(q);
+    setQueries(q.results);
+
     return q;
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     console.log("Success: ", JSON.stringify(response));
-    //   })
-    //   .catch((error) => console.error("Error: ", error));
   };
 
   useEffect(() => {
@@ -36,17 +33,18 @@ const Results = () => {
     localStorage.clear();
     setLogin(false);
     navigate("/");
-
-    <a href="/dashboard">Dashboard</a>;
+    //  <a href="/dashboard">Dashboard</a>;
   };
 
   if (localStorage.getItem("user") === null) {
     // fix?
     return (
       <div>
-        <h2>lol</h2>
+        You are not logged in, please return to the <a href="/">dashboard</a>{" "}
+        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
+    // alert("Please log in")
   } else {
     return (
       <div>
@@ -65,13 +63,16 @@ const Results = () => {
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
-                <a>SCOPE</a>
+                <a>SCOPE (not what results page will look like)</a>
               </h1>
             </div>
 
             {/* <!-- Nav --> */}
             <nav id="nav">
               <ul>
+                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
+                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
+                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
                 <li>
                   <a href="/">Dashboard</a>
                 </li>
@@ -88,8 +89,16 @@ const Results = () => {
 
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
-            <div className="title">Results</div>
-            <table className="content-table">
+            <div className="title">Queries</div>
+
+            <input
+              type="text"
+              id="search"
+              onkeyup="myFunction()"
+              placeholder="Search queries.."
+            />
+
+            <table className="content-table" id="query-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -111,7 +120,6 @@ const Results = () => {
                 })}
               </tbody>
             </table>
-
             <div className="container">
               {/* <!-- Features --> */}
               <section id="features">
@@ -140,4 +148,4 @@ const Results = () => {
   }
 };
 
-export default Results;
+export default Queries;

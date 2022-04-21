@@ -38,27 +38,12 @@ const Dashboard = () => {
 
     token.json().then((res) => {
       console.log(res);
-      localStorage.setItem("user", res.key);
+      localStorage.setItem("user", res.key); //store the user in local storage
       setLogin(true);
     });
-    //   e.preventDefault();
-    //   // const user = { username, password };
-    // const user = { username };
-    //   // send the username and password to the server
-    //   const response = await axios.post(
-    //     	"http://blogservice.herokuapp.com/api/login",
-    //     user
-    //   );
-    //   // set the state of the user
-    //   setUser(response.data)
-    //   // store the user in localStorage
-    //   console.log(response.data)
   };
 
   const handleLogout = () => {
-    // setUser({});
-    // setUsername("");
-    // setPassword("");
     localStorage.clear();
     setLogin(false);
   };
@@ -66,11 +51,6 @@ const Dashboard = () => {
   return (
     <div>
       <div id="page-wrapper">
-        {/* <GithubButton
-            onClick={() => {
-
-            }}
-          /> */}
         <div>
           {login ? (
             <button onClick={handleLogout}>Logout</button>
@@ -78,18 +58,11 @@ const Dashboard = () => {
             <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
               className="button style1 large"
               clientId="75729dd8f6e08419c896"
-              //   onSuccess={onSuccess} //this is a callback
               onSuccess={handleSubmit}
-              // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
-              //maybe can do something like onSuccess = this.setState...
               onFailure={onFailure}
             />
           )}
         </div>
-        {/* <div>
-          {!login.loggedIn}
-          <button onClick={handleLogout}>Logout</button>
-        </div> */}
 
         {/* <!-- Header --> */}
         <section id="header" className="wrapper">

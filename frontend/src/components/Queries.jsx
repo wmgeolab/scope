@@ -22,8 +22,6 @@ const Queries = () => {
     return q;
   };
 
-
-
   useEffect(() => {
     handleSubmit();
   }, []); //listening on an empty array
@@ -35,17 +33,18 @@ const Queries = () => {
     localStorage.clear();
     setLogin(false);
     navigate("/");
-
-    <a href="/dashboard">Dashboard</a>;
+    //  <a href="/dashboard">Dashboard</a>;
   };
 
   if (localStorage.getItem("user") === null) {
     // fix?
     return (
       <div>
-        <h2>lol</h2>
+        You are not logged in, please return to the <a href="/">dashboard</a>{" "}
+        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
+    // alert("Please log in")
   } else {
     return (
       <div>
@@ -92,7 +91,12 @@ const Queries = () => {
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
 
-            <input type="text" id="search" onkeyup="myFunction()" placeholder="Search queries.."/>
+            <input
+              type="text"
+              id="search"
+              onkeyup="myFunction()"
+              placeholder="Search queries.."
+            />
 
             <table className="content-table" id="query-table">
               <thead>

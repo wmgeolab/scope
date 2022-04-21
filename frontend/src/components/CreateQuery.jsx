@@ -1,16 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import LoginGithub from "react-login-github";
 
 const CreateQuery = () => {
-  const onSuccess = (response) => {
-    console.log(response); //url doesn't change,
-    //  state.auth ? ReactDOM.render(<Dashboard />, document.getElementById('root')): <h1>Please login!</h1>};
-    //{ReactDOM.render(<Dashboard />, document.getElementById('root'))};
-    //need to check if the state is authenticated or not, need to set the state to authenticated at some point
-    //need to figure out what to do with callback
+  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // setUser({});
+    // setUsername("");
+    // setPassword("");
+    localStorage.clear();
+    setLogin(false);
+    navigate("/");
+    //  <a href="/dashboard">Dashboard</a>;
   };
-  const onFailure = (response) => console.error(response);
 
   function submitQuery(e) {
     e.preventDefault();
@@ -34,19 +38,10 @@ const CreateQuery = () => {
       },
       body: JSON.stringify(data),
     });
+    navigate("/queries");
   }
 
   return (
-    // <div>
-    //   {/* <Navigation /> */}
-
-    // 		<h1>Dashboard </h1>
-    // 		 <Link to='/queries'>Go to Queries</Link>
-    //      <br></br>
-    //      <Link to='/results'>Go to Results</Link>
-
-    // </div>
-
     <div>
       <div id="page-wrapper">
         {/* <GithubButton
@@ -55,15 +50,7 @@ const CreateQuery = () => {
             }}
           /> */}
 
-        {/* do we want all the pages to have the login/logout button? */}
-        <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
-          className="button style1 large"
-          clientId="75729dd8f6e08419c896"
-          onSuccess={onSuccess} //this is a callback
-          // onSuccess={ReactDOM.render(<Dashboard />, document.getElementById('root'))}
-          //maybe can do something like onSuccess = this.setState...
-          onFailure={onFailure}
-        />
+        <button onClick={handleLogout}>Logout</button>
         {/* <!-- Header --> */}
         <section id="header" className="wrapper">
           {/* <!-- Logo --> */}
@@ -87,9 +74,6 @@ const CreateQuery = () => {
               </li>
               <li>
                 <a href="/results">Results</a>
-              </li>
-              <li>
-                <a href="/login">Login</a>
               </li>
             </ul>
           </nav>
