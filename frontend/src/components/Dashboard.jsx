@@ -20,7 +20,7 @@ const Dashboard = () => {
     console.log(loggedInUser);
     if (loggedInUser) {
       // const foundUser = JSON.parse(loggedInUser);
-      setLogin(true); //need to figure out where to place this so it will change states, but the changes persist across refresh (store in local storage along with user?)
+      setLogin(true);
       setUser(loggedInUser);
     }
   }, []);
