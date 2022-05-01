@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Route, useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
-const Queries = () => {
-  const [queries, setQueries] = useState([]);
+const Results = () => {
+  const [queryResults, setQueryResults] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/queries/", {
+    let response = await fetch("http://127.0.0.1:8000/api/sources/", {
+      ///results doesn't have anything in the array when printed
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token " + localStorage.getItem("user"),
@@ -17,7 +18,7 @@ const Queries = () => {
     let q = await response.json();
 
     console.log(q);
-    setQueries(q.results);
+    setQueryResults(q.results);
 
     return q;
   };
@@ -60,7 +61,7 @@ const Queries = () => {
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
-                <a>SCOPE (not what results page will look like)</a>
+                <a>SCOPE</a>
               </h1>
             </div>
 
@@ -76,9 +77,9 @@ const Queries = () => {
                 <li className="current">
                   <a href="/queries">Queries</a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="/results">Results</a>
-                </li>
+                </li> */}
                 {/* <li><a href='/login'>Login</a></li> */}
               </ul>
             </nav>
@@ -86,32 +87,32 @@ const Queries = () => {
 
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
-            <div className="title">Queries</div>
+            <div className="title">Results</div>
 
             <input
               type="text"
               id="search"
               onkeyup="myFunction()"
-              placeholder="Search queries.."
+              placeholder="Search results.."
             />
 
             <table className="content-table" id="query-table">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Name</th>
-                  <th>Keywords</th>
-                  <th>User</th>
+                  <th>Text</th>
+                  <th>url</th>
                 </tr>
               </thead>
               <tbody>
-                {queries.map((query, i) => {
+                {queryResults.map((result, i) => {
                   return (
                     <tr key={i}>
-                      <td>{query.id}</td>
-                      <td>{query.name}</td>
-                      <td>{query.keywords.join(", ")}</td>
-                      <td>{query.user}</td>
+                      <td>{result.id}</td>
+                      <td>{result.text}</td>
+                      <a href={result.url}>
+                        <td>{result.url}</td>
+                      </a>
                     </tr>
                   );
                 })}
@@ -120,13 +121,7 @@ const Queries = () => {
             <div className="container">
               {/* <!-- Features --> */}
               <section id="features">
-                <ul className="actions special">
-                  <li>
-                    <a href="/create-query" className="button style1 large">
-                      Create New Query
-                    </a>
-                  </li>
-                </ul>
+                <ul className="actions special"></ul>
               </section>
             </div>
           </section>
@@ -144,4 +139,4 @@ const Queries = () => {
   }
 };
 
-export default Queries;
+export default Results;

@@ -18,7 +18,6 @@ const Queries = () => {
 
     console.log(q);
     setQueries(q.results);
-
     return q;
   };
 
@@ -39,7 +38,7 @@ const Queries = () => {
     filter = input.value.toUpperCase();
     table = document.getElementById("query-table");
     tr = table.getElementsByTagName("tr");
-  
+
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
       td1 = tr[i].getElementsByTagName("td")[1];
@@ -47,7 +46,10 @@ const Queries = () => {
       if (td1 && td2) {
         txtValue1 = td1.textContent || td1.innerText;
         txtValue2 = td2.textContent || td2.innerText;
-        if (txtValue1.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
+        if (
+          txtValue1.toUpperCase().indexOf(filter) > -1 ||
+          txtValue2.toUpperCase().indexOf(filter) > -1
+        ) {
           tr[i].style.display = "";
         } else {
           tr[i].style.display = "none";
@@ -60,8 +62,8 @@ const Queries = () => {
     // fix?
     return (
       <div>
-        Oops, looks like you've exceeded the SCOPE of your access, please return
-        to the <a href="/">dashboard</a> to log in
+        <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
+        your access, please return to the <a href="/">dashboard</a> to log in
         {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
@@ -100,9 +102,6 @@ const Queries = () => {
                 <li className="current">
                   <a href="/queries">Queries</a>
                 </li>
-                <li>
-                  <a href="/results">Results</a>
-                </li>
                 {/* <li><a href='/login'>Login</a></li> */}
               </ul>
             </nav>
@@ -133,7 +132,10 @@ const Queries = () => {
                   return (
                     <tr key={i}>
                       <td>{query.id}</td>
-                      <td>{query.name}</td>
+                      <a href={"/results"}>
+                        <td>{query.name}</td>
+                      </a>
+
                       <td>{query.keywords.join(", ")}</td>
                       <td>{query.user}</td>
                     </tr>

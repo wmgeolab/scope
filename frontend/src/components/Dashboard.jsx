@@ -86,9 +86,6 @@ const Dashboard = () => {
               <li>
                 <a href="/queries">Queries</a>
               </li>
-              <li>
-                <a href="/results">Results</a>
-              </li>
               {/* <li>
                 <a href="/login">Login</a>
               </li> */}
