@@ -1,0 +1,65 @@
+{
+   "result":[
+      {
+         "run":[
+            {
+               "r_id":1,
+               "time":"Friday, October 31, 2021",
+               "query":[
+                  {
+                     "q_id":1,
+                     "name":"My first query",
+                     "keywords":["Russia", "Africa", "Water"]
+                     "user":[
+                        {
+                           "user_id":1,
+                           "first":"Michael",
+                           "last":"Foster",
+                           "username":"michaelrfoster"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ],
+         "source":[
+            {
+               "source_id":1,
+               "text":"Hello World",
+               "url":"www.test.com",
+               "type":[
+                  {
+                     "type_id":1,
+                     "name":"GDELT",
+                     "desc":"This source came from GDELT"
+                  }
+               ]
+            },
+            {
+               "source_id":2,
+               "text":"Goodbye World",
+               "url":"www.notatest.com",
+               "type":[
+                  {
+                     "type_id":2,
+                     "name":"Twitter",
+                     "desc":"This source came from Twitter"
+                  }
+               ]
+            },
+            {
+               "source_id":3,
+               "text":"Hello Again World",
+               "url":"www.noiswearthisisatest.com",
+               "type":[
+                  {
+                     "type_id":3,
+                     "name":"Facebook",
+                     "desc":"This source came from Facebook"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
