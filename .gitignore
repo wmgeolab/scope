@@ -133,3 +133,5 @@ dmypy.json
 # API keys
 
 api.txt
+frontend/package-lock.json
+frontend/yarn.lock
