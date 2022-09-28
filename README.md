@@ -30,7 +30,7 @@ That should be all you need to work on developing and testing the website codeba
 As an alternative to `npm`, you can use `yarn`. I'm not too certain as how it compares to `npm`,
 but I have heard it can be better.
 
-1. curl -o- -L https://yarnpkg.com/install.sh | bash
+1. `curl -o- -L https://yarnpkg.com/install.sh | bash`
 2. Check that `yarn` installed successfully with `yarn --version`
 3. Navigate to the [`frontend`](frontend) folder
 4. Run `yarn` (which will automatically install from `package.json`)
