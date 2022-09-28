@@ -13,9 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+# url is deprecreated for Django 4+
+# from django.conf.urls import url
 
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib import admin
 from rest_framework import routers
 from scopeBackend import views
@@ -28,7 +29,7 @@ router.register(r'results', views.ResultView, 'Results')
 router.register(r'sources', views.SourceView, 'Sources')
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    re_path(r'^admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('dj-rest-auth/github', views.GithubLogin.as_view(), name = 'github_login')
+    path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login')
 ]
