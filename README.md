@@ -1,4 +1,9 @@
-# scope
+# Scientific Collection of Open-Source Policy Evidence (SCOPE)
+
+Crittenden, Matthew, "SCOPE: Building and Testing an Integrated Manual-Automated Event Extraction Tool
+for Online Text-Based Media Sources" (2021). Undergraduate Honors Theses. Paper 1651.
+https://scholarworks.wm.edu/honorstheses/1651 
+
 
 SCOPE data collection+coding platform (2GZM demo)
 
