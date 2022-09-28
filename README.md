@@ -8,7 +8,7 @@ WARNING (THIS README NEEDS TO BE UPDATED)
 
 The SCOPE data collection 2GZM demo website is implemented in a Python web framework called Django. All you need is a laptop, a Python installation, and a browser for testing the website. 
 
-### Setup
+### Backend Setup
 
 Setting up the website on your local computer is fairly easy: 
 
@@ -16,9 +16,25 @@ Setting up the website on your local computer is fairly easy:
 2. Install the dependencies. These are listed in `requirements.txt` and can be installed easily via the commandline: `pip install -r 'path/to/scope/requirements.txt'`.
 3. Clone/copy this repository to your local computer. As a collaborator, you should have access to view and make changes to this repository in your GitHub account. Open GitHub Desktop, and in the top menu choose `File -> Clone Repository -> scope`. 
 4. Make note of the local path where you copied the `scope` project folder, this is the folder you'll be working in. 
-5. Connect to the website database. The website connects to an external MySQL database and requires the database login credentials to be stored in a file called `db_config.cnf`. Contact @karimbahgat to get access to this file, and save it in the top-level project folder. 
+5. Connect to the website database. The website connects to an external MySQL database and requires the database login credentials to be stored in a file called `db_config.cnf`. Contact @joegenius98 to get access to this file, and save it in the top-level project folder. 
 
 That should be all you need to work on developing and testing the website codebase. 
+
+### Frontend Setup
+
+1. Install [`Node.js`](https://nodejs.org/en/download/)
+2. Navigate to the [`frontend`](frontend) folder 
+3. `npm install`
+4. `npm start`
+
+As an alternative to `npm`, you can use `yarn`. I'm not too certain as how it compares to `npm`,
+but I have heard it can be better.
+
+1. curl -o- -L https://yarnpkg.com/install.sh | bash
+2. Check that `yarn` installed successfully with `yarn --version`
+3. Navigate to the [`frontend`](frontend) folder
+4. Run `yarn` (which will automatically install from `package.json`)
+5. `yarn run`
 
 ### A brief overview of the project folder
 
