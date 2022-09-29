@@ -27,16 +27,16 @@ That should be all you need to work on developing and testing the website codeba
 
 ### Frontend Setup
 
-1. Install [`Node.js`](https://nodejs.org/en/download/)
+1. Install [`Node.js`](https://nodejs.org/en/download/). (Last version used: `16.7.1`)
 2. Navigate to the [`frontend`](frontend) folder 
-3. `npm install`
+3. `npm install` (Last version used: `8.15.0`)
 4. `npm start`
 
 As an alternative to `npm`, you can use `yarn`. I'm not too certain as how it compares to `npm`,
 but I have heard it can be better.
 
 1. `curl -o- -L https://yarnpkg.com/install.sh | bash`
-2. Check that `yarn` installed successfully with `yarn --version`
+2. Check that `yarn` installed successfully with `yarn --version` (Last version used: `1.22.19`)
 3. Navigate to the [`frontend`](frontend) folder
 4. Run `yarn` (which will automatically install from `package.json`)
 5. `yarn run`
