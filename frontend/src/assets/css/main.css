@@ -1539,7 +1539,7 @@ input, select, textarea {
 			}
 
 			table.content-table thead tr {
-			  background-color: #F8867F;
+			  background-color: #5E4CA6;
 			  color: #ffffff;
 			  text-align: left;
 			  font-weight: bold;
@@ -1563,17 +1563,17 @@ input, select, textarea {
 			}
 
 			table.content-table tbody tr:last-of-type {
-			  border-bottom: 2px solid #F8867F;
+			  border-bottom: 2px solid #5E4CA6;
 			}
 
 			table.content-table tbody tr.active-row {
 			  font-weight: bold;
-			  color: #E97770;
+			  color: #5E4CA6;
 			}
 
 			table.content-table tbody tr:hover {
 			  filter: brightness(95%);
-			  color: #E97770;
+			  color: #5E4CA6;
 			}
 
 /* Form */
@@ -1830,7 +1830,7 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		button:hover,
 		.button:hover {
-			background-color: #f98780;
+			background-color: #9580e6;
 		}
 
 		input[type="button"].large,
@@ -1847,7 +1847,7 @@ input, select, textarea {
 		input[type="reset"].style1,
 		button.style1,
 		.button.style1 {
-			background: #e97770 url("images/overlay.png");
+			background: #5E4CA6 url("images/overlay.png");
 			color: #fff;
 		}
 
@@ -1856,7 +1856,7 @@ input, select, textarea {
 			input[type="reset"].style1:hover,
 			button.style1:hover,
 			.button.style1:hover {
-				background-color: #f98780;
+				background-color: #9580e6;
 			}
 
 			input[type="button"].style1:active,
@@ -2025,7 +2025,7 @@ input, select, textarea {
 		}
 
 		.feature-list h3 {
-			color: #e97770 !important;
+			color: #5E4CA6 !important;
 			margin: -0.35em 0 0.75em 0;
 			font-size: 1.15em;
 			letter-spacing: 0.05em;
@@ -2177,13 +2177,13 @@ input, select, textarea {
 			}
 
 		.wrapper.style1 {
-			background: #e97770 url("images/overlay.png");
+			background: #5E4CA6 url("images/overlay.png");
 			color: #eee;
 			color: rgba(255, 255, 255, 0.75);
 		}
 
 			.wrapper.style1 .title {
-				background: #e97770 url("images/overlay.png");
+				background: #5E4CA6 url("images/overlay.png");
 				color: #fff;
 			}
 
@@ -2236,7 +2236,7 @@ input, select, textarea {
 		justify-content: center;
 		position: relative;
 		height: 24em;
-		background: url("../../images/banner.jpg") center center;
+		background: url("../../images/stars.gif") center center;
 		background-size: cover;
 		padding: 0;
 	}
@@ -2254,6 +2254,14 @@ input, select, textarea {
 		.homepage #header {
 			height: 35em;
 		}
+
+
+/* Github Login Button */
+
+	#github_login {
+		float: right;
+		overflow: hidden;
+	}
 
 /* Logo */
 
@@ -2436,7 +2444,7 @@ input, select, textarea {
 	}
 
 		#highlights .highlight h3 {
-			color: #e97770;
+			color: #5E4CA6;
 			margin: 0 0 0.75em 0;
 			font-size: 1.15em;
 			letter-spacing: 0.05em;
