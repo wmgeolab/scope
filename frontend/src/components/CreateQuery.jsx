@@ -24,21 +24,32 @@ const CreateQuery = () => {
     let primaryKeyword = document.getElementById("primaryKeyword").value;
     let secondaryKeywords = document.getElementById("secondaryKeywords").value;
 
-    var data = {
-      name: queryName,
-      description: queryDescription,
-      keywords: [primaryKeyword, secondaryKeywords],
-    };
+    //if one of the fields is blank, don't submit to database/don't let the submission work
+    //need to figure out how to add pop up easily
+    if (
+      queryName == false ||
+      queryDescription == false ||
+      primaryKeyword == false ||
+      secondaryKeywords == false
+    ) {
+      alert("Please fill in all the required fields"); //should this be something other than an alert
+    } else {
+      var data = {
+        name: queryName,
+        description: queryDescription,
+        keywords: [primaryKeyword, secondaryKeywords],
+      };
 
-    fetch("http://127.0.0.1:8000/api/queries/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-      body: JSON.stringify(data),
-    });
-    navigate("/queries");
+      fetch("http://127.0.0.1:8000/api/queries/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+        body: JSON.stringify(data),
+      });
+      navigate("/queries");
+    }
   }
   if (localStorage.getItem("user") === null) {
     // fix?
