@@ -51,10 +51,12 @@ const Dashboard = () => {
   return (
     <div>
       <div id="page-wrapper">
-        <div>
+        {/* <!-- Header --> */}
+
+        <section id="header" className="wrapper">
           {login ? (
             <button onClick={handleLogout}>Logout</button>
-            ) : (
+          ) : (
             <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
               className="button style1 large"
               clientId="75729dd8f6e08419c896"
@@ -62,10 +64,6 @@ const Dashboard = () => {
               onFailure={onFailure}
             />
           )}
-        </div>
-
-        {/* <!-- Header --> */}
-        <section id="header" className="wrapper">
 
           {/* <!-- Logo --> */}
           <div id="logo">
@@ -94,7 +92,6 @@ const Dashboard = () => {
           </nav>
         </section>
 
-        
         {/* <!-- Intro --> */}
         <section id="intro" className="wrapper style1">
           <div className="title">About</div>
@@ -121,7 +118,6 @@ const Dashboard = () => {
             </p>
           </div>
         </section>
-
       </div>
 
       {/* <!-- Scripts --> */}

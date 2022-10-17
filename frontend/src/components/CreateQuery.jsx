@@ -41,6 +41,7 @@ const CreateQuery = () => {
       };
 
       fetch("http://127.0.0.1:8000/api/queries/", {
+        //submitting a query
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,9 +66,9 @@ const CreateQuery = () => {
     return (
       <div>
         <div id="page-wrapper">
-          <button onClick={handleLogout}>Logout</button>
           {/* <!-- Header --> */}
           <section id="header" className="wrapper">
+            <button onClick={handleLogout}>Logout</button>
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>

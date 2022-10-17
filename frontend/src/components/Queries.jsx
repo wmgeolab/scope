@@ -71,7 +71,6 @@ const Queries = () => {
   } else {
     return (
       <div>
-        <button onClick={handleLogout}>Logout</button>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -83,6 +82,7 @@ const Queries = () => {
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           <section id="header" className="wrapper">
+            <button onClick={handleLogout}>Logout</button>
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
