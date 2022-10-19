@@ -14,6 +14,7 @@ const Queries = () => {
         Authorization: "Token " + localStorage.getItem("user"),
       },
     });
+    console.log(localStorage.getItem("user"));
     let q = await response.json();
 
     console.log(q);

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGithub from "react-login-github";
+import { AlertTitle, Alert } from "@mui/material/";
 
 const CreateQuery = () => {
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   const handleLogout = () => {
     // setUser({});
@@ -32,7 +34,7 @@ const CreateQuery = () => {
       primaryKeyword == false ||
       secondaryKeywords == false
     ) {
-      alert("Please fill in all the required fields"); //should this be something other than an alert
+      setError(true);
     } else {
       var data = {
         name: queryName,
@@ -51,6 +53,7 @@ const CreateQuery = () => {
       });
       navigate("/queries");
     }
+    //  setError(false);
   }
   if (localStorage.getItem("user") === null) {
     // fix?
@@ -130,6 +133,15 @@ const CreateQuery = () => {
                         Submit Query
                       </a>
                     </li>
+                    {error ? (
+                      <Alert severity="error">
+                        This is an error alert — check it out!
+                      </Alert>
+                    ) : (
+                      <Alert severity="info">
+                        This is an info alert — check it out!
+                      </Alert>
+                    )}
                   </ul>
                 </form>
               </div>
