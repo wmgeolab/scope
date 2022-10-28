@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Route, useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
+import Checkbox, { checkboxClasses } from "@mui/material/Checkbox";
+
 const Results = () => {
   const [queryResults, setQueryResults] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  // for the checkbox, add functionality later
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const handleSubmit = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/sources/", {
@@ -99,6 +103,7 @@ const Results = () => {
             <table className="content-table" id="query-table">
               <thead>
                 <tr>
+                  <the></the>
                   <th>ID</th>
                   <th>Text</th>
                   <th>url</th>
@@ -108,6 +113,8 @@ const Results = () => {
                 {queryResults.map((result, i) => {
                   return (
                     <tr key={i}>
+                      <Checkbox {...label} color="secondary" />
+
                       <td>{result.id}</td>
                       <td>{result.text}</td>
                       <a href={result.url}>
