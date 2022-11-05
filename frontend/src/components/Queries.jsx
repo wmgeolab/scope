@@ -2,22 +2,47 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Route, useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
+import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
+import { flexbox } from "@mui/system";
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+
+  // const rows = [
+  //   { id: 1, col1: "Hello", col2: "World" },
+  //   { id: 2, col1: "DataGridPro", col2: "is Awesome" },
+  //   { id: 3, col1: "MUI", col2: "is Amazing" },
+  // ];
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 150 },
+    { field: "name", headerName: "Name", width: 150 },
+    { field: "description", headerName: "Description", width: 150 },
+    { field: "user", headerName: "User", width: 150 },
+    { field: "keywords", headerName: "Keywords", width: 150 },
+  ];
 
   const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/queries/", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-    });
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/queries/?page=" + page,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
+    console.log(response);
     console.log(localStorage.getItem("user"));
     let q = await response.json();
 
     console.log(q);
+
     setQueries(q.results);
     return q;
   };
@@ -30,6 +55,11 @@ const Queries = () => {
     localStorage.clear();
     setLogin(false);
     navigate("/");
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    handleSubmit();
   };
 
   function search() {
@@ -111,15 +141,13 @@ const Queries = () => {
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
-
             <input
               type="text"
               id="search"
               onKeyUp={search}
               placeholder="Search queries.."
             />
-
-            <table className="content-table" id="query-table">
+            {/* <table className="content-table" id="query-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -143,9 +171,26 @@ const Queries = () => {
                   );
                 })}
               </tbody>
-            </table>
+            </table> */}
+
+            {/* <Pagination count={10} page={page} onChange={handleChange} /> */}
+            <Box sx={{ height: 400, width: "100%" }}>
+              <DataGrid
+                rows={queries}
+                columns={columns}
+                pageSize={5}
+                // pageSize={pageSize}
+                // onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                // rowsPerPageOptions={[5, 10, 20]}
+                pagination
+                onPageChange={(newPage) => setPage(handlePageChange)}
+                // {...data}
+              />
+            </Box>
+            {console.log(queries)}
             <div className="container">
               {/* <!-- Features --> */}
+
               <section id="features">
                 <ul className="actions special">
                   <li>

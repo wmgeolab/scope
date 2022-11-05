@@ -114,7 +114,7 @@ const CreateQuery = () => {
                     <input
                       type="text"
                       id="queryDescription"
-                      placeholder="Query Description *"
+                      placeholder="Query Description (optional)"
                     ></input>
                     <input
                       type="text"
@@ -135,12 +135,10 @@ const CreateQuery = () => {
                     </li>
                     {error ? (
                       <Alert severity="error">
-                        This is an error alert — check it out!
+                        Please fill in the above fields
                       </Alert>
                     ) : (
-                      <Alert severity="info">
-                        This is an info alert — check it out!
-                      </Alert>
+                      <Alert severity="info">Missing required fields</Alert>
                     )}
                   </ul>
                 </form>
