@@ -57,10 +57,10 @@ const Queries = () => {
     navigate("/");
   };
 
-  // const handleChange = (event, value) => {
-  //   setPage(value);
-  //   handleSubmit();
-  // };
+  const handleChange = (event, value) => {
+    setPage(value);
+    handleSubmit();
+  };
 
   function search() {   {/* need to fix the search so it goes through all data rather than just current page*/}
     // Declare variables
@@ -174,7 +174,7 @@ const Queries = () => {
             </table>
 
             {/* need to change count based on how many queries there are*/}
-            {/* <Pagination count={2} page={page} onChange={handleChange} /> */}
+            <Pagination count={2} page={page} onChange={handleChange} />
             {/* <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 rows={queries}
