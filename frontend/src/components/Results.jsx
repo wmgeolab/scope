@@ -1,15 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Route, useNavigate } from "react-router-dom";
+import { Route, useNavigate, useParams } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Checkbox, { checkboxClasses } from "@mui/material/Checkbox";
 
-const Results = () => {
+const Results =  () => {
+  //gets the queryName from the URL
+  const {queryName} = useParams();
+
   const [queryResults, setQueryResults] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
   // for the checkbox, add functionality later
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+  // Data from `Route` will be passed as a prop.
+// function UserPage({ props }) {
+//   return (
+//     <div>
+//       {/* The URL is passed as `match.url`. */}
+//       {/* `props.url` and `props.path` will be defined whether or not the path is parameterized. */}
+//       <div>{`The URL is "${props.url}"!`}</div>
+//       {/* The path (the one you gave `Route`) is passed as `props.path`. */}
+//       <div>{`It matched the path "${props.path}"!`}</div>
+//       {/* The parameters are passed as `props.params`. */}
+//       <div>{`The parameter is "${props.params.username}"!`}</div>
+//     </div>
+//   );
+// }
 
   const handleSubmit = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/sources/", {
@@ -50,7 +68,8 @@ const Results = () => {
   } else {
     return (
       <div>
-        <button onClick={handleLogout}>Logout</button>
+        {/* <button onClick={handleLogout}>Logout</button> */}
+        <div>{`The parameter is "${queryName}"!`}</div>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -62,6 +81,7 @@ const Results = () => {
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           <section id="header" className="wrapper">
+          <button onClick={handleLogout}>Logout</button>  {/*try putting the button in a mui box to move it*/}
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
@@ -110,7 +130,7 @@ const Results = () => {
                 </tr>
               </thead>
               <tbody>
-                {queryResults.map((result, i) => {
+                {queryResults.map((result, i) => { 
                   return (
                     <tr key={i}>
                       <Checkbox {...label} color="secondary" />

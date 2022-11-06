@@ -57,12 +57,12 @@ const Queries = () => {
     navigate("/");
   };
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-    handleSubmit();
-  };
+  // const handleChange = (event, value) => {
+  //   setPage(value);
+  //   handleSubmit();
+  // };
 
-  function search() {
+  function search() {   {/* need to fix the search so it goes through all data rather than just current page*/}
     // Declare variables
     var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2;
     input = document.getElementById("search");
@@ -147,7 +147,7 @@ const Queries = () => {
               onKeyUp={search}
               placeholder="Search queries.."
             />
-            {/* <table className="content-table" id="query-table">
+            <table className="content-table" id="query-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -157,11 +157,11 @@ const Queries = () => {
                 </tr>
               </thead>
               <tbody>
-                {queries.map((query, i) => {
+                {queries.map((query, i) => {    {/*need to decide whether to use table or data grid*/}
                   return (
                     <tr key={i}>
                       <td>{query.id}</td>
-                      <a href={"/results"}>
+                      <a href={"/results/" + query.name}>
                         <td>{query.name}</td>
                       </a>
 
@@ -171,10 +171,11 @@ const Queries = () => {
                   );
                 })}
               </tbody>
-            </table> */}
+            </table>
 
-            {/* <Pagination count={10} page={page} onChange={handleChange} /> */}
-            <Box sx={{ height: 400, width: "100%" }}>
+            {/* need to change count based on how many queries there are*/}
+            {/* <Pagination count={2} page={page} onChange={handleChange} /> */}
+            {/* <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 rows={queries}
                 columns={columns}
@@ -187,7 +188,7 @@ const Queries = () => {
                 // {...data}
               />
             </Box>
-            {console.log(queries)}
+            {console.log(queries)} */}
             <div className="container">
               {/* <!-- Features --> */}
 

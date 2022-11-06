@@ -51,7 +51,7 @@ const CreateQuery = () => {
         },
         body: JSON.stringify(data),
       });
-      navigate("/queries");
+      navigate("/queries/");
     }
     //  setError(false);
   }
