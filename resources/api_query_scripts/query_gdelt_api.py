@@ -33,12 +33,17 @@ def query_gdelt(args):
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET',
         'Access-Control-Allow-Headers': 'Content-Type',
+        'Accept': 'application/json',
         'Access-Control-Max-Age': '3600',
         'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
     }
 
     req = requests.get(url, headers)
-    return req.json()
+    print("requests: ", req.content)
+    try:
+        return req.json()
+    except requests.JSONDecodeError:
+        return None
 
 
 # Use this to test specific arguments for querying. This is not run in the model call.
