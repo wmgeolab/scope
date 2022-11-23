@@ -14,6 +14,10 @@ from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 
+
+import logging
+logger = logging.getLogger(__name__)
+
 # from backend.scopeBackend import serializers
 
 # Create your views here.
@@ -42,7 +46,7 @@ class QueryView(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
         # self.perform_create(serializer=serializer)
         headers = self.get_success_headers(serializer.data)
-        print(self.request.user.id)
+        logger.error(f"QueryView create call user ID: {self.request.user.id}")
         # q = self.get_object()
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         # return Response({'status': 'post received'})
@@ -63,7 +67,7 @@ class ResultView(viewsets.ModelViewSet):
     # @permission_classes([IsAuthenticated])
 
     def get_queryset(self):
-        print(self.request)
+        logger.error(f"ResultView get_queryset call request: {self.request}")
     #     serializer = self.get_serializer(data = self.request.data)
     #     serializer.is_valid(raise_exception = True)
         queryset = Result.objects.all()
@@ -86,6 +90,7 @@ class RunView(viewsets.ModelViewSet):
 
 
 class SourceView(viewsets.ModelViewSet):
+    logger.error("SourceView here!")
     permission_classes = [IsAuthenticated]
     serializer_class = SourceSerializer
     queryset = Source.objects.all()
