@@ -4,6 +4,8 @@ import Queries from "./Queries";
 import Results from "./Results";
 import "../assets/css/main.css";
 import LoginGithub from "react-login-github";
+import Box from "@mui/material/Box";
+
 //import axios from "axios";
 
 const Dashboard = () => {
@@ -54,42 +56,60 @@ const Dashboard = () => {
         {/* <!-- Header --> */}
 
         <section id="header" className="wrapper">
-          {login ? (
-            <button onClick={handleLogout}>Logout</button>
-          ) : (
-            <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
-              className="button style1 large"
-              clientId="75729dd8f6e08419c896"
-              onSuccess={handleSubmit}
-              onFailure={onFailure}
-            />
-          )}
+          {/* </Box> */}
 
           {/* <!-- Logo --> */}
-          <div id="logo">
+          <div id="logo" style={{ margin: -100 }}>
             <h1>
               <a>SCOPE</a>
             </h1>
             <p>A free responsive site template by HTML5 UP</p>
           </div>
-
-          {/* <!-- Nav --> */}
-          <nav id="nav">
-            <ul>
-              {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-              {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-              {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-              <li className="current">
-                <a href="/">Dashboard</a>
-              </li>
-              <li>
-                <a href="/queries">Queries</a>
-              </li>
-              {/* <li>
+          <div>
+            <nav id="nav">
+              <div
+                style={{
+                  display: "flex",
+                  marginLeft: "auto",
+                  paddingLeft: 650,
+                }}
+              >
+                {/* <Box sx={{ height: 400, width: "100%" }}> */}
+                {login ? (
+                  <div style={{ paddingLeft: 100 }}>
+                    <button
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
+                    className="button style1 large"
+                    clientId="75729dd8f6e08419c896"
+                    onSuccess={handleSubmit}
+                    onFailure={onFailure}
+                  />
+                )}
+              </div>
+              <ul>
+                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
+                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
+                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
+                <li className="current">
+                  <a href="/">Dashboard</a>
+                </li>
+                <li>
+                  <a href="/queries">Queries</a>
+                </li>
+                {/* <li>
                 <a href="/login">Login</a>
               </li> */}
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
+          {/* <!-- Nav --> */}
         </section>
 
         {/* <!-- Intro --> */}

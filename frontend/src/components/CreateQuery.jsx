@@ -134,11 +134,12 @@ const CreateQuery = () => {
                       </a>
                     </li>
                     {error ? (
-                      <Alert severity="error">
+                     <Alert severity="error">Missing required fields</Alert>
+                    ) : (
+                      
+                       <Alert severity="info">
                         Please fill in the above fields
                       </Alert>
-                    ) : (
-                      <Alert severity="info">Missing required fields</Alert>
                     )}
                   </ul>
                 </form>

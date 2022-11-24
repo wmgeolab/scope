@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Route, useNavigate } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
-import { flexbox } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
-import Pagination from "@mui/material/Pagination";
 
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-
-  // const rows = [
-  //   { id: 1, col1: "Hello", col2: "World" },
-  //   { id: 2, col1: "DataGridPro", col2: "is Awesome" },
-  //   { id: 3, col1: "MUI", col2: "is Amazing" },
-  // ];
+  const [page, setPage] = useState(0);
+  const [rowCount, setRowCount] = useState(0);
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -27,9 +18,10 @@ const Queries = () => {
     { field: "keywords", headerName: "Keywords", width: 150 },
   ];
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (curPage) => {
+    console.log("handlesubmit:", curPage);
     let response = await fetch(
-      "http://127.0.0.1:8000/api/queries/?page=" + page,
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1),
       {
         headers: {
           "Content-Type": "application/json",
@@ -43,12 +35,14 @@ const Queries = () => {
 
     console.log(q);
 
+    setRowCount(q.count);
     setQueries(q.results);
+    setPage(curPage);
     return q;
   };
 
   useEffect(() => {
-    handleSubmit();
+    handleSubmit(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
@@ -57,12 +51,10 @@ const Queries = () => {
     navigate("/");
   };
 
-  const handleChange = (event, value) => {
-    setPage(value);
-    handleSubmit();
-  };
-
-  function search() {   {/* need to fix the search so it goes through all data rather than just current page*/}
+  function search() {
+    {
+      /* need to fix the search so it goes through all data rather than just current page*/
+    }
     // Declare variables
     var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2;
     input = document.getElementById("search");
@@ -147,48 +139,18 @@ const Queries = () => {
               onKeyUp={search}
               placeholder="Search queries.."
             />
-            <table className="content-table" id="query-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Keywords</th>
-                  <th>User</th>
-                </tr>
-              </thead>
-              <tbody>
-                {queries.map((query, i) => {    {/*need to decide whether to use table or data grid*/}
-                  return (
-                    <tr key={i}>
-                      <td>{query.id}</td>
-                      <a href={"/results/" + query.name}>
-                        <td>{query.name}</td>
-                      </a>
-
-                      <td>{query.keywords.join(", ")}</td>
-                      <td>{query.user}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-
-            {/* need to change count based on how many queries there are*/}
-            <Pagination count={2} page={page} onChange={handleChange} />
-            {/* <Box sx={{ height: 400, width: "100%" }}>
+            <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 rows={queries}
+                rowCount={rowCount}
                 columns={columns}
-                pageSize={5}
-                // pageSize={pageSize}
-                // onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                // rowsPerPageOptions={[5, 10, 20]}
+                pageSize={5} //change this to change number of queries displayed per page, but should make backend
                 pagination
-                onPageChange={(newPage) => setPage(handlePageChange)}
-                // {...data}
+                paginationMode="server"
+                onPageChange={(newPage) => handleSubmit(newPage)}
               />
             </Box>
-            {console.log(queries)} */}
+            {/* {console.log(queries)} */}
             <div className="container">
               {/* <!-- Features --> */}
 

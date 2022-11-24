@@ -11,7 +11,7 @@ import Results from "./components/Results";
 import CreateQuery from "./components/CreateQuery";
 
 function App() {
-
+  
   return (
     <BrowserRouter>
       {/* <Router> */}
