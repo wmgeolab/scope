@@ -21,6 +21,24 @@ const Queries = () => {
     return q;
   };
 
+  //This is just temporary to make sure we keep updating the
+  //run table while our source finding program is down
+  // const addQueryRun = (query_id) => {
+
+  //   var data = { queryId: query_id, };
+
+  //   fetch("http://127.0.0.1:8000/api/run/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Token " + localStorage.getItem("user"),
+  //     },
+  //     body: JSON.stringify(data)
+  //   });
+  //   console.log(JSON.stringify(data))
+
+  // }
+
   useEffect(() => {
     handleSubmit();
   }, []); //listening on an empty array

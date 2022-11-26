@@ -8,7 +8,7 @@ const Results = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/sources/", {
+    let response = await fetch("http://127.0.0.1:8000/api/sources/52/", {
       ///results doesn't have anything in the array when printed
       headers: {
         "Content-Type": "application/json",

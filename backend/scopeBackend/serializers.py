@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import User, Query, Source, Result, Run, SourceType, KeyWord
+import datetime
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,16 +11,19 @@ class UserSerializer(serializers.ModelSerializer):
 # class KeywordSerializer(serializers.StringRelatedField):
 #     def to_internal_value(self, data):
 #         return KeyWord(word=data)
+
+
 class KeywordSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return str(instance)
-    
+
     def to_internal_value(self, data):
         return {'word': data}
 
     class Meta:
         model = KeyWord
         fields = ('word',)
+
 
 class QuerySerializer(serializers.ModelSerializer):
     # keywords foreign key -> query primary key
@@ -47,27 +52,41 @@ class QuerySerializer(serializers.ModelSerializer):
         model = Query
         fields = ('id', 'name', 'description', 'user', 'keywords')
 
+
 class SourceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SourceType
-        fields = ( 'name', 'description')
+        fields = ('name', 'description')
+
 
 class SourceSerializer(serializers.ModelSerializer):
     sourceType = SourceTypeSerializer()
+
     class Meta:
         model = Source
         fields = ('id', 'text', 'url', 'sourceType')
 
+
 class RunSerializer(serializers.ModelSerializer):
-    query = QuerySerializer()
+    #query = QuerySerializer()
+
+    # def create(self, validated_data):
+    #     q = Run.objects.create(
+    #         query=validated_data["queryId"],
+    #         time=datetime.datetime.now()
+    #     )
+    #     print(q)
+    #     return q
+
     class Meta:
         model = Run
         fields = ('query', 'time')
 
-class ResultSerializer(serializers.ModelSerializer): 
+
+class ResultSerializer(serializers.ModelSerializer):
     # run = RunSerializer()
     # source = SourceSerializer(many=True)
-    # run foreign key -> query primary key 
+    # run foreign key -> query primary key
     # source = serializers.StringRelatedField(read_only=True)
     source = SourceSerializer()
     run = RunSerializer()

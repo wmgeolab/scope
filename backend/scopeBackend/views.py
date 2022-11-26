@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.core import serializers
+from django.http import HttpResponse
 
 from django.shortcuts import render
 from rest_framework import viewsets
@@ -17,6 +19,9 @@ from dj_rest_auth.registration.views import SocialLoginView
 
 import logging
 logger = logging.getLogger(__name__)
+
+
+# try running the algorithm in views:
 
 # from backend.scopeBackend import serializers
 
@@ -86,11 +91,71 @@ class ResultView(viewsets.ModelViewSet):
 class RunView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = RunSerializer
-    queryset = Run.objects.all()
+
+    # def create(self, request):
+    #     logger.error(f"RunView create run call request: {self.request}")
+    #     serializer = self.get_serializer(data=request.data)
+    #     print('Serealizer: ', serializer)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save(user=self.request.user)
+    #     # self.perform_create(serializer=serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     logger.error(f"QueryView create call user ID: {self.request.user.id}")
+    #     print(self.get_object())
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def get_queryset(self):
+        queryset = Run.objects.all()
+        user = self.request.user.id
+        if user:
+            queryset = queryset.filter(user_id=user)
+        return queryset
 
 
 class SourceView(viewsets.ModelViewSet):
     logger.error("SourceView here!")
     permission_classes = [IsAuthenticated]
     serializer_class = SourceSerializer
-    queryset = Source.objects.all()
+
+    def get_queryset(self, query_id):
+        # print("Queryset type: ", type(sources))
+        # print("Full source set: ", sources)
+        # print(self.kwargs)
+        # if len(self.kwargs) == 0:
+        #     qid = 52
+        # else:
+        #     qid = self.kwargs['pk']
+        # print("Current query: ", qid)
+        #queryset = sources.filter(id=12)
+        #print("Filtered queryest: ", queryset)
+        # return sources
+        # --------------------------
+        # Get the right run row first
+        # we will get the most recent run because it will have all the sources
+        runs = Run.objects.filter(query_id=query_id).values_list()
+        print("RElevant runs: ", runs)
+        print("Most recent run: ", Run.objects.filter(
+            query_id=query_id).values('id')[len(runs)-1])
+        run_id = Run.objects.filter(
+            query_id=query_id).values('id')[len(runs)-1]['id']
+        print(run_id)
+        # now get all the relevant results linked to that run
+        results = Result.objects.filter(run_id=run_id).values('id')
+        results = results[0:len(results)-1]
+        result_ids = []
+        print("ID's for results: ", results)
+        for result in results:
+            result_ids.append(result['id'])
+        source_ids = []
+        for result_id in result_ids:
+            source_ids.append(Result.objects.filter(
+                id=result_id).values('source_id'))
+
+        print("List of source IDs: ", source_ids)
+        # WE NOW HAVE ALL OUR SOURCE ID'S RELATED TO THAT QUERY!!
+        source_ids = source_ids[0:len(source_ids)-1]
+        print(source_ids)
+        print("Count: ", Source.objects.count())
+        sources = Source.objects.all()
+        data = serializers.serialize('json', sources)
+        return HttpResponse(data)

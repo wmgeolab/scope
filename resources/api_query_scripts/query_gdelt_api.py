@@ -43,7 +43,7 @@ def query_gdelt(args):
     try:
         return req.json()
     except requests.JSONDecodeError:
-        return None
+        return "Caught a JSOn Decode Error"
 
 
 # Use this to test specific arguments for querying. This is not run in the model call.
