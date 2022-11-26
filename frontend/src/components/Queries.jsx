@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
+} from "@mui/x-data-grid";
+// import { useDemoData } from "@mui/x-data-grid-generator";
+// import { styled } from "@mui/material/styles";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
 
 const Queries = () => {
-  const { queryName } = useParams();
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
@@ -22,9 +31,9 @@ const Queries = () => {
         return <a href={"/results/" + cellValue.value}>{cellValue.value}</a>;
       },
     },
-    { field: "description", headerName: "Description", width: 150 },
+    { field: "description", headerName: "Description", flex: 1, minWidth: 150 },
     { field: "user", headerName: "User", width: 150 },
-    { field: "keywords", headerName: "Keywords", width: 150 },
+    { field: "keywords", headerName: "Keywords", flex: 1, minWidth: 150 },
   ];
 
   const handleSubmit = async (curPage) => {
@@ -60,34 +69,23 @@ const Queries = () => {
     navigate("/");
   };
 
-  function search() {
-    {
-      /* need to fix the search so it goes through all data rather than just current page*/
-    }
-    // Declare variables
-    var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("query-table");
-    tr = table.getElementsByTagName("tr");
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-      td1 = tr[i].getElementsByTagName("td")[1];
-      td2 = tr[i].getElementsByTagName("td")[2];
-      if (td1 && td2) {
-        txtValue1 = td1.textContent || td1.innerText;
-        txtValue2 = td2.textContent || td2.innerText;
-        if (
-          txtValue1.toUpperCase().indexOf(filter) > -1 ||
-          txtValue2.toUpperCase().indexOf(filter) > -1
-        ) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        shape="rounded"
+        page={page + 1}
+        count={pageCount}
+        // @ts-expect-error
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
   }
 
   if (localStorage.getItem("user") === null) {
@@ -142,12 +140,7 @@ const Queries = () => {
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
-            <input
-              type="text"
-              id="search"
-              onKeyUp={search}
-              placeholder="Search queries.."
-            />
+
             <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
@@ -157,6 +150,9 @@ const Queries = () => {
                 pageSize={5} //change this to change number of queries displayed per page, but should make backend
                 pagination
                 paginationMode="server"
+                components={{
+                  Pagination: CustomPagination,
+                }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
               />
             </Box>
