@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 
 const Queries = () => {
+  const { queryName } = useParams();
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
@@ -12,7 +13,15 @@ const Queries = () => {
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
-    { field: "name", headerName: "Name", width: 150 },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding results page
+        return <a href={"/results/" + cellValue.value}>{cellValue.value}</a>;
+      },
+    },
     { field: "description", headerName: "Description", width: 150 },
     { field: "user", headerName: "User", width: 150 },
     { field: "keywords", headerName: "Keywords", width: 150 },
@@ -141,6 +150,7 @@ const Queries = () => {
             />
             <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
+                disableColumnFilter
                 rows={queries}
                 rowCount={rowCount}
                 columns={columns}
