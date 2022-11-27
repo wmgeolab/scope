@@ -118,20 +118,6 @@ class SourceView(viewsets.ModelViewSet):
     serializer_class = SourceSerializer
 
     def get_queryset(self, query_id):
-        # print("Queryset type: ", type(sources))
-        # print("Full source set: ", sources)
-        # print(self.kwargs)
-        # if len(self.kwargs) == 0:
-        #     qid = 52
-        # else:
-        #     qid = self.kwargs['pk']
-        # print("Current query: ", qid)
-        #queryset = sources.filter(id=12)
-        #print("Filtered queryest: ", queryset)
-        # return sources
-        # --------------------------
-        # Get the right run row first
-        # we will get the most recent run because it will have all the sources
         runs = Run.objects.filter(query_id=query_id).values_list()
         print("RElevant runs: ", runs)
         print("Most recent run: ", Run.objects.filter(
@@ -155,7 +141,18 @@ class SourceView(viewsets.ModelViewSet):
         # WE NOW HAVE ALL OUR SOURCE ID'S RELATED TO THAT QUERY!!
         source_ids = source_ids[0:len(source_ids)-1]
         print(source_ids)
+        source_ids_v2 = []
+        for source_id in source_ids:
+            source_ids_v2.append(source_id[0])
+        print("Source IDs: ", source_ids_v2)
+        source_id_list = []
+        for src_id in source_ids_v2:
+            source_id_list.append(src_id['source_id'])
+        print("Source IDs: ", source_id_list)
         print("Count: ", Source.objects.count())
-        sources = Source.objects.all()
+        # sources = Source.objects.all()
+        # LOOP THROUGH EVERY SOURCE ID AND ADD IT TO ALL SOURCES RETURNED
+        sources = Source.objects.filter(pk__in=source_id_list)
+
         data = serializers.serialize('json', sources)
         return HttpResponse(data)

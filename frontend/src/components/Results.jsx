@@ -18,9 +18,21 @@ const Results = () => {
     let q = await response.json();
 
     console.log(q);
-    setQueryResults(q.results);
+    setQueryResults(q);
+    console.log(q[0])
+    const new_q = [];
+    for(let i = 0; i< q.length; i++) {
+      var dict = {
+        id: q[i].pk,
+        text: q[i]['fields']['text'],
+        url: q[i]['fields']['url']
+      };
+      new_q[i] = dict
+    };
 
-    return q;
+    console.log(new_q)
+    setQueryResults(new_q);
+    return new_q;
   };
 
   useEffect(() => {
