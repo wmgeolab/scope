@@ -11,7 +11,7 @@ import Results from "./components/Results";
 import CreateQuery from "./components/CreateQuery";
 
 function App() {
-
+  
   return (
     <BrowserRouter>
       {/* <Router> */}
@@ -23,7 +23,7 @@ function App() {
             {/* <Route element={<Login />}>    */}
              <Route exact path="/" element={<Dashboard />} />
             <Route exact path="/queries" element={<Queries />} />
-            <Route exact path="/results" element={<Results />} />
+            <Route path="/results/:queryName" element={<Results />} />
             <Route exact path="/create-query" element={<CreateQuery />} />
          {/* </Route>  */}
         </Routes>

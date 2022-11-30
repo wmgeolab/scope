@@ -1,23 +1,61 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Route, useNavigate } from "react-router-dom";
-import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
+} from "@mui/x-data-grid";
+// import { useDemoData } from "@mui/x-data-grid-generator";
+// import { styled } from "@mui/material/styles";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [page, setPage] = useState(0);
+  const [rowCount, setRowCount] = useState(0);
 
-  const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/queries/", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
+  const columns = [
+    { field: "id", headerName: "ID", width: 150 },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding results page
+        return <a href={"/results/" + cellValue.value}>{cellValue.value}</a>;
       },
-    });
+    },
+    { field: "description", headerName: "Description", flex: 1, minWidth: 150 },
+    { field: "user", headerName: "User", width: 150 },
+    { field: "keywords", headerName: "Keywords", flex: 1, minWidth: 150 },
+  ];
+
+  const handleSubmit = async (curPage) => {
+    console.log("handlesubmit:", curPage);
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
+    console.log(response);
+    console.log(localStorage.getItem("user"));
     let q = await response.json();
 
     console.log(q);
+
+    setRowCount(q.count);
     setQueries(q.results);
+    setPage(curPage);
     return q;
   };
 
@@ -40,7 +78,7 @@ const Queries = () => {
   // }
 
   useEffect(() => {
-    handleSubmit();
+    handleSubmit(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
@@ -49,31 +87,23 @@ const Queries = () => {
     navigate("/");
   };
 
-  function search() {
-    // Declare variables
-    var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("query-table");
-    tr = table.getElementsByTagName("tr");
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-      td1 = tr[i].getElementsByTagName("td")[1];
-      td2 = tr[i].getElementsByTagName("td")[2];
-      if (td1 && td2) {
-        txtValue1 = td1.textContent || td1.innerText;
-        txtValue2 = td2.textContent || td2.innerText;
-        if (
-          txtValue1.toUpperCase().indexOf(filter) > -1 ||
-          txtValue2.toUpperCase().indexOf(filter) > -1
-        ) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        shape="rounded"
+        page={page + 1}
+        count={pageCount}
+        // @ts-expect-error
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
   }
 
   if (localStorage.getItem("user") === null) {
@@ -89,7 +119,6 @@ const Queries = () => {
   } else {
     return (
       <div>
-        <button onClick={handleLogout}>Logout</button>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -101,6 +130,7 @@ const Queries = () => {
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           <section id="header" className="wrapper">
+            <button onClick={handleLogout}>Logout</button>
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
@@ -129,40 +159,25 @@ const Queries = () => {
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
 
-            <input
-              type="text"
-              id="search"
-              onKeyUp={search}
-              placeholder="Search queries.."
-            />
-
-            <table className="content-table" id="query-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Keywords</th>
-                  <th>User</th>
-                </tr>
-              </thead>
-              <tbody>
-                {queries.map((query, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>{query.id}</td>
-                      <a href={"/results"}>
-                        <td>{query.name}</td>
-                      </a>
-
-                      <td>{query.keywords.join(", ")}</td>
-                      <td>{query.user}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <Box sx={{ height: 400, width: "100%" }}>
+              <DataGrid
+                disableColumnFilter
+                rows={queries}
+                rowCount={rowCount}
+                columns={columns}
+                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                pagination
+                paginationMode="server"
+                components={{
+                  Pagination: CustomPagination,
+                }}
+                onPageChange={(newPage) => handleSubmit(newPage)}
+              />
+            </Box>
+            {/* {console.log(queries)} */}
             <div className="container">
               {/* <!-- Features --> */}
+
               <section id="features">
                 <ul className="actions special">
                   <li>

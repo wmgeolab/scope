@@ -4,6 +4,8 @@ import Queries from "./Queries";
 import Results from "./Results";
 import "../assets/css/main.css";
 import LoginGithub from "react-login-github";
+import Box from "@mui/material/Box";
+
 //import axios from "axios";
 
 const Dashboard = () => {
@@ -51,54 +53,72 @@ const Dashboard = () => {
   return (
     <div>
       <div id="page-wrapper">
-        <div>
-          {login ? (
-            <button onClick={handleLogout}>Logout</button>
-          ) : (
-            <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
-              className="button style1 large"
-              clientId="75729dd8f6e08419c896"
-              onSuccess={handleSubmit}
-              onFailure={onFailure}
-            />
-          )}
-        </div>
-
         {/* <!-- Header --> */}
+
         <section id="header" className="wrapper">
+          {/* </Box> */}
+
           {/* <!-- Logo --> */}
-          <div id="logo">
+          <div id="logo" style={{ margin: -100 }}>
             <h1>
               <a>SCOPE</a>
             </h1>
             <p>A free responsive site template by HTML5 UP</p>
           </div>
-
-          {/* <!-- Nav --> */}
-          <nav id="nav">
-            <ul>
-              {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-              {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-              {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-              <li className="current">
-                <a href="/">Dashboard</a>
-              </li>
-              <li>
-                <a href="/queries">Queries</a>
-              </li>
-              {/* <li>
+          <div>
+            <nav id="nav">
+              <div
+                style={{
+                  display: "flex",
+                  marginLeft: "auto",
+                  paddingLeft: 650,
+                }}
+              >
+                {/* <Box sx={{ height: 400, width: "100%" }}> */}
+                {login ? (
+                  <div style={{ paddingLeft: 100 }}>
+                    <button
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
+                    className="button style1 large"
+                    clientId="75729dd8f6e08419c896"
+                    onSuccess={handleSubmit}
+                    onFailure={onFailure}
+                  />
+                )}
+              </div>
+              <ul>
+                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
+                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
+                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
+                <li className="current">
+                  <a href="/">Dashboard</a>
+                </li>
+                <li>
+                  <a href="/queries">Queries</a>
+                </li>
+                {/* <li>
                 <a href="/login">Login</a>
               </li> */}
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
+          {/* <!-- Nav --> */}
         </section>
+
         {/* <!-- Intro --> */}
         <section id="intro" className="wrapper style1">
-          <div className="title">The Introduction</div>
+          <div className="title">About</div>
           <div className="container">
-            <p className="style1">
+            {/* <p className="style1">
               So in case you were wondering what this is all about ...
-            </p>
+            </p> */}
             <p className="style2">
               Escape Velocity is a free responsive
               <br className="mobile-hide" />
@@ -116,133 +136,6 @@ const Dashboard = () => {
               , so use it for any of your personal or commercial projects
               &ndash; just be sure to credit us!
             </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button style3 large">
-                  Proceed
-                </a>
-              </li>
-            </ul>
-          </div>
-        </section>
-        <section id="footer" className="wrapper">
-          <div className="title">The Rest Of It</div>
-          <div className="container">
-            <header className="style1">
-              <h2>Ipsum sapien elementum portitor?</h2>
-              <p>
-                Sed turpis tortor, tincidunt sed ornare in metus porttitor
-                mollis nunc in aliquet.
-                <br />
-                Nam pharetra laoreet imperdiet volutpat etiam feugiat.
-              </p>
-            </header>
-            <div className="row">
-              <div className="col-6 col-12-medium">
-                {/* <!-- Contact Form --> */}
-                <section>
-                  <form method="post" action="#">
-                    <div className="row gtr-50">
-                      <div className="col-6 col-12-small">
-                        <input
-                          type="text"
-                          name="name"
-                          id="contact-name"
-                          placeholder="Name"
-                        />
-                      </div>
-                      <div className="col-6 col-12-small">
-                        <input
-                          type="text"
-                          name="email"
-                          id="contact-email"
-                          placeholder="Email"
-                        />
-                      </div>
-                      <div className="col-12">
-                        <textarea
-                          name="message"
-                          id="contact-message"
-                          placeholder="Message"
-                          rows="4"
-                        ></textarea>
-                      </div>
-                      <div className="col-12">
-                        <ul className="actions">
-                          <li>
-                            <input
-                              type="submit"
-                              className="style1"
-                              value="Send"
-                            />
-                          </li>
-                          <li>
-                            <input
-                              type="reset"
-                              className="style2"
-                              value="Reset"
-                            />
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </form>
-                </section>
-              </div>
-              <div className="col-6 col-12-medium">
-                {/* <!-- Contact --> */}
-                <section className="feature-list small">
-                  <div className="row">
-                    <div className="col-6 col-12-small">
-                      <section>
-                        <h3 className="icon solid fa-home">Mailing Address</h3>
-                        <p>
-                          Untitled Corp
-                          <br />
-                          1234 Somewhere Rd
-                          <br />
-                          Nashville, TN 00000
-                        </p>
-                      </section>
-                    </div>
-                    <div className="col-6 col-12-small">
-                      <section>
-                        <h3 className="icon solid fa-comment">Social</h3>
-                        <p>
-                          <a href="#">@untitled-corp</a>
-                          <br />
-                          <a href="#">linkedin.com/untitled</a>
-                          <br />
-                          <a href="#">facebook.com/untitled</a>
-                        </p>
-                      </section>
-                    </div>
-                    <div className="col-6 col-12-small">
-                      <section>
-                        <h3 className="icon solid fa-envelope">Email</h3>
-                        <p>
-                          <a href="#">info@untitled.tld</a>
-                        </p>
-                      </section>
-                    </div>
-                    <div className="col-6 col-12-small">
-                      <section>
-                        <h3 className="icon solid fa-phone">Phone</h3>
-                        <p>(000) 555-0000</p>
-                      </section>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-            <div id="copyright">
-              <ul>
-                <li>&copy; Untitled.</li>
-                <li>
-                  Design: <a href="http://html5up.net">HTML5 UP</a>
-                </li>
-              </ul>
-            </div>
           </div>
         </section>
       </div>

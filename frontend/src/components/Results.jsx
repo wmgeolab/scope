@@ -1,20 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Route, useNavigate } from "react-router-dom";
+import { Route, useNavigate, useParams } from "react-router-dom";
 import Dashboard from "./Dashboard";
+import Checkbox, { checkboxClasses } from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
+} from "@mui/x-data-grid";
+// import { useDemoData } from "@mui/x-data-grid-generator";
+// import { styled } from "@mui/material/styles";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+
 const Results = () => {
+  //gets the queryName from the URL
+  const { queryName } = useParams();
+  const [page, setPage] = useState(0);
+  const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/sources/52/?page=", {
-      ///results doesn't have anything in the array when printed
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
+  // for the checkbox, add functionality later
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const columns = [
+    { field: "id", headerName: "ID", width: 150 },
+    {
+      field: "text",
+      headerName: "Text",
+      flex: 1,
+      minWidth: 150,
+    },
+    {
+      field: "url",
+      headerName: "URL",
+      flex: 1,
+      minWidth: 150,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding results page
+        return <a href={cellValue.value}>{cellValue.value}</a>;
       },
-    });
+    },
+  ];
+
+  const handleSubmit = async (curPage) => {
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/sources/52/?page=" + (curPage + 1),
+      {
+        ///results doesn't have anything in the array when printed
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
     let q = await response.json();
 
     console.log(q);
@@ -29,7 +72,8 @@ const Results = () => {
       };
       new_q[i] = dict
     };
-
+    setRowCount(new_q.length);
+    setPage(curPage);
     console.log(new_q)
     console.log(new_q.length)
     setQueryResults(new_q);
@@ -37,7 +81,7 @@ const Results = () => {
   };
 
   useEffect(() => {
-    handleSubmit();
+    handleSubmit(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
@@ -45,6 +89,25 @@ const Results = () => {
     setLogin(false);
     navigate("/");
   };
+
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        shape="rounded"
+        page={page + 1}
+        count={pageCount}
+        // @ts-expect-error
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
+  }
 
   if (localStorage.getItem("user") === null) {
     // fix?
@@ -59,7 +122,8 @@ const Results = () => {
   } else {
     return (
       <div>
-        <button onClick={handleLogout}>Logout</button>
+        {/* <button onClick={handleLogout}>Logout</button> */}
+        <div>{`The parameter is "${queryName}"!`}</div>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
@@ -71,13 +135,14 @@ const Results = () => {
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           <section id="header" className="wrapper">
+            <button onClick={handleLogout}>Logout</button>{" "}
+            {/*try putting the button in a mui box to move it*/}
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
                 <a>SCOPE</a>
               </h1>
             </div>
-
             {/* <!-- Nav --> */}
             <nav id="nav">
               <ul>
@@ -109,28 +174,21 @@ const Results = () => {
               placeholder="Search results.."
             />
 
-            <table className="content-table" id="query-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Text</th>
-                  <th>url</th>
-                </tr>
-              </thead>
-              <tbody>
-                {queryResults.map((result, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>{result.id}</td>
-                      <td>{result.text}</td>
-                      <a href={result.url}>
-                        <td>{result.url}</td>
-                      </a>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <Box sx={{ height: 400, width: "100%" }}>
+              <DataGrid
+                disableColumnFilter
+                rows={queryResults}
+                rowCount={rowCount}
+                columns={columns}
+                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                pagination
+                paginationMode="server"
+                components={{
+                  Pagination: CustomPagination,
+                }}
+                onPageChange={(newPage) => handleSubmit(newPage)}
+              />
+            </Box>
             <div className="container">
               {/* <!-- Features --> */}
               <section id="features">
