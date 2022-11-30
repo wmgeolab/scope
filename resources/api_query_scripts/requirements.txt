@@ -1,0 +1,6 @@
+beautifulsoup4==4.10.0
+bs4==0.0.1
+requests==2.18.4
+mysql==0.0.3
+mysql-connector-python==8.0.28
+mysqlclient==2.1.0
