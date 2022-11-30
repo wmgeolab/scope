@@ -8,7 +8,7 @@ const Results = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/sources/52/", {
+    let response = await fetch("http://127.0.0.1:8000/api/sources/52/?page=", {
       ///results doesn't have anything in the array when printed
       headers: {
         "Content-Type": "application/json",
@@ -31,6 +31,7 @@ const Results = () => {
     };
 
     console.log(new_q)
+    console.log(new_q.length)
     setQueryResults(new_q);
     return new_q;
   };
