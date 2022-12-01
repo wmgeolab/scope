@@ -28,7 +28,7 @@ const Queries = () => {
       width: 150,
       renderCell: (cellValue) => {
         //cell customization, make the name a link to the corresponding results page
-        return <a href={"/results/" + cellValue.value}>{cellValue.value}</a>;
+        return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
       },
     },
     { field: "description", headerName: "Description", flex: 1, minWidth: 150 },

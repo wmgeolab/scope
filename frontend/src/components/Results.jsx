@@ -18,7 +18,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 
 const Results = () => {
   //gets the queryName from the URL
-  const { queryName } = useParams();
+  const { query_id } = useParams();
   const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
@@ -49,7 +49,10 @@ const Results = () => {
 
   const handleSubmit = async (curPage) => {
     let response = await fetch(
-      "http://127.0.0.1:8000/api/sources/52/?page=" + (curPage + 1),
+      "http://127.0.0.1:8000/api/sources/" +
+        query_id +
+        "/?page=" +
+        (curPage + 1),
       {
         ///results doesn't have anything in the array when printed
         headers: {
@@ -61,21 +64,20 @@ const Results = () => {
     let q = await response.json();
 
     console.log(q);
-    setQueryResults(q);
-    console.log(q[0])
+    console.log(q[0]);
     const new_q = [];
-    for(let i = 0; i< q.length; i++) {
+    for (let i = 0; i < q.length; i++) {
       var dict = {
         id: q[i].pk,
-        text: q[i]['fields']['text'],
-        url: q[i]['fields']['url']
+        text: q[i]["fields"]["text"],
+        url: q[i]["fields"]["url"],
       };
-      new_q[i] = dict
-    };
+      new_q[i] = dict;
+    }
     setRowCount(new_q.length);
     setPage(curPage);
-    console.log(new_q)
-    console.log(new_q.length)
+    console.log(new_q);
+    console.log(new_q.length);
     setQueryResults(new_q);
     return new_q;
   };
@@ -122,8 +124,6 @@ const Results = () => {
   } else {
     return (
       <div>
-        {/* <button onClick={handleLogout}>Logout</button> */}
-        <div>{`The parameter is "${queryName}"!`}</div>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
