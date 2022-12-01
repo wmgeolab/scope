@@ -15,6 +15,10 @@ def main_query(keyword):
     return serp['links']
 
 
+def get_queries():
+    pass
+
+
 if __name__ == '__main__':
     # FOR TESTING PURPOSES ONLY
     result = main_query('ukraine')
