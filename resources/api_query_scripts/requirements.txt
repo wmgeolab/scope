@@ -3,4 +3,8 @@ bs4==0.0.1
 requests==2.18.4
 mysql==0.0.3
 mysql-connector-python==8.0.28
+<<<<<<< HEAD
 mysqlclient==2.1.0
+=======
+mysqlclient==2.1.0
+>>>>>>> revise_frontend
