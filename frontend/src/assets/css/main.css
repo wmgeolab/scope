@@ -1946,8 +1946,8 @@ button,
 	outline: 0;
 	cursor: pointer;
 	padding: 0 2.25em 0 2.25em;
-	font-size: 0.9em;
-	min-width: 12em;
+	font-size: 0.8em;
+	min-width: 10em;
 	height: 4em;
 	line-height: 4em;
 	position: flex;
@@ -2402,10 +2402,15 @@ ul.actions.special {
 
 /* Github Login Button */
 
-#github_login {
+#github_login, .LoginGithub {
 	float: right;
 	overflow: hidden;
-
+	position:absolute;
+	z-index: 40;
+	/* margin-top: 2%; */
+	margin-right: 2%;
+	top: 0;
+	right: 0;
 }
 
 /* Logo */

@@ -76,8 +76,9 @@ const Dashboard = () => {
               >
                 {/* <Box sx={{ height: 400, width: "100%" }}> */}
                 {login ? (
-                  <div style={{ paddingLeft: 100 }}>
+                  <div style={{ paddingRight: 100 }}>
                     <button
+                      id="github_login"
                       onClick={handleLogout}
                       style={{ justifyContent: "right" }}
                     >
@@ -86,7 +87,8 @@ const Dashboard = () => {
                   </div>
                 ) : (
                   <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
-                    className="button style1 large"
+                    // className="button style1 large"
+                    id="github_login"
                     clientId="75729dd8f6e08419c896"
                     onSuccess={handleSubmit}
                     onFailure={onFailure}
