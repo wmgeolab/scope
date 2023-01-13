@@ -18,7 +18,7 @@ The SCOPE data collection 2GZM demo website is implemented in a Python web frame
 Setting up the website on your local computer is fairly easy: 
 
 1. Install Python 3 (if you don't already have it). 
-2. Install the dependencies. These are listed in `requirements.txt` and can be installed easily via the commandline: `pip install -r 'path/to/scope/requirements.txt'`.
+2. Install the dependencies. First follow the instructions [here](# Follow the instructions here before installing mysqlclient: https://pypi.org/project/mysqlclient/) to install database-related dependencies. Then do `pip install -r 'path/to/scope/requirements.txt'`.
 3. Clone/copy this repository to your local computer. As a collaborator, you should have access to view and make changes to this repository in your GitHub account. Open GitHub Desktop, and in the top menu choose `File -> Clone Repository -> scope`. 
 4. Make note of the local path where you copied the `scope` project folder, this is the folder you'll be working in. 
 5. Connect to the website database. The website connects to an external MySQL database and requires the database login credentials to be stored in a file called `db_config.cnf`. Contact @joegenius98 to get access to this file, and save it in the top-level project folder. 
