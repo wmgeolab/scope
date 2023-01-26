@@ -1,0 +1,29 @@
+{
+	"debug":{
+		"echo_output_len": 100
+	},
+	"jobs": [
+		{
+			"query": "ebola virus",
+			"repo": "./data/ScraperClientRepo/",
+			
+            "output_max_lines": 2,
+			"output_max_files": 2,
+            "output_filename_max_len": 50,
+			
+			"params": {
+				"google": {},
+				"reddit": {},
+				"twitter": {}
+			}
+		},
+		{
+			"query": "hurricane harvey",
+			"repo": "./data/ScraperClientRepo/",
+			
+			"params": {
+				"google": {"news": true, "max_page": 2}
+			}
+		}
+	]
+}

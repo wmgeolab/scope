@@ -1,0 +1,822 @@
+{
+    "source": "Google",
+    "query": "midterm elections",
+    "extra_params": {
+        "raw_request_params": {
+            "files": false,
+            "max_file_depth": 1,
+            "news": false,
+            "directives": "",
+            "no_interleave": false,
+            "find_uri_key": "",
+            "interleave_queries_params": {
+                "count": 2
+            },
+            "leave_browser_open": false,
+            "mimic_human_search": false,
+            "chromedriver_path": "",
+            "sleep_sec": 1,
+            "chromedriver": null,
+            "delay_sec": 0,
+            "html_cache_file": "",
+            "sniff_serp": false
+        },
+        "page_dets": {
+            "result_count": 221000000,
+            "search_state": {
+                "proc_pg_count": 5
+            },
+            "scraping_report": {
+                "tag": "div",
+                "class": "eqAnXb",
+                "children": [
+                    {
+                        "tag": "div",
+                        "class": "g",
+                        "count": 9,
+                        "children": [],
+                        "messages": []
+                    }
+                ],
+                "count": 1,
+                "misc": {}
+            },
+            "sniffed_info": {},
+            "related_questions": [],
+            "related_queries": [],
+            "captcha_on": false
+        }
+    },
+    "self_uris": [
+        {
+            "page": 1,
+            "uri": "https://www.google.com/search?as_q=midterm%20elections"
+        },
+        {
+            "page": 2,
+            "uri": "https://www.google.com/search?as_q=midterm%20elections&start=10"
+        },
+        {
+            "page": 3,
+            "uri": "https://www.google.com/search?as_q=midterm%20elections&start=20"
+        },
+        {
+            "page": 4,
+            "uri": "https://www.google.com/search?as_q=midterm%20elections&start=30"
+        },
+        {
+            "page": 5,
+            "uri": "https://www.google.com/search?as_q=midterm%20elections&start=40"
+        }
+    ],
+    "max_page": 5,
+    "gen_timestamp": "2022-11-11T20:35:42Z",
+    "links": [
+        {
+            "link": "https://www.ap.org/about/our-role-in-elections/",
+            "title": "The Associated Press",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 1,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://support.google.com/websearch?p=elections",
+            "title": "Learn more",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 2,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.cnn.com/politics/live-news/election-results-congress-senate-house-11-11-2022/index.html",
+            "title": "Election results and balance of power in Congress - CNN",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a politics \u203a live-news \u203a election-re...",
+            "rank": 3,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.cnn.com/politics/live-news/election-results-congress-senate-house-11-10-2022/index.html",
+            "title": "Nov. 10, 2022 US election coverage - CNN",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a politics \u203a live-news \u203a election-resu...",
+            "rank": 4,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://en.wikipedia.org/wiki/2022_United_States_elections",
+            "title": "Wikipedia",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 5,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://fivethirtyeight.com/live-blog/2022-midterm-election/",
+            "title": "2022 Midterm Elections: Live Results And Latest UpdatesLIVE14 mins ago",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 6,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.nytimes.com/2022/11/11/us/politics/midterm-incumbent-results.html",
+            "title": "Despite Discontent, Midterm Voters Did Not Kick Out Incumbents12 mins ago",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 7,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.wsj.com/livecoverage/midterms-elections-results-house-congress-senate",
+            "title": "Election Results 2022 Live: GOP Inches Closer to Control of House; Senate \nStill a Tossup56 mins ago",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 8,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://apnews.com/hub/2022-midterm-elections",
+            "title": "Midterm Elections 2022 | Latest Election News | AP News",
+            "date": "Nov 11, 2022",
+            "snippet": "Get the latest coverage of the 2022 Midterm Elections. See updates, results, and analysis on House and Senate elections and state races across the U.S..",
+            "rank": 9,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.nbcnews.com/politics/2022-elections/virginia-house-results",
+            "title": "Virginia House Midterm Election 2022: Live Results and Updates3 days ago",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 10,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.13newsnow.com/article/news/politics/elections/live-virginia-election-results-2022/291-b31e98a1-b72c-4830-bb8e-54ee60e8a4c0",
+            "title": "2022 Midterm Election: Live results for Virginia and North Carolina races2 days ago",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 11,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.wric.com/news/politics/local-election-hq/2022-virginia-midterms-guide-polls-have-opened-heres-what-you-need-to-know-about-election-day/",
+            "title": "2022 Virginia midterms guide: Here\u2019s what you need to know for Election Day3 days ago",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 12,
+            "page": 1,
+            "custom": {
+                "link_class": "extra",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.nytimes.com/2022/10/17/us/politics/republicans-economy-nyt-siena-poll.html",
+            "title": "Republicans Gain Edge as Voters Worry About Economy ...",
+            "date": "Nov 11, 2022",
+            "snippet": "Which party's candidate are you more likely to vote for in this year's election for Congress? Democratic. candidate. Republican. candidate.",
+            "rank": 13,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.cnbc.com/2022/11/08/midterm-elections-2022-live-updates.html",
+            "title": "Live updates on 2022 midterm Election Day - CNBC",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a 2022/11/08 \u203a midterm-elections-...",
+            "rank": 14,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.foxnews.com/elections",
+            "title": "2022 Midterm Election Results | Fox News Elections Center",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 15,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.nbcnews.com/politics/midterm-elections-2022",
+            "title": "Midterm elections 2022: Latest news, updates and results",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a politics \u203a midterm-elections-2...",
+            "rank": 16,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.axios.com/politics-policy/midterm-elections-2022",
+            "title": "Midterm Elections 2022 - Politics & Policy - Axios",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a politics-policy \u203a midterm-elect...",
+            "rank": 17,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.ft.com/us-midterm-elections",
+            "title": "US midterm elections - Financial Times",
+            "date": "Nov 11, 2022",
+            "snippet": "The 2022 midterm elections determine which political party, Democratic or Republican, hold power in Congress for the second half of Joe Biden's term as\u00a0...",
+            "rank": 18,
+            "page": 1,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://fivethirtyeight.com/live-blog/2022-midterm-election/",
+            "title": "2022 Midterm Elections: Live Results And Latest Updates",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 19,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.washingtonpost.com/elections/midterms-2022/",
+            "title": "Elections - The Washington Post",
+            "date": "Nov 11, 2022",
+            "snippet": "News about the 2022 election, plus video and opinions.",
+            "rank": 20,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.washingtonpost.com/elections/midterms-2022/?itid=lk_inline_manual_30",
+            "title": "Midterm Elections 2022 - The Washington Posthttps://www.washingtonpost.com \u203a elections \u203a midterms-2...",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 20.1,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link_child",
+                "date_auto_gen": true
+            }
+        },
+        {
+            "link": "https://www.wsj.com/livecoverage/midterms-elections-results-house-congress-senate",
+            "title": "GOP Inches Closer to Control of House; Senate Still a Tossup",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a livecoverage \u203a midterms-electio...",
+            "rank": 21,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.reuters.com/world/us-elections/",
+            "title": "Top Headlines on 2022 U.S. Mid-term Elections | Reuters",
+            "date": "Nov 11, 2022",
+            "snippet": "Reuters.com is your online source for the latest US Election news stories and current events, ensuring our readers up to date with any breaking news\u00a0...",
+            "rank": 22,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://en.wikipedia.org/wiki/United_States_midterm_election",
+            "title": "United States midterm election - Wikipedia",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a wiki \u203a United_States_midter...",
+            "rank": 23,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.presidency.ucsb.edu/statistics/data/seats-congress-gainedlost-the-presidents-party-mid-term-elections",
+            "title": "Seats in Congress Gained/Lost by the President's Party in Mid ...",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a statistics \u203a data \u203a sea...",
+            "rank": 24,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://abcnews.go.com/Politics/live-updates/midterm-elections-live-updates/?id=92681028",
+            "title": "Stefanik endorses Trump for 2024 bid - ABC News",
+            "date": "Nov 11, 2022",
+            "snippet": "Both Democrats and Republicans have 48 seats in the Senate and four seats remain undecided as of Thursday. The 2022 midterm elections are\u00a0...",
+            "rank": 25,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.senate.gov/artandhistory/history/common/generic/Feature_Homepage_MidtermElections.htm",
+            "title": "Midterm Elections - U.S. Senate",
+            "date": "Nov 11, 2022",
+            "snippet": "When this biennial contest does not coincide with a presidential election, it is called a \u201cmidterm election.\u201d Such elections often receive less attention\u00a0...",
+            "rank": 26,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.theguardian.com/us-news/us-midterm-elections-2022",
+            "title": "US midterm elections 2022 | US news - The Guardian",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a us-news \u203a us-midterm-e...",
+            "rank": 27,
+            "page": 2,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.usa.gov/midterm-state-and-local-elections",
+            "title": "Congressional, State, and Local Elections | USAGov",
+            "date": "Nov 11, 2022",
+            "snippet": "Congressional elections take place every two years. Midterm elections for members of Congress happen between presidential elections. And a variety of state\u00a0...",
+            "rank": 28,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://georgia.gov/election-2022",
+            "title": "Georgia Runoff Election 2022",
+            "date": "Nov 11, 2022",
+            "snippet": "Information on the 2022 election in the state of Georgia. See important dates and deadlines, key state races, and register to vote.",
+            "rank": 29,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.economist.com/mid-terms-2022",
+            "title": "America's 2022 midterm elections - The Economist",
+            "date": "Nov 11, 2022",
+            "snippet": "That is unusual, in historical terms: at the half-way mark between presidential elections, voters routinely give the incumbent party a beating.",
+            "rank": 30,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.bbc.com/news/world-us-canada-63527765",
+            "title": "US election results: Where do midterm elections leave Biden?",
+            "date": "Nov 11, 2022",
+            "snippet": "A day after midterm Election Day with no definitive answer about which party will control Congress, President Joe Biden hailed a \"good\u00a0...",
+            "rank": 31,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.youtube.com/watch?v=qiklAfBdinw",
+            "title": "WATCH LIVE: 2022 Midterm Elections - PBS NewsHour",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 32,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.cbsnews.com/live-updates/2022-elections-midterms-results-house-senate-polls-2022-11-10/",
+            "title": "Midterm election updates: Control of Congress remains ...",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 33,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.fox5dc.com/tag/2022-midterm-elections",
+            "title": "2022 Midterm Elections - FOX 5 DC",
+            "date": "Nov 11, 2022",
+            "snippet": "2022 midterm election news, guides, live maps, polls and results for US Senate races, US House races, governor races and more.",
+            "rank": 34,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.bloomberg.com/politics-midterm-elections",
+            "title": "Midterm Elections 2022 - Bloomberg.com",
+            "date": "Nov 11, 2022",
+            "snippet": "Bloomberg's full coverage of the 2022 election, including the latest live updates, candidate coverage, economics & policy,\u00a0...",
+            "rank": 35,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.msnbc.com/midterm-elections-2022",
+            "title": "Midterm Elections 2022: Latest News and analysis",
+            "date": "Nov 11, 2022",
+            "snippet": "See the latest news and analysis from MSNBC on the 2022 Midterm Elections and get a map of races across the United States as Americans prepare to cast their\u00a0...",
+            "rank": 36,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.politico.com/news/2022-elections",
+            "title": "2022 Elections: Latest News and Polls - POLITICO",
+            "date": "Nov 11, 2022",
+            "snippet": "Brian Kemp to help Republican Senate candidate Herschel Walker over the finish line in his December runoff election \u2014 a contest that could decide control of the\u00a0...",
+            "rank": 37,
+            "page": 3,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://trends.google.com/trends/story/US_cu_L6phhYMBAADNrM_en",
+            "title": "\u202a\u202aMidterm Elections 2022\u202c\u202c - Google Trends",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 38,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.michigan.gov/sos/elections/upcoming-election-information",
+            "title": "Recent and upcoming elections - State of Michigan",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a sos \u203a elections \u203a upcoming...",
+            "rank": 39,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.newyorker.com/tag/2022-midterm-elections",
+            "title": "2022 Midterm Elections: Latest News and Updates",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 40,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.dw.com/en/us-midterm-elections-2022/t-63621363",
+            "title": "US midterm elections 2022 - DW",
+            "date": "Nov 11, 2022",
+            "snippet": "The economy, crime, abortion and immigration will all be on the ballot on November 8, 2022. The midterm elections offer voters their first chance to issue a\u00a0...",
+            "rank": 41,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.independent.co.uk/news/world/americas/us-politics/midterm-elections-2022/midterm-elections-2022-results-map-live-who-won-b2221911.html",
+            "title": "Midterm elections 2022 results live: Democrats' Senate hopes ...",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 42,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.brookings.edu/wp-content/uploads/2017/01/vitalstats_ch2_tbl4.pdf",
+            "title": "Table 2-4 Year Party holding presidency President's party ...",
+            "date": "Nov 11, 2022",
+            "snippet": "Data reflects immediate election results. a. Although the Republicans gained nine seats in the 1902 elections, they actually lost ground to the. Democrats, who\u00a0...",
+            "rank": 43,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.google.com/doodles/united-states-midterm-elections-2022",
+            "title": "United States Midterm Elections 2022",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a doodles \u203a united-states-midter...",
+            "rank": 44,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.pbs.org/newshour/tag/2022-midterm-elections",
+            "title": "2022 Midterm elections | PBS NewsHour",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a newshour \u203a tag \u203a 2022-midterm-...",
+            "rank": 45,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://about.bgov.com/reports/2022-midterm-elections-outlook/",
+            "title": "2022 Midterm Elections Outlook | Bloomberg Government",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a reports \u203a 2022-midterm-electi...",
+            "rank": 46,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://news.yahoo.com/midterms/",
+            "title": "Midterms Latest News and Headlines | Midterm Elections",
+            "date": "Nov 11, 2022",
+            "snippet": "",
+            "rank": 47,
+            "page": 4,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.wellsfargo.com/investment-institute/ppp-issues-before-after-mideterm-elections/",
+            "title": "Policy issues before and after the midterm elections",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a investment-institute \u203a pp...",
+            "rank": 48,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.hrc.org/magazine/2022-summer/midterm-elections-preview-summer-2022",
+            "title": "Midterm Elections: What's at Stake - Equality Magazine",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a magazine \u203a 2022-summer \u203a midt...",
+            "rank": 49,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.sos.ca.gov/elections/upcoming-elections/general-election-nov-8-2022",
+            "title": "General Election, November 8, 2022",
+            "date": "Nov 11, 2022",
+            "snippet": "2022 California General. Vote-by-mail ballots must postmarked on or before Election day and received by November 15, 2022.",
+            "rank": 50,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.usatoday.com/elections/",
+            "title": "2022 Midterm Elections: News, Candidates, Races, Analysis",
+            "date": "Nov 11, 2022",
+            "snippet": "Full coverage of the 2020 Presidential Election and U.S. House and Senate races from USA TODAY, including the latest news, coverage, analysis and results.",
+            "rank": 51,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.fox5atlanta.com/tag/2022-midterm-elections",
+            "title": "2022 Midterm Elections - FOX 5 Atlanta",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a tag \u203a 2022-midterm-electi...",
+            "rank": 52,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.fox29.com/tag/2022-midterm-elections",
+            "title": "2022 Midterm Elections - Fox 29",
+            "date": "Nov 11, 2022",
+            "snippet": "2022 midterm election news, guides, live maps, polls and results for US Senate races, US House races, governor races and more.",
+            "rank": 53,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.statista.com/topics/9690/2022-midterm-election-in-the-us/",
+            "title": "2022 Midterm Election - statistics & facts - Statista",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a ... \u203a Politics & Government",
+            "rank": 54,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://en.as.com/latest_news/midterm-elections-2022-voting-results-live-by-state-arizona-georgia-wisconsin-house-of-representatives-senate-and-governors-races-n/",
+            "title": "Midterm elections 2022 voting results live by state - AS USA",
+            "date": "Nov 11, 2022",
+            "snippet": "US Mid-Terms Results: Live Updates. Headlines: 9 November 2022 | Midterm Election Results. - Democrats outperform polls across the country, no \"red wave\"\u00a0...",
+            "rank": 55,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://www.france24.com/en/tag/us-midterm-elections/",
+            "title": "US midterm elections: news, videos, reports and analysis",
+            "date": "Nov 11, 2022",
+            "snippet": "The stakes are high for the 2022 midterm elections, with Democrats warning democracy itself is at stake as several Republican candidates repeat Donald\u00a0...",
+            "rank": 56,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        },
+        {
+            "link": "https://ballotpedia.org/United_States_Congress_elections,_2022",
+            "title": "United States Congress elections, 2022 - Ballotpedia",
+            "date": "Nov 11, 2022",
+            "snippet": "\u203a United_States_Congress_electio...",
+            "rank": 57,
+            "page": 5,
+            "custom": {
+                "link_class": "main_blue_link",
+                "date_auto_gen": false
+            }
+        }
+    ],
+    "stats": {
+        "total_links": 58,
+        "domain_dist": {
+            "top_k_domain_link_count": 19,
+            "col_frac": 0.3275862068965517,
+            "top_k_domains": [
+                [
+                    "google.com",
+                    3
+                ],
+                [
+                    "cnn.com",
+                    2
+                ],
+                [
+                    "wikipedia.org",
+                    2
+                ],
+                [
+                    "fivethirtyeight.com",
+                    2
+                ],
+                [
+                    "nytimes.com",
+                    2
+                ],
+                [
+                    "wsj.com",
+                    2
+                ],
+                [
+                    "nbcnews.com",
+                    2
+                ],
+                [
+                    "washingtonpost.com",
+                    2
+                ],
+                [
+                    "ap.org",
+                    1
+                ],
+                [
+                    "apnews.com",
+                    1
+                ]
+            ],
+            "k": 10
+        }
+    }
+}

@@ -30,6 +30,10 @@ router.register(r'sources', views.SourceView, 'Sources')
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
+    # testing out passing in specific queries:
+    path('api/sources/<int:query_id>/',
+         views.SourceView.get_queryset, name='Sources'),
     path('api/', include(router.urls)),
-    path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login')
+    path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login'),
+
 ]

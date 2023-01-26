@@ -1,0 +1,425 @@
+#!python
+import argparse
+import json
+import logging
+import os
+
+from datetime import datetime
+from subprocess import check_output
+
+from scraper.ScraperUtil import genericErrorInfo
+from scraper.ScraperUtil import getDictFromFile
+from scraper.ScraperUtil import gzipTextFile
+from scraper.ScraperUtil import setLogDefaults
+from scraper.ScraperUtil import setLoggerDets
+
+
+logger = logging.getLogger('scraper.scraper')
+
+def get_generic_args():
+
+    parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=30), description='Streamline creating collections (Google+Twitter) and generating quality proxies')
+    parser.add_argument('query', help='Query for issuing to Google/Twitter SERPs')
+
+    parser.add_argument('--cache-path', required=True, help='Path to save tweets (single and/or conversation)')
+    parser.add_argument('--googlemaps-key', required=True, help='Google maps API needed for normalizing locations')
+    parser.add_argument('--human-path', action='append', default=[], help='Path to file containing seeds collected by human (e.g., expert) from --hv')
+    parser.add_argument('--gold-file', required=True, help='Reputation quality proxy: gold standard file path')
+
+    parser.add_argument('--access-token', required=True, help='Twitter API info needed for hydrating tweets')
+    parser.add_argument('--access-token-secret', required=True, help='Twitter API info needed for hydrating tweets')
+    parser.add_argument('--consumer-key', required=True, help='Twitter API info needed for hydrating tweets')
+    parser.add_argument('--consumer-secret', required=True, help='Twitter API info needed for hydrating tweets')
+
+    parser.add_argument('--log-file', default='', help='Log output filename')
+    parser.add_argument('--log-format', default='', help='Log print format, see: https://docs.python.org/3/howto/logging-cookbook.html')
+    parser.add_argument('--log-level', default='info', choices=['critical', 'error', 'warning', 'info', 'debug', 'notset'], help='Log level')
+
+    parser.add_argument('-m', '--max-tweets', type=int, required=True, help='Maximum number of tweets to collect')
+    parser.add_argument('--max-reply-count', type=int, required=True, help='Maximum number of tweet replies to collect (for --expand)')
+    parser.add_argument('--re-topic', required=True, help='Reputation quality proxy: topic')
+    parser.add_argument('--rt-google-serp-file', required=True, help='Retrievability quality proxy: Google SERP file to use as reference for calculating retrievability')
+    parser.add_argument('-t', '--timestamp', default=datetime.utcnow().strftime('%Y%m%d%H%M%S'), help='Timestamp associated with collection')
+    
+    parser.add_argument('--no-run-search', action='store_true', help='Do run task SEARCH')
+    parser.add_argument('--no-run-expand', action='store_true', help='Do run task EXPAND')
+    parser.add_argument('--no-run-microcol', action='store_true', help='Do run task MICROCOL')
+    parser.add_argument('--no-run-quality-proxy', action='store_true', help='Do extract QUALITY PROXIES')
+    parser.add_argument('--pretty-print', action='store_true', help='Pretty print JSON output')
+    parser.add_argument('--thread-count', type=int, default=5, help='Maximum number of threads to use for parallel files in parallel')
+
+    parser.add_argument('--gv', action='append', default=[], choices=['all', 'news'], help='The Google SERP verticals to search')
+    parser.add_argument('--hv', action='append', default=[], choices=['archiveit', 'misc'], help='The source from which the human-generated seeds where collected')
+
+    parser.add_argument('--tv', action='append', default=[], choices=['top', 'latest'], help='The Twitter SERP verticals to search')
+    parser.add_argument('--burst-qp-cache', action='append', default=[], choices=['relevance'], help='Re-extract qp metric')
+    
+
+    return parser
+
+def gen_mc_vis(params, src, mc_input_path, mc_output_path):
+
+    #time scraper twitter-mc --name="twt latest coronavirus" --format=vis -o ./Topics/twitter_latest/coronavirus/mc_qp_coronavirus_latest.json ./Topics/twitter_latest/coronavirus/qp_coronavirus_latest.json
+
+    task = [
+       'time',
+       'scraper',
+       'twitter-mc',
+       '--format=vis',
+       '--query=' + params['query'],
+       '--name=' + src + '.' + params['slug'],
+       '-o',
+       mc_output_path,
+       mc_input_path
+    ]
+
+    print('\nRUNNING TASK MC FOR: ' + mc_input_path)
+    print(task)
+
+    try:
+        check_output(task)
+    except:
+        genericErrorInfo()
+
+def gen_twitter_quality_proxies(params, tweets_path, output_path):
+
+    task = ['time', 'scraper', 'twitter-qp']
+
+    for opt in params['burst_qp_cache']:
+        task.append('-b')
+        task.append(opt)
+
+    task = task + [
+       '--query=' + params['query'],
+       '--gold-file=' + params['gold_file'],
+       '--re-topic=' + params['re_topic'],
+       '--audience-tweet-count=10',
+       '--rt-google-serp-file=' + params['rt_google_serp_file'],
+       '--prec-eval-cache-path=' + params['prec_eval_cache_path'],
+       '--googlemaps-key=' + params['googlemaps_key'],
+       '--consumer-key=' + params['consumer_key'],
+       '--consumer-secret=' + params['consumer_secret'],
+       '--access-token=' + params['access_token'],
+       '--access-token-secret=' + params['access_token_secret'],
+       '-o',
+       output_path,
+       tweets_path
+    ]
+    print('\nRUNNING TASK QUALITY PROXIES FOR: ' + tweets_path)
+    print(task)
+    
+    try:
+        check_output(task)
+    except:
+        genericErrorInfo()
+
+def gen_twitter_col_frm_google_serp_links(seeds, vrt, seeds_path, output_path, slug):
+
+    res = {'tweets_path': output_path + 'tweets/', 'tweets_out_file': output_path + slug + '.json'}
+    os.makedirs( res['tweets_path'], exist_ok=True )
+
+    src = ''
+    if( 'source' in seeds ):
+        src = seeds['source'].strip()
+
+    if( src != '' ):
+        src = src + '_'
+
+    tweet_scaffold = {
+        'data_tweet_id': src + vrt,
+        'data_name': src + vrt,
+        'data_screen_name': src + vrt,
+        'tweet_hydrated': True,
+        'tweet_text': '',
+        'data_conversation_id': src + vrt,
+        'user_verified': True,
+        'extra': {
+            'human_generated': True,
+        },
+        'tweet_links': [],
+        'tweet_time': seeds['gen_timestamp'],
+        'provenance': {
+            'parent': {
+                'uri': seeds_path
+            },
+            'query': seeds['query']
+        }
+    }
+
+    twt_outfile = res['tweets_path'] + tweet_scaffold['data_tweet_id'] + '.json.gz'
+    
+    if( os.path.exists(twt_outfile) ):
+        logger.info( '\ngen_twitter_col_frm_google_serp_links(), exists, will not overwrite twt_outfile: ' + twt_outfile )
+    else:
+        for l in seeds['links']:
+            tweet_scaffold['tweet_links'].append({ 'uri': l['link'] })
+
+        gzipTextFile(twt_outfile, json.dumps(tweet_scaffold, ensure_ascii=False))
+
+    return res
+
+def expand_twitter_serp_col(params, locs, task_name):
+
+    res = {'is_good': False}
+    task = [
+        'time', 
+        'scraper',
+        'twitter',
+        '--hydrate-files',
+        '--no-check-reply-count',
+        '--expand',
+        '-m',
+        '-1',
+        '--max-reply-count=' + str(params['max_reply_count']),
+        '--cache-write',
+        '--cache-read',
+        '--cache-path=' + locs['tweets_path'],
+        '--consumer-key=' + params['consumer_key'],
+        '--consumer-secret=' + params['consumer_secret'],
+        '--access-token=' + params['access_token'],
+        '--access-token-secret=' + params['access_token_secret'],
+        '-o',
+        locs['tweets_out_file'],
+        params['query']#this query is just used as metadata in tweet.provenance.query, not used for searchin
+    ] 
+    
+    print('\nRUNNING TASK: ' +  task_name.upper())
+    print(task)
+    
+    try:
+        check_output(task)
+        res['is_good'] = True
+        return res
+    except:
+        genericErrorInfo()
+        return res
+
+def gen_twitter_serp_col(params, vrt, task_name):
+    
+    output_path = params['cache_path'] + 'twitter_' + vrt + '/' + params['timestamp'] + '_' + params['slug'] + '/'
+
+    res = {
+        'is_good': False, 
+        'tweets_path': output_path + 'tweets/', 
+        'tweets_out_file': output_path + params['slug'] + '.json'
+    }
+    os.makedirs( output_path, exist_ok=True )
+    os.makedirs( res['tweets_path'], exist_ok=True )
+
+    if( params['no_run_search'] is True ):
+        return res
+
+    task = [ 'time', 'scraper', 'twitter']
+    if( vrt == 'latest' ):
+        task.append( '--latest' )
+
+    task = task + [
+        '-m',
+        str(params['max_tweets']),
+        '--cache-write',
+        '--cache-path=' + res['tweets_path'],
+        '--consumer-key=' + params['consumer_key'],
+        '--consumer-secret=' + params['consumer_secret'],
+        '--access-token=' + params['access_token'],
+        '--access-token-secret=' + params['access_token_secret'],
+        '-o',
+        res['tweets_out_file'],
+        params['query']
+    ] 
+
+    print('\nRUNNING TASK: ' +  task_name.upper())
+    print(task)
+    try:
+        check_output(task)
+        res['is_good'] = True
+        return res
+    except:
+        genericErrorInfo()
+        return res
+
+def is_google_serp_exists(google_path):
+    
+    if( google_path == '' ):
+        return {}
+
+    gserp = getDictFromFile(google_path)
+    if( 'links' not in gserp ):
+        return {}
+
+    if( len(gserp['links']) == 0 ):
+        return {}
+
+    return gserp
+
+def is_gold_valid(gold_file, re_topic, query):
+
+    gold = getDictFromFile(gold_file)
+    if( 'topics' not in gold ):
+        logger.info('\n"topics" absent from gold')
+        return False
+
+    if( re_topic not in gold['topics'] ):
+        logger.info('\nTopic absent from gold, re_topic: ' + re_topic)
+        return False
+
+    if( 'gold' not in gold['topics'][re_topic] ):
+        logger.info('\n"gold" absent topic')
+        return False
+
+    if( len(gold['topics'][re_topic]['gold']) == 0 ):
+        logger.info('\ngold is empty')
+        return False
+
+    for ky in ['precision_refs', 'narrow_reputation_refs']:
+
+        if( ky not in gold['topics'][re_topic] ):
+            logger.info('\n"' + ky + '" absent')
+            return False
+
+        if( 'queries' not in gold['topics'][re_topic][ky] ):
+            logger.info('\n"queries" absent from ' + ky)
+            return False
+
+        if( query not in gold['topics'][re_topic][ky]['queries'] ):
+            logger.info('\nquery absent from ' + ky + '.queries, query: "' + query + '"')
+            return False
+
+        if( len(gold['topics'][re_topic][ky]['queries'][query]) == 0 ):
+            logger.info('\nky.queries.query is empty')
+            return False
+        else:
+            for u in gold['topics'][re_topic][ky]['queries'][query]:
+                
+                if( 'uri' not in u ):
+                    logger.info('\nky.queries.query, "uri" is absent')
+                    return False
+                
+                is_match = False
+                for g in gold['topics'][re_topic]['gold']:
+                    
+                    if( u['uri'] == g['uri'] ):
+                        is_match = True
+                        break
+
+                if( is_match == False ):
+                    logger.info('\nno gold match for '+ ky +' uri:' + u['uri'])
+                    return False
+
+
+    return True
+
+def proc_req(args):
+
+    params = vars(args)
+  
+    setLogDefaults( params )
+    setLoggerDets( logger, params['log_dets'] )
+
+    if( params['cache_path'].endswith('/') == False ):
+        params['cache_path'] = params['cache_path'] + '/'
+
+    gserp = is_google_serp_exists(params['rt_google_serp_file'])
+    if( len(gserp) == 0 ):
+        logger.info('\nGoogle SERP for "' + params['query'] + '" does not exist at: "' + params['rt_google_serp_file'] + '", check path at --rt-google-serp-file, returning.')
+        return
+
+    if( is_gold_valid(params['gold_file'], params['re_topic'], params['query']) is False ):
+        logger.info('\nGold is invalid file: ' + params['gold_file'] + ', returning.')
+        return
+
+    top_sources = []
+    params['slug'] = ''.join([ c if c.isalnum() else '_' for c in params['query'] ])
+
+    #cp_cols: common pattern cols
+    cp_cols = [
+        {
+            'vrt': 'gv',
+            'name': 'google',
+            'seeds': gserp,
+            'seeds_path': params['rt_google_serp_file'],
+        }
+    ]
+
+    hv_len = len(params['hv'])
+    hp_len = len(params['human_path'])
+    if( hv_len == hp_len ):
+        for i in range(hv_len):
+            
+            seeds = is_google_serp_exists( params['human_path'][i] )
+            
+            if( len(seeds) == 0 ):
+                continue
+
+            cp_cols.append({
+                'vrt': 'hv',
+                'name': 'human',
+                'seeds': seeds,
+                'seeds_path': params['human_path'][i]
+            })
+    else:
+        logger.info('\nMisalignment of hv ' + str(hv_len) + ' and human-path ' + str(hp_len) + ', would not process their seeds')
+    
+    for cp_dets in cp_cols:
+
+        cp = cp_dets['vrt']
+        cp_name = cp_dets['name']
+
+        if( len(params[cp]) != 0 ):
+            top_sources = [cp_name + '/' + v + '/' for v in params[cp]]
+    
+    if( len(params['tv']) != 0 ):
+        top_sources = top_sources + ['twitter_' + v + '/' for v in params['tv']]
+
+    for src in top_sources:
+        os.makedirs( params['cache_path'] + src, exist_ok=True )
+    
+    params['prec_eval_cache_path'] = params['cache_path'] + 'all/PrecEval/' + params['timestamp'] + '_' + params['slug'] + '/'
+    os.makedirs( params['prec_eval_cache_path'], exist_ok=True )
+    print('top_sources:', top_sources)
+    
+    for vrt in params['tv']:
+        
+        #gen_twitter_serp_col() tests for params['no_run_search'] within it
+        res = gen_twitter_serp_col( params, vrt, 'TWITTER SEARCH' )
+        if( params['no_run_expand'] is False ):
+            expand_twitter_serp_col( params, res, 'TWITTER ' + vrt.upper() + ' SERP EXPAND' )        
+
+    if( params['no_run_search'] is False ):
+        for cp_dets in cp_cols:
+            for vrt in params[ cp_dets['vrt'] ]:
+                
+                out_path = params['cache_path'] + cp_dets['name'] + '/' + vrt + '/' + params['timestamp'] + '_' + params['slug'] + '/'
+                os.makedirs( out_path, exist_ok=True )    
+                res = gen_twitter_col_frm_google_serp_links(cp_dets['seeds'], vrt, cp_dets['seeds_path'], out_path, params['slug'])
+    
+
+    if( params['no_run_microcol'] is False ):
+        for src in top_sources:
+            
+            output_path = params['cache_path'] + src + params['timestamp'] + '_' + params['slug'] + '/' + params['slug']
+            tweets_path = params['cache_path'] + src + params['timestamp'] + '_' + params['slug'] + '/tweets/'
+
+            if( params['no_run_quality_proxy'] is False ):
+                gen_twitter_quality_proxies(params, tweets_path, output_path + '_qp.json')
+            
+            gen_mc_vis(params, src.replace('/', ' ').strip(), mc_input_path=output_path + '_qp.json', mc_output_path=output_path + '_qp_mc.json')
+            
+            for opt in ['google/', 'archiveit/', 'misc/']: #keep synchronized with params['hv'] pending scalable solution
+                if( src.find(opt) != -1 ):
+                    #remove google invalid cols
+                    try:
+                        check_output( ['rm', output_path + '_qp_mc.json.ms' ] )
+                        check_output( ['rm', output_path + '_qp_mc.json.mm' ] )
+                        check_output( ['rm', output_path + '_qp_mc.json.mc' ] )
+                    except:
+                        genericErrorInfo()
+    
+
+def main():
+    
+    parser = get_generic_args()
+    args = parser.parse_args()
+    proc_req(args)
+
+if __name__ == '__main__':
+    main()

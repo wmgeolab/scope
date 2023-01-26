@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGithub from "react-login-github";
+import { AlertTitle, Alert } from "@mui/material/";
 
 const CreateQuery = () => {
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   const handleLogout = () => {
     // setUser({});
@@ -24,21 +26,34 @@ const CreateQuery = () => {
     let primaryKeyword = document.getElementById("primaryKeyword").value;
     let secondaryKeywords = document.getElementById("secondaryKeywords").value;
 
-    var data = {
-      name: queryName,
-      description: queryDescription,
-      keywords: [primaryKeyword, secondaryKeywords],
-    };
+    //if one of the fields is blank, don't submit to database/don't let the submission work
+    //need to figure out how to add pop up easily
+    if (
+      queryName == false ||
+      queryDescription == false ||
+      primaryKeyword == false ||
+      secondaryKeywords == false
+    ) {
+      setError(true);
+    } else {
+      var data = {
+        name: queryName,
+        description: queryDescription,
+        keywords: [primaryKeyword, secondaryKeywords],
+      };
 
-    fetch("http://127.0.0.1:8000/api/queries/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-      body: JSON.stringify(data),
-    });
-    navigate("/queries");
+      fetch("http://127.0.0.1:8000/api/queries/", {
+        //submitting a query
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+        body: JSON.stringify(data),
+      });
+      navigate("/queries/");
+    }
+    //  setError(false);
   }
   if (localStorage.getItem("user") === null) {
     // fix?
@@ -54,9 +69,9 @@ const CreateQuery = () => {
     return (
       <div>
         <div id="page-wrapper">
-          <button onClick={handleLogout}>Logout</button>
           {/* <!-- Header --> */}
           <section id="header" className="wrapper">
+            <button onClick={handleLogout}>Logout</button>
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
@@ -99,7 +114,7 @@ const CreateQuery = () => {
                     <input
                       type="text"
                       id="queryDescription"
-                      placeholder="Query Description *"
+                      placeholder="Query Description (optional)"
                     ></input>
                     <input
                       type="text"
@@ -118,6 +133,14 @@ const CreateQuery = () => {
                         Submit Query
                       </a>
                     </li>
+                    {error ? (
+                     <Alert severity="error">Missing required fields</Alert>
+                    ) : (
+                      
+                       <Alert severity="info">
+                        Please fill in the above fields
+                      </Alert>
+                    )}
                   </ul>
                 </form>
               </div>
