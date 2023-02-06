@@ -3,7 +3,6 @@
 from newspaper import Article
 from transformers import AutoConfig, AutoTokenizer, AutoModel
 import pandas as pd
-from transformers import PegasusForConditionalGeneration, AutoTokenizer
 from newspaper import Config
 from transformers import PegasusForConditionalGeneration, PegasusTokenizer
 from summarizer import Summarizer
