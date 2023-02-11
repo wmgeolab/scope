@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Queries from "./Queries";
-import Results from "./Results";
 import "../assets/css/main.css";
 import LoginGithub from "react-login-github";
-import Box from "@mui/material/Box";
 
 //import axios from "axios";
 
@@ -14,7 +10,7 @@ const Dashboard = () => {
   // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
+
   const [login, setLogin] = useState(false);
 
   useEffect(() => {
@@ -23,7 +19,6 @@ const Dashboard = () => {
     if (loggedInUser) {
       // const foundUser = JSON.parse(loggedInUser);
       setLogin(true);
-      setUser(loggedInUser);
     }
   }, []);
 
@@ -61,7 +56,7 @@ const Dashboard = () => {
           {/* <!-- Logo --> */}
           <div id="logo" style={{ margin: -100 }}>
             <h1>
-              <a>SCOPE</a>
+              SCOPE
             </h1>
             <p>A free responsive site template by HTML5 UP</p>
           </div>

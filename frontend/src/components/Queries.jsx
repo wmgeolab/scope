@@ -15,11 +15,9 @@ import PaginationItem from "@mui/material/PaginationItem";
 
 const Queries = () => {
   const [queries, setQueries] = useState([]);
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState(0);
-  const [checkboxSelection, setCheckboxSelection] = React.useState(true);
+  const [checkboxSelection] = React.useState(true);
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -40,7 +38,7 @@ const Queries = () => {
   const handleSubmit = async (curPage) => {
     console.log("handlesubmit:", curPage);
     let response = await fetch(
-      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1),
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
       {
         headers: {
           "Content-Type": "application/json",
@@ -49,14 +47,15 @@ const Queries = () => {
       }
     );
     console.log(response);
-    console.log(localStorage.getItem("user"));
+    console.log("user", localStorage.getItem("user"));
     let q = await response.json();
 
-    console.log(q);
+    console.log("q", q);
 
     setRowCount(q.count);
     setQueries(q.results);
-    setPage(curPage);
+    console.log("curpage", curPage)
+   
     return q;
   };
 
@@ -84,7 +83,6 @@ const Queries = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
     navigate("/");
   };
 
@@ -135,7 +133,7 @@ const Queries = () => {
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
-                <a>SCOPE</a>
+                SCOPE
               </h1>
             </div>
 

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoginGithub from "react-login-github";
-import { AlertTitle, Alert } from "@mui/material/";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material/";
 
 const CreateQuery = () => {
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
@@ -13,7 +11,6 @@ const CreateQuery = () => {
     // setUsername("");
     // setPassword("");
     localStorage.clear();
-    setLogin(false);
     navigate("/");
     //  <a href="/dashboard">Dashboard</a>;
   };
@@ -75,7 +72,7 @@ const CreateQuery = () => {
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
-                <a>SCOPE</a>
+                SCOPE
               </h1>
             </div>
 

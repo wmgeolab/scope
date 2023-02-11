@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Route, useNavigate, useParams } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Checkbox, { checkboxClasses } from "@mui/material/Checkbox";
+import { useNavigate, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -19,12 +16,10 @@ import PaginationItem from "@mui/material/PaginationItem";
 const Results = () => {
   //gets the queryName from the URL
   const { query_id } = useParams();
-  const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
-  const [checkboxSelection, setCheckboxSelection] = React.useState(true);
+  const [checkboxSelection] = React.useState(true);
 
   // for the checkbox, add functionality later
   // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -76,7 +71,6 @@ const Results = () => {
       new_q[i] = dict;
     }
     setRowCount(new_q.length);
-    setPage(curPage);
     console.log(new_q);
     console.log(new_q.length);
     setQueryResults(new_q);
@@ -89,7 +83,6 @@ const Results = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
     navigate("/");
   };
 
@@ -141,7 +134,7 @@ const Results = () => {
             {/* <!-- Logo --> */}
             <div id="logo">
               <h1>
-                <a>SCOPE</a>
+                SCOPE
               </h1>
             </div>
             {/* <!-- Nav --> */}

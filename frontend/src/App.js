@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Link from 'react-dom';
-import {BrowserRouter, Routes, Route, useNavigate, Navigate} from "react-router-dom";
+import React from "react";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './App.css';
-import LoginGithub from 'react-login-github';
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
