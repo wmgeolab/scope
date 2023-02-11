@@ -24,6 +24,7 @@ const Results = () => {
   const [queryResults, setQueryResults] = useState([]);
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [checkboxSelection, setCheckboxSelection] = React.useState(true);
 
   // for the checkbox, add functionality later
   // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -177,6 +178,7 @@ const Results = () => {
             <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
+                checkboxSelection={checkboxSelection}
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}

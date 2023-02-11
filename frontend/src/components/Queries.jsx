@@ -19,6 +19,7 @@ const Queries = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState(0);
+  const [checkboxSelection, setCheckboxSelection] = React.useState(true);
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -159,19 +160,21 @@ const Queries = () => {
           <section id="main" className="wrapper style2">
             <div className="title">Queries</div>
 
-            <Box sx={{ height: 400, width: "100%" }}>
+            <Box sx={{ height: 1000, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
+                checkboxSelection={checkboxSelection}
                 rows={queries}
                 rowCount={rowCount}
                 columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                pageSize={15} //change this to change number of queries displayed per page, but should make backend
                 pagination
                 paginationMode="server"
                 components={{
                   Pagination: CustomPagination,
                 }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
+                
               />
             </Box>
             {/* {console.log(queries)} */}

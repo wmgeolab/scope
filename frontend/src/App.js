@@ -3,8 +3,6 @@ import Link from 'react-dom';
 import {BrowserRouter, Routes, Route, useNavigate, Navigate} from "react-router-dom";
 import './App.css';
 import LoginGithub from 'react-login-github';
-
-import Login from "./components/Login"; //  can have code here or on different component
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
