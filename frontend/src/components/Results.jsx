@@ -50,7 +50,7 @@ const Results = () => {
         "/?page=" +
         (curPage + 1),
       {
-        ///results doesn't have anything in the array when printed
+        //results doesn't have anything in the array when printed
         headers: {
           "Content-Type": "application/json",
           Authorization: "Token " + localStorage.getItem("user"),
@@ -59,8 +59,8 @@ const Results = () => {
     );
     let q = await response.json();
 
-    console.log(q);
-    console.log(q[0]);
+    console.log("q", q);
+    console.log("first", q[0]);
     const new_q = [];
     for (let i = 0; i < q.length; i++) {
       var dict = {
@@ -71,8 +71,8 @@ const Results = () => {
       new_q[i] = dict;
     }
     setRowCount(new_q.length);
-    console.log(new_q);
-    console.log(new_q.length);
+    console.log("new_q", new_q);
+    console.log("length", new_q.length);
     setQueryResults(new_q);
     return new_q;
   };

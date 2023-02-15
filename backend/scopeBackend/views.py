@@ -154,5 +154,6 @@ class SourceView(viewsets.ModelViewSet):
         # LOOP THROUGH EVERY SOURCE ID AND ADD IT TO ALL SOURCES RETURNED
         sources = Source.objects.filter(pk__in=source_id_list)
 
-        data = serializers.serialize('json', sources)
+        data = serializers.serialize('json', sources)  #if this returned a response instead of an HttpResponse, then it would be paginated
+        # look into how this works and why pagination isn't applied
         return HttpResponse(data)

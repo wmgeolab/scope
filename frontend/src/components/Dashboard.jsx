@@ -93,7 +93,7 @@ const Dashboard = () => {
                 {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
                 {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
                 <li className="current">
-                  <a href="/">Dashboard</a>
+                  <a href="/workspaces">Workspaces</a>
                 </li>
                 <li>
                   <a href="/queries">Queries</a>
