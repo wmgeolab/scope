@@ -1,12 +1,75 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material/";
+import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+
+// to do move this to a style sheet this is
+const styles = {
+
+  menu: {
+    textAlign: 'right',
+  },
+
+rectangle: {
+    width:"400px",
+    height:"100px",
+    background:"blue"
+  }
+
+}
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',  
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    background = "rgb(210,245,254)"
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    background:"rgb(210,245,254)",
+    color:
+      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        position: 'relative',
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}));
 
 
 const Workspaces = () => {
+
+  var filters = {}
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -17,12 +80,24 @@ const Workspaces = () => {
   const myWorkspaces = (event) => {
     var Button = document.getElementById("demo-button");
     Button.textContent = "My Workspaces";
+
+    var box = document.getElementById("displayBox");
+    box.backgroundColor = "red";
+    // TODO: Something with fitlers
+
     handleClose();
   }
   
   const otherWorkspaces = (event) => {
     var Button = document.getElementById("demo-button");
     Button.textContent = "Other Workspaces";
+
+    var box = document.getElementById("displayBox");
+    var box = document.getElementById("displayBox");
+    box.backgroundColor = "red";
+
+    // TODO: Something with filters
+
     handleClose();
   }
 
@@ -86,38 +161,57 @@ const Workspaces = () => {
           <div className="container">
             {/* <!-- Features --> */}
 
-            <section id="features">
-              <div>
-      <Button
-        id="demo-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        My Workspaces
-      </Button>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      > 
+      <section id="features">
 
+      <div class="search-form">
+
+      <Box>
+        <TextField id ="search-bar" label="Keyword Search" variant="filled"/>
+        <Button variant="contained">Search Titles By Keyword</Button>
+        <div>
         
-        <MenuItem onClick={myWorkspaces}>My Workspaces</MenuItem>
-        <MenuItem onClick={otherWorkspaces}>Other Workspaces</MenuItem>
-      </Menu>
-    </div>
+        <Button
+          id="demo-button"
+          
+          aria-controls={open ? 'demo-positioned-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          background="rgb(210,245,254)"
+          backgroundColor="rgb(210,245,254)"
+        >
+          My Workspaces
+        </Button>
+        <StyledMenu
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          background="rgb(210,245,254)"
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        > 
+  
+          
+          <MenuItem onClick={myWorkspaces}>My Workspaces</MenuItem>
+          <MenuItem onClick={otherWorkspaces}>Other Workspaces</MenuItem>
+        </StyledMenu>
+      </div>
+      </Box>
+      </div>
+
+
+      <Box id="displayBox"
+      sx= {{ width:"px", height:"400px", background:"rgb(210, 245, 254)", border: 3}}>
+      
+      </Box>
             </section>
           </div>
         </section>
