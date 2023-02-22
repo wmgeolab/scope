@@ -40,7 +40,6 @@ const StyledMenu = styled((props) => (
       vertical: "top",
       horizontal: "right",
     }}
-    background="rgb(210,245,254)"
     {...props}
   />
 ))(({ theme }) => ({
@@ -48,7 +47,6 @@ const StyledMenu = styled((props) => (
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 180,
-    background: "rgb(210,245,254)",
     color:
       theme.palette.mode === "light"
         ? "rgb(55, 65, 81)"
@@ -175,7 +173,17 @@ const Workspaces = () => {
 
               <section id="features">
                 <div class="search-form">
-                  <Box>
+                  <Box id="big-box">
+                    <Box id="new-workspace"
+                    textAlign="right">
+                    <Button 
+                    variant="contained"
+                    id="new_workspace_button"
+                    >
+                      Add New Workspace 
+                    </Button>
+
+                    </Box>
                     <TextField
                       id="search-bar"
                       label="Keyword Search"
@@ -193,8 +201,6 @@ const Workspaces = () => {
                         aria-haspopup="true"
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClick}
-                        background="rgb(210,245,254)"
-                        backgroundColor="rgb(210,245,254)"
                       >
                         My Workspaces
                       </Button>
@@ -204,7 +210,7 @@ const Workspaces = () => {
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                        background="rgb(210,245,254)"
+                       
                         anchorOrigin={{
                           vertical: "top",
                           horizontal: "left",
@@ -230,7 +236,6 @@ const Workspaces = () => {
                   sx={{
                     width: "px",
                     height: "400px",
-                    background: "rgb(210, 245, 254)",
                     border: 3,
                   }}
                 >
