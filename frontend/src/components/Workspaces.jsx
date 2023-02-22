@@ -73,14 +73,6 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
-
 const Workspaces = () => {
   var filters = {};
 
@@ -174,15 +166,10 @@ const Workspaces = () => {
               <section id="features">
                 <div class="search-form">
                   <Box id="big-box">
-                    <Box id="new-workspace"
-                    textAlign="right">
-                    <Button 
-                    variant="contained"
-                    id="new_workspace_button"
-                    >
-                      Add New Workspace 
-                    </Button>
-
+                    <Box id="new-workspace" textAlign="right">
+                      <Button variant="contained" id="new_workspace_button">
+                        Add New Workspace
+                      </Button>
                     </Box>
                     <TextField
                       id="search-bar"
@@ -210,7 +197,6 @@ const Workspaces = () => {
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                       
                         anchorOrigin={{
                           vertical: "top",
                           horizontal: "left",
@@ -240,28 +226,54 @@ const Workspaces = () => {
                   }}
                 >
                   <List>
-                    {generate(
-                      <ListItem
-                        secondaryAction={
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            size="small"
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        }
-                      >
-                        <ListItemAvatar>
-                          <Avatar>
-                            <FolderIcon />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemButton primary="Single-line item">
-                          <ListItemText primary="Spam" />
-                        </ListItemButton>
-                      </ListItem>
-                    )}
+                    <ListItem
+                      secondaryAction={
+                        <IconButton edge="end" aria-label="delete" size="small">
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FolderIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemButton primary="Single-line item">
+                        <ListItemText primary="Workspace 1" />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem
+                      secondaryAction={
+                        <IconButton edge="end" aria-label="delete" size="small">
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FolderIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemButton primary="Single-line item">
+                        <ListItemText primary="Workspace 2" />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem
+                      secondaryAction={
+                        <IconButton edge="end" aria-label="delete" size="small">
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FolderIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemButton primary="Single-line item">
+                        <ListItemText primary="Workspace 3" />
+                      </ListItemButton>
+                    </ListItem>
                   </List>
                 </Box>
               </section>
