@@ -54,8 +54,8 @@ const Queries = () => {
 
     setRowCount(q.count);
     setQueries(q.results);
-    console.log("curpage", curPage)
-   
+    console.log("curpage", curPage);
+
     return q;
   };
 
@@ -132,9 +132,7 @@ const Queries = () => {
             <button onClick={handleLogout}>Logout</button>
             {/* <!-- Logo --> */}
             <div id="logo">
-              <h1>
-                SCOPE
-              </h1>
+              <h1>SCOPE</h1>
             </div>
 
             {/* <!-- Nav --> */}
@@ -172,7 +170,6 @@ const Queries = () => {
                   Pagination: CustomPagination,
                 }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
-                
               />
             </Box>
             {/* {console.log(queries)} */}

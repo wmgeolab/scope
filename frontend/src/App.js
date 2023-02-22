@@ -20,8 +20,8 @@ function App() {
             {/* <Route element={<Login />}>    */}
              <Route exact path="/" element={<Dashboard />} />
             <Route exact path="/workspaces" element={<Workspaces />} /> 
-            <Route exact path="/queries" element={<Queries />} />
-            <Route path="/results/:query_id" element={<Results />} />
+            <Route exact path="/queries/" element={<Queries />} />
+            <Route path="/results/:query_id/" element={<Results />} />
             <Route exact path="/create-query" element={<CreateQuery />} />
          {/* </Route>  */}
         </Routes>

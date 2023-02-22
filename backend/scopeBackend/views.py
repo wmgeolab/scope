@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
+from django.core.paginator import Paginator
 
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
@@ -117,7 +118,7 @@ class SourceView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = SourceSerializer
 
-    def get_queryset(self, query_id):
+    def get_queryset(self, query_id, page_id):
         runs = Run.objects.filter(query_id=query_id).values_list()
         print("RElevant runs: ", runs)
         print("Most recent run: ", Run.objects.filter(
@@ -153,7 +154,12 @@ class SourceView(viewsets.ModelViewSet):
         # sources = Source.objects.all()
         # LOOP THROUGH EVERY SOURCE ID AND ADD IT TO ALL SOURCES RETURNED
         sources = Source.objects.filter(pk__in=source_id_list)
+        print("sources", sources)
+        p = Paginator(sources, 3)    #pagination
+        print("p:", p.num_pages)
 
-        data = serializers.serialize('json', sources)  #if this returned a response instead of an HttpResponse, then it would be paginated
+
+
+        data = serializers.serialize('json', p.get_page(page_id)) 
         # look into how this works and why pagination isn't applied
         return HttpResponse(data)

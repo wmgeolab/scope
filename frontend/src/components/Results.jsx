@@ -47,6 +47,8 @@ const Results = () => {
     let response = await fetch(
       "http://127.0.0.1:8000/api/sources/" +
         query_id +
+        "/" +
+        (curPage + 1) +
         "/?page=" +
         (curPage + 1),
       {
@@ -73,6 +75,7 @@ const Results = () => {
     setRowCount(new_q.length);
     console.log("new_q", new_q);
     console.log("length", new_q.length);
+    console.log("page:", curPage);
     setQueryResults(new_q);
     return new_q;
   };
@@ -133,9 +136,7 @@ const Results = () => {
             {/*try putting the button in a mui box to move it*/}
             {/* <!-- Logo --> */}
             <div id="logo">
-              <h1>
-                SCOPE
-              </h1>
+              <h1>SCOPE</h1>
             </div>
             {/* <!-- Nav --> */}
             <nav id="nav">
@@ -175,7 +176,7 @@ const Results = () => {
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                pageSize={3} //change this to change number of queries displayed per page, but should make backend
                 pagination
                 paginationMode="server"
                 components={{
