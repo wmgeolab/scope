@@ -181,6 +181,7 @@ const Results = () => {
                 rowCount={rowCount}
                 columns={columns}
                 pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                checkboxSelection
                 pagination
                 paginationMode="server"
                 components={{

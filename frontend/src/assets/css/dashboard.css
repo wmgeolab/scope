@@ -1,0 +1,120 @@
+.header {
+    text-align: center;
+    padding: 100px 0;
+
+    color: #fff;
+    font-weight: bold;
+}
+
+.title {
+    padding-left: 10px;
+}
+
+.login {
+    position: absolute;
+    right: 20px;
+
+    background-color: #5e9ef7;
+}
+
+.footnote {
+    /* display: inline-block; */
+    width: 100%;
+    height: 40px;
+    bottom: 0;
+    background: rgb(207, 207, 207);
+
+    text-align: center;
+    color: #535353;
+    padding: 8px 0;
+    font-weight: bold;
+  }
+
+.headings {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+.headings2 {
+    text-align: left;
+    font-weight: bold;
+    padding-left: 100px;
+}
+
+.paragraphs {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.paragraphs_end {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 50px;
+}
+
+/* <div id="page-wrapper"> */
+
+        /* <section id="header" className="wrapper"> */
+
+          /* <div id="logo" style={{ margin: -100 }}>
+            <h1>
+              <a>SCOPE</a>
+            </h1>
+            <p>A free responsive site template by HTML5 UP</p>
+            <Button type="button">Hello</Button>
+          </div>
+          <div>
+            <nav id="nav">
+              <div
+                style={{
+                  display: "flex",
+                  marginLeft: "auto",
+                  paddingLeft: 650,
+                }}
+              >
+                {login ? (
+                  <div style={{ paddingLeft: 100 }}>
+                    <button
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
+                    className="button style1 large"
+                    clientId="75729dd8f6e08419c896"
+                    onSuccess={handleSubmit}
+                    onFailure={onFailure}
+                  />
+                )}
+              </div>
+            </nav>
+          </div>
+        </section> */
+
+        /* <section id="intro" className="wrapper style1">
+          <div className="title">About</div>
+          <div className="container">
+            <p className="style2">
+              Escape Velocity is a free responsive
+              <br className="mobile-hide" />
+              site template by{" "}
+              <a href="http://html5up.net" className="nobr">
+                HTML5 UP
+              </a>
+            </p>
+            <p className="style3">
+              It's <strong>responsive</strong>, built on <strong>HTML5</strong>{" "}
+              and <strong>CSS3</strong>, and released for free under the{" "}
+              <a href="http://html5up.net/license">
+                Creative Commons Attribution 3.0 license
+              </a>
+              , so use it for any of your personal or commercial projects
+              &ndash; just be sure to credit us!
+            </p>
+          </div>
+      </div>*/

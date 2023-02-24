@@ -2,9 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Queries from "./Queries";
 import Results from "./Results";
-import "../assets/css/main.css";
+// import "../assets/css/main.css";
+import "../assets/css/dashboard.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import LoginGithub from "react-login-github";
 import Box from "@mui/material/Box";
+import { Button } from "react-bootstrap";
+
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import logo from './../images/pic10.jpg';
+import stars from './../images/stars3.jpg';
+
 
 //import axios from "axios";
 
@@ -52,37 +67,35 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div id="page-wrapper">
-        {/* <!-- Header --> */}
-
-        <section id="header" className="wrapper">
-          {/* </Box> */}
-
-          {/* <!-- Logo --> */}
-          <div id="logo" style={{ margin: -100 }}>
-            <h1>
-              <a>SCOPE</a>
-            </h1>
-            <p>A free responsive site template by HTML5 UP</p>
-          </div>
-          <div>
-            <nav id="nav">
-              <div
-                style={{
-                  display: "flex",
-                  marginLeft: "auto",
-                  paddingLeft: 650,
-                }}
-              >
-                {/* <Box sx={{ height: 400, width: "100%" }}> */}
-                {login ? (
+      <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="/">
+        <img
+              src= {logo}
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+              alt="Scope logo"
+            />{' '}
+            SCOPE</Navbar.Brand>
+        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="queries">Queries</Nav.Link>
+            <Nav.Link href="workspaces">Workspaces</Nav.Link>
+            <Container class="ms-auto">
+            {/* <Button type="button" className="login">Hello</Button> */}
+            {login ? (
                   <div style={{ paddingLeft: 100 }}>
-                    <button
+                    <Button
+                      type="button"
+                      className="login"
                       onClick={handleLogout}
                       style={{ justifyContent: "right" }}
                     >
-                      Logout
-                    </button>
+                      Log Out
+                    </Button>
                   </div>
                 ) : (
                   <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
@@ -92,53 +105,74 @@ const Dashboard = () => {
                     onFailure={onFailure}
                   />
                 )}
-              </div>
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li className="current">
-                  <a href="/">Dashboard</a>
-                </li>
-                <li>
-                  <a href="/queries">Queries</a>
-                </li>
-                {/* <li>
-                <a href="/login">Login</a>
-              </li> */}
-              </ul>
-            </nav>
-          </div>
-          {/* <!-- Nav --> */}
-        </section>
+            </Container>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+    <div style={{backgroundImage: `url(${stars})`, 
+      // height: '24em', 
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover'}}>
+        
+            <h1 className="header">
+            <img 
+              src= {logo}
+              width="100"
+              height="100"
+              
+              alt="Scope logo"
+            />{' '}
+              <a>SCOPE</a>
+            </h1>
+            
+    </div>
+    <h2 className = "headings">What is SCOPE?</h2>
+    <p className="paragraphs">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+     Cras cursus ante posuere, congue nunc id, elementum purus. Integer tortor odio, luctus 
+     accumsan leo quis, posuere finibus orci. Maecenas lobortis justo eu ornare pharetra. Proin 
+     blandit ipsum at ante commodo, a maximus justo placerat. Maecenas commodo velit quam, in 
+     bibendum turpis bibendum a. Aenean ac enim sit amet est rutrum dignissim. Mauris tempor 
+     massa arcu, ut porttitor erat ornare scelerisque. Curabitur tempor bibendum tortor, at 
+     pretium magna suscipit in. Sed molestie interdum sapien, at rhoncus est laoreet sit amet. 
+     Donec dapibus ligula et rutrum elementum. Integer congue at neque ut vulputate. Morbi et 
+     arcu ut justo ornare porttitor sit amet in enim.</p>
+    <div>
 
-        {/* <!-- Intro --> */}
-        <section id="intro" className="wrapper style1">
-          <div className="title">About</div>
-          <div className="container">
-            {/* <p className="style1">
-              So in case you were wondering what this is all about ...
-            </p> */}
-            <p className="style2">
-              Escape Velocity is a free responsive
-              <br className="mobile-hide" />
-              site template by{" "}
-              <a href="http://html5up.net" className="nobr">
-                HTML5 UP
-              </a>
-            </p>
-            <p className="style3">
-              It's <strong>responsive</strong>, built on <strong>HTML5</strong>{" "}
-              and <strong>CSS3</strong>, and released for free under the{" "}
-              <a href="http://html5up.net/license">
-                Creative Commons Attribution 3.0 license
-              </a>
-              , so use it for any of your personal or commercial projects
-              &ndash; just be sure to credit us!
-            </p>
-          </div>
-        </section>
+    </div>
+    <h2 className = "headings">How to use SCOPE</h2>
+
+    <h3 className = "headings2">Creating Queries</h3>
+    <p className="paragraphs">Cras semper purus at eros euismod facilisis. Maecenas nec risus nulla.
+     Curabitur id arcu ante. Praesent pretium, odio sit amet vulputate ultrices, nunc ligula malesuada
+     est, ac feugiat ex lorem sit amet tortor. In nec dolor ligula. Donec vel arcu nisi. Nam congue
+     neque ac massa molestie dignissim. Aenean gravida massa non leo faucibus tincidunt. </p>
+
+     <p className="paragraphs_end">Donec lectus lectus, tempus id aliquam sed, ultrices eget libero. Suspendisse hendrerit sed eros et mollis. 
+     Nullam congue, odio et malesuada efficitur, lectus est sollicitudin metus, eu vestibulum erat quam ut massa. 
+     Integer enim nulla, vulputate eget enim ac, scelerisque fermentum mauris. Cras et viverra eros, tempor consectetur nisl.</p>
+
+    <h3 className = "headings2">Filtering Queries</h3>
+    <p className="paragraphs">Cras justo mauris, fringilla id luctus quis, dapibus sit amet eros. 
+    Nulla nec quam eget felis facilisis euismod. Etiam sollicitudin arcu metus, a scelerisque mi blandit sed. 
+    Integer placerat feugiat dignissim. Morbi et mi et mi lobortis efficitur ut id tellus.</p>
+
+    <p className="paragraphs_end">Aliquam fermentum faucibus metus porta vulputate. Nunc ultrices volutpat risus tristique convallis.</p>
+      
+
+    <h3 className = "headings2">Using Workspaces</h3>
+
+    <p className="paragraphs_end">Fusce posuere porta metus. Curabitur vitae dictum odio, sit amet malesuada leo.
+     Fusce ut consequat dolor. Nulla nec erat finibus libero gravida faucibus a sit amet turpis. Ut volutpat nisi 
+     et odio fermentum, quis facilisis arcu pellentesque. Nullam vel rhoncus metus, in tempor tortor. Praesent 
+     mollis vel quam et dapibus. Cras vel neque non dolor interdum iaculis. Nulla facilisi. Donec aliquet 
+     tincidunt eros, eu porta nisl. Praesent nec tortor quis mauris laoreet aliquet quis a libero.</p>
+
+
+    <div className="footnote">
+      William & Mary geoLab
       </div>
+      
 
       {/* <!-- Scripts --> */}
       {/* <script src="assets/js/jquery.min.js"></script>

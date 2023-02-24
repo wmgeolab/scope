@@ -13,6 +13,15 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/queries.css";
+
+import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const [login, setLogin] = useState(false);
@@ -125,71 +134,112 @@ const Queries = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="stylesheet" href="assets/css/table.css" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            <button onClick={handleLogout}>Logout</button>
-            {/* <!-- Logo --> */}
-            <div id="logo">
+        <Navbar bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="/">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Scope logo"
+              />{" "}
+              SCOPE
+            </Navbar.Brand>
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="queries">Queries</Nav.Link>
+                <Nav.Link href="workspaces">Workspaces</Nav.Link>
+                <Container class="ms-auto">
+                  {/* <Button type="button" className="login">Hello</Button> */}
+
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      className="login"
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Log Out
+                    </Button>
+                  </div>
+                </Container>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        {/* <link rel="stylesheet" href="assets/css/table.css" /> */}
+        {/* <link rel="stylesheet" href="assets/css/main.css" /> */}
+
+        {/* <div id="page-wrapper"> */}
+        {/* <!-- Header --> */}
+        {/* <section id="header" className="wrapper"> */}
+        {/* <button onClick={handleLogout}>Logout</button> */}
+        {/* <!-- Logo --> */}
+        {/* <div id="logo">
               <h1>
                 <a>SCOPE</a>
               </h1>
-            </div>
+            </div> */}
 
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li>
+        {/* <!-- Nav --> */}
+        {/* <nav id="nav">
+              <ul> */}
+        {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
+        {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
+        {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
+        {/* <li>
                   <a href="/">Dashboard</a>
                 </li>
                 <li className="current">
                   <a href="/queries">Queries</a>
-                </li>
-                {/* <li><a href='/login'>Login</a></li> */}
-              </ul>
-            </nav>
-          </section>
+                </li> */}
+        {/* <li><a href='/login'>Login</a></li> */}
+        {/* </ul>
+            </nav> */}
+        {/* </section> */}
 
-          {/* <!-- Main --> */}
-          <section id="main" className="wrapper style2">
-            <div className="title">Queries</div>
+        {/* <!-- Main --> */}
+        {/* <section id="main" className="wrapper style2"> */}
+        <h2 className="headings3">Queries</h2>
 
-            <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid
-                disableColumnFilter
-                rows={queries}
-                rowCount={rowCount}
-                columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, but should make backend
-                pagination
-                paginationMode="server"
-                components={{
-                  Pagination: CustomPagination,
-                }}
-                onPageChange={(newPage) => handleSubmit(newPage)}
-              />
-            </Box>
-            {/* {console.log(queries)} */}
-            <div className="container">
-              {/* <!-- Features --> */}
+        <Box className="table" sx={{ height: 400, width: "100%" }}>
+          <DataGrid
+            disableColumnFilter
+            rows={queries}
+            rowCount={rowCount}
+            columns={columns}
+            pageSize={5} //change this to change number of queries displayed per page, but should make backend
+            pagination
+            paginationMode="server"
+            checkboxSelection
+            components={{
+              Pagination: CustomPagination,
+            }}
+            onPageChange={(newPage) => handleSubmit(newPage)}
+          />
+        </Box>
+        {/* {console.log(queries)} */}
+        <div>
+          {/* <!-- Features --> */}
 
-              <section id="features">
-                <ul className="actions special">
+          <section id="features" className="centerButtonAlign">
+            {/* <ul className="actions special">
                   <li>
                     <a href="/create-query" className="button style1 large">
                       Create New Query
                     </a>
                   </li>
-                </ul>
-              </section>
-            </div>
+                </ul> */}
+            <Button href="/create-query" className="centerButton">
+              Create New Query
+            </Button>
           </section>
         </div>
+        {/* </section> */}
+        {/* </div> */}
 
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>
