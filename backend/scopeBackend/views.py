@@ -155,7 +155,7 @@ class SourceView(viewsets.ModelViewSet):
         # LOOP THROUGH EVERY SOURCE ID AND ADD IT TO ALL SOURCES RETURNED
         sources = Source.objects.filter(pk__in=source_id_list)
         print("sources", sources)
-        p = Paginator(sources, 3)    #pagination
+        p = Paginator(sources, 5)    #pagination
         print("p:", p.num_pages)
 
 
@@ -163,3 +163,41 @@ class SourceView(viewsets.ModelViewSet):
         data = serializers.serialize('json', p.get_page(page_id)) 
         # look into how this works and why pagination isn't applied
         return HttpResponse(data)
+    
+class CountView(viewsets.ModelViewSet):
+
+    def get_count(self, query_id):
+        runs = Run.objects.filter(query_id=query_id).values_list()
+        print("Most recent run: ", Run.objects.filter(
+            query_id=query_id).values('id')[len(runs)-1])
+        run_id = Run.objects.filter(
+            query_id=query_id).values('id')[len(runs)-1]['id']
+        print(run_id)
+        # now get all the relevant results linked to that run
+        results = Result.objects.filter(run_id=run_id).values('id')
+        results = results[0:len(results)-1]
+        result_ids = []
+        print("ID's for results: ", results)
+        for result in results:
+            result_ids.append(result['id'])
+        source_ids = []
+        for result_id in result_ids:
+            source_ids.append(Result.objects.filter(
+                id=result_id).values('source_id'))
+
+        print("List of source IDs: ", source_ids)
+        # WE NOW HAVE ALL OUR SOURCE ID'S RELATED TO THAT QUERY!!
+        source_ids = source_ids[0:len(source_ids)-1]
+        print(source_ids)
+        source_ids_v2 = []
+        for source_id in source_ids:
+            source_ids_v2.append(source_id[0])
+        print("Source IDs: ", source_ids_v2)
+        source_id_list = []
+        for src_id in source_ids_v2:
+            source_id_list.append(src_id['source_id'])
+        print("Source IDs: ", source_id_list)
+        print("Final Count: ", len(source_id_list))
+        count = len(source_id_list)
+
+        return HttpResponse(count)
