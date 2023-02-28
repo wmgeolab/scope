@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+
+.screen a {
+    display: contents;
+    text-decoration: none;
+}
+
+.container-center-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    pointer-events: none;
+    width: 100%;
+}
+
+
+.headings {
+    text-align: left;
+    font-weight: bold;
+    padding-top: 84px;
+    padding-bottom: 20px;
+    padding-left: 90px;
+}
+
+.dropdown {
+    padding-top: 32px;
+    padding-left: 90px;
+    text-align: left;
+    font-weight: bold;
+    background-color: white;
+}
+
