@@ -31,14 +31,20 @@ const Results = () => {
       headerName: "Text",
       flex: 1,
       minWidth: 150,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding article that will be displayed
+        return (
+          <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
+        );
+      },
     },
     {
       field: "url",
-      headerName: "URL",
+      headerName: "Article",
       flex: 1,
       minWidth: 150,
       renderCell: (cellValue) => {
-        //cell customization, make the name a link to the corresponding results page
+        //cell customization, add the url to the source/result
         return <a href={cellValue.value}>{cellValue.value}</a>;
       },
     },
@@ -194,7 +200,7 @@ const Results = () => {
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                pageSize={5} //change this to change number of queries displayed per page, need to also change in the backend
                 pagination
                 paginationMode="server"
                 components={{
