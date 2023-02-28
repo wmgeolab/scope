@@ -20,6 +20,7 @@ const Results = () => {
   const [queryResults, setQueryResults] = useState([]);
   const navigate = useNavigate();
   const [checkboxSelection] = React.useState(true);
+  const [count, setCount] = useState(0)
 
   // for the checkbox, add functionality later
   // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -53,6 +54,8 @@ const Results = () => {
     let response = await fetch(
       "http://127.0.0.1:8000/api/sources/" +
         query_id +
+        "/" +
+        (curPage + 1) +
         "/?page=" +
         (curPage + 1),
       {
@@ -76,10 +79,28 @@ const Results = () => {
       };
       new_q[i] = dict;
     }
-    setRowCount(new_q.length);
+    //setRowCount(new_q.length);
     console.log("new_q", new_q);
     console.log("length", new_q.length);
+    console.log("page:", curPage);
     setQueryResults(new_q);
+
+    //this is the fetch request to get the source count
+    let countResponse = await fetch(
+      "http://127.0.0.1:8000/api/count/" + query_id + "/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    )
+
+    let x = await countResponse.json()
+    console.log("Source count: ", x)
+
+    setRowCount(x)
+
     return new_q;
   };
 
