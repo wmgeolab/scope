@@ -16,15 +16,19 @@ const DisplayArticle = () => {
       {
         //results doesn't have anything in the array when printed
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
           Authorization: "Token " + localStorage.getItem("user"),
         },
       }
     );
 
-    let q = response.body
-    setText(q)
-    console.log(q)
+    
+    let q = await response.text();
+    console.log(response);
+   
+    setText(q);
+   
     
   }
 
@@ -42,7 +46,7 @@ const DisplayArticle = () => {
       </div>
     );
   } else {
-    return <div>hello</div>;
+    return <div>{text}</div>;
   }
 };
 

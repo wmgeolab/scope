@@ -216,7 +216,8 @@ class ReadSource(viewsets.ModelViewSet):
         article.download()
         article.parse()
         #print(article.text)
-        dictionary = '{ "text":"' + article.text + '"}'
-        result = json.loads(dictionary, strict=False)
-        print(HttpResponse(result))
-        return HttpResponse(result)
+        plain_text = article.text
+        # dictionary = '{ "text":"' + article.text + '"}'
+        # result = json.loads(dictionary, strict=False)
+        # print(result)
+        return HttpResponse(plain_text)
