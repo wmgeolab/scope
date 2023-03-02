@@ -28,6 +28,7 @@ router.register(r'run', views.RunView, 'Run')
 router.register(r'results', views.ResultView, 'Results')
 router.register(r'sources', views.SourceView, 'Sources')
 router.register(r'count', views.CountView, 'Count')
+router.register(r'text', views.ReadSource, 'Text')
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('api/sources/<int:query_id>/<int:page_id>/',
          views.SourceView.get_queryset, name='Sources'),
     path('api/count/<int:query_id>/', views.CountView.get_count, name='Count'),
+    path('api/text/<int:source_id>/', views.ReadSource.get_queryset, name='Text'),
     path('api/', include(router.urls)),
     path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login'),
 

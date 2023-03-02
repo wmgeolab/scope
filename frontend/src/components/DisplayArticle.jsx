@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DisplayArticle = () => {
   //   var { Readability } = require("@mozilla/readability");
+  const { article_title } = useParams();
+  const [text, setText] = useState("");
+  const navigate = useNavigate();
+  console.log(article_title)
+
+  const handleSubmit = async (source_id) => {
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/text/" +
+        source_id +
+        "/",
+      {
+        //results doesn't have anything in the array when printed
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
+
+    let q = response.body
+    setText(q)
+    console.log(q)
+    
+  }
+
+  useEffect(() => {
+    handleSubmit(article_title);
+  }, []); //listening on an empty array
+
   if (localStorage.getItem("user") === null) {
     // fix?
     return (

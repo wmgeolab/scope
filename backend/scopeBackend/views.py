@@ -21,6 +21,9 @@ from dj_rest_auth.registration.views import SocialLoginView
 import logging
 logger = logging.getLogger(__name__)
 
+from newspaper import Article
+import json
+
 
 # try running the algorithm in views:
 
@@ -201,3 +204,19 @@ class CountView(viewsets.ModelViewSet):
         count = len(source_id_list)
 
         return HttpResponse(count)
+    
+class ReadSource(viewsets.ModelViewSet):
+    
+    def get_queryset(self, source_id):
+        # First, get the requested source from the db
+        source = Source.objects.filter(id=source_id)
+        print("Source: ", source[0].url)
+        url = source[0].url
+        article = Article(url)
+        article.download()
+        article.parse()
+        #print(article.text)
+        dictionary = '{ "text":"' + article.text + '"}'
+        result = json.loads(dictionary, strict=False)
+        print(HttpResponse(result))
+        return HttpResponse(result)
