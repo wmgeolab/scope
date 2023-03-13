@@ -15,19 +15,63 @@
 }
 
 
-.headings {
+.ws_headings {
     text-align: left;
     font-weight: bold;
-    padding-top: 84px;
+    padding-top: 32px;
     padding-bottom: 20px;
     padding-left: 90px;
+    float:left;
 }
 
+
+.test1 {
+    display: inline;
+}
 .dropdown {
-    padding-top: 32px;
-    padding-left: 90px;
-    text-align: left;
-    font-weight: bold;
-    background-color: white;
+   margin-left:8.5%;
+   width:25%;   
 }
 
+.table {
+    padding-top: 32px;
+    padding-left:90px;
+}
+
+/* TODO: Fix this. It is janky. */
+.workspaceSearch {
+    width: 100%;
+    padding-left: 35%;
+    padding-right:7%;
+}
+
+.float-parent-element{
+    width:100%;
+    
+}
+.float-element-children{
+    width:75%;
+
+}
+
+.add-new-button{
+   padding-top: 40px;
+   min-width:25%;
+}
+
+
+.dropDown-WorkSpace{
+    padding-left: 40px;
+}
+.searchBarInput {
+    width: 20%;
+    height: 2.8rem;
+    outline: none;
+    border: none;
+    color:black;
+    border-radius: 1.625rem;
+    padding: 0 3.5rem 0 1.5rem;
+    font-size: 1rem;
+    z-index: 1000;
+    outline: none !important;    
+}
