@@ -82,7 +82,6 @@ var input;
 var textInput = React.createRef(); 
 
 
-
   
 const setFilter = () => {
     //console.log(this.input.value);
@@ -112,6 +111,15 @@ const handleChange = () => {
 const onSubmitSearch = (event) => {
     event.preventDefault();
     console.log("The input string being passed here is: ", textInput.current.value);
+
+    // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
+    setFilt([
+        {
+          columnField: "wsName",
+          operatorValue: "contains",
+          value: textInput.current.value
+        }
+       ])
 };
 
 
@@ -212,7 +220,7 @@ if (localStorage.getItem("user") === null) {
                      <Search></Search>              
                     </InputGroup.Text>
                     <Form.Control
-                     placeholder="Search by Keyword" 
+                     placeholder="Search by Workspace Name" 
                      ref={textInput}
                      onChange={() => handleChange()}
                      type="text"
@@ -236,6 +244,10 @@ if (localStorage.getItem("user") === null) {
                 pageSize={5}
                 rowsPerPageOptions={[5]}
                 checkboxSelection
+                disableColumnFilter 
+                disableColumnMenu
+                disableDensitySelector
+                disableColumnSelector
                 disableSelectionOnClick
                 experimentalFeatures={{ newEditingApi: true}}
                 components={{ Toolbar: GridToolbar }}
