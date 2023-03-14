@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, setState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGithub from "react-login-github";
 import { AlertTitle, Alert, Input } from "@mui/material/";
@@ -76,19 +76,44 @@ const Workspaces = () => {
 
 // Used for the filtering model with the external search bar and the data grid.
 const [filt, setFilt] = useState([]);
-const [user, setUser] = React.useState('');
+const [user, setUser] = useState('');
 const [login, setLogin] = useState(false);
-
-const handleChange = (event) => {
-    setUser(event.target.value);
-};
+var input; 
+var textInput = React.createRef(); 
 
 
+
+  
+const setFilter = () => {
+    //console.log(this.input.value);
+    console.log("????")
+}
+
+
+// Handles logout with Github authentication.
+// Right now this is pretty janky as theres no set log out page or anything.
 const handleLogout = () => {
     localStorage.clear();
     setLogin(false);
   };
-    
+
+
+// Used to continuously keep track of what is in the search bar.
+// Ideally, it would need to only be passed once on a query being submitted.
+// TODO: Look into implementing that.
+const handleChange = () => {
+    const value = textInput.current.value;
+   // console.log(value);
+};
+
+// Used to handle keyword search with the search bar.
+// textInput is updated whenever there is a change and the string content can be accessed with textInput.current.value
+// onSubmitSearch is triggered when the user either triggers the search bar with the button (do we want this?) or hits enter.
+const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log("The input string being passed here is: ", textInput.current.value);
+};
+
 
 
 if (localStorage.getItem("user") === null) {
@@ -103,7 +128,7 @@ if (localStorage.getItem("user") === null) {
 } else {
     return (
     <div>
-
+        
         {/* Scope Dashboard Header + Log Out Button */}
         <Navbar bg="dark" variant="dark">
         <Container>
@@ -172,16 +197,26 @@ if (localStorage.getItem("user") === null) {
                 </Col>
 
                 
+                {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
+                    <Button 
+                    variant="light" 
+                    type="text"
+                    > */}
+
                 {/* Column for Search Bar    */}
                 <Col>
                 <div className = "workspaceSearch">
-                <Form>  
+                <Form onSubmit={onSubmitSearch}> 
                     <InputGroup>
                     <InputGroup.Text>
-                     <Search></Search>
+                     <Search></Search>              
                     </InputGroup.Text>
-                    <Form.Control type="text" 
-                    placeholder="Search by Keyword" />
+                    <Form.Control
+                     placeholder="Search by Keyword" 
+                     ref={textInput}
+                     onChange={() => handleChange()}
+                     type="text"
+                    />
                     </InputGroup>
                 </Form>           
                 </div>
