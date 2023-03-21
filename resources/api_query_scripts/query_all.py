@@ -16,14 +16,14 @@ from store_data import store
 
 
 def query(args):
-    twitter_args = {
-        "start_date": args["start_date"][0:len(args["start_date"]) - 2],
-        "end_date": args["end_date"][0:len(args["end_date"]) - 2],
-        "primary": args['primary'],
-        "secondary": args['secondary'],
-        "tertiary": args['tertiary']
-    }
-    tweets = get_tweets(twitter_args)
+    # twitter_args = {
+    #     "start_date": args["start_date"][0:len(args["start_date"]) - 2],
+    #     "end_date": args["end_date"][0:len(args["end_date"]) - 2],
+    #     "primary": args['primary'],
+    #     "secondary": args['secondary'],
+    #     "tertiary": args['tertiary']
+    # }
+    # tweets = get_tweets(twitter_args)
     gdelt_args = {
         "query": args['primary'],
         "startdatetime": args['start_date'],
@@ -32,10 +32,10 @@ def query(args):
     }
     gdelt_data = query_gdelt(gdelt_args)
     lines_to_write = ["Query: " + args['primary'] + " From " +
-                      args['start_date'] + " To " + args['end_date'] + "\n", tweets, gdelt_data]
+                      args['start_date'] + " To " + args['end_date'] + "\n", gdelt_data]
     print(lines_to_write)
     store(lines_to_write)
-    return gdelt_data, tweets
+    return gdelt_data
 
 
 if __name__ == '__main__':

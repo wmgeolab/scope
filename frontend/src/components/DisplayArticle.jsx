@@ -25,7 +25,7 @@ const DisplayArticle = () => {
 
     
     let q = await response.text();
-    console.log(response);
+    console.log(q);
    
     setText(q);
    
