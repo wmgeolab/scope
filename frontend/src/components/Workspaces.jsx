@@ -80,15 +80,23 @@ const [user, setUser] = useState('');
 const [login, setLogin] = useState(false);
 var input; 
 var textInput = React.createRef(); 
+var [dropDownValue,setValue] = useState('All Workspaces');
 
 
-  
-const setFilter = () => {
+
+
+const setFilter = (test) => {
     //console.log(this.input.value);
-    console.log("????")
+    //console.log("????");
+    // this works
+    //console.log(test.target.text);
+    setValue(test.target.text);
 }
 
-
+const test = (input) => {
+    //console.log("...");
+    console.log(input.target.title);
+}
 // Handles logout with Github authentication.
 // Right now this is pretty janky as theres no set log out page or anything.
 const handleLogout = () => {
@@ -194,12 +202,15 @@ if (localStorage.getItem("user") === null) {
 
 
                 {/* Column for Dropdown Menu */}
+                {/* TODO:
+                Make it so the text changes.
+                Implement filtering based on user. */}
                 <Col>
                 <div className = "dropDown-WorkSpace">
-                <DropdownButton id="dropdown-basic-button" title="All Workspaces">
-                    <Dropdown.Item href="#/my-workspaces">Workspaces Owned by Me</Dropdown.Item>
-                    <Dropdown.Item href="#/other-workspaces">Workspaces Not Owned by Me</Dropdown.Item>
-                    <Dropdown.Item href="#/">All Workspaces</Dropdown.Item>
+                <DropdownButton id="dropdown-basic-button" title={dropDownValue} onClick={(e) => test(e)}>
+                    <Dropdown.Item onClick={(e) => setFilter(e)}>Workspaces Owned by Me</Dropdown.Item>
+                    <Dropdown.Item onClick={(e) => setFilter(e)}>Workspaces Not Owned by Me</Dropdown.Item>
+                    <Dropdown.Item onClick={(e) => setFilter(e)}>All Workspaces</Dropdown.Item>
                 </DropdownButton>
                 </div>
                 </Col>
@@ -233,7 +244,6 @@ if (localStorage.getItem("user") === null) {
             </Row>
  
 
-        {/* TODO: Change this to a bootstrap2 datagrid and clean the code up. */}
 
         <Row>
             <div className = "table">
