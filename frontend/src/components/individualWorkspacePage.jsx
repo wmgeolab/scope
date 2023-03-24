@@ -1,5 +1,5 @@
 import React, { useState, setState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoginGithub from "react-login-github";
 import { AlertTitle, Alert, Input } from "@mui/material/";
 
@@ -11,7 +11,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import logo from './../images/pic10.jpg';
 import stars from './../images/stars3.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../assets/css/workspace.css";
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -22,62 +21,67 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Search } from 'react-bootstrap-icons';
 import { GridToolbar } from '@mui/x-data-grid';
 
+
+
 const fake_data = [
 
     {   
         id:0,
-        wsOwner:"user1",
-        wsName:"My Workspace 1",
-        wsComments:"Argentina:Project"
+
+        wsName:"article1",
+        wsComments:"Argentina:Project",
+        wsURL:"https://www.cbsnews.com/news/syria-airstrike-us-contractor-killed-iran-drone-attack-joe-biden-lloyd-austin/"
     },
     {
         id: 1,
-        wsOwner:"user2",
-        wsName:"My Workspace 2"
+    
+        wsName:"article2",
+        wsURL:"https://www.washingtonpost.com/world/2023/03/24/rwanda-rusesabagina-release/"
     },
     {
         id: 2,
-        wsOwner:"user3",
-        wsName:"My Workspace 3"
+        wsName:"article3",
+        wsURL:"https://www.politico.com/news/2023/03/24/democrats-tiktok-ban-china-00088659"
     },
     {
         id: 3,
-        wsOwner:"user4",
-        wsName:"My Workspace 4",
-        wsComments:"Ukraine-Mines"
+        wsName:"article4",
+        wsURL:"https://www.nytimes.com/2023/03/24/us/politics/house-approves-bill-requiring-schools-to-give-parents-more-information.html"
     }
 ];
+
 
 const columns = [
 
     {field: 'id', headerName:'ID', width:90},
 
-    {
-        field: 'wsOwner',
-        headerName:"Owner",
-        width:150,
-    },
+
 
     {
         field: 'wsName',
         headerName:"Name",
         width:150,
-        renderCell: (cellValue) => {
-            //cell customization, make the name a link to the corresponding results page
-            ///console.log(cellValue);
-            return <a href={"/workspace/" + cellValue.formattedValue}>{cellValue.formattedValue}</a>;
-          }
     },
 
     {
-        field: 'wsComments',
-        headerName:"Tags",
+        field: 'wsURL',
+        headerName:"URL",
         width:150,
-    }
+        flex: 1,
+        renderCell: (cellValue) => {
+            //cell customization, make the name a link to the corresponding results page
+            ///console.log(cellValue);
+            return <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>;
+          }
+    },
+
 
 ];
 
-const Workspaces = () => {
+const Individual_Workspaces = () => {
+
+    const {workspace_name} = useParams();
+    console.log(workspace_name);
 
 // Used for the filtering model with the external search bar and the data grid.
 const [filt, setFilt] = useState([]);
@@ -175,11 +179,11 @@ if (localStorage.getItem("user") === null) {
                     {/* Log Out button */}
                     <div style={{ paddingLeft: 100 }}>
                     <Button
-                      type="button"
-                      className="login"
-                      onClick={handleLogout}
-                      style={{ justifyContent: "right" }}
-                    >
+                        type="button"
+                        className="login"
+                        onClick={handleLogout}
+                        style={{ justifyContent: "right" }}
+                        >
                       Log Out
                     </Button>
                   </div>
@@ -189,89 +193,95 @@ if (localStorage.getItem("user") === null) {
         </Container>
         </Navbar>
 
-
+        
+        <div className = "fullRowContainer" style={{paddingTop:".25%", paddingBottom:"2%", paddingLeft:"1%"}}>
+                <Button variant="link" href="/workspaces" style={{fontFamily: "'Source Sans Pro', sans-serif", color:"rgb(48, 46, 46)", fontSize:"1.3ems"}}>🡸 Return home</Button>
+        </div>
+        
         {/* Container for the rest of the contents of the page
         Header, Dropdown Menus, Search Bar and Grid */}
         <Container>
         
-        <div className="customRowContainer" style={{paddingBottom:"2%", paddingTop:"1%"}}>
-            <h2 className = "wsHeadingsInternal" style={{paddingTop:"1%"}}>Workspaces</h2>
-        </div>
         
-        
-        
+
+
         {/* Inline search bar and drop down menu. */}
         <Container>
+
+            {/* Row for Go Back Button */}
+
+            
+
+            
+
             <Row>
 
 
-                <div className="customRowContainer">
-                {/* Column for Dropdown Menu */}
-                {/* TODO:
-                Make it so the text changes.
-                Implement filtering based on user. */}
-      
-                
-                   <DropdownButton id="dropdown-basic-button" title={dropDownValue} style={{float:"left", marginLeft:"0px"}} onClick={(e) => test(e)}>
-                    <Dropdown.Item onClick={(e) => setFilter(e)}>Workspaces Owned by Me</Dropdown.Item>
-                    <Dropdown.Item onClick={(e) => setFilter(e)}>Workspaces Not Owned by Me</Dropdown.Item>
-                    <Dropdown.Item onClick={(e) => setFilter(e)}>All Workspaces</Dropdown.Item>
-                </DropdownButton>
-                
-
 
                 
-                {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
-                    <Button 
-                    variant="light" 
-                    type="text"
-                    > */}
+                
+                <div className = "customRowContainer" s>
+    
+                    
+                    {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
+                        <Button 
+                        variant="light" 
+                        type="text"
+                        > */}
 
-                {/* Column for Search Bar    */}
-                <Col>
-                <div className = "workspaceSearchInternal">
-                <Form onSubmit={onSubmitSearch}> 
-                    <InputGroup>
-                    <InputGroup.Text>
-                     <Search></Search>              
-                    </InputGroup.Text>
-                    <Form.Control
-                     placeholder="Search by Workspace Name" 
-                     ref={textInput}
-                     onChange={() => handleChange()}
-                     type="text"
-                    />
-                    </InputGroup>
-                </Form>           
-                </div>
-                </Col>
-                                    
+                    {/* Column for Search Bar    */}
+                    
+                    <h2 className = "wsHeadingsInternal">{workspace_name}</h2>
+
+                    <div className = "workspaceSearchInternal">
+
+                
+
+                    <Form onSubmit={onSubmitSearch}> 
+                        <InputGroup>
+                        <InputGroup.Text>
+                            <Search></Search>              
+                        </InputGroup.Text>
+                        <Form.Control
+                        placeholder="Search by Article Name" 
+                        ref={textInput}
+                        onChange={() => handleChange()}
+                        type="text"
+                        />
+                        </InputGroup>
+                    </Form>           
+                    </div>
+                    
+                
+                    
                 </div>
             </Row>
  
 
 
         <Row>
-            <div className = "customRowContainer" style={{paddingTop:"2%"}}>
-            <Box sx={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={fake_data}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-                disableColumnFilter 
-                disableColumnMenu
-                disableDensitySelector
-                disableColumnSelector
-                disableSelectionOnClick
-                experimentalFeatures={{ newEditingApi: true}}
-                components={{ Toolbar: GridToolbar }}
-                filterModel={{
-                    items:filt
-                }}
-            />
-          </Box>
+            <div className = "customRowContainer">
+                <div className = "individualTable">
+                    <Box sx={{ height: 400, width: '100%' }}>
+                        <DataGrid
+                            rows={fake_data}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            checkboxSelection
+                            disableColumnFilter 
+                            disableColumnMenu
+                            disableDensitySelector
+                            disableColumnSelector
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true}}
+                            components={{ Toolbar: GridToolbar }}
+                            filterModel={{
+                                items:filt
+                            }}
+                        />
+                    </Box>
+            </div>
           </div>
         </Row>
         </Container>
@@ -282,7 +292,7 @@ if (localStorage.getItem("user") === null) {
         {/* New row for add new workspace button. */}
         <Row className = "text-center">
             <div className ="add-new-button">
-                <Button href="#/new_workspace_page">Add New Workspace</Button>
+                <Button href="#/new_workspace_page">Share Workspace</Button>
             </div>    
         </Row> 
 
@@ -299,4 +309,4 @@ if (localStorage.getItem("user") === null) {
 
 };
 
-export default Workspaces;
+export default Individual_Workspaces;

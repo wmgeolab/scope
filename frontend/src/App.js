@@ -10,6 +10,7 @@ import Queries from "./components/Queries";
 import Results from "./components/Results";
 import CreateQuery from "./components/CreateQuery";
 import Workspaces from "./components/Workspaces";
+import Individual_Workspaces from "./components/individualWorkspacePage";
 
 function App() {
   
@@ -26,6 +27,7 @@ function App() {
             <Route exact path="/queries" element={<Queries />} />
             <Route path="/results/:query_id" element={<Results />} />
             <Route path="/workspaces" element={<Workspaces />} />
+            <Route path="/workspace/:workspace_name" element={<Individual_Workspaces />} />
             <Route exact path="/create-query" element={<CreateQuery />} />
          {/* </Route>  */}
         </Routes>

@@ -38,12 +38,7 @@
     padding-left:90px;
 }
 
-/* TODO: Fix this. It is janky. */
-.workspaceSearch {
-    width: 100%;
-    padding-left: 35%;
-    padding-right:7%;
-}
+
 
 .float-parent-element{
     width:100%;
@@ -58,10 +53,10 @@
    padding-top: 40px;
    min-width:25%;
 }
+s
 
-
-.dropDown-WorkSpace{
-    padding-left: 40px;
+.dropDown{
+    float:left;
 }
 .searchBarInput {
     width: 20%;
@@ -74,4 +69,43 @@
     font-size: 1rem;
     z-index: 1000;
     outline: none !important;    
+}
+
+/* Individual Workspace Specific CSS Elements */
+
+.wsHeadingsInternal {
+    text-align: left;
+    font-weight: bold;
+    width:auto;
+    display:inline-block;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+.workspaceSearchInternal {
+    float:right;
+    width:40%;
+}
+
+
+.returnHomeButton {
+
+    padding-bottom: 10%;
+
+}
+
+
+.individualTable {
+    padding-top: 2%;
+}
+
+.customRowContainer{
+    margin-left: 7%;
+    width:92%;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+.fullRowContainer{
+    width:100%;
+    /* outline-color: rgb(48, 46, 46); */
+    float:top;
 }
