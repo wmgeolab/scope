@@ -251,27 +251,29 @@ if (localStorage.getItem("user") === null) {
  
 
 
-        <Row>
-            <div className = "customRowContainer" style={{paddingTop:"2%"}}>
-            <Box sx={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={fake_data}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-                disableColumnFilter 
-                disableColumnMenu
-                disableDensitySelector
-                disableColumnSelector
-                disableSelectionOnClick
-                experimentalFeatures={{ newEditingApi: true}}
-                components={{ Toolbar: GridToolbar }}
-                filterModel={{
-                    items:filt
-                }}
-            />
-          </Box>
+            <Row>
+            <div className = "customRowContainer">
+                <div className = "individualTable">
+                    <Box sx={{ height: 400, width: '100%' }}>
+                        <DataGrid
+                            rows={fake_data}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            checkboxSelection
+                            disableColumnFilter 
+                            disableColumnMenu
+                            disableDensitySelector
+                            disableColumnSelector
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true}}
+                            components={{ Toolbar: GridToolbar }}
+                            filterModel={{
+                                items:filt
+                            }}
+                        />
+                    </Box>
+            </div>
           </div>
         </Row>
         </Container>

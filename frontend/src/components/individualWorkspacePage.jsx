@@ -169,7 +169,7 @@ if (localStorage.getItem("user") === null) {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="queries">Queries</Nav.Link>
+                    <Nav.Link href="/queries">Queries</Nav.Link>
                     <Nav.Link href="workpaces">Home</Nav.Link>
                     <Container className="ms-auto">
 
