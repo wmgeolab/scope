@@ -167,10 +167,10 @@ if (localStorage.getItem("user") === null) {
                 />{' '}
                 SCOPE</Navbar.Brand>
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
+            <Nav className="me-auto">
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/queries">Queries</Nav.Link>
-                    <Nav.Link href="workpaces">Home</Nav.Link>
+                    <Nav.Link href="workpace">Workspaces</Nav.Link>
                     <Container className="ms-auto">
 
                     {/* TODO: Implement/Discuss a way to handle if a user logs out here. Right now it works
