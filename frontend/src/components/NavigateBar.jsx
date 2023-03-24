@@ -10,7 +10,7 @@ import logo from "./../images/pic10.jpg";
 return (
 <Navbar bg="dark" variant="dark" className="nav">
         <Container>
-          <Navbar.Brand className="nav-title" href="/">
+          <Navbar.Brand className="nav-title">
             <img
               src={logo}
               width="30"

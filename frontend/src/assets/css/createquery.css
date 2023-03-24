@@ -41,8 +41,8 @@
     font-weight: 700;
 
     color: #505050;
-    /* margin: auto; */
-    padding-left: 320px; /*change*/
+    margin: auto;
+    width: 50%;
     padding-top: 20px;
 }
 
