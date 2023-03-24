@@ -134,9 +134,9 @@ const Queries = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="dark" variant="dark" className="nav">
           <Container>
-            <Navbar.Brand href="/">
+            <Navbar.Brand className="nav-title" href="/">
               <img
                 src={logo}
                 width="30"
@@ -146,11 +146,20 @@ const Queries = () => {
               />{" "}
               SCOPE
             </Navbar.Brand>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="queries">Queries</Nav.Link>
-                <Nav.Link href="workspaces">Workspaces</Nav.Link>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            <Navbar.Collapse>
+              <Nav className="flex-grow-1 justify-content-evenly">
+                <Nav.Link href="/" className="nav-elements">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="queries" className="nav-elements">
+                  Queries
+                </Nav.Link>
+                <Nav.Link href="workspaces" className="nav-elements">
+                  Workspaces
+                </Nav.Link>
                 <Container class="ms-auto">
                   {/* <Button type="button" className="login">Hello</Button> */}
 

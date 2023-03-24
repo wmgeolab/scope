@@ -1,0 +1,56 @@
+.login {
+    position: absolute;
+    right: 20px;
+
+    background-color: #368AD8;
+}
+
+.headings3 {
+    padding-top: 40px;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 50px;
+    padding-bottom: 10px;
+}
+
+.centerButtonAlign {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.centerButton {
+    text-align: center;
+
+    background-color: #368AD8;
+}
+
+.table {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.headings {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+.formLabels {
+    /* font-family: 'Montserrat'; */
+    font-weight: 700;
+
+    color: #505050;
+    /* margin: auto; */
+    padding-left: 320px; /*change*/
+    padding-top: 20px;
+}
+
+.formInputs {
+    margin: auto;
+    width: 50%;
+}
+
+.formValidation {
+    padding-left: 320px; /*change*/
+}
