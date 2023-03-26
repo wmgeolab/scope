@@ -12,6 +12,9 @@ logger.info("Transformers version %s", transformers.__version__)
 
 
 class PegasusHandler(BaseHandler):
+    def __init__(self):
+        self.initialized = False
+
     def initialize(self, context):
         properties = context.system_properties
         self.manifest = context.manifest
@@ -78,3 +81,24 @@ class PegasusHandler(BaseHandler):
 
     def postprocess(self, data):
         pass
+
+
+_service = PegasusHandler()
+
+
+def handle(data, context):
+    try:
+        if not _service.initialized:
+            _service.initialize(context)
+
+        if data is None:
+            return None
+
+        data = _service.preprocess(data)
+        data = _service.inference(data)
+        data = _service.postprocess(data)
+
+        return data
+
+    except Exception as e:
+        raise e
