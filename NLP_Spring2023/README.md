@@ -22,7 +22,7 @@ Before the model can be hosted for inference with TorchServe, it must be archive
 1. First execute the `create_checkpoints.py` file to save the pegasus model files as well as the tokenizer files.
 2. Now you can run `torch-model-archiver` to create the archive with the following command.
 
->``` Shell
+``` Shell
 torch-model-archiver --model-name PegasusSummarizer3 --model-file pegasus_model.py --handler PegasusHandler.py --serialized-file model-checkpoint/pytorch_model.bin --extra-files tokenizer-checkpoint/spiece.model,tokenizer-checkpoint/tokenizer_config.json,tokenizer-checkpoint/special_tokens_map.json,model-checkpoint/config.json --export-path torchserve/model_store --version 3.0
 ```
 
