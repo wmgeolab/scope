@@ -82,6 +82,8 @@ class PegasusHandler(BaseHandler):
         try:
             if not self.initialized:
                 self.initialize(context)
+            
+            logger.info(f"Context: {context}")
 
             if data is None:
                 return None
