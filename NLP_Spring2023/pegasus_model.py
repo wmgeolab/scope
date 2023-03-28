@@ -16,10 +16,10 @@ class PegasusModel(nn.Module):
         ).to(self.TORCH_DEVICE)
         
         if save_model_path:
-            torch.save(self.pegasus, save_model_path)
+            self.pegasus.save_pretrained(save_model_path)
         
         if save_tokenizer_path:
-            torch.save(self.tokenizer, save_tokenizer_path)
+            self.tokenizer.save_pretrained(save_tokenizer_path)
 
     def forward(self, x: str):
         """Do forward pass of model"""
