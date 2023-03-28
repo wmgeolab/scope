@@ -50,18 +50,14 @@ class PegasusHandler(BaseHandler):
 
         self.initialied = True
 
-    def preprocess(self, requests):
+    def preprocess(self, text):
         # Unpack Data
-        data = requests[0].get("body")
-        if data is None:
-            data = requests[0].get("data")
-
-        texts = data.get("input")
-        logger.info(f"Received {len(texts)} texts. Begin tokenizing")
+        logger.info(f"Text Received: {text}")
+        logger.info(f"Received {len(text)} texts. Begin tokenizing")
 
         # Tokenize Texts
         tokenized_data = self.tokenizer(
-            texts,
+            text,
             truncation=True,
             padding="longest",
             return_tensors="pt",
@@ -80,25 +76,28 @@ class PegasusHandler(BaseHandler):
         return output
 
     def postprocess(self, data):
-        pass
-
-
-_service = PegasusHandler()
-
-
-def handle(data, context):
-    try:
-        if not _service.initialized:
-            _service.initialize(context)
-
-        if data is None:
-            return None
-
-        data = _service.preprocess(data)
-        data = _service.inference(data)
-        data = _service.postprocess(data)
-
         return data
 
-    except Exception as e:
-        raise e
+    def handle(self, data, context):
+        try:
+            if not self.initialized:
+                self.initialize(context)
+
+            if data is None:
+                return None
+            
+            data_parsed = data[0].get("body")
+            if data_parsed is None:
+                data_parsed = data[0].get("data")
+            
+            if isinstance(data_parsed, (bytes, bytearray)):
+                text = data_parsed.decode("utf-8")
+
+            text = self.preprocess(text)
+            text = self.inference(text)
+            text = self.postprocess(text)
+
+            return text
+
+        except Exception as e:
+            raise e
