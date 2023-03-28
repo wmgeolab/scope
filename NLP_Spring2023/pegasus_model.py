@@ -4,7 +4,7 @@ from transformers import PegasusForConditionalGeneration, PegasusTokenizer
 
 
 class PegasusModel(nn.Module):
-    def __init__(self, save_path=None):
+    def __init__(self, save_model_path=None, save_tokenizer_path=None):
         super(PegasusModel, self).__init__()
 
         self.TORCH_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -14,6 +14,12 @@ class PegasusModel(nn.Module):
         self.pegasus = PegasusForConditionalGeneration.from_pretrained(
             "google/pegasus-multi_news"
         ).to(self.TORCH_DEVICE)
+        
+        if save_model_path:
+            torch.save(self.pegasus, save_model_path)
+        
+        if save_tokenizer_path:
+            torch.save(self.tokenizer, save_tokenizer_path)
 
     def forward(self, x: str):
         """Do forward pass of model"""
