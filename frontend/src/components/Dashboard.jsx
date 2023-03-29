@@ -32,7 +32,7 @@ const Dashboard = () => {
   // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
+
   const [login, setLogin] = useState(false);
 
   useEffect(() => {
@@ -41,7 +41,6 @@ const Dashboard = () => {
     if (loggedInUser) {
       // const foundUser = JSON.parse(loggedInUser);
       setLogin(true);
-      setUser(loggedInUser);
     }
   }, []);
 

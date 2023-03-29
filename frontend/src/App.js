@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Link from 'react-dom';
-import {BrowserRouter, Routes, Route, useNavigate, Navigate} from "react-router-dom";
+import React from "react";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './App.css';
-import LoginGithub from 'react-login-github';
-
-import Login from "./components/Login"; //  can have code here or on different component
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
+import Workspaces from "./components/Workspaces";
 import CreateQuery from "./components/CreateQuery";
+import DisplayArticle from "./components/DisplayArticle";
 import Workspaces from "./components/Workspaces";
 import Individual_Workspaces from "./components/individualWorkspacePage";
 
 function App() {
-  
+
   return (
     <BrowserRouter>
       {/* <Router> */}
@@ -24,8 +22,10 @@ function App() {
            {/* <Route path="/dashboard" render={() => <Dashboard />}/>  */}
             {/* <Route element={<Login />}>    */}
              <Route exact path="/" element={<Dashboard />} />
+            <Route exact path="/workspaces" element={<Workspaces />} />
             <Route exact path="/queries" element={<Queries />} />
             <Route path="/results/:query_id" element={<Results />} />
+            <Route exact path="/display-article/:article_title" element={<DisplayArticle />} />
             <Route path="/workspaces" element={<Workspaces />} />
             <Route path="/workspace/:workspace_name" element={<Individual_Workspaces />} />
             <Route exact path="/create-query" element={<CreateQuery />} />

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Route, useNavigate, useParams } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Checkbox, { checkboxClasses } from "@mui/material/Checkbox";
+import { useNavigate, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -28,11 +25,11 @@ import "../assets/css/results.css";
 const Results = () => {
   //gets the queryName from the URL
   const { query_id } = useParams();
-  const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [checkboxSelection] = React.useState(true);
+  const [count, setCount] = useState(0)
 
   // for the checkbox, add functionality later
   // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -43,14 +40,20 @@ const Results = () => {
       headerName: "Text",
       flex: 1,
       minWidth: 150,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding article that will be displayed
+        return (
+          <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
+        );
+      },
     },
     {
       field: "url",
-      headerName: "URL",
+      headerName: "Article",
       flex: 1,
       minWidth: 150,
       renderCell: (cellValue) => {
-        //cell customization, make the name a link to the corresponding results page
+        //cell customization, add the url to the source/result
         return <a href={cellValue.value}>{cellValue.value}</a>;
       },
     },
@@ -60,10 +63,12 @@ const Results = () => {
     let response = await fetch(
       "http://127.0.0.1:8000/api/sources/" +
         query_id +
+        "/" +
+        (curPage + 1) +
         "/?page=" +
         (curPage + 1),
       {
-        ///results doesn't have anything in the array when printed
+        //results doesn't have anything in the array when printed
         headers: {
           "Content-Type": "application/json",
           Authorization: "Token " + localStorage.getItem("user"),
@@ -72,8 +77,8 @@ const Results = () => {
     );
     let q = await response.json();
 
-    console.log(q);
-    console.log(q[0]);
+    console.log("q", q);
+    console.log("first", q[0]);
     const new_q = [];
     for (let i = 0; i < q.length; i++) {
       var dict = {
@@ -83,11 +88,28 @@ const Results = () => {
       };
       new_q[i] = dict;
     }
-    setRowCount(new_q.length);
-    setPage(curPage);
-    console.log(new_q);
-    console.log(new_q.length);
+    //setRowCount(new_q.length);
+    console.log("new_q", new_q);
+    console.log("length", new_q.length);
+    console.log("page:", curPage);
     setQueryResults(new_q);
+
+    //this is the fetch request to get the source count
+    let countResponse = await fetch(
+      "http://127.0.0.1:8000/api/count/" + query_id + "/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    )
+
+    let x = await countResponse.json()
+    console.log("Source count: ", x)
+
+    setRowCount(x)
+
     return new_q;
   };
 
@@ -97,7 +119,6 @@ const Results = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
     navigate("/");
   };
 
@@ -201,6 +222,7 @@ const Results = () => {
             <Box sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
+                checkboxSelection={checkboxSelection}
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}

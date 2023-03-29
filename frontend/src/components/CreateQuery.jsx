@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoginGithub from "react-login-github";
-import { AlertTitle, Alert } from "@mui/material/";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material/";
 
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
@@ -16,7 +15,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/createquery.css";
 
 const CreateQuery = () => {
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
@@ -30,7 +28,6 @@ const CreateQuery = () => {
     // setUsername("");
     // setPassword("");
     localStorage.clear();
-    setLogin(false);
     navigate("/");
     //  <a href="/dashboard">Dashboard</a>;
   };
@@ -165,7 +162,6 @@ const CreateQuery = () => {
         </Navbar>
         <div id="page-wrapper">
           {/* <!-- Header --> */}
-
           {/* <!-- Highlights --> */}
           {/* <section id="highlights" className="wrapper style3"> */}
           <h2 className="headings">Create Query</h2>

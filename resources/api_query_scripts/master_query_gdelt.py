@@ -83,10 +83,6 @@ def store_in_db():
                         "maxrecords": 5
                     }
                     results = main_query(args)
-<<<<<<< HEAD
-                    print(results)
-=======
->>>>>>> revise_frontend
                     print("Length of results dict: ", len(results))
                     # print(results[0]['articles'])
                     #articles = results[0]['articles']
