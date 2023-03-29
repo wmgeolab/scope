@@ -1,0 +1,35 @@
+.login {
+    position: absolute;
+    right: 20px;
+
+    /* min-height: 40%; */
+    /* height: 15px; */
+    text-align: center;
+
+
+    background-color: #707070;
+    border-color: #707070;
+}
+
+.headings3 {
+    padding-top: 40px;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 50px;
+    padding-bottom: 10px;
+}
+
+.centerButtonAlign {
+    text-align: center;
+}
+
+.centerButton {
+    text-align: center;
+
+    background-color: #368AD8;
+}
+
+.table {
+    padding-left: 50px;
+    padding-right: 50px;
+}

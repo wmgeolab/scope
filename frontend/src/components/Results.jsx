@@ -13,6 +13,15 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
+import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/results.css";
+
 const Results = () => {
   //gets the queryName from the URL
   const { query_id } = useParams();
@@ -155,36 +164,53 @@ const Results = () => {
         <link rel="stylesheet" href="assets/css/main.css" />
         <div id="page-wrapper">
           {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            <button onClick={handleLogout}>Logout</button>{" "}
-            {/*try putting the button in a mui box to move it*/}
-            {/* <!-- Logo --> */}
-            <div id="logo">
-              <h1>SCOPE</h1>
-            </div>
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li>
-                  <a href="/">Dashboard</a>
-                </li>
-                <li className="current">
-                  <a href="/queries">Queries</a>
-                </li>
-                {/* <li>
-                  <a href="/results">Results</a>
-                </li> */}
-                {/* <li><a href='/login'>Login</a></li> */}
-              </ul>
-            </nav>
-          </section>
+          <Navbar bg="dark" variant="dark" className="nav">
+            <Container>
+              <Navbar.Brand className="nav-title">
+                <img
+                  src={logo}
+                  width="30"
+                  height="30"
+                  className="d-inline-block align-top"
+                  alt="Scope logo"
+                />{" "}
+                SCOPE
+              </Navbar.Brand>
+
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+              <Navbar.Collapse>
+                <Nav className="flex-grow-1 justify-content-evenly">
+                  <Nav.Link href="/" className="nav-elements">
+                    Home
+                  </Nav.Link>
+                  {/* /queries or else will go to /results/queries instead */}
+                  <Nav.Link href="/queries" className="nav-elements">
+                    Queries
+                  </Nav.Link>
+                  <Nav.Link href="workspaces" className="nav-elements">
+                    Workspaces
+                  </Nav.Link>
+                  <Container class="ms-auto">
+                    <div style={{ paddingLeft: 100 }}>
+                      <Button
+                        type="button"
+                        className="login"
+                        onClick={handleLogout}
+                        style={{ justifyContent: "right" }}
+                      >
+                        Log Out
+                      </Button>
+                    </div>
+                  </Container>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
 
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
-            <div className="title">Results</div>
+            <h2 className="headings3">Results for []</h2>
 
             <input
               type="text"
@@ -200,19 +226,26 @@ const Results = () => {
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, need to also change in the backend
+                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                checkboxSelection
                 pagination
                 paginationMode="server"
                 components={{
                   Pagination: CustomPagination,
+                  toolbar: {
+                    showQuickFilter: true,
+                       quickFilterProps: { debounceMs: 500 },
+                 },
                 }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
               />
             </Box>
-            <div className="container">
-              {/* <!-- Features --> */}
-              <section id="features">
-                <ul className="actions special"></ul>
+
+            <div>
+              <section id="features" className="centerButtonAlign">
+                <Button href="/" className="centerButton">
+                  Send Selected to Workspace
+                </Button>
               </section>
             </div>
           </section>
