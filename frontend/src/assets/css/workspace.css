@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+
+.screen a {
+    display: contents;
+    text-decoration: none;
+}
+
+.container-center-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    pointer-events: none;
+    width: 100%;
+}
+
+
+.ws_headings {
+    text-align: left;
+    font-weight: bold;
+    padding-top: 32px;
+    padding-bottom: 20px;
+    padding-left: 90px;
+    float:left;
+}
+
+
+.test1 {
+    display: inline;
+}
+.dropdown {
+   margin-left:8.5%;
+   width:25%;   
+}
+
+.table {
+    padding-top: 32px;
+    padding-left:90px;
+}
+
+
+
+.float-parent-element{
+    width:100%;
+    
+}
+.float-element-children{
+    width:75%;
+
+}
+
+.add-new-button{
+   padding-top: 40px;
+   min-width:25%;
+}
+s
+
+.dropDown{
+    float:left;
+}
+.searchBarInput {
+    width: 20%;
+    height: 2.8rem;
+    outline: none;
+    border: none;
+    color:black;
+    border-radius: 1.625rem;
+    padding: 0 3.5rem 0 1.5rem;
+    font-size: 1rem;
+    z-index: 1000;
+    outline: none !important;    
+}
+
+/* Individual Workspace Specific CSS Elements */
+
+.wsHeadingsInternal {
+    text-align: left;
+    font-weight: bold;
+    width:auto;
+    display:inline-block;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+.workspaceSearchInternal {
+    float:right;
+    width:40%;
+}
+
+
+.returnHomeButton {
+
+    padding-bottom: 10%;
+
+}
+
+
+.individualTable {
+    padding-top: 2%;
+}
+
+.customRowContainer{
+    margin-left: 7%;
+    width:92%;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+.fullRowContainer{
+    width:100%;
+    /* outline-color: rgb(48, 46, 46); */
+    float:top;
+}
