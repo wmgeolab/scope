@@ -219,7 +219,6 @@ class ReadSource(viewsets.ModelViewSet):
         url = source[0].url
         response = requests.get(url)
         response.encoding = 'UTF-8'
-        print("encoding", response.encoding)
         doc = Document(response.text)
         plain_text = doc.summary()
         plain_text = regex.sub('<[^<]+?>', '', plain_text)
