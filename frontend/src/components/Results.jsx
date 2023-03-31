@@ -129,12 +129,12 @@ const Results = () => {
           Authorization: "Token " + localStorage.getItem("user"),
         },
       }
-    )
+    );
 
-    let x = await countResponse.json()
-    console.log("Source count: ", x)
+    let x = await countResponse.json();
+    console.log("Source count: ", x);
 
-    setRowCount(x)
+    setRowCount(x);
 
     return new_q;
   };
