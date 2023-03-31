@@ -22,11 +22,38 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
 
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Search } from "react-bootstrap-icons";
+import filter from "./../images/icons/filtering_queries.png";
+
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const navigate = useNavigate();
   const [rowCount, setRowCount] = useState(0);
-  const [checkboxSelection] = React.useState(true);
+  const [filt, setFilt] = useState([]);
+  var textInput = React.createRef();
+
+  const handleChange = () => {
+    const value = textInput.current.value;
+  };
+
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
+    setFilt([
+      {
+        columnField: "name",
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
+  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -153,10 +180,10 @@ const Queries = () => {
                 <Nav.Link href="/" className="nav-elements">
                   Home
                 </Nav.Link>
-                <Nav.Link href="queries" className="nav-elements">
+                <Nav.Link href="/queries" className="nav-elements">
                   Queries
                 </Nav.Link>
-                <Nav.Link href="workspaces" className="nav-elements">
+                <Nav.Link href="/workspaces" className="nav-elements">
                   Workspaces
                 </Nav.Link>
                 <Container class="ms-auto">
@@ -178,40 +205,24 @@ const Queries = () => {
           </Container>
         </Navbar>
 
-        {/* <link rel="stylesheet" href="assets/css/table.css" /> */}
-        {/* <link rel="stylesheet" href="assets/css/main.css" /> */}
-
-        {/* <div id="page-wrapper"> */}
-        {/* <!-- Header --> */}
-        {/* <section id="header" className="wrapper"> */}
-        {/* <button onClick={handleLogout}>Logout</button> */}
-        {/* <!-- Logo --> */}
-        {/* <div id="logo">
-              <h1>
-                <a>SCOPE</a>
-              </h1>
-            </div> */}
-
-        {/* <!-- Nav --> */}
-        {/* <nav id="nav">
-              <ul> */}
-        {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-        {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-        {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-        {/* <li>
-                  <a href="/">Dashboard</a>
-                </li>
-                <li className="current">
-                  <a href="/queries">Queries</a>
-                </li> */}
-        {/* <li><a href='/login'>Login</a></li> */}
-        {/* </ul>
-            </nav> */}
-        {/* </section> */}
-
-        {/* <!-- Main --> */}
-        {/* <section id="main" className="wrapper style2"> */}
         <h2 className="headings3">Queries</h2>
+
+        <div className="querySearch">
+          {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+          <Form onSubmit={onSubmitSearch}>
+            <InputGroup>
+              <InputGroup.Text>
+                <Search></Search>
+              </InputGroup.Text>
+              <Form.Control
+                placeholder="Search Queries"
+                ref={textInput}
+                onChange={() => handleChange()}
+                type="text"
+              />
+            </InputGroup>
+          </Form>
+        </div>
 
         <Box className="table" sx={{ height: 400, width: "100%" }}>
           <DataGrid
@@ -227,9 +238,12 @@ const Queries = () => {
               Pagination: CustomPagination,
             }}
             onPageChange={(newPage) => handleSubmit(newPage)}
+            filterModel={{
+              items: filt,
+            }}
           />
         </Box>
-        {/* {console.log(queries)} */}
+
         <div>
           {/* <!-- Features --> */}
           <section id="features" className="centerButtonAlign">

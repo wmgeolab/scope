@@ -16,8 +16,11 @@
     text-align: left;
     font-weight: bold;
     padding-left: 50px;
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
+    /* width: 30%;
+    float: left; */
 }
+
 
 .centerButtonAlign {
     text-align: center;
@@ -31,5 +34,13 @@
 
 .table {
     padding-left: 50px;
+    padding-right: 50px;
+    /* clear: both; */
+}
+
+.querySearch {
+    width: 30%;
+    float: right;
+    padding-top: 40px;
     padding-right: 50px;
 }

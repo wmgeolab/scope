@@ -13,6 +13,7 @@
     padding-left: 10px;
 }
 
+/* NavBar */
 .nav-title {
   font-weight: bold;
 }
@@ -21,20 +22,30 @@
   margin-left: 50px;
 
   color: #fff;
-  font-weight: lighter
+  /* font-weight: lighter */
 }
 
-.login {
-    position: absolute;
-    right: 20px;
+/* delete */
+.centerLogin {
+    /* position: absolute;
+    right: 20px; */
 
-    /* min-height: 40%; */
-    /* height: 15px; */
     text-align: center;
+}
 
+.btn-login {
+  color: #FFFFFF;
+  background-color: #7E8F9E;
+  font-weight: lighter;
 
-    background-color: #707070;
-    border-color: #707070;
+  position: absolute;
+  right: 20px;
+
+  /* line-height: 100%; */
+
+  /* text-align: center; */
+
+  width: 10%;
 }
 
 .footnote {
@@ -78,13 +89,9 @@
   padding-right: 10px;
 }
 
-.nav {
-  
-}
-
-html {
+/* html {
   width: 100vw;
-}
+} */
 
 /* <div id="page-wrapper"> */
 

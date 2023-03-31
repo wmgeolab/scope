@@ -95,12 +95,12 @@ const Dashboard = () => {
 
       <Navbar bg="dark" variant="dark" className="nav">
         <Container>
-          <Navbar.Brand className="nav-title" href="/">
+          <Navbar.Brand className="nav-title">
             <img
               src={logo}
               width="30"
               height="30"
-              className="d-inline-block align-top"
+              className="d-inline-block align-top padding"
               alt="Scope logo"
             />{" "}
             SCOPE
@@ -111,13 +111,14 @@ const Dashboard = () => {
           <Navbar.Collapse>
             <Nav className="flex-grow-1 justify-content-evenly">
               <Nav.Link href="/" className="nav-elements">Home</Nav.Link>
-              <Nav.Link href="queries" className="nav-elements">Queries</Nav.Link>
-              <Nav.Link href="workspaces" className="nav-elements">Workspaces</Nav.Link>
+              <Nav.Link href="/queries" className="nav-elements">Queries</Nav.Link>
+              <Nav.Link href="/workspaces" className="nav-elements">Workspaces</Nav.Link>
               <Container class="ms-auto">
                 {login ? (
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
+                      // variant='login'
                       className="login"
                       onClick={handleLogout}
                       style={{ justifyContent: "right" }}

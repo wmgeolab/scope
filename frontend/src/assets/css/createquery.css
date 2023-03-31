@@ -46,6 +46,27 @@
     padding-top: 20px;
 }
 
+.formLabels2 {
+    /* font-family: 'Montserrat'; */
+    font-weight: 700;
+
+    color: #505050;
+    margin: auto;
+    width: 50%;
+    padding-top: 20px;
+}
+
+/* .formLabelsReq::after {
+    content: "*";
+    color:#DD0B0B;
+    
+    font-weight: 700;
+    margin: auto;
+    width: 50%;
+    padding-top: 20px;
+} */
+
+
 .formInputs {
     margin: auto;
     width: 50%;

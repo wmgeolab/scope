@@ -11,6 +11,9 @@
     font-weight: bold;
     padding-left: 50px;
     padding-bottom: 10px;
+    
+    width: 30%;
+    float: left;
 }
 
 .centerButtonAlign {
@@ -26,6 +29,14 @@
 
 .table {
     padding-left: 50px;
+    padding-right: 50px;
+    clear: both;
+}
+
+.resultSearch {
+    width: 30%;
+    float: right;
+    padding-top: 40px;
     padding-right: 50px;
 }
 

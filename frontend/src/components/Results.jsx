@@ -22,14 +22,40 @@ import logo from "./../images/pic10.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/results.css";
 
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Search } from "react-bootstrap-icons";
+import filter from "./../images/icons/filtering_queries.png";
+
+
 const Results = () => {
   //gets the queryName from the URL
   const { query_id } = useParams();
   const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
   const navigate = useNavigate();
-  const [checkboxSelection] = React.useState(true);
-  const [count, setCount] = useState(0)
+  const [filt, setFilt] = useState([]);
+  var textInput = React.createRef();
+
+  const handleChange = () => {
+    const value = textInput.current.value;
+  };
+
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    setFilt([
+      {
+        columnField: "text",
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
+  };
 
   // for the checkbox, add functionality later
   // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -188,7 +214,7 @@ const Results = () => {
                   <Nav.Link href="/queries" className="nav-elements">
                     Queries
                   </Nav.Link>
-                  <Nav.Link href="workspaces" className="nav-elements">
+                  <Nav.Link href="/workspaces" className="nav-elements">
                     Workspaces
                   </Nav.Link>
                   <Container class="ms-auto">
@@ -212,32 +238,45 @@ const Results = () => {
           <section id="main" className="wrapper style2">
             <h2 className="headings3">Results for []</h2>
 
-            <input
-              type="text"
-              id="search"
-              onkeyup="myFunction()"
-              placeholder="Search results.."
-            />
+            <div className="resultSearch">
+              {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+              <Form onSubmit={onSubmitSearch}>
+                <InputGroup>
+                  <InputGroup.Text>
+                    <Search></Search>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Search Results"
+                    ref={textInput}
+                    onChange={() => handleChange()}
+                    type="text"
+                  />
+                </InputGroup>
+              </Form>
+            </div>
 
-            <Box sx={{ height: 400, width: "100%" }}>
+            <Box className="table" sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
-                checkboxSelection={checkboxSelection}
+                // checkboxSelection={checkboxSelection}
+                checkboxSelection
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}
                 pageSize={5} //change this to change number of queries displayed per page, but should make backend
-                checkboxSelection
                 pagination
                 paginationMode="server"
                 components={{
                   Pagination: CustomPagination,
                   toolbar: {
                     showQuickFilter: true,
-                       quickFilterProps: { debounceMs: 500 },
-                 },
+                    quickFilterProps: { debounceMs: 500 },
+                  },
                 }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
+                filterModel={{
+                  items: filt,
+                }}
               />
             </Box>
 
