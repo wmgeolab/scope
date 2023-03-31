@@ -29,7 +29,7 @@ const Results = () => {
   const [queryResults, setQueryResults] = useState([]);
   const navigate = useNavigate();
   const [checkboxSelection] = React.useState(true);
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   // for the checkbox, add functionality later
   // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -103,12 +103,12 @@ const Results = () => {
           Authorization: "Token " + localStorage.getItem("user"),
         },
       }
-    )
+    );
 
-    let x = await countResponse.json()
-    console.log("Source count: ", x)
+    let x = await countResponse.json();
+    console.log("Source count: ", x);
 
-    setRowCount(x)
+    setRowCount(x);
 
     return new_q;
   };
@@ -227,15 +227,14 @@ const Results = () => {
                 rowCount={rowCount}
                 columns={columns}
                 pageSize={5} //change this to change number of queries displayed per page, but should make backend
-                checkboxSelection
                 pagination
                 paginationMode="server"
                 components={{
                   Pagination: CustomPagination,
                   toolbar: {
                     showQuickFilter: true,
-                       quickFilterProps: { debounceMs: 500 },
-                 },
+                    quickFilterProps: { debounceMs: 500 },
+                  },
                 }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
               />
