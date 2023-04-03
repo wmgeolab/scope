@@ -136,3 +136,6 @@ api.txt
 frontend/package-lock.json
 frontend/yarn.lock
 db_config.cnf
+
+# IDES
+.idea
