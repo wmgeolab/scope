@@ -1,3 +1,9 @@
+"""LUKE Finetuning Script
+
+This script is for funetuning the LUKE transformer model to answer questions with the Stanford SQUAD dataset.
+"""
+
+
 import torch
 from transformers import LukeForQuestionAnswering, AutoTokenizer, Trainer, TrainingArguments
 from datasets import load_dataset
