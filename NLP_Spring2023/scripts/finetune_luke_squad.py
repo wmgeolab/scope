@@ -2,11 +2,13 @@
 
 This script is for fine-tuning the LUKE transformer model to answer questions with the Stanford SQUAD dataset.
 """
-
+from functools import partial
 
 import torch
-from transformers import LukeConfig, LukeForQuestionAnswering, AutoTokenizer, Trainer, TrainingArguments
+from transformers import LukeConfig, LukeForQuestionAnswering, AutoTokenizer, Trainer, TrainingArguments, PreTrainedTokenizerFast
 from datasets import load_dataset
+
+# from NLP_Spring2023.models.luke_qa_model import LukeModel
 
 
 def create_trainer(model, args: TrainingArguments, train_dataset, eval_dataset, tokenizer, data_collator):
@@ -20,15 +22,15 @@ def create_trainer(model, args: TrainingArguments, train_dataset, eval_dataset, 
         tokenizer=tokenizer,
         data_collator=data_collator
     )
-    
-    
+
+
 def get_luke_model_config():
     pass
 
 
 def get_training_arguments(output_dir=None):
     """Returns the training arguments for finetuning LUKE as specified in the paper."""
-    
+
     return TrainingArguments(
         output_dir="qa_model_default" if not output_dir else output_dir,
         evaluation_strategy="epoch",
@@ -43,16 +45,15 @@ def get_training_arguments(output_dir=None):
         max_grad_norm=1e100,
         lr_scheduler_type='linear',
         warmup_ratio=0.06,
+        report_to=["wandb"],
     )
 
 
 def get_train_eval_datasets(train_eval_split=0.2):
-    squad = load_dataset("squad", split="train")
-    # squad = squad.train_test_split(test_size=train_eval_split)
-    
-    print(f"Squad Object: {squad}")
-    
-    # print(f"First example in dataset: \n {squad['train'][0]}")
+    squad_train = load_dataset("squad", split="train")
+    squad_val = load_dataset("squad", split="validation")
+
+    return squad_train, squad_val
 
 
 def preprocess_function(examples, tokenizer):
@@ -113,12 +114,29 @@ def preprocess_function(examples, tokenizer):
     return inputs
 
 
+def preprocess_squad(dataset, tokenizer):
+    func = partial(preprocess_function, tokenizer=tokenizer)
+
+    return dataset.map(func, batched=True, remove_columns=dataset.column_names)
+
+
 def train_model():
     pass
 
 
 if __name__ == "__main__":
-    arguments = get_training_arguments()
-    
-    get_train_eval_datasets()
-    
+    #LukeModel = LukeModel()
+    #arguments = get_training_arguments()
+
+    LukeTokenizer = AutoTokenizer.from_pretrained("studio-ousia/luke-base", use_fast=True)
+    LukeTokenizer = PreTrainedTokenizerFast(LukeTokenizer)
+    train_dataset, eval_dataset = get_train_eval_datasets()
+
+    print(f"Squad_train Object: {train_dataset}")
+    print(f"Squad_val Object: {eval_dataset}")
+
+    tokenized_train = preprocess_squad(train_dataset, LukeTokenizer)
+
+    print(f"Tokenized_train: {tokenized_train}")
+
+    #get_train_eval_datasets()
