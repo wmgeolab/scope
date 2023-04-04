@@ -5,8 +5,9 @@ This script is for funetuning the LUKE transformer model to answer questions wit
 
 
 import torch
-from transformers import LukeForQuestionAnswering, AutoTokenizer, Trainer, TrainingArguments
+from transformers import LukeConfig, LukeForQuestionAnswering, AutoTokenizer, Trainer, TrainingArguments
 from datasets import load_dataset
+
 
 def create_trainer(model, args: TrainingArguments, train_dataset, eval_dataset, tokenizer, data_collator):
     """Creates a Trainer object based on training arguments, datasets, tokenizer and data collator."""
@@ -19,6 +20,11 @@ def create_trainer(model, args: TrainingArguments, train_dataset, eval_dataset, 
         tokenizer=tokenizer,
         data_collator=data_collator
     )
+    
+    
+def get_luke_model_config():
+    pass
+
 
 def get_training_arguments(output_dir=None):
     """Returns the training arguments for finetuning LUKE as specified in the paper."""
@@ -34,19 +40,25 @@ def get_training_arguments(output_dir=None):
         adam_beta1=0.9,
         adam_beta2=0.98,
         adam_epsilon=1e-6,
-        max_grad_norm=None,
+        max_grad_norm=1e100,
         lr_scheduler_type='linear',
-        warmup_ratio=0.06,   
+        warmup_ratio=0.06,
     )
-    
+
+
 def get_train_eval_datasets(train_eval_split=0.2):
     squad = load_dataset("squad", split="train[:5000]")
     squad = squad.train_test_split(test_size=train_eval_split)
     
     print(f"First example in dataset: \n {squad['train'][0]}")
-    
+
+
+def train_model():
+    pass
+
+
 if __name__ == "__main__":
-    args = get_training_arguments()
+    arguments = get_training_arguments()
     
     get_train_eval_datasets()
     
