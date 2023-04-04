@@ -1,6 +1,6 @@
-"""LUKE Finetuning Script
+"""LUKE Fine-tuning Script
 
-This script is for funetuning the LUKE transformer model to answer questions with the Stanford SQUAD dataset.
+This script is for fine-tuning the LUKE transformer model to answer questions with the Stanford SQUAD dataset.
 """
 
 
@@ -47,10 +47,70 @@ def get_training_arguments(output_dir=None):
 
 
 def get_train_eval_datasets(train_eval_split=0.2):
-    squad = load_dataset("squad", split="train[:5000]")
-    squad = squad.train_test_split(test_size=train_eval_split)
+    squad = load_dataset("squad", split="train")
+    # squad = squad.train_test_split(test_size=train_eval_split)
     
-    print(f"First example in dataset: \n {squad['train'][0]}")
+    print(f"Squad Object: {squad}")
+    
+    # print(f"First example in dataset: \n {squad['train'][0]}")
+
+
+def preprocess_function(examples, tokenizer):
+    """Preprocess Function from Huggingface Question Answering Guide
+
+    Specifically made to be used with SQUAD
+    """
+
+    questions = [q.strip() for q in examples["question"]]
+    inputs = tokenizer(
+        questions,
+        examples["context"],
+        max_length=384,
+        truncation="only_second",
+        return_offsets_mapping=True,
+        padding="max_length",
+    )
+
+    offset_mapping = inputs.pop("offset_mapping")
+    answers = examples["answers"]
+    start_positions = []
+    end_positions = []
+
+    for i, offset in enumerate(offset_mapping):
+        answer = answers[i]
+        start_char = answer["answer_start"][0]
+        end_char = answer["answer_start"][0] + len(answer["text"][0])
+        sequence_ids = inputs.sequence_ids(i)
+
+        # Find the start and end of the context
+        idx = 0
+        while sequence_ids[idx] != 1:
+            idx += 1
+        context_start = idx
+        while sequence_ids[idx] == 1:
+            idx += 1
+        context_end = idx - 1
+
+        # If the answer is not fully inside the context, label it (0, 0)
+        if offset[context_start][0] > end_char or offset[context_end][1] < start_char:
+            start_positions.append(0)
+            end_positions.append(0)
+        else:
+            # Otherwise it's the start and end token positions
+            idx = context_start
+            while idx <= context_end and offset[idx][0] <= start_char:
+                idx += 1
+            start_positions.append(idx - 1)
+
+            idx = context_end
+            while idx >= context_start and offset[idx][1] >= end_char:
+                idx -= 1
+            end_positions.append(idx + 1)
+
+    inputs["start_positions"] = start_positions
+    inputs["end_positions"] = end_positions
+
+    return inputs
 
 
 def train_model():
