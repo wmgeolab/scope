@@ -1,24 +1,23 @@
-.login {
+/* .login {
     position: absolute;
-    right: 20px;
+    right: 20px; */
 
     /* min-height: 40%; */
     /* height: 15px; */
-    text-align: center;
+    /* text-align: center;
 
 
     background-color: #707070;
     border-color: #707070;
-}
+} */
 
 .headings3 {
     padding-top: 40px;
-    text-align: left;
+    /* text-align: left; */
     font-weight: bold;
     padding-left: 50px;
     /* padding-bottom: 10px; */
-    /* width: 30%;
-    float: left; */
+    /* float: left; */
 }
 
 
@@ -43,4 +42,26 @@
     float: right;
     padding-top: 40px;
     padding-right: 50px;
+}
+
+.querySelect {
+    margin-right: 0;
+    position:absolute;
+}
+
+.queryWrapper {
+    width: 40%;
+    margin: 0;
+  /* position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%); */
+}
+
+.headerWrapper {
+    width: 20%;
+}
+
+.topper {
+    position: relative;
 }

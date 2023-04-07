@@ -1,16 +1,14 @@
 /*put the colors somewhere */
 .header {
-    text-align: center;
-    padding: 100px 0;
+  text-align: center;
+  padding: 100px 0;
 
-    color: #fff;
-    font-weight: bold;
-    
-    
+  color: #fff;
+  font-weight: bold;
 }
 
 .title {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 /* NavBar */
@@ -18,7 +16,7 @@
   font-weight: bold;
 }
 
-.nav-elements{
+.nav-elements {
   margin-left: 50px;
 
   color: #fff;
@@ -27,15 +25,15 @@
 
 /* delete */
 .centerLogin {
-    /* position: absolute;
+  /* position: absolute;
     right: 20px; */
 
-    text-align: center;
+  text-align: center;
 }
 
-.btn-login {
-  color: #FFFFFF;
-  background-color: #7E8F9E;
+.btn-logout {
+  color: #ffffff;
+  background-color: #7e8f9e;
   font-weight: lighter;
 
   position: absolute;
@@ -49,55 +47,74 @@
 }
 
 .footnote {
-    /* display: inline-block; */
-    width: 100%;
-    height: 40px;
-    bottom: 0;
-    /* background: rgb(207, 207, 207); */
+  /* display: inline-block; */
+  width: 100%;
+  height: 40px;
+  bottom: 0;
+  /* background: rgb(207, 207, 207); */
 
-    text-align: center;
-    color: #c4c3c3;
-    padding: 8px 0;
-    /* font-weight: bold; */
-  }
+  text-align: center;
+  color: #c4c3c3;
+  padding: 8px 0;
+  /* font-weight: bold; */
+}
 
 .headings {
-    text-align: center;
-    font-weight: bold;
-    padding-top: 40px;
-    padding-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
 .headings2 {
-    text-align: left;
-    font-weight: bold;
-    padding-left: 100px;
+  text-align: left;
+  font-weight: bold;
+  padding-left: 100px;
 }
 
 .paragraphs {
-    padding-left: 100px;
-    padding-right: 100px;
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
 .paragraphs_end {
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-bottom: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
 }
 
 .icon {
   padding-right: 10px;
 }
 
+.moduleLogin {
+  color: #ffffff;
+  background-color: #368AD8;
+  font-weight: lighter;
+
+  position: absolute;
+  right: 20px;
+
+  border-radius: 15%;
+
+  height: 70%;
+/* #0a5acd */
+  background: linear-gradient(#368AD8, rgb(10 90 205/40%)) top/100% 800%;
+  transition: 0.5s;
+}
+
+.moduleLogin:hover {
+  background-position: bottom;
+}
 /* html {
   width: 100vw;
 } */
 
 /* <div id="page-wrapper"> */
 
-        /* <section id="header" className="wrapper"> */
+/* <section id="header" className="wrapper"> */
 
-          /* <div id="logo" style={{ margin: -100 }}>
+/* <div id="logo" style={{ margin: -100 }}>
             <h1>
               <a>SCOPE</a>
             </h1>
@@ -135,7 +152,7 @@
           </div>
         </section> */
 
-        /* <section id="intro" className="wrapper style1">
+/* <section id="intro" className="wrapper style1">
           <div className="title">About</div>
           <div className="container">
             <p className="style2">

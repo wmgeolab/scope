@@ -35,6 +35,7 @@ const Results = () => {
   const navigate = useNavigate();
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
+  const [queryName, setQueryName] = useState("");
 
   const handleChange = () => {
     const value = textInput.current.value;
@@ -138,8 +139,30 @@ const Results = () => {
     return new_q;
   };
 
+  const handleTitle = async (curPage) => {
+    console.log("handlesubmit:", curPage);
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
+    console.log(response);
+    console.log("user", localStorage.getItem("user"));
+    let q = await response.json();
+
+    var result = Array.isArray(q.results) ? q.results.find(item => item.id === Number(query_id)): -1;
+    setQueryName(result.name);
+
+    // console.log("curpage", curPage);
+    };
+
   useEffect(() => {
     handleSubmit(0);
+    handleTitle(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
@@ -235,7 +258,7 @@ const Results = () => {
 
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
-            <h2 className="headings3">Results for []</h2>
+            <h2 className="headings3">Results for {queryName}</h2>
 
             <div className="resultSearch">
               {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}

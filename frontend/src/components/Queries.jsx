@@ -26,6 +26,10 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import filter from "./../images/icons/filtering_queries.png";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+import Row from "react-bootstrap/Row";
 
 const Queries = () => {
   const [queries, setQueries] = useState([]);
@@ -33,6 +37,8 @@ const Queries = () => {
   const [rowCount, setRowCount] = useState(0);
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
+  var [dropDownValue, setDropDownValue] = useState("Name");
+
 
   const handleChange = () => {
     const value = textInput.current.value;
@@ -48,7 +54,7 @@ const Queries = () => {
     // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
     setFilt([
       {
-        columnField: "name",
+        columnField: dropDownValue.toLowerCase(),
         operatorValue: "contains",
         value: textInput.current.value,
       },
@@ -205,7 +211,29 @@ const Queries = () => {
           </Container>
         </Navbar>
 
+        <Row className="topper">
+          <div className="headerWrapper">
         <h2 className="headings3">Queries</h2>
+        </div>
+
+        <div className="queryWrapper">
+        <DropdownButton
+          id="dropdown-basic-button"
+          title={dropDownValue}
+          // style={{ float: "right", marginRight: "0px" }}
+          // className="querySelect"
+        >
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Name
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Description
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Keywords
+          </Dropdown.Item>
+        </DropdownButton>
+        </div>
 
         <div className="querySearch">
           {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
@@ -223,6 +251,8 @@ const Queries = () => {
             </InputGroup>
           </Form>
         </div>
+        </Row>
+        
 
         <Box className="table" sx={{ height: 400, width: "100%" }}>
           <DataGrid
