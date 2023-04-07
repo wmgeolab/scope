@@ -22,8 +22,7 @@ def get_training_arguments(output_dir=None):
         output_dir="qa_model_default" if not output_dir else output_dir,
         evaluation_strategy="epoch",
         learning_rate=1e-5,
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=16,
+        auto_find_batch_size=True,
         num_train_epochs=3,
         weight_decay=0.01,
         adam_beta1=0.9,
@@ -34,6 +33,9 @@ def get_training_arguments(output_dir=None):
         warmup_ratio=0.06,
         report_to=["wandb"],
     )
+
+    # per_device_train_batch_size = 16,
+    # per_device_eval_batch_size = 16,
 
 
 def preprocess_function(examples, tokenizer):
@@ -91,8 +93,8 @@ def preprocess_function(examples, tokenizer):
 def initialize_wandb():
     login()
     init(
-        project="Luke-Question-Answering",
-        name="TestRun0",
+        project="XLNet FineTuning",
+        name="HomePcRun1",
     )
 
 
@@ -111,7 +113,8 @@ if __name__ == "__main__":
 
     # Load Model
     model = AutoModelForQuestionAnswering.from_pretrained(model_name)
-
+    
+    initialize_wandb()
     training_args = get_training_arguments()
 
     trainer_object = Trainer(
