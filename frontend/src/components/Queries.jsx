@@ -16,7 +16,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/queries.css";
 
-import { Button } from "react-bootstrap";
+import { Col, Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -38,7 +38,6 @@ const Queries = () => {
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   var [dropDownValue, setDropDownValue] = useState("Name");
-
 
   const handleChange = () => {
     const value = textInput.current.value;
@@ -213,10 +212,10 @@ const Queries = () => {
 
         <Row className="topper">
           <div className="headerWrapper">
-        <h2 className="headings3">Queries</h2>
-        </div>
+            <h2 className="headings3">Queries</h2>
+          </div>
 
-        <div className="queryWrapper">
+          {/* <div className="queryWrapper">
         <DropdownButton
           id="dropdown-basic-button"
           title={dropDownValue}
@@ -233,26 +232,69 @@ const Queries = () => {
             Keywords
           </Dropdown.Item>
         </DropdownButton>
-        </div>
+        </div> */}
 
-        <div className="querySearch">
+          {/* <div className="querySearch"> */}
           {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
-          <Form onSubmit={onSubmitSearch}>
-            <InputGroup>
-              <InputGroup.Text>
-                <Search></Search>
-              </InputGroup.Text>
-              <Form.Control
-                placeholder="Search Queries"
-                ref={textInput}
-                onChange={() => handleChange()}
-                type="text"
-              />
-            </InputGroup>
-          </Form>
-        </div>
+          {/* <Form onSubmit={onSubmitSearch}>
+              <InputGroup>
+                <InputGroup.Text>
+                  <Search></Search>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="Search Queries"
+                  ref={textInput}
+                  onChange={() => handleChange()}
+                  type="text"
+                />
+              </InputGroup>
+            </Form>
+          </div> */}
+          <div className="customRowContainer">
+            {/* Column for Dropdown Menu */}
+            {/* TODO:
+                Make it so the text changes.
+                Implement filtering based on user. */}
+            {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
+                    <Button 
+                    variant="light" 
+                    type="text"
+                    > */}
+
+            {/* Column for Search Bar    */}
+            <div className="querySearch">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValue}
+                style={{ justifyContent: "center", marginRight: "0px" }}
+                // className="querySelect"
+              >
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Name
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Description
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Keywords
+                </Dropdown.Item>
+              </DropdownButton>
+              <Form onSubmit={onSubmitSearch}>
+                <InputGroup>
+                  <InputGroup.Text>
+                    <Search></Search>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Search Queries"
+                    ref={textInput}
+                    onChange={() => handleChange()}
+                    type="text"
+                  />
+                </InputGroup>
+              </Form>
+            </div>
+          </div>
         </Row>
-        
 
         <Box className="table" sx={{ height: 400, width: "100%" }}>
           <DataGrid

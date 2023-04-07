@@ -46,11 +46,13 @@ const CreateQuery = () => {
       var data = {
         name: document.getElementById("nameID").value,
         description: document.getElementById("descriptionID").value,
-        keywords: [document.getElementById("primaryID").value, document.getElementById("secondaryID").value],
+        keywords: [
+          document.getElementById("primaryID").value,
+          document.getElementById("secondaryID").value,
+        ],
       };
 
       console.log(data);
-
 
       fetch("http://127.0.0.1:8000/api/queries/", {
         //submitting a query
@@ -66,44 +68,6 @@ const CreateQuery = () => {
 
     setValidated(true);
   };
-
-  function submitQuery(e) {
-    e.preventDefault();
-    // Create the Post Request with the parameters
-    let queryName = document.getElementById("queryName").value;
-    let queryDescription = document.getElementById("queryDescription").value;
-    let primaryKeyword = document.getElementById("primaryKeyword").value;
-    let secondaryKeywords = document.getElementById("secondaryKeywords").value;
-
-    //if one of the fields is blank, don't submit to database/don't let the submission work
-    //need to figure out how to add pop up easily
-    if (
-      queryName == false ||
-      queryDescription == false ||
-      primaryKeyword == false ||
-      secondaryKeywords == false
-    ) {
-      setError(true);
-    } else {
-      var data = {
-        name: queryName,
-        description: queryDescription,
-        keywords: [primaryKeyword, secondaryKeywords],
-      };
-
-      fetch("http://127.0.0.1:8000/api/queries/", {
-        //submitting a query
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
-        body: JSON.stringify(data),
-      });
-      navigate("/queries/");
-    }
-    //  setError(false);
-  }
 
   if (localStorage.getItem("user") === null) {
     // fix?
