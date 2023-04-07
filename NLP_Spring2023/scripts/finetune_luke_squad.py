@@ -4,29 +4,15 @@ This script is for fine-tuning the LUKE transformer model to answer questions wi
 """
 from functools import partial
 
-from transformers import LukeForQuestionAnswering, AutoTokenizer, Trainer, TrainingArguments
+from transformers import (
+    AutoTokenizer,
+    Trainer,
+    TrainingArguments,
+    AutoModelForQuestionAnswering,
+    DefaultDataCollator,
+)
 from datasets import load_dataset
 from wandb import login, init
-from torch.nn import CrossEntropyLoss
-from transformers.data.processors.squad import SquadV1Processor
-from transformers import squad_convert_examples_to_features
-
-
-def create_trainer(model, args: TrainingArguments, train_dataset, eval_dataset, tokenizer, data_collator):
-    """Creates a Trainer object based on training arguments, datasets, tokenizer and data collator."""
-    
-    return Trainer(
-        model=model,
-        args=args,
-        train_dataset=train_dataset,
-        eval_dataset=eval_dataset,
-        tokenizer=tokenizer,
-        data_collator=data_collator
-    )
-
-
-def get_luke_model_config():
-    pass
 
 
 def get_training_arguments(output_dir=None):
@@ -44,88 +30,89 @@ def get_training_arguments(output_dir=None):
         adam_beta2=0.98,
         adam_epsilon=1e-6,
         max_grad_norm=1e100,
-        lr_scheduler_type='linear',
+        lr_scheduler_type="linear",
         warmup_ratio=0.06,
         report_to=["wandb"],
     )
 
 
-# Tokenize the input data
-def tokenize_function(examples, tokenizer):
-    return tokenizer(
-        examples["question"],
+def preprocess_function(examples, tokenizer):
+    questions = [q.strip() for q in examples["question"]]
+    inputs = tokenizer(
+        questions,
         examples["context"],
+        max_length=384,
         truncation="only_second",
-        max_length=512,
+        return_offsets_mapping=True,
         padding="max_length",
     )
 
+    offset_mapping = inputs.pop("offset_mapping")
+    answers = examples["answers"]
+    start_positions = []
+    end_positions = []
 
-def compute_loss(model, inputs):
-    start_positions = inputs.pop("start_positions")
-    end_positions = inputs.pop("end_positions")
-    outputs = model(**inputs)
-    start_logits, end_logits = outputs.start_logits, outputs.end_logits
-    ce_loss_fct = CrossEntropyLoss()
-    start_loss = ce_loss_fct(start_logits, start_positions)
-    end_loss = ce_loss_fct(end_logits, end_positions)
-    total_loss = (start_loss + end_loss) / 2
-    return total_loss
+    for i, offset in enumerate(offset_mapping):
+        answer = answers[i]
+        start_char = answer["answer_start"][0]
+        end_char = answer["answer_start"][0] + len(answer["text"][0])
+        sequence_ids = inputs.sequence_ids(i)
+
+        # Find the start and end of the context
+        idx = 0
+        while sequence_ids[idx] != 1:
+            idx += 1
+        context_start = idx
+        while sequence_ids[idx] == 1:
+            idx += 1
+        context_end = idx - 1
+
+        # If the answer is not fully inside the context, label it (0, 0)
+        if offset[context_start][0] > end_char or offset[context_end][1] < start_char:
+            start_positions.append(0)
+            end_positions.append(0)
+        else:
+            # Otherwise it's the start and end token positions
+            idx = context_start
+            while idx <= context_end and offset[idx][0] <= start_char:
+                idx += 1
+            start_positions.append(idx - 1)
+
+            idx = context_end
+            while idx >= context_start and offset[idx][1] >= end_char:
+                idx -= 1
+            end_positions.append(idx + 1)
+
+    inputs["start_positions"] = start_positions
+    inputs["end_positions"] = end_positions
+    return inputs
 
 
 if __name__ == "__main__":
-    LukeTokenizer = AutoTokenizer.from_pretrained("studio-ousia/luke-base")
+    model_name = ""
 
-    processor = SquadV1Processor()
-
+    # Load Squad Dataset
     squad = load_dataset("squad")
 
-    squad.set_format("torch")
+    # Get tokenizer and preprocess data
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
+    preprocessor = partial(preprocess_function, tokenizer=tokenizer)
+    tokenized_squad = squad.map(
+        preprocessor, batched=True, remove_columns=squad["train"].column_names
+    )
 
-    train_features = processor.get_examples_from_dataset(squad)
+    # Load Model
+    model = AutoModelForQuestionAnswering(model_name)
 
-    print(f"Train Features: {train_features}")
+    training_args = get_training_arguments()
 
-    tokenize = partial(tokenize_function, tokenizer=LukeTokenizer)
+    trainer_object = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_squad["train"],
+        eval_dataset=tokenized_squad["test"],  # Might not be called test
+        tokenizer=tokenizer,
+        data_collator=DefaultDataCollator(),
+    )
 
-    # train_dataset = train_dataset.map(tokenize, batched=True)
-    # eval_dataset = eval_dataset.map(tokenize, batched=True)
-    #
-    # print(f"Squad: {train_dataset}")
-    # print(f"Answers: {train_dataset['answers'][0]}")
-    # print(f"Context: {train_dataset['context'][0]}")
-    # print(f"Question: {train_dataset['question'][0]}")
-
-    # # Weights and Biases Integration
-    # login()
-    # init(
-    #     project="Luke-Question-Answering",
-    #     name="TestRun0",
-    # )
-    #
-    # training_args = get_training_arguments()
-    # trainer = Trainer(
-    #     model=LukeModel,
-    #     args=training_args,
-    #     compute_loss=compute_loss,
-    #     eval_dataset=eval_dataset,
-    #     train_dataset=train_dataset,
-    # )
-    #
-    # trainer.train()
-
-
-
-
-
-    # training_args = get_training_arguments(output_dir="Test1")
-    # trainer_object = create_trainer(
-    #     model=LukeForQuestionAnswering.from_pretrained("studio-ousia/luke-base"),
-    #     args=training_args,
-    #     train_dataset=squad["train"],
-    #     eval_dataset=squad["validation"],
-    #     data_collator=DefaultDataCollator(),
-    #     tokenizer=LukeTokenizer
-    # )
-    #
-    # trainer_object.train()
+    trainer_object.train()
