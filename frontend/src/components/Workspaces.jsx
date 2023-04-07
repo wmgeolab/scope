@@ -23,7 +23,6 @@ import Paper from '@mui/material/Paper';
 
 
 const fake_data = [
-
     {   
         id:0,
         wsOwner:"user1",
@@ -110,29 +109,12 @@ const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(0.5),
 }));
   
-const [chipData, setChipData] = React.useState([
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-]);
+const handleClickChip = () => {
+    
+};
 
-const test1 = [
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-];
+const handleDeleteChip = (tagToDelete) => {
 
-const test2 = [
-    { key: 0, label: 'hi' },
-    { key: 1, label: 'bye' },
-];
-
-const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
 };
 
 const columns = [
@@ -161,35 +143,42 @@ const columns = [
         flex:1,
         // renderCell: renderTags
         renderCell: (params) => {
-            
-            if(params.formattedValue != null) {
-                // console.log(params.formattedValue.split(","))
+            if(params.formattedValue == null) {
+                params = []
+            }
+            else {
                 params = params.formattedValue.split(",")
-                return <Paper elevation={0}
-                    sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    listStyle: 'none',
-                    p: 0.5,
-                    m: 0,
-                    backgroundColor: 'transparent'
-                    }}
-                    component="ul"
-                >
-                    
-                    {params.map((params) => {
-                        return (
+            }
+                
+            return <Paper elevation={0}
+                sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                listStyle: 'none',
+                p: 0.5,
+                m: 0,
+                backgroundColor: 'transparent'
+                }}
+                component="ul"
+            >
+                
+                {params.map((params) => {
+                    return (
                         <ListItem key={params}>
                         <Chip
                             label={params}
-                            // onDelete={handleDelete(chipData)}
+                            onDelete={handleDeleteChip(params)}
                         />
                         </ListItem>
+                        
                     );
-                    })}
-                </Paper>
-            }
+                })}
+                <ListItem>
+                    <Chip label="+" onClick={handleClickChip} />
+                </ListItem>
+                
+            </Paper>
         }
     }
 
