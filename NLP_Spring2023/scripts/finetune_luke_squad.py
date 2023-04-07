@@ -88,8 +88,16 @@ def preprocess_function(examples, tokenizer):
     return inputs
 
 
+def initialize_wandb():
+    login()
+    init(
+        project="Luke-Question-Answering",
+        name="TestRun0",
+    )
+
+
 if __name__ == "__main__":
-    model_name = ""
+    model_name = "xlnet-base-cased"
 
     # Load Squad Dataset
     squad = load_dataset("squad")
@@ -102,7 +110,7 @@ if __name__ == "__main__":
     )
 
     # Load Model
-    model = AutoModelForQuestionAnswering(model_name)
+    model = AutoModelForQuestionAnswering.from_pretrained(model_name)
 
     training_args = get_training_arguments()
 
@@ -110,7 +118,7 @@ if __name__ == "__main__":
         model=model,
         args=training_args,
         train_dataset=tokenized_squad["train"],
-        eval_dataset=tokenized_squad["test"],  # Might not be called test
+        eval_dataset=tokenized_squad["validation"],  # Might not be called test
         tokenizer=tokenizer,
         data_collator=DefaultDataCollator(),
     )
