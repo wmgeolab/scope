@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.10.10",
     "@mui/x-data-grid": "^5.17.9",
+    "@syncfusion/ej2-react-buttons": "^21.1.37",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
