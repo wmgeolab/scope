@@ -32,7 +32,7 @@ def rank(primary_kw, secondary_kws, queryset):
     return sorted_list
 
 
-# docs = ["Ukraine war", "Syrian war war", "No more w*r", "Peace", "Coronavirus"]
+docs = ["Ukraine war", "Syrian war war", "No more w*r", "Peace", "Coronavirus"]
 
-# search = rank("war", ["coronavirus", "peace"], docs)
-# print(search)
+search = rank("war", ["coronavirus", "peace"], docs)
+print(search)
