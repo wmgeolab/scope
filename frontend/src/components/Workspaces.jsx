@@ -1,14 +1,11 @@
 import React, { useState, setState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoginGithub from "react-login-github";
-import { AlertTitle, Alert, Input } from "@mui/material/";
+import { useNavigate } from "react-router-dom";
 
 import { Col, Container, Row } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 import logo from "./../images/pic10.jpg";
-import stars from "./../images/stars3.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/workspace.css";
 import { DataGrid } from "@mui/x-data-grid";
@@ -80,11 +77,9 @@ const columns = [
 const Workspaces = () => {
   // Used for the filtering model with the external search bar and the data grid.
   const [filt, setFilt] = useState([]);
-  const [user, setUser] = useState("");
-  const [login, setLogin] = useState(false);
-  var input;
   var textInput = React.createRef();
   var [dropDownValue, setValue] = useState("All Workspaces");
+  const navigate = useNavigate();
 
   const setFilter = (test) => {
     //console.log(this.input.value);
@@ -102,7 +97,7 @@ const Workspaces = () => {
   // Right now this is pretty janky as theres no set log out page or anything.
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
+    navigate("/");
   };
 
   // Used to continuously keep track of what is in the search bar.
@@ -134,12 +129,15 @@ const Workspaces = () => {
   };
 
   if (localStorage.getItem("user") === null) {
+    // fix?
     return (
       <div>
-        <h1> 401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
+        <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
         your access, please return to the <a href="/">dashboard</a> to log in
+        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
+    // alert("Please log in")
   } else {
     return (
       <div>
