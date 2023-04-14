@@ -105,3 +105,15 @@ Whenever you have made changes to any of the data models in `models.py`, you wil
 
 If all goes well, whatever changes you made locally in `models.py` will be reflected in the external MySQL database shared by everyone. 
 
+## Possible Errors and Fixes
+
+### Backend Fixes
+
+```
+NameError: name '_mysql' is not defined
+```
+If you run into this error, it could be that certain packages are incompatible on your machine. I was able to fix it by running
+
+```
+pip install mysqlclient==1.4.6
+```
