@@ -4,9 +4,9 @@ import './App.css';
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
+import Workspaces from "./components/Workspaces";
 import CreateQuery from "./components/CreateQuery";
 import DisplayArticle from "./components/DisplayArticle";
-import Workspaces from "./components/Workspaces";
 import Individual_Workspaces from "./components/individualWorkspacePage";
 
 function App() {

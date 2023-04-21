@@ -17,9 +17,11 @@ import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
-import { styled } from "@mui/material/styles";
-import Chip from "@mui/material/Chip";
-import Paper from "@mui/material/Paper";
+import { styled } from '@mui/material/styles';
+import Chip from '@mui/material/Chip';
+import Paper from '@mui/material/Paper';  
+
+import Modal from 'react-bootstrap/Modal';
 
 const fake_data = [
   {

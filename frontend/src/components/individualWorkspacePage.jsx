@@ -20,6 +20,7 @@ import { Button } from "react-bootstrap";
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Search } from 'react-bootstrap-icons';
 import { GridToolbar } from '@mui/x-data-grid';
+import Modal from 'react-bootstrap/Modal';
 
 
 
@@ -78,6 +79,7 @@ const columns = [
 
 ];
 
+
 const Individual_Workspaces = () => {
 
     const {workspace_name} = useParams();
@@ -91,14 +93,25 @@ var input;
 var textInput = React.createRef(); 
 var [dropDownValue,setValue] = useState('All Workspaces');
 
+const [show, setShow] = useState(false);
+const [copied, setCopied] = useState(false);
 
+const handleClose = () => {
+    setShow(false);
+};
+
+const handleShow = () => {
+    setShow(true);
+};
+
+
+const handleCopyClick = (params) => {
+    navigator.clipboard.writeText(params);
+    setCopied(true);
+};
 
 
 const setFilter = (test) => {
-    //console.log(this.input.value);
-    //console.log("????");
-    // this works
-    //console.log(test.target.text);
     setValue(test.target.text);
 }
 
@@ -292,15 +305,29 @@ if (localStorage.getItem("user") === null) {
         {/* New row for add new workspace button. */}
         <Row className = "text-center">
             <div className ="add-new-button">
-                <Button href="#/new_workspace_page">Share Workspace</Button>
+                <Button onClick={handleShow}>Share Workspace</Button>
             </div>    
         </Row> 
 
         
-
-
         
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>Share Workspace Link</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div>
+                {"http://localhost:3000/workspace/" + workspace_name}
+                </div>
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+                <Button variant="primary" onClick={() => handleCopyClick("http://localhost:3000/workspace/" + workspace_name)}>
+                    Copy Link to Clipboard
+                </Button>
+            </Modal.Footer>
+        </Modal>    
         </Container>
+        
 
 
     </div>

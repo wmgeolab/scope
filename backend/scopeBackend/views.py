@@ -27,14 +27,7 @@ import requests
 from readability import Document
 import regex
 
-import json
 
-
-# try running the algorithm in views:
-
-# from backend.scopeBackend import serializers
-
-# Create your views here.
 
 
 class UserView(viewsets.ModelViewSet):

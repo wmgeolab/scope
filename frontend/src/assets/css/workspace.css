@@ -53,7 +53,6 @@
    padding-top: 40px;
    min-width:25%;
 }
-s
 
 .dropDown{
     float:left;
@@ -108,4 +107,10 @@ s
     width:100%;
     /* outline-color: rgb(48, 46, 46); */
     float:top;
+}
+
+
+.modalText {
+
+    justify-content: center;
 }
