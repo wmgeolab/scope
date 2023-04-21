@@ -89,6 +89,10 @@ const Results = () => {
       minWidth: 150,
       renderCell: (cellValue) => {
         //cell customization, make the name a link to the corresponding article that will be displayed
+
+        // Cell value id -> article id #
+        // Cell Value Value -> Article title to be displayed.
+        
         return (
           <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
         );
