@@ -19,7 +19,8 @@ import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';  
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import Modal from 'react-bootstrap/Modal';
 
@@ -122,6 +123,7 @@ const Workspaces = () => {
   };
 
 
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
 
@@ -146,46 +148,53 @@ const Workspaces = () => {
     },
 
     {
-      field: "wsTags",
-      headerName: "Tags",
-      flex: 1,
-      // renderCell: renderTags
-      renderCell: (params) => {
-        if (params.formattedValue == null) {
-          params = [];
-        } else {
-          params = params.formattedValue.split(",");
-        }
+        field: 'wsTags',
+        headerName:"Tags",
+        flex:1,
+        // renderCell: renderTags
+        renderCell: (tag_list) => {
+            if(tag_list.formattedValue == null) {
+                tag_list = []
+            }
+            else {
+                tag_list = tag_list.formattedValue.split(",")
+            }
 
-        return (
-          <Paper
-            elevation={0}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              listStyle: "none",
-              p: 0.5,
-              m: 0,
-              backgroundColor: "transparent",
-            }}
-            component="ul"
-          >
-            {params.map((params) => {
-              return (
-                <ListItem key={params}>
-                  <Chip label={params} onDelete={handleDeleteChip(params)} />
-                </ListItem>
-              );
-            })}
-            <ListItem>
-              <Chip label="+" onClick={handleClickChip} />
-            </ListItem>
-          </Paper>
-        );
-      },
-    },
-  ];
+            console.log(tag_list)
+
+            return (
+              <Autocomplete
+                multiple
+                id="tags-filled"
+                options={[]}
+                defaultValue={tag_list}
+                freeSolo
+                fullWidth
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip 
+                      // variant="outlined" 
+                      label={option}
+                      color="primary"
+                      {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="standard"
+                    // InputProps={{ disableUnderline: true }}
+                    label=""
+                    placeholder="Add Tags"
+                  />
+                )}
+              />
+            )
+        }
+    }
+
+];
+
 
   if (localStorage.getItem("user") === null) {
     // fix?
