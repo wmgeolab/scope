@@ -15,7 +15,6 @@
     padding-top: 40px;
     /* text-align: left; */
     font-weight: bold;
-    padding-left: 50px;
     /* padding-bottom: 10px; */
     /* float: left; */
 }
@@ -42,6 +41,7 @@
     float: right;
     padding-top: 40px;
     padding-right: 50px;
+    padding-left: 0px;
 }
 
 .querySelect {
@@ -60,7 +60,9 @@
 }
 
 .headerWrapper {
-    width: 20%;
+    width: 30%;
+    padding-left: 50px;
+    clear: both;
 }
 
 .topper {

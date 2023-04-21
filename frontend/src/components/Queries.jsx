@@ -215,28 +215,28 @@ const Queries = () => {
             <h2 className="headings3">Queries</h2>
           </div>
 
-          {/* <div className="queryWrapper">
-        <DropdownButton
-          id="dropdown-basic-button"
-          title={dropDownValue}
-          // style={{ float: "right", marginRight: "0px" }}
-          // className="querySelect"
-        >
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Name
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Description
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Keywords
-          </Dropdown.Item>
-        </DropdownButton>
-        </div> */}
+          <div className="queryWrapper">
+            <DropdownButton
+              id="dropdown-basic-button"
+              title={dropDownValue}
+              style={{ float: "right", marginRight: "0px", paddingTop: "40px", marginLeft: "50px"}}
+              // className="querySelect"
+            >
+              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                Name
+              </Dropdown.Item>
+              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                Description
+              </Dropdown.Item>
+              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                Keywords
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
 
-          {/* <div className="querySearch"> */}
-          {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
-          {/* <Form onSubmit={onSubmitSearch}>
+          <div className="querySearch">
+            {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+            <Form onSubmit={onSubmitSearch}>
               <InputGroup>
                 <InputGroup.Text>
                   <Search></Search>
@@ -249,50 +249,6 @@ const Queries = () => {
                 />
               </InputGroup>
             </Form>
-          </div> */}
-          <div className="customRowContainer">
-            {/* Column for Dropdown Menu */}
-            {/* TODO:
-                Make it so the text changes.
-                Implement filtering based on user. */}
-            {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
-                    <Button 
-                    variant="light" 
-                    type="text"
-                    > */}
-
-            {/* Column for Search Bar    */}
-            <div className="querySearch">
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={dropDownValue}
-                style={{ justifyContent: "center", marginRight: "0px" }}
-                // className="querySelect"
-              >
-                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                  Name
-                </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                  Description
-                </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                  Keywords
-                </Dropdown.Item>
-              </DropdownButton>
-              <Form onSubmit={onSubmitSearch}>
-                <InputGroup>
-                  <InputGroup.Text>
-                    <Search></Search>
-                  </InputGroup.Text>
-                  <Form.Control
-                    placeholder="Search Queries"
-                    ref={textInput}
-                    onChange={() => handleChange()}
-                    type="text"
-                  />
-                </InputGroup>
-              </Form>
-            </div>
           </div>
         </Row>
 
