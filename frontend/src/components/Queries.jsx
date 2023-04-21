@@ -39,7 +39,6 @@ const Queries = () => {
   var textInput = React.createRef();
   var [dropDownValue, setDropDownValue] = useState("Name");
 
-
   const handleChange = () => {
     const value = textInput.current.value;
   };
@@ -213,46 +212,45 @@ const Queries = () => {
 
         <Row className="topper">
           <div className="headerWrapper">
-        <h2 className="headings3">Queries</h2>
-        </div>
+            <h2 className="headings3">Queries</h2>
+          </div>
 
-        <div className="queryWrapper">
-        <DropdownButton
-          id="dropdown-basic-button"
-          title={dropDownValue}
-          // style={{ float: "right", marginRight: "0px" }}
-          // className="querySelect"
-        >
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Name
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Description
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Keywords
-          </Dropdown.Item>
-        </DropdownButton>
-        </div>
+          <div className="queryWrapper">
+            <DropdownButton
+              id="dropdown-basic-button"
+              title={dropDownValue}
+              style={{ float: "right", marginRight: "0px", paddingTop: "40px", marginLeft: "50px"}}
+              // className="querySelect"
+            >
+              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                Name
+              </Dropdown.Item>
+              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                Description
+              </Dropdown.Item>
+              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                Keywords
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
 
-        <div className="querySearch">
-          {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
-          <Form onSubmit={onSubmitSearch}>
-            <InputGroup>
-              <InputGroup.Text>
-                <Search></Search>
-              </InputGroup.Text>
-              <Form.Control
-                placeholder="Search Queries"
-                ref={textInput}
-                onChange={() => handleChange()}
-                type="text"
-              />
-            </InputGroup>
-          </Form>
-        </div>
+          <div className="querySearch">
+            {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+            <Form onSubmit={onSubmitSearch}>
+              <InputGroup>
+                <InputGroup.Text>
+                  <Search></Search>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="Search Queries"
+                  ref={textInput}
+                  onChange={() => handleChange()}
+                  type="text"
+                />
+              </InputGroup>
+            </Form>
+          </div>
         </Row>
-        
 
         <Box className="table" sx={{ height: 400, width: "100%" }}>
           <DataGrid

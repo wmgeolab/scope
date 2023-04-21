@@ -22,10 +22,12 @@ import logo from "./../images/pic10.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/results.css";
 
-import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import filter from "./../images/icons/filtering_queries.png";
+
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 const Results = () => {
   //gets the queryName from the URL
@@ -36,6 +38,25 @@ const Results = () => {
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   const [queryName, setQueryName] = useState("");
+
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [selectedWorkspace, setSelectedWorkspace] =
+    useState(1);
+
+  const [dropClicked, setDropClicked] = useState(false);
+
+  var listCheck = React.createRef();
+
+
+//   listCheck.onClick = function(evt) {
+//   if (listCheck.classList.contains('visible'))
+//     listCheck.classList.remove('visible');
+//   else
+//     listCheck.classList.add('visible');
+// }
 
   const handleChange = () => {
     const value = textInput.current.value;
@@ -154,11 +175,13 @@ const Results = () => {
     console.log("user", localStorage.getItem("user"));
     let q = await response.json();
 
-    var result = Array.isArray(q.results) ? q.results.find(item => item.id === Number(query_id)): -1;
+    var result = Array.isArray(q.results)
+      ? q.results.find((item) => item.id === Number(query_id))
+      : -1;
     setQueryName(result.name);
 
     // console.log("curpage", curPage);
-    };
+  };
 
   useEffect(() => {
     handleSubmit(0);
@@ -277,6 +300,86 @@ const Results = () => {
               </Form>
             </div>
 
+            <div id="list1" className="dropdown-check-list" ref={listCheck} tabindex="100" >
+  <span className="anchor" /*{false ? "anchor" : "anchor-selected"}*/ onClick={() => {dropClicked ? setDropClicked(false) : setDropClicked(true)}} style={dropClicked ? {color: "#0094ff"} : {}}>Select Fruits</span>
+  <ul class="items" style={dropClicked ? {display: "block"} : {}}>
+    <li><input type="checkbox" />Apple </li>
+    <li><input type="checkbox" />Orange</li>
+    <li><input type="checkbox" />Grapes </li>
+    <li><input type="checkbox" />Berry </li>
+    <li><input type="checkbox" />Mango </li>
+    <li><input type="checkbox" />Banana </li>
+    <li><input type="checkbox" />Tomato</li>
+  </ul>
+</div>
+
+            {/* <div>
+        <DropdownButton
+          title="Location"
+        >
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            US
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            China
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Russia
+          </Dropdown.Item>
+        </DropdownButton>
+        </div> */}
+        {/* <DropdownButton
+          id="dropdown-basic-button"
+          title="Language"
+        >
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            English
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Chinese
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Russian
+          </Dropdown.Item>
+        </DropdownButton>
+        <DropdownButton
+          id="dropdown-basic-button"
+          title="Date Range"
+        >
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            China
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            US
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Russia
+          </Dropdown.Item>
+        </DropdownButton>
+        </div> */}
+
+        {/*We want:
+        - button is just a static title,
+        - dropdown has checklist to select multiple */}
+
+        {/* <Form.Control
+          as="select"
+          aria-label="Options"
+          name="type"
+          size="sm"
+          onChange={(e) => {
+            console.log("e.target.value", e.target.value);
+            // handleOptionChange(e, index);
+          }}
+          // value={}
+        >
+          <option value="operation">Operation</option>
+          <option value="inputoutput">Input/Output</option>
+          <option value="subroutine">Subroutine</option>
+          <option value="condition">Condition</option>
+          <option value="parallel">Parallel</option>
+        </Form.Control> */}
+
             <Box className="table" sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
@@ -296,6 +399,15 @@ const Results = () => {
                   },
                 }}
                 onPageChange={(newPage) => handleSubmit(newPage)}
+                onSelectionModelChange={(ids) => {
+                  const selectedIDs = new Set(ids);
+                  const selectedRows = queryResults.filter((row) =>
+                    selectedIDs.has(row.id)
+                  );
+
+                  setSelectedRows(selectedRows);
+                  console.log("check", selectedRows);
+                }}
                 filterModel={{
                   items: filt,
                 }}
@@ -304,11 +416,40 @@ const Results = () => {
 
             <div>
               <section id="features" className="centerButtonAlign">
-                <Button href="/" className="centerButton">
+                <Button className="centerButton" onClick={handleShow}>
                   Send Selected to Workspace
                 </Button>
               </section>
             </div>
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Send to Workspace</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p>Choose a Workspace:</p>
+                <Form.Select
+                  aria-label="Default select example"
+                  value={selectedWorkspace}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setSelectedWorkspace(e.target.value);
+                  }}
+                >
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={handleClose}>
+                  Send Selected to Workspace
+                </Button>
+                <Button variant="secondary" onClick={handleClose}>
+                  Cancel
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </section>
         </div>
 
