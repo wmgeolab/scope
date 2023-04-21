@@ -17,47 +17,43 @@ import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
-import { styled } from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';
-
+import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import Paper from "@mui/material/Paper";
 
 const fake_data = [
-
-    {   
-        id:0,
-        wsOwner:"user1",
-        wsName:"My Workspace 1",
-        wsTags:"Argentina"
-    },
-    {
-        id: 1,
-        wsOwner:"user2",
-        wsName:"My Workspace 2"
-    },
-    {
-        id: 2,
-        wsOwner:"user3",
-        wsName:"My Workspace 3",
-        wsTags: "please,help"
-    },
-    {
-        id: 3,
-        wsOwner:"user4",
-        wsName:"My Workspace 4",
-        wsTags:"Ukraine"
-    }
+  {
+    id: 0,
+    wsOwner: "user1",
+    wsName: "My Workspace 1",
+    wsTags: "Argentina",
+  },
+  {
+    id: 1,
+    wsOwner: "user2",
+    wsName: "My Workspace 2",
+  },
+  {
+    id: 2,
+    wsOwner: "user3",
+    wsName: "My Workspace 3",
+    wsTags: "please,help",
+  },
+  {
+    id: 3,
+    wsOwner: "user4",
+    wsName: "My Workspace 4",
+    wsTags: "Ukraine",
+  },
 ];
 
 const Workspaces = () => {
-
-// Used for the filtering model with the external search bar and the data grid.
-const [filt, setFilt] = useState([]);
-const navigate = useNavigate();
-var textInput = React.createRef(); 
-var [dropDownValue,setValue] = useState('All Workspaces');
-
-
+  // Used for the filtering model with the external search bar and the data grid.
+  const [filt, setFilt] = useState([]);
+  const navigate = useNavigate();
+  var textInput = React.createRef();
+  var [dropDownValue, setValue] = useState("All Workspaces");
+  var [dropDownValueSearch, setDropDownValueSearch] = useState("Owner");
   const setFilter = (test) => {
     //console.log(this.input.value);
     //console.log("????");
@@ -97,104 +93,87 @@ var [dropDownValue,setValue] = useState('All Workspaces');
 
     // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
     setFilt([
-        {
-          columnField: "wsName",
-          operatorValue: "contains",
-          value: textInput.current.value
-        }
-       ])
-};
+      {
+        columnField: "wsName",
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
+  };
 
-// consts for chips (tags)
-const ListItem = styled('li')(({ theme }) => ({
+  // consts for chips (tags)
+  const ListItem = styled("li")(({ theme }) => ({
     margin: theme.spacing(0.5),
-}));
-  
-const [chipData, setChipData] = React.useState([
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-]);
+  }));
 
-const test1 = [
-    { key: 0, label: 'Angular' },
-    { key: 1, label: 'jQuery' },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-];
+  const handleClickChip = () => {};
 
-const test2 = [
-    { key: 0, label: 'hi' },
-    { key: 1, label: 'bye' },
-];
+  const handleDeleteChip = (tagToDelete) => {};
 
-const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-};
-
-const columns = [
-
-    {field: 'id', headerName:'ID', width:90},
+  const columns = [
+    { field: "id", headerName: "ID", width: 90 },
 
     {
-        field: 'wsOwner',
-        headerName:"Owner",
-        width:150,
+      field: "wsOwner",
+      headerName: "Owner",
+      width: 150,
     },
 
     {
-        field: 'wsName',
-        headerName:"Name",
-        width:250,
-        renderCell: (cellValue) => {
-            //cell customization, make the name a link to the corresponding results page
-            return <a href={"/workspace/" + cellValue.formattedValue}>{cellValue.formattedValue}</a>;
-          }
+      field: "wsName",
+      headerName: "Name",
+      width: 250,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding results page
+        return (
+          <a href={"/workspace/" + cellValue.formattedValue}>
+            {cellValue.formattedValue}
+          </a>
+        );
+      },
     },
 
     {
-        field: 'wsTags',
-        headerName:"Tags",
-        flex:1,
-        // renderCell: renderTags
-        renderCell: (params) => {
-            
-            if(params.formattedValue != null) {
-                // console.log(params.formattedValue.split(","))
-                params = params.formattedValue.split(",")
-                return <Paper elevation={0}
-                    sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    listStyle: 'none',
-                    p: 0.5,
-                    m: 0,
-                    backgroundColor: 'transparent'
-                    }}
-                    component="ul"
-                >
-                    
-                    {params.map((params) => {
-                        return (
-                        <ListItem key={params}>
-                        <Chip
-                            label={params}
-                            // onDelete={handleDelete(chipData)}
-                        />
-                        </ListItem>
-                    );
-                    })}
-                </Paper>
-            }
+      field: "wsTags",
+      headerName: "Tags",
+      flex: 1,
+      // renderCell: renderTags
+      renderCell: (params) => {
+        if (params.formattedValue == null) {
+          params = [];
+        } else {
+          params = params.formattedValue.split(",");
         }
-    }
 
-];
-
+        return (
+          <Paper
+            elevation={0}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              listStyle: "none",
+              p: 0.5,
+              m: 0,
+              backgroundColor: "transparent",
+            }}
+            component="ul"
+          >
+            {params.map((params) => {
+              return (
+                <ListItem key={params}>
+                  <Chip label={params} onDelete={handleDeleteChip(params)} />
+                </ListItem>
+              );
+            })}
+            <ListItem>
+              <Chip label="+" onClick={handleClickChip} />
+            </ListItem>
+          </Paper>
+        );
+      },
+    },
+  ];
 
   if (localStorage.getItem("user") === null) {
     // fix?
@@ -302,6 +281,28 @@ const columns = [
                 {/* Column for Search Bar    */}
                 <Col>
                   <div className="workspaceSearchInternal">
+                    <DropdownButton
+                      id="dropdown-basic-button"
+                      title={dropDownValueSearch}
+                      style={{}}
+                      // className="querySelect"
+                    >
+                      <Dropdown.Item
+                        onClick={(e) => setDropDownValueSearch(e.target.text)}
+                      >
+                        Owner
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={(e) => setDropDownValueSearch(e.target.text)}
+                      >
+                        Name
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={(e) => setDropDownValueSearch(e.target.text)}
+                      >
+                        Tags
+                      </Dropdown.Item>
+                    </DropdownButton>
                     <Form onSubmit={onSubmitSearch}>
                       <InputGroup>
                         <InputGroup.Text>

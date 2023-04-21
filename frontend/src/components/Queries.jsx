@@ -16,7 +16,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/queries.css";
 
-import { Button } from "react-bootstrap";
+import { Col, Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
