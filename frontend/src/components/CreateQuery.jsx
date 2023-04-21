@@ -146,7 +146,7 @@ const CreateQuery = () => {
               Please provide a query name.
             </Form.Control.Feedback>
 
-            <Form.Label className="formLabels">Description</Form.Label>
+            <Form.Label className="formLabels">Description *</Form.Label>
             <Form.Control
               type="text"
               placeholder=""
@@ -156,7 +156,11 @@ const CreateQuery = () => {
               onChange={(e) => {
                 setQueryDescription(e.target.value);
               }}
+              required
             />
+            <Form.Control.Feedback type="invalid" className="formValidation">
+              Please provide a description.
+            </Form.Control.Feedback>
 
             <Form.Label className="formLabels">
               Primary Keyword (only 1) *
@@ -176,7 +180,7 @@ const CreateQuery = () => {
               Please provide a keyword.
             </Form.Control.Feedback>
 
-            <Form.Label className="formLabels">Secondary Keyword(s)</Form.Label>
+            <Form.Label className="formLabels">Secondary Keyword(s) *</Form.Label>
             <Form.Control
               type="text"
               placeholder=""
@@ -186,7 +190,11 @@ const CreateQuery = () => {
               onChange={(e) => {
                 setSecondary(e.target.value);
               }}
+              required
             />
+            <Form.Control.Feedback type="invalid" className="formValidation">
+              Please provide secondary keyword(s).
+            </Form.Control.Feedback>
             <div className="centerButtonAlign">
               <Button
                 variant="primary"
