@@ -70,7 +70,7 @@ const columns = [
         flex: 1,
         renderCell: (cellValue) => {
             //cell customization, make the name a link to the corresponding results page
-            ///console.log(cellValue);
+            ///console.log(cellValue);mm
             return <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>;
           }
     },

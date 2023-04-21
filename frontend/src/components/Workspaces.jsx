@@ -109,6 +109,16 @@ const Workspaces = () => {
   const handleClickChip = () => {};
 
   const handleDeleteChip = (tagToDelete) => {};
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+      setShow(false);
+  };
+
+  const handleShow = () => {
+      setShow(true);
+  };
+
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -349,11 +359,27 @@ const Workspaces = () => {
           </Container>
 
           {/* New row for add new workspace button. */}
-          <Row className="text-center">
-            <div className="add-new-button">
-              <Button href="#/new_workspace_page">Add New Workspace</Button>
+        <Row className = "text-center">
+            <div className ="add-new-button">
+                <Button onClick={handleShow}>Add New Workspace</Button>
             </div>
           </Row>
+
+        
+        
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>Add New Workspace</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form.Control type="email" placeholder="Enter Workspace Name" />
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+                <Button variant="primary" onClick={handleClose}>
+                    Create New Workspace
+                </Button>
+            </Modal.Footer>
+        </Modal>
         </Container>
       </div>
     );
