@@ -45,10 +45,10 @@ def store_in_db():
     # with open(os.path.join(os.getcwd(), 'db.txt')) as f:
     #     lines = f.readlines()
     conn = mysql.connector.connect(
-        user=os.environ.get("SCOPE_USER"),
-        password=os.environ.get("SCOPE_PASSWORD"),
-        host=os.environ.get("SCOPE_HOST"),
-        db=os.environ.get("SCOPE_DB")
+        user="scopesql",
+        password="hmR!Pkmnrrr!q8x",
+        host="mysql.scopedata.org",
+        db="scopesql"
     )
     cursor = conn.cursor()
 
