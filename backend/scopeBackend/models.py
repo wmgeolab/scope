@@ -88,3 +88,6 @@ class WorkspaceMembers(models.Model):
 class WorkspaceEntries(models.Model):
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.id
