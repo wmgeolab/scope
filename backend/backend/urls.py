@@ -27,6 +27,7 @@ router.register(r'queries', views.QueryView, 'Queries')
 router.register(r'run', views.RunView, 'Run')
 router.register(r'results', views.ResultView, 'Results')
 router.register(r'sources', views.SourceView, 'Sources')
+router.register(r'workspaces', views.WorkspaceView, 'Workspaces')
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),

@@ -15,13 +15,44 @@ The SCOPE data collection 2GZM demo website is implemented in a Python web frame
 
 ### Backend Setup
 
-Setting up the website on your local computer is fairly easy: 
+1. Install Python 3, if you haven't already done so:
+    - For Windows: Download and run the [Python 3.11.2 installer](https://www.python.org/ftp/python/3.11.2/python-3.11.2.exe).
+    - For macOS: Download and run the [Python 3.11.2 installer](https://www.python.org/ftp/python/3.11.2/python-3.11.2-macos11.pkg).
 
-1. Install Python 3 (if you don't already have it). 
-2. Install the dependencies. First follow the instructions [here](# Follow the instructions here before installing mysqlclient: https://pypi.org/project/mysqlclient/) to install database-related dependencies. Then do `pip install -r 'path/to/scope/requirements.txt'`.
-3. Clone/copy this repository to your local computer. As a collaborator, you should have access to view and make changes to this repository in your GitHub account. Open GitHub Desktop, and in the top menu choose `File -> Clone Repository -> scope`. 
-4. Make note of the local path where you copied the `scope` project folder, this is the folder you'll be working in. 
-5. Connect to the website database. The website connects to an external MySQL database and requires the database login credentials to be stored in a file called `db_config.cnf`. Contact @joegenius98 to get access to this file, and save it in the top-level project folder. 
+2. Install Git, if you haven't already done so:
+    - For Windows: Download and run the [Git 2.39.2 installer](https://github.com/git-for-windows/git/releases/download/v2.39.2.windows.1/Git-2.39.2-32-bit.exe).
+    - For macOS: Git should already be installed on your system. If not, run `brew install git` to install.
+
+3. Once Python and Git are installed, open a command prompt or terminal and run the following commands to verify the installations:
+```console
+python3 --version
+git --version
+```
+
+4. Clone the repository by running the following in your console:
+```console
+git clone https://github.com/wmgeolab/scope.git
+```
+
+5. Install the dependencies. If you're on Windows, download and install the [MariaDB Connector/C library](https://dlm.mariadb.com/2862617/Connectors/c/connector-c-3.3.4/mariadb-connector-c-3.3.4-win32.msi). Once you've installed the library, open a command prompt and navigate to the root of this repository (the main folder for the project). Then, type this command and press Enter:
+
+
+	- Windows: 
+	 ```console
+	 pip install mariadb
+	 ```
+	- MacOS:
+	 ```console
+	 brew install mysql
+	 ```
+
+6. Make note of the local path where you copied the `scope` project folder, this is the folder you'll be working in. Personally, I like to keep my coding projects in the `Documents` folder. 
+7. Connect to the website database. The website connects to an external MySQL database and requires the database login credentials to be stored in a file called `db_config.cnf`. Contact @joegenius98 to get access to this file, and save it in the top-level project folder. 
+
+To run the backend server:
+1. Change your directory to the [`backend`](backend) folder
+2. `python manage.py runserver`
+3. Note: Both frontend and backend servers must be running to make queries.
 
 That should be all you need to work on developing and testing the website codebase. 
 
@@ -59,7 +90,7 @@ The `scope` project folder contains all the files and folders needed to make the
 
 Before submitting a new commit, it's sometimes a good idea to check that your code works locally on your computer and see how your changes have impacted the website. This requires starting the Django development web-server, which you can do as follows:
 
-1. Open a commandline window and type `python manage.py runserver`. This will run some basic checks of the website code and, if successfull, should display `Quit the server with CTRL-BREAK`. 
+1. Open a commandline window, navigate to the [`backend`](backend) folder, and type `python manage.py runserver`. This will run some basic checks of the website code and, if successfull, should display `Quit the server with CTRL-BREAK`. 
 2. Open a webbrowser and go to the url `http://127.0.0.1:8000/`. This should show your local version of the website. The data contents of the website however (such as rows in tables) is the same external MySQL database shared between all collaborators. 
 
 As long as you keep the commandline window open, you'll be able to interact with the website. Plus, any changes you make to the code will immediately take effect (except when you make changes to the database, see below). 

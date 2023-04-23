@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer
-from .models import User, Query, Result, Source, Run
+from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer, WorkspaceSerializer
+from .models import User, Query, Result, Source, Run, Workspace
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -89,3 +89,8 @@ class SourceView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = SourceSerializer
     queryset = Source.objects.all()
+
+
+class WorkspaceView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WorkspaceSerializer

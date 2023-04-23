@@ -86,15 +86,15 @@ def store_in_db():
 
 if __name__ == '__main__':
     # FOR TESTING PURPOSES ONLY
-    # args = {
-    #     "start_date": "20200915000000",
-    #     "end_date": "20200917000000",
-    #     "primary": "ukraine",
-    #     "secondary": "bombings",
-    #     "tertiary": "",
-    #     "maxrecords": 5
-    # }
-    # result = main_query(args)
-    # for link in result:
-    #     print(link)
+    args = {
+        "start_date": "20200915000000",
+        "end_date": "20200917000000",
+        "primary": "ukraine",
+        "secondary": "bombings",
+        "tertiary": "",
+        "maxrecords": 5
+    }
+    result = main_query(args)
+    for link in result:
+        print(link)
     print(store_in_db())

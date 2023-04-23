@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType, KeyWord
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -80,3 +80,9 @@ class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ('id', 'run', 'source')
+
+class WorkspaceSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(read_only=True, slug_field='username')
+    class Meta:
+        model = Workspace
+        fields = ('id', 'name', 'owner', 'user', 'tags', 'sources', 'password', 'status')

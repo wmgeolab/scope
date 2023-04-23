@@ -65,3 +65,16 @@ class Result(models.Model):
 
     def __str__(self):
         return self.id
+
+class Workspace(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=120)
+    owner = models.CharField(max_length=120)
+    user = models.ManyToManyField(User)
+    tags = models.CharField(max_length=300)
+    sources = models.ForeignKey(Result, on_delete=models.PROTECT)
+    password = models.CharField(max_length=120)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
