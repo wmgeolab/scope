@@ -22,7 +22,7 @@ import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 
 const fake_data = [
   {
@@ -112,17 +112,26 @@ const Workspaces = () => {
   const handleClickChip = () => {};
 
   const handleDeleteChip = (tagToDelete) => {};
-  const [show, setShow] = useState(false);
+  const [joinShow, setJoinShow] = useState(false);
+  const [createShow, setCreateShow] = useState(false);
 
-  const handleClose = () => {
-      setShow(false);
+  //methods for joining a new workspace popup
+  const handleShowJoin = () => {
+    setJoinShow(true);
   };
 
-  const handleShow = () => {
-      setShow(true);
+  const handleCloseJoin = () => {
+    setJoinShow(false);
   };
 
+  //methods for creating a new workspace popup
+  const handleShowCreate = () => {
+    setCreateShow(true);
+  };
 
+  const handleCloseCreate = () => {
+    setCreateShow(false);
+  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -268,81 +277,84 @@ const Workspaces = () => {
           </div>
 
           {/* Inline search bar and drop down menu. */}
-          <Container>
-            <Row>
-              <div className="customRowContainer">
-                {/* Column for Dropdown Menu */}
-                {/* TODO:
-                Make it so the text changes.
-                Implement filtering based on user. */}
+          {/* <Container> */}
+          <Row>
+            <div className="customRowContainer">
+              {/* Column for Dropdown Menu */}
+              {/* TODO:
+              Make it so the text changes.
+              Implement filtering based on user. */}
 
-                <DropdownButton
-                  id="dropdown-basic-button"
-                  title={dropDownValue}
-                  style={{ float: "left", marginLeft: "0px" }}
-                  onClick={(e) => test(e)}
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValue}
+                style={{ float: "left", marginLeft: "0px" }}
+                onClick={(e) => test(e)}
+              >
+                <Dropdown.Item onClick={(e) => setFilter(e)}>
+                  Workspaces Owned by Me
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setFilter(e)}>
+                  Workspaces Not Owned by Me
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setFilter(e)}>
+                  All Workspaces
+                </Dropdown.Item>
+              </DropdownButton>
+
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValueSearch}
+                style={{ float: "left", marginLeft: "10px" }}
+                // className="querySelect"
+              >
+                <Dropdown.Item
+                  onClick={(e) => setDropDownValueSearch(e.target.text)}
                 >
-                  <Dropdown.Item onClick={(e) => setFilter(e)}>
-                    Workspaces Owned by Me
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={(e) => setFilter(e)}>
-                    Workspaces Not Owned by Me
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={(e) => setFilter(e)}>
-                    All Workspaces
-                  </Dropdown.Item>
-                </DropdownButton>
+                  Owner
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={(e) => setDropDownValueSearch(e.target.text)}
+                >
+                  Name
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={(e) => setDropDownValueSearch(e.target.text)}
+                >
+                  Tags
+                </Dropdown.Item>
+              </DropdownButton>
 
-                {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
-                    <Button 
-                    variant="light" 
-                    type="text"
-                    > */}
+              {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
+                  <Button 
+                  variant="light" 
+                  type="text"
+                  > */}
 
-                {/* Column for Search Bar    */}
-                <Col>
-                  <div className="workspaceSearchInternal">
-                    <DropdownButton
-                      id="dropdown-basic-button"
-                      title={dropDownValueSearch}
-                      style={{}}
-                      // className="querySelect"
-                    >
-                      <Dropdown.Item
-                        onClick={(e) => setDropDownValueSearch(e.target.text)}
-                      >
-                        Owner
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={(e) => setDropDownValueSearch(e.target.text)}
-                      >
-                        Name
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={(e) => setDropDownValueSearch(e.target.text)}
-                      >
-                        Tags
-                      </Dropdown.Item>
-                    </DropdownButton>
-                    <Form onSubmit={onSubmitSearch}>
-                      <InputGroup>
-                        <InputGroup.Text>
-                          <Search></Search>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Search by Workspace Name"
-                          ref={textInput}
-                          onChange={() => handleChange()}
-                          type="text"
-                        />
-                      </InputGroup>
-                    </Form>
-                  </div>
-                </Col>
+              <div className="workspaceSearchInternal">
+                  <Form onSubmit={onSubmitSearch}>
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <Search></Search>
+                      </InputGroup.Text>
+                      <Form.Control
+                        placeholder="Search by Workspace Name"
+                        ref={textInput}
+                        onChange={() => handleChange()}
+                        type="text"
+                      />
+                    </InputGroup>
+                  </Form>
               </div>
-            </Row>
 
-            <Row>
+            </div>
+          </Row>
+
+            
+          {/* </Container> */}
+          
+          {/* WORKSPACE TABLE */}
+          <Row>
               <div className="customRowContainer">
                 <div className="individualTable">
                   <Box sx={{ height: 400, width: "100%" }}>
@@ -367,30 +379,48 @@ const Workspaces = () => {
                 </div>
               </div>
             </Row>
-          </Container>
 
-          {/* New row for add new workspace button. */}
-        <Row className = "text-center">
-            <div className ="add-new-button">
-                <Button onClick={handleShow}>Add New Workspace</Button>
+            {/* New row for add new workspace button. */}
+          <Row className="text-center">
+            <div className="add-new-button">
+              <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
             </div>
-          </Row>
+
+            <div className="add-new-button">
+              <Button onClick={handleShowCreate}>Create New Workspace</Button>
+              </div>
+            </Row>
 
         
         
-        <Modal show={show} onHide={handleClose}>
+          <Modal show={createShow} onHide={handleCloseCreate}>
             <Modal.Header closeButton>
-            <Modal.Title>Add New Workspace</Modal.Title>
+              <Modal.Title>Create New Workspace</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Control type="email" placeholder="Enter Workspace Name" />
+              <Form.Control type="email" placeholder="Enter Workspace Name" />
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
-                <Button variant="primary" onClick={handleClose}>
-                    Create New Workspace
-                </Button>
+              <Button variant="primary" onClick={handleCloseCreate}>
+                Create New Workspace
+              </Button>
             </Modal.Footer>
-        </Modal>
+          </Modal>
+
+          <Modal show={joinShow} onHide={handleCloseJoin}>
+            <Modal.Header closeButton>
+              <Modal.Title>Join Workspace</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Control type="email" placeholder="Enter Workspace Name" />
+              <Form.Control type="email" placeholder="Enter Password" />
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="primary" onClick={handleCloseJoin}>
+                Join Workspace
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Container>
       </div>
     );

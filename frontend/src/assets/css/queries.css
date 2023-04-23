@@ -68,3 +68,17 @@
 .topper {
     position: relative;
 }
+
+.customRowContainer{
+    margin-left: 7%;
+    width:92%;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+.wsHeadingsInternal {
+    text-align: left;
+    font-weight: bold;
+    width:auto;
+    display:inline-block;
+    /* outline-color: rgb(48, 46, 46); */
+}

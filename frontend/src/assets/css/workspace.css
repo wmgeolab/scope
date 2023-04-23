@@ -28,10 +28,12 @@
 .test1 {
     display: inline;
 }
-.dropdown {
-   margin-left:8.5%;
-   width:25%;   
-}
+
+/* .dropdown {
+   /* margin-left:8.5%; */
+   /* float:left;
+   width:25%;    */
+/* }  */
 
 .table {
     padding-top: 32px;
