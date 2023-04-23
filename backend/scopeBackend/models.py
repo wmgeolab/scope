@@ -71,7 +71,6 @@ class Workspace(models.Model):
     name = models.CharField(max_length=120)
     tags = models.CharField(max_length=300)
     password = models.CharField(max_length=120)
-    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
