@@ -108,7 +108,7 @@ const CreateQuery = () => {
                 <Nav.Link href="workspaces" className="nav-elements">
                   Workspaces
                 </Nav.Link>
-                <Container class="ms-auto">
+                <Container className="ms-auto">
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
@@ -180,7 +180,9 @@ const CreateQuery = () => {
               Please provide a keyword.
             </Form.Control.Feedback>
 
-            <Form.Label className="formLabels">Secondary Keyword(s) *</Form.Label>
+            <Form.Label className="formLabels">
+              Secondary Keyword(s) *
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder=""

@@ -8,24 +8,17 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-// import { useDemoData } from "@mui/x-data-grid-generator";
-// import { styled } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
-
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/results.css";
-
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
-import filter from "./../images/icons/filtering_queries.png";
-
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
@@ -38,25 +31,21 @@ const Results = () => {
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   const [queryName, setQueryName] = useState("");
-
-  const [selectedRows, setSelectedRows] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedWorkspace, setSelectedWorkspace] =
-    useState(1);
+  const [selectedWorkspace, setSelectedWorkspace] = useState(1);
 
   const [dropClicked, setDropClicked] = useState(false);
 
   var listCheck = React.createRef();
 
-
-//   listCheck.onClick = function(evt) {
-//   if (listCheck.classList.contains('visible'))
-//     listCheck.classList.remove('visible');
-//   else
-//     listCheck.classList.add('visible');
-// }
+  //   listCheck.onClick = function(evt) {
+  //   if (listCheck.classList.contains('visible'))
+  //     listCheck.classList.remove('visible');
+  //   else
+  //     listCheck.classList.add('visible');
+  // }
 
   const handleChange = () => {
     const value = textInput.current.value;
@@ -92,7 +81,7 @@ const Results = () => {
 
         // Cell value id -> article id #
         // Cell Value Value -> Article title to be displayed.
-        
+
         return (
           <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
         );
@@ -266,7 +255,7 @@ const Results = () => {
                   <Nav.Link href="/workspaces" className="nav-elements">
                     Workspaces
                   </Nav.Link>
-                  <Container class="ms-auto">
+                  <Container className="ms-auto">
                     <div style={{ paddingLeft: 100 }}>
                       <Button
                         type="button"
@@ -304,18 +293,55 @@ const Results = () => {
               </Form>
             </div>
 
-            <div id="list1" className="dropdown-check-list" ref={listCheck} tabindex="100" >
-  <span className="anchor" /*{false ? "anchor" : "anchor-selected"}*/ onClick={() => {dropClicked ? setDropClicked(false) : setDropClicked(true)}} style={dropClicked ? {color: "#0094ff"} : {}}>Select Fruits</span>
-  <ul class="items" style={dropClicked ? {display: "block"} : {}}>
-    <li><input type="checkbox" />Apple </li>
-    <li><input type="checkbox" />Orange</li>
-    <li><input type="checkbox" />Grapes </li>
-    <li><input type="checkbox" />Berry </li>
-    <li><input type="checkbox" />Mango </li>
-    <li><input type="checkbox" />Banana </li>
-    <li><input type="checkbox" />Tomato</li>
-  </ul>
-</div>
+            <div
+              id="list1"
+              className="dropdown-check-list"
+              ref={listCheck}
+              tabindex="100"
+            >
+              <span
+                className="anchor"
+                /*{false ? "anchor" : "anchor-selected"}*/ onClick={() => {
+                  dropClicked ? setDropClicked(false) : setDropClicked(true);
+                }}
+                style={dropClicked ? { color: "#0094ff" } : {}}
+              >
+                Select Fruits
+              </span>
+              <ul
+                className="items"
+                style={dropClicked ? { display: "block" } : {}}
+              >
+                <li>
+                  <input type="checkbox" />
+                  Apple{" "}
+                </li>
+                <li>
+                  <input type="checkbox" />
+                  Orange
+                </li>
+                <li>
+                  <input type="checkbox" />
+                  Grapes{" "}
+                </li>
+                <li>
+                  <input type="checkbox" />
+                  Berry{" "}
+                </li>
+                <li>
+                  <input type="checkbox" />
+                  Mango{" "}
+                </li>
+                <li>
+                  <input type="checkbox" />
+                  Banana{" "}
+                </li>
+                <li>
+                  <input type="checkbox" />
+                  Tomato
+                </li>
+              </ul>
+            </div>
 
             {/* <div>
         <DropdownButton
@@ -332,7 +358,7 @@ const Results = () => {
           </Dropdown.Item>
         </DropdownButton>
         </div> */}
-        {/* <DropdownButton
+            {/* <DropdownButton
           id="dropdown-basic-button"
           title="Language"
         >
@@ -362,11 +388,11 @@ const Results = () => {
         </DropdownButton>
         </div> */}
 
-        {/*We want:
+            {/*We want:
         - button is just a static title,
         - dropdown has checklist to select multiple */}
 
-        {/* <Form.Control
+            {/* <Form.Control
           as="select"
           aria-label="Options"
           name="type"
@@ -409,7 +435,6 @@ const Results = () => {
                     selectedIDs.has(row.id)
                   );
 
-                  setSelectedRows(selectedRows);
                   console.log("check", selectedRows);
                 }}
                 filterModel={{

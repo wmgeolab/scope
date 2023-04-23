@@ -1,55 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Queries from "./Queries";
-import Results from "./Results";
-// import "../assets/css/main.css";
 import "../assets/css/dashboard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import LoginGithub from "react-login-github";
-import Box from "@mui/material/Box";
 import { Button } from "react-bootstrap";
-
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
 import logo from "./../images/pic10.jpg";
 import stars from "./../images/stars3.jpg";
-
 import create from "./../images/icons/create_queries.png";
 import filter from "./../images/icons/filtering_queries.png";
 import workspaces from "./../images/icons/workspaces.png";
 
-//import axios from "axios";
-
 const Dashboard = () => {
   const onFailure = (response) => console.error(response);
 
-  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
+  const [login, setLogin] = useState(false); //keep track of if a user is logged in
 
-  const [login, setLogin] = useState(false);
-
+  //runs once when page is refreshed, checks if a user is already logged in (persistent login)
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     console.log(loggedInUser);
     if (loggedInUser) {
-      // const foundUser = JSON.parse(loggedInUser);
       setLogin(true);
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  //retrieve the user token from the backend
+  const handleLogin = async (e) => {
     console.log(e.code);
     let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
       method: "POST",
       headers: {
-        // "Content-Type": "application/x-www-form-urlencoded",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ code: e.code }),
@@ -57,11 +39,12 @@ const Dashboard = () => {
 
     token.json().then((res) => {
       console.log(res);
-      localStorage.setItem("user", res.key); //store the user in local storage
+      localStorage.setItem("user", res.key); //store the user in local storage for persistent login
       setLogin(true);
     });
   };
 
+  //clears the user token from local storage to "log out" the user
   const handleLogout = () => {
     localStorage.clear();
     setLogin(false);
@@ -69,30 +52,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      {/* <Navbar bg="dark" variant="dark" className="gap-1 px-1">
-        <Container>
-          <Navbar.Brand className="nav-title" href="/">
-            <img
-              src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="Scope logo"
-            />{" "}
-            SCOPE
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse>
-            <Nav className="flex-grow-1 justify-content-evenly">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="queries">Queries</Nav.Link>
-              <Nav.Link href="workspaces">Workspaces</Nav.Link>
-              
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar> */}
-
       <Navbar bg="dark" variant="dark" className="nav">
         <Container>
           <Navbar.Brand className="nav-title">
@@ -110,10 +69,16 @@ const Dashboard = () => {
 
           <Navbar.Collapse>
             <Nav className="flex-grow-1 justify-content-evenly">
-              <Nav.Link href="/" className="nav-elements">Home</Nav.Link>
-              <Nav.Link href="/queries" className="nav-elements">Queries</Nav.Link>
-              <Nav.Link href="/workspaces" className="nav-elements">Workspaces</Nav.Link>
-              <Container class="ms-auto">
+              <Nav.Link href="/" className="nav-elements">
+                Home
+              </Nav.Link>
+              <Nav.Link href="/queries" className="nav-elements">
+                Queries
+              </Nav.Link>
+              <Nav.Link href="/workspaces" className="nav-elements">
+                Workspaces
+              </Nav.Link>
+              <Container className="ms-auto">
                 {login ? (
                   <div style={{ paddingLeft: 100 }}>
                     <Button
@@ -131,7 +96,7 @@ const Dashboard = () => {
                   <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
                     className="moduleLogin"
                     clientId="75729dd8f6e08419c896"
-                    onSuccess={handleSubmit}
+                    onSuccess={handleLogin}
                     onFailure={onFailure}
                   />
                 )}
@@ -150,8 +115,7 @@ const Dashboard = () => {
         }}
       >
         <h1 className="header">
-          <img src={logo} width="100" height="100" alt="Scope logo" />{" "}
-          <a>SCOPE</a>
+          <img src={logo} width="100" height="100" alt="Scope logo" /> SCOPE
         </h1>
       </div>
       <h2 className="headings">What is SCOPE?</h2>
@@ -227,14 +191,6 @@ const Dashboard = () => {
       </p>
 
       <div className="footnote">William & Mary geoDev</div>
-
-      {/* <!-- Scripts --> */}
-      {/* <script src="assets/js/jquery.min.js"></script>
-      <script src="assets/js/jquery.dropotron.min.js"></script>
-      <script src="assets/js/browser.min.js"></script>
-      <script src="assets/js/breakpoints.min.js"></script>
-      <script src="assets/js/util.js"></script>
-      <script src="assets/js/main.js"></script> */}
     </div>
   );
 };

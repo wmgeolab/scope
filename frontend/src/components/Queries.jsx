@@ -10,16 +10,13 @@ import {
 } from "@mui/x-data-grid";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/queries.css";
-
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
-
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
@@ -47,7 +44,6 @@ const Queries = () => {
       textInput.current.value
     );
 
-    // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
     setFilt([
       {
         columnField: dropDownValue.toLowerCase(),
@@ -57,6 +53,7 @@ const Queries = () => {
     ]);
   };
 
+  //the content of the columns for the datagrid that contains the queries
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
     {
@@ -64,7 +61,7 @@ const Queries = () => {
       headerName: "Name",
       width: 150,
       renderCell: (cellValue) => {
-        //cell customization, make the name a link to the corresponding results page
+        //cell customization, makes the name a link to the corresponding results page
         return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
       },
     },
@@ -84,15 +81,12 @@ const Queries = () => {
         },
       }
     );
-    console.log(response);
-    console.log("user", localStorage.getItem("user"));
     let q = await response.json();
 
-    console.log("q", q);
+    console.log("Response:", q);
 
     setRowCount(q.count);
     setQueries(q.results);
-    console.log("curpage", curPage);
 
     return q;
   };
@@ -188,7 +182,7 @@ const Queries = () => {
                 <Nav.Link href="/workspaces" className="nav-elements">
                   Workspaces
                 </Nav.Link>
-                <Container class="ms-auto">
+                <Container className="ms-auto">
                   {/* <Button type="button" className="login">Hello</Button> */}
 
                   <div style={{ paddingLeft: 100 }}>

@@ -1,10 +1,8 @@
-import React, { useState, setState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-
 import logo from "./../images/pic10.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/workspace.css";
@@ -17,10 +15,10 @@ import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
-import { styled } from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import Modal from "react-bootstrap/Modal";
 
@@ -109,9 +107,6 @@ const Workspaces = () => {
     margin: theme.spacing(0.5),
   }));
 
-  const handleClickChip = () => {};
-
-  const handleDeleteChip = (tagToDelete) => {};
   const [joinShow, setJoinShow] = useState(false);
   const [createShow, setCreateShow] = useState(false);
 
@@ -157,53 +152,51 @@ const Workspaces = () => {
     },
 
     {
-        field: 'wsTags',
-        headerName:"Tags",
-        flex:1,
-        // renderCell: renderTags
-        renderCell: (tag_list) => {
-            if(tag_list.formattedValue == null) {
-                tag_list = []
-            }
-            else {
-                tag_list = tag_list.formattedValue.split(",")
-            }
-
-            console.log(tag_list)
-
-            return (
-              <Autocomplete
-                multiple
-                id="tags-filled"
-                options={[]}
-                defaultValue={tag_list}
-                freeSolo
-                fullWidth
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip 
-                      // variant="outlined" 
-                      label={option}
-                      color="primary"
-                      {...getTagProps({ index })} />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    // InputProps={{ disableUnderline: true }}
-                    label=""
-                    placeholder="Add Tags"
-                  />
-                )}
-              />
-            )
+      field: "wsTags",
+      headerName: "Tags",
+      flex: 1,
+      // renderCell: renderTags
+      renderCell: (tag_list) => {
+        if (tag_list.formattedValue == null) {
+          tag_list = [];
+        } else {
+          tag_list = tag_list.formattedValue.split(",");
         }
-    }
 
-];
+        console.log(tag_list);
 
+        return (
+          <Autocomplete
+            multiple
+            id="tags-filled"
+            options={[]}
+            defaultValue={tag_list}
+            freeSolo
+            fullWidth
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  // variant="outlined"
+                  label={option}
+                  color="primary"
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                // InputProps={{ disableUnderline: true }}
+                label=""
+                placeholder="Add Tags"
+              />
+            )}
+          />
+        );
+      },
+    },
+  ];
 
   if (localStorage.getItem("user") === null) {
     // fix?
@@ -245,7 +238,7 @@ const Workspaces = () => {
                 <Nav.Link href="/workspaces" className="nav-elements">
                   Workspaces
                 </Nav.Link>
-                <Container class="ms-auto">
+                <Container className="ms-auto">
                   {/* <Button type="button" className="login">Hello</Button> */}
 
                   <div style={{ paddingLeft: 100 }}>
@@ -332,67 +325,63 @@ const Workspaces = () => {
                   > */}
 
               <div className="workspaceSearchInternal">
-                  <Form onSubmit={onSubmitSearch}>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <Search></Search>
-                      </InputGroup.Text>
-                      <Form.Control
-                        placeholder="Search by Workspace Name"
-                        ref={textInput}
-                        onChange={() => handleChange()}
-                        type="text"
-                      />
-                    </InputGroup>
-                  </Form>
+                <Form onSubmit={onSubmitSearch}>
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <Search></Search>
+                    </InputGroup.Text>
+                    <Form.Control
+                      placeholder="Search by Workspace Name"
+                      ref={textInput}
+                      onChange={() => handleChange()}
+                      type="text"
+                    />
+                  </InputGroup>
+                </Form>
               </div>
-
             </div>
           </Row>
 
-            
           {/* </Container> */}
-          
+
           {/* WORKSPACE TABLE */}
           <Row>
-              <div className="customRowContainer">
-                <div className="individualTable">
-                  <Box sx={{ height: 400, width: "100%" }}>
-                    <DataGrid
-                      rows={fake_data}
-                      columns={columns}
-                      pageSize={5}
-                      rowsPerPageOptions={[5]}
-                      checkboxSelection
-                      disableColumnFilter
-                      disableColumnMenu
-                      disableDensitySelector
-                      disableColumnSelector
-                      disableSelectionOnClick
-                      experimentalFeatures={{ newEditingApi: true }}
-                      components={{ Toolbar: GridToolbar }}
-                      filterModel={{
-                        items: filt,
-                      }}
-                    />
-                  </Box>
-                </div>
+            <div className="customRowContainer">
+              <div className="individualTable">
+                <Box sx={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    rows={fake_data}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    checkboxSelection
+                    disableColumnFilter
+                    disableColumnMenu
+                    disableDensitySelector
+                    disableColumnSelector
+                    disableSelectionOnClick
+                    experimentalFeatures={{ newEditingApi: true }}
+                    components={{ Toolbar: GridToolbar }}
+                    filterModel={{
+                      items: filt,
+                    }}
+                  />
+                </Box>
               </div>
-            </Row>
+            </div>
+          </Row>
 
-            {/* New row for add new workspace button. */}
+          {/* New row for add new workspace button. */}
           <Row className="text-center">
             <div className="add-new-button">
-              <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
-            </div>
+              <Button style={{ paddingLeft: 3 }} onClick={handleShowJoin}>
+                Join Existing Workspace
+              </Button>
 
-            <div className="add-new-button">
               <Button onClick={handleShowCreate}>Create New Workspace</Button>
-              </div>
-            </Row>
+            </div>
+          </Row>
 
-        
-        
           <Modal show={createShow} onHide={handleCloseCreate}>
             <Modal.Header closeButton>
               <Modal.Title>Create New Workspace</Modal.Title>

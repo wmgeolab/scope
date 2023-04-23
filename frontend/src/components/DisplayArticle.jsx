@@ -82,7 +82,7 @@ const DisplayArticle = () => {
                 <Nav.Link href="/workspaces" className="nav-elements">
                   Workspaces
                 </Nav.Link>
-                <Container class="ms-auto">
+                <Container className="ms-auto">
                   {/* <Button type="button" className="login">Hello</Button> */}
 
                   <div style={{ paddingLeft: 100 }}>
