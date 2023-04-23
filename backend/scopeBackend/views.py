@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
 from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer, WorkspaceSerializer
-from .models import User, Query, Result, Source, Run, Workspace
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -81,7 +81,7 @@ class ResultView(viewsets.ModelViewSet):
 class RunView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = RunSerializer
-    queryset = Run.objects.all()
+    queryset = Workspace.objects.all()
 
 
 class SourceView(viewsets.ModelViewSet):
@@ -90,7 +90,70 @@ class SourceView(viewsets.ModelViewSet):
     serializer_class = SourceSerializer
     queryset = Source.objects.all()
 
-
 class WorkspaceView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = WorkspaceSerializer
+
+    def get_queryset(self):
+        return Workspace.objects.filter(user=self.request.user)
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.get_serializer(workspace)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def add(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        result_ids = request.data.get('result_ids')
+        if not result_ids:
+            return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
+        results = Result.objects.filter(pk__in=result_ids)
+        workspace.results.add(*results)
+        serializer = self.get_serializer(workspace)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def remove(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        result_ids = request.data.get('result_ids')
+        if not result_ids:
+            return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
+        results = Result.objects.filter(pk__in=result_ids)
+        workspace.results.remove(*results)
+        serializer = self.get_serializer(workspace)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], url_path='create', url_name='create_workspace')
+    def create_workspace(self, request):
+        name = request.data.get('name')
+        password = request.data.get('password')
+
+        # Check if name and password are not empty
+        if not name or not password:
+            return Response({'error': 'Name and password are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create workspace
+        workspace = Workspace.objects.create(name=name, password=password)
+
+        # Add current user to the workspace as a member
+        WorkspaceMembers.objects.create(user=request.user, workspace=workspace)
+
+        serializer = WorkspaceSerializer(workspace)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'])
+    def join(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        password = request.data.get('password')
+        if not password:
+            return Response({'error': 'password field is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not workspace.check_password(password):
+            return Response({'error': 'incorrect password'}, status=status.HTTP_401_UNAUTHORIZED)
+        WorkspaceMembers.objects.create(user=request.user, workspace=workspace)
+       

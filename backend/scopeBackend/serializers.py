@@ -80,25 +80,7 @@ class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ('id', 'run', 'source')
-
 class WorkspaceSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(read_only=True, slug_field='username')
     class Meta:
         model = Workspace
-        fields = ('id', 'name', 'owner', 'user', 'tags', 'sources', 'password', 'status')
-
-class WorkspaceMembersSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    workspace = WorkspaceSerializer()
-
-    class Meta:
-        model = Result
-        fields = ('id', 'user', 'workspace')
-
-class WorkspaceEntriesSerializer(serializers.ModelSerializer):
-    workspace = WorkspaceSerializer()
-    source = SourceSerializer()
-
-    class Meta:
-        model = Result
-        fields = ('id', 'workspace', 'source')
+        fields = ('id', 'name', 'tags', 'password', 'status')
