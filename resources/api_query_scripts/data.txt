@@ -1,2 +1,2 @@
-"Query: ukraine From 20200915000000 To 20210918000000\n"
+"Query: Russia From 20200915000000 To 20200917000000\n"
 "Caught a JSOn Decode Error"
