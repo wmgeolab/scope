@@ -17,11 +17,11 @@ import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
-import { styled } from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';  
+import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import Paper from "@mui/material/Paper";
 
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 
 const fake_data = [
   {
@@ -111,16 +111,26 @@ const Workspaces = () => {
   const handleClickChip = () => {};
 
   const handleDeleteChip = (tagToDelete) => {};
-  const [show, setShow] = useState(false);
+  const [joinShow, setJoinShow] = useState(false);
+  const [createShow, setCreateShow] = useState(false);
 
-  const handleClose = () => {
-      setShow(false);
+  //methods for joining a new workspace popup
+  const handleShowJoin = () => {
+    setJoinShow(true);
   };
 
-  const handleShow = () => {
-      setShow(true);
+  const handleCloseJoin = () => {
+    setJoinShow(false);
   };
 
+  //methods for creating a new workspace popup
+  const handleShowCreate = () => {
+    setCreateShow(true);
+  };
+
+  const handleCloseCreate = () => {
+    setCreateShow(false);
+  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -361,27 +371,44 @@ const Workspaces = () => {
           </Container>
 
           {/* New row for add new workspace button. */}
-        <Row className = "text-center">
-            <div className ="add-new-button">
-                <Button onClick={handleShow}>Add New Workspace</Button>
+          <Row className="text-center">
+            <div className="add-new-button">
+              <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
+            </div>
+
+            <div className="add-new-button">
+              <Button onClick={handleShowCreate}>Create New Workspace</Button>
             </div>
           </Row>
 
-        
-        
-        <Modal show={show} onHide={handleClose}>
+          <Modal show={createShow} onHide={handleCloseCreate}>
             <Modal.Header closeButton>
-            <Modal.Title>Add New Workspace</Modal.Title>
+              <Modal.Title>Create New Workspace</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Control type="email" placeholder="Enter Workspace Name" />
+              <Form.Control type="email" placeholder="Enter Workspace Name" />
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
-                <Button variant="primary" onClick={handleClose}>
-                    Create New Workspace
-                </Button>
+              <Button variant="primary" onClick={handleCloseCreate}>
+                Create New Workspace
+              </Button>
             </Modal.Footer>
-        </Modal>
+          </Modal>
+
+          <Modal show={joinShow} onHide={handleCloseJoin}>
+            <Modal.Header closeButton>
+              <Modal.Title>Join Workspace</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Control type="email" placeholder="Enter Workspace Name" />
+              <Form.Control type="email" placeholder="Enter Password" />
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="primary" onClick={handleCloseJoin}>
+                Join Workspace
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Container>
       </div>
     );

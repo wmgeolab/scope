@@ -8,15 +8,13 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-// import { useDemoData } from "@mui/x-data-grid-generator";
-// import { styled } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/queries.css";
 
-import { Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -25,7 +23,6 @@ import logo from "./../images/pic10.jpg";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
-import filter from "./../images/icons/filtering_queries.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
@@ -219,7 +216,12 @@ const Queries = () => {
             <DropdownButton
               id="dropdown-basic-button"
               title={dropDownValue}
-              style={{ float: "right", marginRight: "0px", paddingTop: "40px", marginLeft: "50px"}}
+              style={{
+                float: "right",
+                marginRight: "0px",
+                paddingTop: "40px",
+                marginLeft: "50px",
+              }}
               // className="querySelect"
             >
               <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
