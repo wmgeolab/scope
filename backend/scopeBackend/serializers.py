@@ -86,3 +86,19 @@ class WorkspaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workspace
         fields = ('id', 'name', 'owner', 'user', 'tags', 'sources', 'password', 'status')
+
+class WorkspaceMembersSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    workspace = WorkspaceSerializer()
+
+    class Meta:
+        model = Result
+        fields = ('id', 'user', 'workspace')
+
+class WorkspaceEntriesSerializer(serializers.ModelSerializer):
+    workspace = WorkspaceSerializer()
+    source = SourceSerializer()
+
+    class Meta:
+        model = Result
+        fields = ('id', 'workspace', 'source')
