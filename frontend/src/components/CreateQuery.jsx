@@ -52,7 +52,7 @@ const CreateQuery = () => {
         ],
       };
 
-      console.log(data);
+      console.log(JSON.stringify(data));
 
       fetch("http://127.0.0.1:8000/api/queries/", {
         //submitting a query

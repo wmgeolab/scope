@@ -98,7 +98,7 @@ const IndividualWorkspaces = () => {
     //   }
     // );
   
-    let q = await response.json();
+    // let q = await response.json();
   }
 
   const handleClose = () => {
