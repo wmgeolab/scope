@@ -56,8 +56,12 @@
    min-width:25%;
 }
 
+.error{
+    color:red;
+ }
+
 .dropDown{
-    float:left;
+    float:right;
 }
 .searchBarInput {
     width: 20%;

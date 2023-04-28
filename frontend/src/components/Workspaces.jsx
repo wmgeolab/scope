@@ -55,18 +55,121 @@ const Workspaces = () => {
   var textInput = React.createRef();
   var [dropDownValue, setValue] = useState("All Workspaces");
   var [dropDownValueSearch, setDropDownValueSearch] = useState("Owner");
+  var [wsMakeName,setMakeName ] = useState("");
+  var [wsMakePassword,setMakePassword ] = useState("");
+  var [wsJoinName,setJoinName ] = useState("");
+  var [wsJoinPassword,setJoinPassword ] = useState("");
+  const [formValid, setFormValid] = useState(false);
+  const [errorState, setErrorState] = useState(false);
+
+
+
+  // const getAllWorkspaces = async () => {
+
+  //   let response = await fetch(
+  //     "http://127.0.0.1:8000/api/text/",
+  //     {
+  //       //results doesn't have anything in the array when printed
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "Token " + localStorage.getItem("user"),
+  //       },
+  //       body: JSON.stringify({
+  //         "user" : localStorage.getItem("user")
+  //       })
+  //     }
+  //   );
+
+  //   let q = await response.json();
+  // }
+
+
+  const executeView = async () => {
+
+    // Control validation for Join Workspace inputs
+    // user must pass a name and a password. 
+    if (wsMakeName !== '' && wsMakePassword !== '') {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+
+    if (formValid) {
+    // let response = await fetch(
+    //   "http://127.0.0.1:8000/api/text/",
+    //   {
+    //     //results doesn't have anything in the array when printed
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //       Authorization: "Token " + localStorage.getItem("user"),
+    //     },
+    //     body: JSON.stringify({
+    //       "name": wsJoinName,
+    //       "pass": wsJoinPassword
+    //     })
+    //   }
+    // );
+
+    // Not really sure what this would look like.
+    // Would need to contain a 
+    // 1. ID. integer
+    // 2. Owner. String
+    // 3. Name. String
+    // 4. Tags. List of strings?
+    // let q = await response.json();
+    // console.log(response);
+
+    // setText(q);
+
+    } else {
+      console.log("Error state triggered (VIEW)");
+      setErrorState(true);
+    }
+  }  
+
+
+  const executeCreate = () => {
+
+      if (wsMakeName !== '' && wsMakePassword !== '') {
+        setFormValid(true);
+      } else {
+        setFormValid(false);
+      }
+      if (formValid) {
+        setErrorState(false);
+        // fetch("http://127.0.0.1:8000/api/workspaces/", {
+        //   // making new workspaces
+        //   method: "POST", 
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: "Token " + localStorage.getItem("user"),
+        //   },
+        //   body: JSON.stringify({
+        //     "name": wsMakeName,
+        //     "pass": wsMakePassword
+        //   })
+        // }); 
+        setCreateShow(false);
+      } else {
+        console.log("Error state triggered (CREATE)");
+        setErrorState(true);
+      }
+  
+  
+    };
+  
+
   const setFilter = (test) => {
-    //console.log(this.input.value);
-    //console.log("????");
-    // this works
-    //console.log(test.target.text);
-    setValue(test.target.text);
+    console.log("e")
+    setValue(test);
   };
 
   const test = (input) => {
-    //console.log("...");
     console.log(input.target.title);
   };
+
   // Handles logout with Github authentication.
   // Right now this is pretty janky as theres no set log out page or anything.
   const handleLogout = () => {
@@ -79,7 +182,7 @@ const Workspaces = () => {
   // TODO: Look into implementing that.
   const handleChange = () => {
     const value = textInput.current.value;
-    // console.log(value);
+    console.log(value);
   };
 
   // Used to handle keyword search with the search bar.
@@ -114,9 +217,10 @@ const Workspaces = () => {
   const handleShowJoin = () => {
     setJoinShow(true);
   };
-
+  
   const handleCloseJoin = () => {
     setJoinShow(false);
+    setErrorState(false);
   };
 
   //methods for creating a new workspace popup
@@ -126,7 +230,12 @@ const Workspaces = () => {
 
   const handleCloseCreate = () => {
     setCreateShow(false);
+    setErrorState(false);
   };
+
+
+ 
+
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -141,6 +250,7 @@ const Workspaces = () => {
       field: "wsName",
       headerName: "Name",
       width: 250,
+      
       renderCell: (cellValue) => {
         //cell customization, make the name a link to the corresponding results page
         return (
@@ -282,23 +392,23 @@ const Workspaces = () => {
                 id="dropdown-basic-button"
                 title={dropDownValue}
                 style={{ float: "left", marginLeft: "0px" }}
-                onClick={(e) => test(e)}
               >
-                <Dropdown.Item onClick={(e) => setFilter(e)}>
+                <Dropdown.Item onClick={(e) => setValue(e.target.text)}>
                   Workspaces Owned by Me
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setFilter(e)}>
+                <Dropdown.Item onClick={(e) => setValue(e.target.text)}>
                   Workspaces Not Owned by Me
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setFilter(e)}>
+                <Dropdown.Item onClick={(e) => setValue(e.target.text)}>
                   All Workspaces
                 </Dropdown.Item>
               </DropdownButton>
-
+              
+              <div className="DropdownAlignRight">
               <DropdownButton
                 id="dropdown-basic-button"
                 title={dropDownValueSearch}
-                style={{ float: "left", marginLeft: "10px" }}
+                style={{ float: "right", marginLeft: "10px" }}
                 // className="querySelect"
               >
                 <Dropdown.Item
@@ -317,13 +427,15 @@ const Workspaces = () => {
                   Tags
                 </Dropdown.Item>
               </DropdownButton>
+                              
+              </div>
 
               {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
                   <Button 
                   variant="light" 
                   type="text"
                   > */}
-
+              
               <div className="workspaceSearchInternal">
                 <Form onSubmit={onSubmitSearch}>
                   <InputGroup>
@@ -331,7 +443,7 @@ const Workspaces = () => {
                       <Search></Search>
                     </InputGroup.Text>
                     <Form.Control
-                      placeholder="Search by Workspace Name"
+                      placeholder={ "Search by Workspace " + dropDownValueSearch}
                       ref={textInput}
                       onChange={() => handleChange()}
                       type="text"
@@ -339,6 +451,8 @@ const Workspaces = () => {
                   </InputGroup>
                 </Form>
               </div>
+
+
             </div>
           </Row>
 
@@ -383,29 +497,43 @@ const Workspaces = () => {
           </Row>
 
           <Modal show={createShow} onHide={handleCloseCreate}>
-            <Modal.Header closeButton>
-              <Modal.Title>Create New Workspace</Modal.Title>
+            <Modal.Header closeButton onClick={handleCloseCreate}>
+            <Modal.Title>Create New Workspace</Modal.Title>
             </Modal.Header>
+
+
             <Modal.Body>
-              <Form.Control type="email" placeholder="Enter Workspace Name" />
+              <Form.Control type="email" placeholder="* Enter Workspace Name" onChange={(name) => setMakeName(name.target.value)} />
+              <Form.Control type="email" placeholder="* Enter Password" onChange={(name) =>  setMakePassword(name.target.value)} />
+
+              <div className="error">
+                  {errorState ? <p> ** Please fill in the required forms.</p> : <p></p>}
+              </div>
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
-              <Button variant="primary" onClick={handleCloseCreate}>
-                Create New Workspace
+              <Button variant="primary" onClick={executeCreate}>
+                Create Workspace
               </Button>
             </Modal.Footer>
           </Modal>
 
           <Modal show={joinShow} onHide={handleCloseJoin}>
+          
             <Modal.Header closeButton>
               <Modal.Title>Join Workspace</Modal.Title>
             </Modal.Header>
+
+
             <Modal.Body>
-              <Form.Control type="email" placeholder="Enter Workspace Name" />
-              <Form.Control type="email" placeholder="Enter Password" />
+              <Form.Control type="email" placeholder="* Enter Workspace Name" onChange={(name) => setJoinName(name.target.value)} />
+              <Form.Control type="email" placeholder="* Enter Password" onChange={(name) => setJoinPassword(name.target.value)} />
+
+              <div className="error">
+                  {errorState ? <p> ** Please fill in the required forms.</p> : <p></p>}
+              </div>
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
-              <Button variant="primary" onClick={handleCloseJoin}>
+              <Button variant="primary" onClick={ executeView}>
                 Join Workspace
               </Button>
             </Modal.Footer>

@@ -14,6 +14,11 @@ import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
 
+
+
+
+
+
 const fake_data = [
   {
     id: 0,
@@ -22,7 +27,7 @@ const fake_data = [
     wsComments: "Argentina:Project",
     wsURL:
       "https://www.cbsnews.com/news/syria-airstrike-us-contractor-killed-iran-drone-attack-joe-biden-lloyd-austin/",
-  },
+  },  
   {
     id: 1,
 
@@ -74,6 +79,27 @@ const IndividualWorkspaces = () => {
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   const [show, setShow] = useState(false);
+
+  const getAllArticles = async () => {
+
+    // let response = await fetch(
+    //   "http://127.0.0.1:8000/api/text/",
+    //   {
+    //     //results doesn't have anything in the array when printed
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //       Authorization: "Token " + localStorage.getItem("user"),
+    //     },
+    //     body: JSON.stringify({
+    //       "user" : localStorage.getItem("user"),
+    //       "workspaceName": workspace_name
+    //     })
+    //   }
+    // );
+  
+    let q = await response.json();
+  }
 
   const handleClose = () => {
     setShow(false);

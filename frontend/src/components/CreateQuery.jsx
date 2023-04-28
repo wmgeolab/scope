@@ -62,7 +62,7 @@ const CreateQuery = () => {
           Authorization: "Token " + localStorage.getItem("user"),
         },
         body: JSON.stringify(data),
-      });
+      }); 
       navigate("/queries/");
     }
 

@@ -81,6 +81,9 @@ const Queries = () => {
         },
       }
     );
+    
+    console.log(response);
+    console.log("user", localStorage.getItem("user"));
     let q = await response.json();
 
     console.log("Response:", q);
