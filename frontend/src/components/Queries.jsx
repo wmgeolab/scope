@@ -81,7 +81,7 @@ const Queries = () => {
         },
       }
     );
-    
+
     console.log(response);
     console.log("user", localStorage.getItem("user"));
     let q = await response.json();
@@ -190,11 +190,11 @@ const Queries = () => {
         {/* Container for the rest of the contents of the page
         Header, Dropdown Menus, Search Bar and Grid */}
         <Container>
-          <div 
+          <div
             className="customRowContainer"
             style={{ paddingBottom: "2%", paddingTop: "1%" }}
           >
-              <h2 style={{ paddingTop: "1%", fontWeight:"bold "}}>Queries</h2>
+            <h2 style={{ paddingTop: "1%", fontWeight: "bold " }}>Queries</h2>
           </div>
 
           {/* Inline search bar and drop down menu. */}
@@ -203,7 +203,7 @@ const Queries = () => {
               <DropdownButton
                 id="dropdown-basic-button"
                 title={dropDownValue}
-                style={{ float: "right", marginLeft: "10px"}}
+                style={{ float: "right", marginLeft: "10px" }}
                 // className="querySelect"
               >
                 <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>

@@ -453,6 +453,8 @@ const Workspaces = () => {
                     disableDensitySelector
                     disableColumnSelector
                     disableSelectionOnClick
+                    hideFooterPagination
+                    hideFooterSelectedRowCount
                     experimentalFeatures={{ newEditingApi: true }}
                     components={{ Toolbar: GridToolbar }}
                     filterModel={{
@@ -471,7 +473,9 @@ const Workspaces = () => {
                 Join Existing Workspace
               </Button>
 
-              <Button className="wsButton" onClick={handleShowCreate}>Create New Workspace</Button>
+              <Button className="wsButton" onClick={handleShowCreate}>
+                Create New Workspace
+              </Button>
             </div>
           </Row>
 

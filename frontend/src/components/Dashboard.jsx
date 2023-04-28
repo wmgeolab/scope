@@ -148,9 +148,8 @@ const Dashboard = () => {
         description, and keywords. You can only enter one primary keyword, but
         you can enter multiple secondary keywords. The keywords will be used to
         generate relevant sources that you can see by clicking on the title of
-        the query you want to see the results for. To search through your
-        queries, you can change the dropdown near the search bar to search
-        either by name, description, or keywords.
+        the query. To search through your queries, you can change the dropdown
+        near the search bar to search either by name, description, or keywords.
       </p>
 
       <p className="paragraphs_end"></p>
@@ -162,9 +161,10 @@ const Dashboard = () => {
       </h3>
       <p className="paragraphs">
         By clicking on a query's title, you can see the list of sources relevant
-        to the query. The sources will be displayed in order by relevance, but
-        you can also filter the sources by article title, date (when the source
-        was added to our database), location, and language.
+        to the query. The sources will be displayed in order by relevance (to
+        the keywords), but you can also filter the sources by article title,
+        date (when the source was added to our database), location, and
+        language.
       </p>
 
       <p className="paragraphs_end"></p>
