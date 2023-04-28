@@ -24,7 +24,12 @@ from readability import Document
 import logging
 logger = logging.getLogger(__name__)
 
-from newspaper import Article
+#from newspaper import Article
+#imports for text extraction from articles
+import requests
+from readability import Document
+import regex
+
 import json
 import re
 import ast
@@ -304,11 +309,16 @@ class ReadSource(viewsets.ModelViewSet):
         source = Source.objects.filter(id=source_id)
         print("Source: ", source[0].url)
         url = source[0].url
-        article = Article(url)
-        article.download()
-        article.parse()
+        response = requests.get(url)
+        response.encoding = 'UTF-8'
+        doc = Document(response.text)
+        plain_text = doc.summary()
+        plain_text = regex.sub('<[^<]+?>', '', plain_text)
+        # article = Article(url)
+        # article.download()
+        # article.parse()
         #print(article.text)
-        plain_text = article.text
+        # plain_text = article.text
         # dictionary = '{ "text":"' + article.text + '"}'
         # result = json.loads(dictionary, strict=False)
         # print(result)

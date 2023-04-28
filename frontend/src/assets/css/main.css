@@ -198,7 +198,7 @@ textarea,
 select {
 	font-family: 'Source Sans Pro', sans-serif;
 	font-weight: 400;
-	color: #919499;
+	color: #ffffff;
 	font-size: 14pt;
 	line-height: 1.75em;
 	letter-spacing: 0.025em;
@@ -2335,7 +2335,7 @@ ul.actions.special {
 	color: #fff;
 }
 
-.wrapper.style2 {
+/* .wrapper.style2 {
 	background: #fff;
 }
 
@@ -2355,7 +2355,7 @@ ul.actions.special {
 
 .wrapper.style3 .image {
 	border: solid 10px #fff;
-}
+} */
 
 /* Page Wrapper */
 

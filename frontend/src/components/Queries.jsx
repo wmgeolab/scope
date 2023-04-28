@@ -13,11 +13,52 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/queries.css";
+
+import { Col, Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Search } from "react-bootstrap-icons";
+import filter from "./../images/icons/filtering_queries.png";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+import Row from "react-bootstrap/Row";
+
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const navigate = useNavigate();
   const [rowCount, setRowCount] = useState(0);
-  const [checkboxSelection] = React.useState(true);
+  const [filt, setFilt] = useState([]);
+  var textInput = React.createRef();
+  var [dropDownValue, setDropDownValue] = useState("Name");
+
+  const handleChange = () => {
+    const value = textInput.current.value;
+  };
+
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
+    setFilt([
+      {
+        columnField: dropDownValue.toLowerCase(),
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
+  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -124,70 +165,174 @@ const Queries = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="stylesheet" href="assets/css/table.css" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            <button onClick={handleLogout}>Logout</button>
-            {/* <!-- Logo --> */}
-            <div id="logo">
-              <h1>SCOPE</h1>
+        <Navbar bg="dark" variant="dark" className="nav">
+          <Container>
+            <Navbar.Brand className="nav-title">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Scope logo"
+              />{" "}
+              SCOPE
+            </Navbar.Brand>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            <Navbar.Collapse>
+              <Nav className="flex-grow-1 justify-content-evenly">
+                <Nav.Link href="/" className="nav-elements">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="/queries" className="nav-elements">
+                  Queries
+                </Nav.Link>
+                <Nav.Link href="/workspaces" className="nav-elements">
+                  Workspaces
+                </Nav.Link>
+                <Container class="ms-auto">
+                  {/* <Button type="button" className="login">Hello</Button> */}
+
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      className="login"
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Log Out
+                    </Button>
+                  </div>
+                </Container>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        <Row className="topper">
+          <div className="headerWrapper">
+            <h2 className="headings3">Queries</h2>
+          </div>
+
+          {/* <div className="queryWrapper">
+        <DropdownButton
+          id="dropdown-basic-button"
+          title={dropDownValue}
+          // style={{ float: "right", marginRight: "0px" }}
+          // className="querySelect"
+        >
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Name
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Description
+          </Dropdown.Item>
+          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+            Keywords
+          </Dropdown.Item>
+        </DropdownButton>
+        </div> */}
+
+          {/* <div className="querySearch"> */}
+          {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+          {/* <Form onSubmit={onSubmitSearch}>
+              <InputGroup>
+                <InputGroup.Text>
+                  <Search></Search>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="Search Queries"
+                  ref={textInput}
+                  onChange={() => handleChange()}
+                  type="text"
+                />
+              </InputGroup>
+            </Form>
+          </div> */}
+          <div className="customRowContainer">
+            {/* Column for Dropdown Menu */}
+            {/* TODO:
+                Make it so the text changes.
+                Implement filtering based on user. */}
+            {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
+                    <Button 
+                    variant="light" 
+                    type="text"
+                    > */}
+
+            {/* Column for Search Bar    */}
+            <div className="querySearch">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValue}
+                style={{ justifyContent: "center", marginRight: "0px" }}
+                // className="querySelect"
+              >
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Name
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Description
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Keywords
+                </Dropdown.Item>
+              </DropdownButton>
+              <Form onSubmit={onSubmitSearch}>
+                <InputGroup>
+                  <InputGroup.Text>
+                    <Search></Search>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Search Queries"
+                    ref={textInput}
+                    onChange={() => handleChange()}
+                    type="text"
+                  />
+                </InputGroup>
+              </Form>
             </div>
+          </div>
+        </Row>
 
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li>
-                  <a href="/">Dashboard</a>
-                </li>
-                <li className="current">
-                  <a href="/queries">Queries</a>
-                </li>
-                {/* <li><a href='/login'>Login</a></li> */}
-              </ul>
-            </nav>
-          </section>
+        <Box className="table" sx={{ height: 400, width: "100%" }}>
+          <DataGrid
+            disableColumnFilter
+            rows={queries}
+            rowCount={rowCount}
+            columns={columns}
+            pageSize={15} //change this to change number of queries displayed per page, but should make backend
+            pagination
+            paginationMode="server"
+            checkboxSelection
+            components={{
+              Pagination: CustomPagination,
+            }}
+            onPageChange={(newPage) => handleSubmit(newPage)}
+            filterModel={{
+              items: filt,
+            }}
+          />
+        </Box>
 
-          {/* <!-- Main --> */}
-          <section id="main" className="wrapper style2">
-            <div className="title">Queries</div>
-
-            <Box sx={{ height: 1000, width: "100%" }}>
-              <DataGrid
-                disableColumnFilter
-                checkboxSelection={checkboxSelection}
-                rows={queries}
-                rowCount={rowCount}
-                columns={columns}
-                pageSize={15} //change this to change number of queries displayed per page, but should make backend
-                pagination
-                paginationMode="server"
-                components={{
-                  Pagination: CustomPagination,
-                }}
-                onPageChange={(newPage) => handleSubmit(newPage)}
-              />
-            </Box>
-            {/* {console.log(queries)} */}
-            <div className="container">
-              {/* <!-- Features --> */}
-
-              <section id="features">
-                <ul className="actions special">
+        <div>
+          {/* <!-- Features --> */}
+          <section id="features" className="centerButtonAlign">
+            {/* <ul className="actions special">
                   <li>
                     <a href="/create-query" className="button style1 large">
                       Create New Query
                     </a>
                   </li>
-                </ul>
-              </section>
-            </div>
+                </ul> */}
+            <Button href="/create-query" className="centerButton">
+              Create New Query
+            </Button>
           </section>
         </div>
+        {/* </section> */}
+        {/* </div> */}
 
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>

@@ -1,116 +1,182 @@
-import React, { useState } from "react";
+import React, { useState, setState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material/";
-import { styled, alpha } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
+
+import { Col, Container, Row } from "react-bootstrap";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+
+import logo from "./../images/pic10.jpg";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/workspace.css";
+import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import FolderIcon from "@mui/icons-material/Folder";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ListItemButton from "@mui/material/ListItemButton";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Form from "react-bootstrap/Form";
+import { Button } from "react-bootstrap";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Search } from "react-bootstrap-icons";
+import { GridToolbar } from "@mui/x-data-grid";
+import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import Paper from "@mui/material/Paper";
 
-// to do move this to a style sheet this is
-const styles = {
-  menu: {
-    textAlign: "right",
+const fake_data = [
+  {
+    id: 0,
+    wsOwner: "user1",
+    wsName: "My Workspace 1",
+    wsTags: "Argentina",
   },
-
-  rectangle: {
-    width: "400px",
-    height: "100px",
-    background: "blue",
+  {
+    id: 1,
+    wsOwner: "user2",
+    wsName: "My Workspace 2",
   },
-};
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "right",
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  "& .MuiPaper-root": {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
-    boxShadow:
-      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-    "& .MuiMenu-list": {
-      padding: "4px 0",
-    },
-    "& .MuiMenuItem-root": {
-      "& .MuiSvgIcon-root": {
-        fontSize: 18,
-        position: "relative",
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
-      },
-    },
+  {
+    id: 2,
+    wsOwner: "user3",
+    wsName: "My Workspace 3",
+    wsTags: "please,help",
   },
-}));
+  {
+    id: 3,
+    wsOwner: "user4",
+    wsName: "My Workspace 4",
+    wsTags: "Ukraine",
+  },
+];
 
 const Workspaces = () => {
-  var filters = {};
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  // Used for the filtering model with the external search bar and the data grid.
+  const [filt, setFilt] = useState([]);
+  const navigate = useNavigate();
+  var textInput = React.createRef();
+  var [dropDownValue, setValue] = useState("All Workspaces");
+  var [dropDownValueSearch, setDropDownValueSearch] = useState("Owner");
+  const setFilter = (test) => {
+    //console.log(this.input.value);
+    //console.log("????");
+    // this works
+    //console.log(test.target.text);
+    setValue(test.target.text);
   };
 
-  const myWorkspaces = (event) => {
-    var Button = document.getElementById("demo-button");
-    Button.textContent = "My Workspaces";
-
-    var box = document.getElementById("displayBox");
-    box.backgroundColor = "red";
-    // TODO: Something with fitlers
-
-    handleClose();
+  const test = (input) => {
+    //console.log("...");
+    console.log(input.target.title);
+  };
+  // Handles logout with Github authentication.
+  // Right now this is pretty janky as theres no set log out page or anything.
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
-  const otherWorkspaces = (event) => {
-    var Button = document.getElementById("demo-button");
-    Button.textContent = "Other Workspaces";
-
-    var box = document.getElementById("displayBox");
-    var box = document.getElementById("displayBox");
-    box.backgroundColor = "red";
-
-    // TODO: Something with filters
-
-    handleClose();
+  // Used to continuously keep track of what is in the search bar.
+  // Ideally, it would need to only be passed once on a query being submitted.
+  // TODO: Look into implementing that.
+  const handleChange = () => {
+    const value = textInput.current.value;
+    // console.log(value);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  // Used to handle keyword search with the search bar.
+  // textInput is updated whenever there is a change and the string content can be accessed with textInput.current.value
+  // onSubmitSearch is triggered when the user either triggers the search bar with the button (do we want this?) or hits enter.
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    // Right now - this is only filtering by name. Potentially: Add a dropdown menu allowing user to select which attribute they want to search it.
+    setFilt([
+      {
+        columnField: "wsName",
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
   };
+
+  // consts for chips (tags)
+  const ListItem = styled("li")(({ theme }) => ({
+    margin: theme.spacing(0.5),
+  }));
+
+  const handleClickChip = () => {};
+
+  const handleDeleteChip = (tagToDelete) => {};
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 90 },
+
+    {
+      field: "wsOwner",
+      headerName: "Owner",
+      width: 150,
+    },
+
+    {
+      field: "wsName",
+      headerName: "Name",
+      width: 250,
+      renderCell: (cellValue) => {
+        //cell customization, make the name a link to the corresponding results page
+        return (
+          <a href={"/workspace/" + cellValue.formattedValue}>
+            {cellValue.formattedValue}
+          </a>
+        );
+      },
+    },
+
+    {
+      field: "wsTags",
+      headerName: "Tags",
+      flex: 1,
+      // renderCell: renderTags
+      renderCell: (params) => {
+        if (params.formattedValue == null) {
+          params = [];
+        } else {
+          params = params.formattedValue.split(",");
+        }
+
+        return (
+          <Paper
+            elevation={0}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              listStyle: "none",
+              p: 0.5,
+              m: 0,
+              backgroundColor: "transparent",
+            }}
+            component="ul"
+          >
+            {params.map((params) => {
+              return (
+                <ListItem key={params}>
+                  <Chip label={params} onDelete={handleDeleteChip(params)} />
+                </ListItem>
+              );
+            })}
+            <ListItem>
+              <Chip label="+" onClick={handleClickChip} />
+            </ListItem>
+          </Paper>
+        );
+      },
+    },
+  ];
 
   if (localStorage.getItem("user") === null) {
+    // fix?
     return (
       <div>
         <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
@@ -122,172 +188,173 @@ const Workspaces = () => {
   } else {
     return (
       <div>
-        <title>SCOPE</title>
-        <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no"
-        />
-        <link rel="stylesheet" href="assets/css/table.css" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            {/* <!-- Logo --> */}
-            <div id="logo">
-              <h1>SCOPE</h1>
-            </div>
+        {/* Scope Dashboard Header + Log Out Button */}
+        <Navbar bg="dark" variant="dark" className="nav">
+          <Container>
+            <Navbar.Brand className="nav-title">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Scope logo"
+              />{" "}
+              SCOPE
+            </Navbar.Brand>
 
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li>
-                  <a href="/">My Workspaces</a>
-                </li>
-                <li className="current">
-                  <a href="/workspaces">Workspaces</a>
-                </li>
-                {/* <li><a href='/login'>Login</a></li> */}
-              </ul>
-            </nav>
-          </section>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-          {/* <!-- Main --> */}
-          <section id="main" className="wrapper style2">
-            <div className="title">Workspaces</div>
+            <Navbar.Collapse>
+              <Nav className="flex-grow-1 justify-content-evenly">
+                <Nav.Link href="/" className="nav-elements">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="/queries" className="nav-elements">
+                  Queries
+                </Nav.Link>
+                <Nav.Link href="/workspaces" className="nav-elements">
+                  Workspaces
+                </Nav.Link>
+                <Container class="ms-auto">
+                  {/* <Button type="button" className="login">Hello</Button> */}
 
-            {/* {console.log(queries)} */}
-            <div className="container">
-              {/* <!-- Features --> */}
-
-              <section id="features">
-                <div class="search-form">
-                  <Box id="big-box">
-                    <Box id="new-workspace" textAlign="right">
-                      <Button variant="contained" id="new_workspace_button">
-                        Add New Workspace
-                      </Button>
-                    </Box>
-                    <TextField
-                      id="search-bar"
-                      label="Keyword Search"
-                      variant="filled"
-                    />
-                    <Button variant="contained">
-                      Search Titles By Keyword
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      className="login"
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Log Out
                     </Button>
-                    <div>
-                      <Button
-                        id="demo-button"
-                        aria-controls={
-                          open ? "demo-positioned-menu" : undefined
-                        }
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClick}
+                  </div>
+                </Container>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        {/* Container for the rest of the contents of the page
+        Header, Dropdown Menus, Search Bar and Grid */}
+        <Container>
+          <div
+            className="customRowContainer"
+            style={{ paddingBottom: "2%", paddingTop: "1%" }}
+          >
+            <h2 className="wsHeadingsInternal" style={{ paddingTop: "1%" }}>
+              Workspaces
+            </h2>
+          </div>
+
+          {/* Inline search bar and drop down menu. */}
+          <Container>
+            <Row>
+              <div className="customRowContainer">
+                {/* Column for Dropdown Menu */}
+                {/* TODO:
+                Make it so the text changes.
+                Implement filtering based on user. */}
+
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title={dropDownValue}
+                  style={{ float: "left", marginLeft: "0px" }}
+                  onClick={(e) => test(e)}
+                >
+                  <Dropdown.Item onClick={(e) => setFilter(e)}>
+                    Workspaces Owned by Me
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={(e) => setFilter(e)}>
+                    Workspaces Not Owned by Me
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={(e) => setFilter(e)}>
+                    All Workspaces
+                  </Dropdown.Item>
+                </DropdownButton>
+
+                {/* If we want to add a button here with the icon bar this is pretty easy. For now, the user can send input with the search bar. Just add 
+                    <Button 
+                    variant="light" 
+                    type="text"
+                    > */}
+
+                {/* Column for Search Bar    */}
+                <Col>
+                  <div className="workspaceSearchInternal">
+                    <DropdownButton
+                      id="dropdown-basic-button"
+                      title={dropDownValueSearch}
+                      style={{}}
+                      // className="querySelect"
+                    >
+                      <Dropdown.Item
+                        onClick={(e) => setDropDownValueSearch(e.target.text)}
                       >
-                        My Workspaces
-                      </Button>
-                      <StyledMenu
-                        id="demo-positioned-menu"
-                        aria-labelledby="demo-positioned-button"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                          vertical: "top",
-                          horizontal: "left",
-                        }}
-                        transformOrigin={{
-                          vertical: "top",
-                          horizontal: "left",
-                        }}
+                        Owner
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={(e) => setDropDownValueSearch(e.target.text)}
                       >
-                        <MenuItem onClick={myWorkspaces}>
-                          My Workspaces
-                        </MenuItem>
-                        <MenuItem onClick={otherWorkspaces}>
-                          Other Workspaces
-                        </MenuItem>
-                      </StyledMenu>
-                    </div>
+                        Name
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={(e) => setDropDownValueSearch(e.target.text)}
+                      >
+                        Tags
+                      </Dropdown.Item>
+                    </DropdownButton>
+                    <Form onSubmit={onSubmitSearch}>
+                      <InputGroup>
+                        <InputGroup.Text>
+                          <Search></Search>
+                        </InputGroup.Text>
+                        <Form.Control
+                          placeholder="Search by Workspace Name"
+                          ref={textInput}
+                          onChange={() => handleChange()}
+                          type="text"
+                        />
+                      </InputGroup>
+                    </Form>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+
+            <Row>
+              <div className="customRowContainer">
+                <div className="individualTable">
+                  <Box sx={{ height: 400, width: "100%" }}>
+                    <DataGrid
+                      rows={fake_data}
+                      columns={columns}
+                      pageSize={5}
+                      rowsPerPageOptions={[5]}
+                      checkboxSelection
+                      disableColumnFilter
+                      disableColumnMenu
+                      disableDensitySelector
+                      disableColumnSelector
+                      disableSelectionOnClick
+                      experimentalFeatures={{ newEditingApi: true }}
+                      components={{ Toolbar: GridToolbar }}
+                      filterModel={{
+                        items: filt,
+                      }}
+                    />
                   </Box>
                 </div>
+              </div>
+            </Row>
+          </Container>
 
-                <Box
-                  id="displayBox"
-                  sx={{
-                    width: "px",
-                    height: "400px",
-                    border: 3,
-                  }}
-                >
-                  <List>
-                    <ListItem
-                      secondaryAction={
-                        <IconButton edge="end" aria-label="delete" size="small">
-                          <DeleteIcon />
-                        </IconButton>
-                      }
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemButton primary="Single-line item">
-                        <ListItemText primary="Workspace 1" />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem
-                      secondaryAction={
-                        <IconButton edge="end" aria-label="delete" size="small">
-                          <DeleteIcon />
-                        </IconButton>
-                      }
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemButton primary="Single-line item">
-                        <ListItemText primary="Workspace 2" />
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem
-                      secondaryAction={
-                        <IconButton edge="end" aria-label="delete" size="small">
-                          <DeleteIcon />
-                        </IconButton>
-                      }
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemButton primary="Single-line item">
-                        <ListItemText primary="Workspace 3" />
-                      </ListItemButton>
-                    </ListItem>
-                  </List>
-                </Box>
-              </section>
+          {/* New row for add new workspace button. */}
+          <Row className="text-center">
+            <div className="add-new-button">
+              <Button href="#/new_workspace_page">Add New Workspace</Button>
             </div>
-          </section>
-        </div>
-
-        {/* <!-- Scripts --> */}
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jquery.dropotron.min.js"></script>
-        <script src="assets/js/browser.min.js"></script>
-        <script src="assets/js/breakpoints.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+          </Row>
+        </Container>
       </div>
     );
   }
