@@ -71,6 +71,7 @@ class Workspace(models.Model):
     name = models.CharField(max_length=120)
     tags = models.CharField(max_length=300)
     password = models.CharField(max_length=120)
+    creatorId = models.CharField(max_length=120)
 
     def __str__(self):
         return self.name
@@ -88,4 +89,3 @@ class WorkspaceEntries(models.Model):
 
     def __str__(self):
         return self.id
-

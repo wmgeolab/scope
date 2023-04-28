@@ -133,16 +133,18 @@ class WorkspaceView(viewsets.ModelViewSet):
     def create_workspace(self, request):
         name = request.data.get('name')
         password = request.data.get('password')
+        tags = request.data.get('tags')
+        user = request.user
 
         # Check if name and password are not empty
         if not name or not password:
             return Response({'error': 'Name and password are required'}, status=status.HTTP_400_BAD_REQUEST)
-
+        
         # Create workspace
-        workspace = Workspace.objects.create(name=name, password=password)
+        workspace = Workspace.objects.create(name=name, password=password, creatorId=user.id, tags=tags)
 
         # Add current user to the workspace as a member
-        WorkspaceMembers.objects.create(user=request.user, workspace=workspace)
+        WorkspaceMembers.objects.create(user=user, workspace=workspace)
 
         serializer = WorkspaceSerializer(workspace)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
