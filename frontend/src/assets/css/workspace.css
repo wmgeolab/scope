@@ -41,7 +41,6 @@
 }
 
 
-
 .float-parent-element{
     width:100%;
     
@@ -63,6 +62,7 @@
 .dropDown{
     float:right;
 }
+
 .searchBarInput {
     width: 20%;
     height: 2.8rem;
@@ -117,6 +117,5 @@
 
 
 .modalText {
-
     justify-content: center;
 }

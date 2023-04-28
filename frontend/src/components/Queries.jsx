@@ -141,6 +141,7 @@ const Queries = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
+
         <Navbar bg="dark" variant="dark" className="nav">
           <Container>
             <Navbar.Brand className="nav-title">
@@ -186,90 +187,98 @@ const Queries = () => {
           </Container>
         </Navbar>
 
-        <Row className="topper">
-          <div className="headerWrapper">
-            <h2 className="headings3">Queries</h2>
+        {/* Container for the rest of the contents of the page
+        Header, Dropdown Menus, Search Bar and Grid */}
+        <Container>
+          <div 
+            className="customRowContainer"
+            style={{ paddingBottom: "2%", paddingTop: "1%" }}
+          >
+              <h2 style={{ paddingTop: "1%", fontWeight:"bold "}}>Queries</h2>
           </div>
 
-          <div className="queryWrapper">
-            <DropdownButton
-              id="dropdown-basic-button"
-              title={dropDownValue}
-              style={{
-                float: "right",
-                marginRight: "0px",
-                paddingTop: "40px",
-                marginLeft: "50px",
-              }}
-              // className="querySelect"
-            >
-              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                Name
-              </Dropdown.Item>
-              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                Description
-              </Dropdown.Item>
-              <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                Keywords
-              </Dropdown.Item>
-            </DropdownButton>
+          {/* Inline search bar and drop down menu. */}
+          <Row>
+            <div className="customRowContainer">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValue}
+                style={{ float: "right", marginLeft: "10px"}}
+                // className="querySelect"
+              >
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Name
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Description
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Keywords
+                </Dropdown.Item>
+              </DropdownButton>
+
+              <div className="querySearch">
+                {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+                <Form onSubmit={onSubmitSearch}>
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <Search></Search>
+                    </InputGroup.Text>
+                    <Form.Control
+                      placeholder="Search Queries"
+                      ref={textInput}
+                      onChange={() => handleChange()}
+                      type="text"
+                    />
+                  </InputGroup>
+                </Form>
+              </div>
+            </div>
+          </Row>
+
+          {/* QUERIES TABLE */}
+          <Row>
+            <div className="customRowContainer">
+              <div className="individualTable">
+                <Box sx={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    disableColumnFilter
+                    rows={queries}
+                    rowCount={rowCount}
+                    columns={columns}
+                    pageSize={15} //change this to change number of queries displayed per page, but should make backend
+                    pagination
+                    paginationMode="server"
+                    checkboxSelection
+                    components={{
+                      Pagination: CustomPagination,
+                    }}
+                    onPageChange={(newPage) => handleSubmit(newPage)}
+                    filterModel={{
+                      items: filt,
+                    }}
+                  />
+                </Box>
+              </div>
+            </div>
+          </Row>
+
+          <div>
+            {/* <!-- Features --> */}
+            <section id="features" className="centerButtonAlign">
+              {/* <ul className="actions special">
+                    <li>
+                      <a href="/create-query" className="button style1 large">
+                        Create New Query
+                      </a>
+                    </li>
+                  </ul> */}
+              <Button href="/create-query" className="centerButton">
+                Create New Query
+              </Button>
+            </section>
           </div>
-
-          <div className="querySearch">
-            {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
-            <Form onSubmit={onSubmitSearch}>
-              <InputGroup>
-                <InputGroup.Text>
-                  <Search></Search>
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Search Queries"
-                  ref={textInput}
-                  onChange={() => handleChange()}
-                  type="text"
-                />
-              </InputGroup>
-            </Form>
-          </div>
-        </Row>
-
-        <Box className="table" sx={{ height: 400, width: "100%" }}>
-          <DataGrid
-            disableColumnFilter
-            rows={queries}
-            rowCount={rowCount}
-            columns={columns}
-            pageSize={15} //change this to change number of queries displayed per page, but should make backend
-            pagination
-            paginationMode="server"
-            checkboxSelection
-            components={{
-              Pagination: CustomPagination,
-            }}
-            onPageChange={(newPage) => handleSubmit(newPage)}
-            filterModel={{
-              items: filt,
-            }}
-          />
-        </Box>
-
-        <div>
-          {/* <!-- Features --> */}
-          <section id="features" className="centerButtonAlign">
-            {/* <ul className="actions special">
-                  <li>
-                    <a href="/create-query" className="button style1 large">
-                      Create New Query
-                    </a>
-                  </li>
-                </ul> */}
-            <Button href="/create-query" className="centerButton">
-              Create New Query
-            </Button>
-          </section>
-        </div>
-        {/* </section> */}
-        {/* </div> */}
+        </Container>
 
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>

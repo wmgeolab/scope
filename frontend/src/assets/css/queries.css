@@ -12,11 +12,11 @@
 } */
 
 .headings3 {
-    padding-top: 40px;
-    /* text-align: left; */
+    text-align: left;
     font-weight: bold;
-    /* padding-bottom: 10px; */
-    /* float: left; */
+    width:auto;
+    display:inline-block;
+    /* outline-color: rgb(48, 46, 46); */
 }
 
 
@@ -30,18 +30,9 @@
     background-color: #368AD8;
 }
 
-.table {
-    padding-left: 50px;
-    padding-right: 50px;
-    /* clear: both; */
-}
-
 .querySearch {
-    width: 30%;
+    width: 40%;
     float: right;
-    padding-top: 40px;
-    padding-right: 50px;
-    padding-left: 0px;
 }
 
 .querySelect {
@@ -60,9 +51,10 @@
 }
 
 .headerWrapper {
-    width: 30%;
-    padding-left: 50px;
-    clear: both;
+    text-align: left;
+    font-weight: bold;
+    width:auto;
+    display:inline-block;
 }
 
 .topper {
@@ -75,10 +67,6 @@
     /* outline-color: rgb(48, 46, 46); */
 }
 
-.wsHeadingsInternal {
-    text-align: left;
-    font-weight: bold;
-    width:auto;
-    display:inline-block;
-    /* outline-color: rgb(48, 46, 46); */
+.individualTable {
+    padding-top: 2%;
 }
