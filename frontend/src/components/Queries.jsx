@@ -34,7 +34,7 @@ const Queries = () => {
   var [dropDownValue, setDropDownValue] = useState("Name");
 
   const handleChange = () => {
-    const value = textInput.current.value;
+    // const value = textInput.current.value;
   };
 
   const onSubmitSearch = (event) => {
@@ -93,24 +93,6 @@ const Queries = () => {
 
     return q;
   };
-
-  //This is just temporary to make sure we keep updating the
-  //run table while our source finding program is down
-  // const addQueryRun = (query_id) => {
-
-  //   var data = { queryId: query_id, };
-
-  //   fetch("http://127.0.0.1:8000/api/run/", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Token " + localStorage.getItem("user"),
-  //     },
-  //     body: JSON.stringify(data)
-  //   });
-  //   console.log(JSON.stringify(data))
-
-  // }
 
   useEffect(() => {
     handleSubmit(0);

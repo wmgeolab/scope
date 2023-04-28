@@ -120,17 +120,17 @@ const Dashboard = () => {
       </div>
       <h2 className="headings">What is SCOPE?</h2>
       <p className="paragraphs">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus
-        ante posuere, congue nunc id, elementum purus. Integer tortor odio,
-        luctus accumsan leo quis, posuere finibus orci. Maecenas lobortis justo
-        eu ornare pharetra. Proin blandit ipsum at ante commodo, a maximus justo
-        placerat. Maecenas commodo velit quam, in bibendum turpis bibendum a.
-        Aenean ac enim sit amet est rutrum dignissim. Mauris tempor massa arcu,
-        ut porttitor erat ornare scelerisque. Curabitur tempor bibendum tortor,
-        at pretium magna suscipit in. Sed molestie interdum sapien, at rhoncus
-        est laoreet sit amet. Donec dapibus ligula et rutrum elementum. Integer
-        congue at neque ut vulputate. Morbi et arcu ut justo ornare porttitor
-        sit amet in enim.
+        Formerly an acronym for "Scientific Collection of Policy Evidence,"
+        SCOPE is a tool that enhances the experience of the geoLab researchers
+        by giving them automated summaries and key words of news articles from
+        A.I. models, creating controllable search queries, and collaborating on
+        workspaces. Researchers may submit queries on any topic of interest,
+        such as international relations or environmental development projects.
+        They may submit them with keywords, receive A.I.-enhanced results for
+        them, and filter through them on a results page. The Workspaces
+        component of SCOPE serves as a way for people to make and share
+        collections of articles gathered from queries and group them by specific
+        category or project task.
       </p>
       <div></div>
       <h2 className="headings">How to use SCOPE</h2>
@@ -141,38 +141,33 @@ const Dashboard = () => {
         Queries
       </h3>
       <p className="paragraphs">
-        Cras semper purus at eros euismod facilisis. Maecenas nec risus nulla.
-        Curabitur id arcu ante. Praesent pretium, odio sit amet vulputate
-        ultrices, nunc ligula malesuada est, ac feugiat ex lorem sit amet
-        tortor. In nec dolor ligula. Donec vel arcu nisi. Nam congue neque ac
-        massa molestie dignissim. Aenean gravida massa non leo faucibus
-        tincidunt.{" "}
+        To see and create queries, you'll need to log in with your github
+        account. After you log in, you will be able to see all the queries you
+        have made in the past and you can create new queries by clicking the
+        create query button. You will need to give the query a title,
+        description, and keywords. You can only enter one primary keyword, but
+        you can enter multiple secondary keywords. The keywords will be used to
+        generate relevant sources that you can see by clicking on the title of
+        the query you want to see the results for. To search through your
+        queries, you can change the dropdown near the search bar to search
+        either by name, description, or keywords.
       </p>
 
-      <p className="paragraphs_end">
-        Donec lectus lectus, tempus id aliquam sed, ultrices eget libero.
-        Suspendisse hendrerit sed eros et mollis. Nullam congue, odio et
-        malesuada efficitur, lectus est sollicitudin metus, eu vestibulum erat
-        quam ut massa. Integer enim nulla, vulputate eget enim ac, scelerisque
-        fermentum mauris. Cras et viverra eros, tempor consectetur nisl.
-      </p>
+      <p className="paragraphs_end"></p>
 
       <h3 className="headings2">
         {" "}
         <img src={filter} width="50" height="50" alt="filter" /> &nbsp;
-        Filtering Queries
+        Filtering Results
       </h3>
       <p className="paragraphs">
-        Cras justo mauris, fringilla id luctus quis, dapibus sit amet eros.
-        Nulla nec quam eget felis facilisis euismod. Etiam sollicitudin arcu
-        metus, a scelerisque mi blandit sed. Integer placerat feugiat dignissim.
-        Morbi et mi et mi lobortis efficitur ut id tellus.
+        By clicking on a query's title, you can see the list of sources relevant
+        to the query. The sources will be displayed in order by relevance, but
+        you can also filter the sources by article title, date (when the source
+        was added to our database), location, and language.
       </p>
 
-      <p className="paragraphs_end">
-        Aliquam fermentum faucibus metus porta vulputate. Nunc ultrices volutpat
-        risus tristique convallis.
-      </p>
+      <p className="paragraphs_end"></p>
 
       <h3 className="headings2">
         {" "}
@@ -181,13 +176,14 @@ const Dashboard = () => {
       </h3>
 
       <p className="paragraphs_end">
-        Fusce posuere porta metus. Curabitur vitae dictum odio, sit amet
-        malesuada leo. Fusce ut consequat dolor. Nulla nec erat finibus libero
-        gravida faucibus a sit amet turpis. Ut volutpat nisi et odio fermentum,
-        quis facilisis arcu pellentesque. Nullam vel rhoncus metus, in tempor
-        tortor. Praesent mollis vel quam et dapibus. Cras vel neque non dolor
-        interdum iaculis. Nulla facilisi. Donec aliquet tincidunt eros, eu porta
-        nisl. Praesent nec tortor quis mauris laoreet aliquet quis a libero.
+        As stated above, workspaces are collaborative spaces for users to be
+        able to add sources relevant to a specific project they're working on.
+        In the workspaces tab, you can either join an existing workspace (if you
+        have the name and password) or create a new workspace (where you will
+        give it a name and password). To share it with other people, they will
+        just need the name and password to join. You are able to join and create
+        multiple workspaces. You are also able to add tags to a workspace to
+        group workspaces by topic or project.
       </p>
 
       <div className="footnote">William & Mary geoDev</div>

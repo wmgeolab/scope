@@ -48,7 +48,7 @@ const Results = () => {
   // }
 
   const handleChange = () => {
-    const value = textInput.current.value;
+    // const value = textInput.current.value;
   };
 
   const onSubmitSearch = (event) => {

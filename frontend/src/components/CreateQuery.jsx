@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material/";
-
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
-
 import Form from "react-bootstrap/Form";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "../assets/css/createquery.css";
 
 const CreateQuery = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState(false);
 
   const [queryName, setQueryName] = useState("");
   const [queryDescription, setQueryDescription] = useState("");
@@ -24,9 +18,6 @@ const CreateQuery = () => {
   const [secondary, setSecondary] = useState("");
 
   const handleLogout = () => {
-    // setUser({});
-    // setUsername("");
-    // setPassword("");
     localStorage.clear();
     navigate("/");
     //  <a href="/dashboard">Dashboard</a>;
@@ -67,6 +58,7 @@ const CreateQuery = () => {
     }
 
     setValidated(true);
+    console.log(JSON.stringify(data));
   };
 
   if (localStorage.getItem("user") === null) {

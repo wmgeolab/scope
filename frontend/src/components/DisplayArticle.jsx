@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "react-bootstrap/Navbar";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import logo from "./../images/pic10.jpg";
 import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
@@ -11,8 +11,6 @@ const DisplayArticle = () => {
   //   var { Readability } = require("@mozilla/readability");
   const { article_title } = useParams();
   const [text, setText] = useState("");
-  const navigate = useNavigate();
-  const [login, setLogin] = useState(false);
   console.log(article_title);
 
   const handleSubmit = async (source_id) => {
@@ -36,7 +34,6 @@ const DisplayArticle = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
   };
 
   useEffect(() => {
