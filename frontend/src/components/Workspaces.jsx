@@ -467,11 +467,11 @@ const Workspaces = () => {
           {/* New row for add new workspace button. */}
           <Row className="text-center">
             <div className="add-new-button">
-              <Button style={{ paddingLeft: 3 }} onClick={handleShowJoin}>
+              <Button className="wsButton" onClick={handleShowJoin}>
                 Join Existing Workspace
               </Button>
 
-              <Button onClick={handleShowCreate}>Create New Workspace</Button>
+              <Button className="wsButton" onClick={handleShowCreate}>Create New Workspace</Button>
             </div>
           </Row>
 

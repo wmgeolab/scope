@@ -119,3 +119,14 @@
 .modalText {
     justify-content: center;
 }
+
+.wsButton {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.text-center {
+    margin-left: 7%;
+    text-align: center;
+}
