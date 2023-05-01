@@ -83,4 +83,4 @@ class ResultSerializer(serializers.ModelSerializer):
 class WorkspaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workspace
-        fields = ('id', 'name', 'tags', 'password', "creator")
+        fields = ('id', 'name', 'tags', 'password', "creatorId")

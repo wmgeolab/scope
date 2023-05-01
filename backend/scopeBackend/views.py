@@ -95,7 +95,10 @@ class WorkspaceView(viewsets.ModelViewSet):
     serializer_class = WorkspaceSerializer
 
     def get_queryset(self):
-        return Workspace.objects.filter(user=self.request.user)
+        queryset = Workspace.objects.all()
+        return queryset
+
+
 
     def list(self, request):
         queryset = self.get_queryset()
