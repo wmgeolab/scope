@@ -48,7 +48,7 @@ class Source(models.Model):
     sourceType = models.ForeignKey(SourceType, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.url
+        return str({"id": self.id, "text":self.text, "url": self.url})
 
 
 class Run(models.Model):
