@@ -21,10 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dqno9jj#gx=rw5-c!(6dqv_$f#qvg_qmrza%1xf91ip167^tjh'
+#SECRET_KEY = 'dqno9jj#gx=rw5-c!(6dqv_$f#qvg_qmrza%1xf91ip167^tjh'
+SECRET_KEY = str(os.environ.get('SCOPE_SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if (int(os.environ.get('SCOPE_DEBUG')) == 1) else False
 
 ALLOWED_HOSTS = []
 
