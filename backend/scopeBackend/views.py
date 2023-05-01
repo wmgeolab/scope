@@ -59,11 +59,11 @@ def rank(primary_kw, secondary_kws, queryset):
     
     article_bodies = []
     for query in queryset:
-        article_bodies.append(get_text(query))
+        article_bodies.append([query['id'], query['text'], query['url'], get_text(query['url'])])
             
 
     
-    #print("Article Bodies: ", article_bodies)
+    #print("Article Bodies: ", article_bodies[0])
 
 
     def prim(string):
@@ -75,10 +75,17 @@ def rank(primary_kw, secondary_kws, queryset):
             for secondary in secondary_kws
         ])
 
-    sorted_list = [(query, prim(query), sec(query)) for query in article_bodies]
-    #sorted_list = [(query, prim(query), sec(query)) for query in titles]
-    sorted_list.sort(key=lambda a: -a[2])
-    sorted_list.sort(key=lambda a: -a[1])
+    sorted_list = [{'id':query[0], 'text':query[1],'url':query[2], 'body':query[3], 'primary':prim(query[3]), 'secondary':sec(query[3])} for query in article_bodies]
+    # print("LIST BEFORE SORTING: ")
+    # for i in range(len(sorted_list)):
+    #     print(sorted_list[i])
+    sorted_list.sort(key=lambda a: -a['secondary'])
+    sorted_list.sort(key=lambda a: -a['primary'])
+    # print("SORTED LIST: ")
+    # for i in range(len(sorted_list)):
+    #     print(sorted_list[i])
+    #     print('----------------------------------------------------------------------------------')
+    #     print('\n')
     return sorted_list
 
 # method to get body of an article:
@@ -255,14 +262,21 @@ class SourceView(viewsets.ModelViewSet):
         #data = serializers.serialize('json', p.get_page(page_id))
         data = p.get_page(page_id)
         print(data.object_list)
+        ranked_data = rank(p_kw, sec_kw, qset_dicts)
         #queryset_to_rank = Source.objects.filter(pk__in=source_id_list).values('text', 'url')
         #print("FINAL SOURCES TO RANK: ", queryset_to_rank)
         # now we begin the reranking process by running the rank function defined at the top
         #ranked_results = rank(p_kw, sec_kw, sources)
         #print("RANKED RESULTS: ", ranked_results)
+        print("RANKED DATA: ", len(ranked_data))
         print("Data to compare to: ", data.object_list)
+        # PAGINATE THE NEW RANKED DATA:
+        p2 = Paginator(ranked_data, 5)
+        print('p2:', p2.num_pages)
+        data2 = p2.get_page(page_id)
+        print(data2.object_list)
         # look into how this works and why pagination isn't applied
-        return HttpResponse(data.object_list)
+        return HttpResponse(data2.object_list)
     
 class CountView(viewsets.ModelViewSet):
 
