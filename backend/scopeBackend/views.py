@@ -243,10 +243,6 @@ class SourceView(viewsets.ModelViewSet):
         # sources = Source.objects.all()
         # LOOP THROUGH EVERY SOURCE ID AND ADD IT TO ALL SOURCES RETURNED
         sources = Source.objects.all().filter(pk__in=source_id_list)
-        #print("FINAL SOURCES:------------------")
-        #print(sources)
-        # p = Paginator(sources, 5)    #pagination
-        # print("p:", p.num_pages)
 
         #form dictionary with id, text, and url for each source
         qset_dicts = []
@@ -255,28 +251,44 @@ class SourceView(viewsets.ModelViewSet):
             transformed = ast.literal_eval(transformed)
             qset_dicts.append(transformed)
 
-        print("QSET_DICTS: ", qset_dicts)
-        p = Paginator(qset_dicts, 5)    #pagination
-        print("p:", p.num_pages)
+        #print("QSET_DICTS: ", qset_dicts)
+        # p = Paginator(qset_dicts, 5)    #pagination
+        # print("p:", p.num_pages)
 
-        #data = serializers.serialize('json', p.get_page(page_id))
-        data = p.get_page(page_id)
-        print(data.object_list)
         ranked_data = rank(p_kw, sec_kw, qset_dicts)
         #queryset_to_rank = Source.objects.filter(pk__in=source_id_list).values('text', 'url')
         #print("FINAL SOURCES TO RANK: ", queryset_to_rank)
         # now we begin the reranking process by running the rank function defined at the top
         #ranked_results = rank(p_kw, sec_kw, sources)
         #print("RANKED RESULTS: ", ranked_results)
-        print("RANKED DATA: ", len(ranked_data))
-        print("Data to compare to: ", data.object_list)
+        #print("RANKED DATA: ", len(ranked_data))
+        #print("Data to compare to: ", data.object_list)
+        # GET LIST OF RANKED ID'S IN ORDER
+        ranked_ids = []
+        for x in ranked_data:
+            ranked_ids.append(x['id'])
+        #print(ranked_ids)
         # PAGINATE THE NEW RANKED DATA:
-        p2 = Paginator(ranked_data, 5)
-        print('p2:', p2.num_pages)
-        data2 = p2.get_page(page_id)
-        print(data2.object_list)
+        # p2 = Paginator(ranked_data, 5)
+        # print('p2:', p2.num_pages)
+        # data2 = p2.get_page(page_id)
+        # print(data2.object_list)
+
+        #WHAT IT SHOULD LOOK LIKE:
+        ranked_sources = []
+        for y in range(len(ranked_ids)):
+            ranked_sources.append(Source.objects.get(pk=ranked_ids[y]))
+        #ranked_sources = Source.objects.filter(pk__in=ranked_ids)
+        print("RANKED SOURCES: ", ranked_sources)
+        p = Paginator(ranked_sources, 5)    #pagination
+        print("p:", p.num_pages)
+        data = serializers.serialize('json', p.get_page(page_id))
+        print("FINAL DATA: ", data) 
+        # # look into how this works and why pagination isn't applied
+        # return HttpResponse(data)
+
         # look into how this works and why pagination isn't applied
-        return HttpResponse(data2.object_list)
+        return HttpResponse(data)
     
 class CountView(viewsets.ModelViewSet):
 
