@@ -151,11 +151,16 @@ class WorkspaceView(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def join(self, request, pk=None):
+        # Check if workspace exists
         workspace = get_object_or_404(self.get_queryset(), pk=pk)
-        password = request.data.get('password')
-        if not password:
-            return Response({'error': 'password field is required'}, status=status.HTTP_400_BAD_REQUEST)
-        if not workspace.check_password(password):
-            return Response({'error': 'incorrect password'}, status=status.HTTP_401_UNAUTHORIZED)
+        # Check if user is already a member of the workspace
+        member = WorkspaceMembers.objects.filter(user=request.user, workspace=workspace)
+        if member:
+            return Response({'error': 'User is already a member of this workspace'}, status=status.HTTP_400_BAD_REQUEST)
+        # Check that the user submitted a password
+        if not workspace.password == request.data.get('password'):
+            return Response({'error': 'Password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+        # Add user to workspace
         WorkspaceMembers.objects.create(user=request.user, workspace=workspace)
-       
+        serializer = WorkspaceSerializer(workspace)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
