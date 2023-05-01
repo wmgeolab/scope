@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: build
+    image: registry.code.wm.edu/geolab/scope/frontend:latest
+    environment:
+    - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+    ports:
+    - "3000:3000"
+    command:
+      - npm
+      - start
+
+  backend:
+    build: ./backend
+    image: registry.code.wm.edu/geolab/scope/backend:latest
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    command:
+      - python
+      - manage.py
+      - runserver
+      - 0.0.0.0:8000

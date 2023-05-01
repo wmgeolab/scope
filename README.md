@@ -72,6 +72,24 @@ but I have heard it can be better.
 4. Run `yarn` (which will automatically install from `package.json`)
 5. `yarn run`
 
+
+### Running with Docker
+
+If you have [Docker](https://docs.docker.com/get-docker/) installed you can run
+everything in a containerized development environment without installing Node, Python, or MySQL libraries
+locally.
+
+1. Clone this repository to your local machine
+2. Run `docker compose build`
+3. Run `docker compose run frontend npm install`
+  - This step installs the node modules in the Docker image. In production this is handled automatically.
+4. Run `docker compose up`
+
+At this point you'll have the frontend piece running at http://localhost:3000 and the Python backend
+components running at http://localhost:8080. Both servers will use your local clone of this repository, but
+will use containerized versions of Node and Python. To updated versions edit the Dockerfile in `frontend/` and
+in the root directory respectively.
+
 ### A brief overview of the project folder
 
 The `scope` project folder contains all the files and folders needed to make the SCOPE website/platform work. Here's an overview of the top level folder structure that you'll need to know about:
