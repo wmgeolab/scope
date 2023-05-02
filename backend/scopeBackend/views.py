@@ -161,13 +161,13 @@ class WorkspaceView(viewsets.ModelViewSet):
         # check if workspace exists
         workspace = Workspace.objects.filter(id=workspaceID).first()
         
-        member = WorkspaceMembers.objects.filter(workspace=workspace)
+        member = WorkspaceMembers.objects.filter(workspace_id=workspace.id)
         if member:
             return Response({'error': 'You are already a member of this workspace'}, status=status.HTTP_400_BAD_REQUEST)
         # check if password is correct, if so add user to workspace
         if workspace.password == password:
             
-            WorkspaceMembers.objects.create(id=user_id, workspace=workspace)
+            WorkspaceMembers.objects.create(id=user_id, workspace_id=workspace.id)
             serializer = WorkspaceSerializer(workspace)
             return Response(serializer.data)
         else:
