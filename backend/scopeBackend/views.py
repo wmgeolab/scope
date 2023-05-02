@@ -13,6 +13,7 @@ from rest_framework import status
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+import jsonify
 
 
 import logging
@@ -98,8 +99,6 @@ class WorkspaceView(viewsets.ModelViewSet):
         queryset = Workspace.objects.all()
         return queryset
 
-
-
     def list(self, request):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
@@ -152,18 +151,24 @@ class WorkspaceView(viewsets.ModelViewSet):
         serializer = WorkspaceSerializer(workspace)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @action(detail=True, methods=['post'])
-    def join(self, request, pk=None):
-        # Check if workspace exists
-        workspace = get_object_or_404(self.get_queryset(), pk=pk)
-        # Check if user is already a member of the workspace
-        member = WorkspaceMembers.objects.filter(user=request.user, workspace=workspace)
+    # @action(detail=True, methods=['post'])
+    # should be accessible at /api/workspaces/join/ [POST]
+    @action(detail=False, methods=['post'], url_path=r'join')
+    def join_workspace(self, request):
+        password = request.data.get('password')
+        workspaceID = request.data.get('id')
+        user_id = request.user.id
+        # check if workspace exists
+        workspace = Workspace.objects.filter(id=workspaceID).first()
+        
+        member = WorkspaceMembers.objects.filter(workspace=workspace)
         if member:
-            return Response({'error': 'User is already a member of this workspace'}, status=status.HTTP_400_BAD_REQUEST)
-        # Check that the user submitted a password
-        if not workspace.password == request.data.get('password'):
-            return Response({'error': 'Password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
-        # Add user to workspace
-        WorkspaceMembers.objects.create(user=request.user, workspace=workspace)
-        serializer = WorkspaceSerializer(workspace)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({'error': 'You are already a member of this workspace'}, status=status.HTTP_400_BAD_REQUEST)
+        # check if password is correct, if so add user to workspace
+        if workspace.password == password:
+            
+            WorkspaceMembers.objects.create(id=user_id, workspace=workspace)
+            serializer = WorkspaceSerializer(workspace)
+            return Response(serializer.data)
+        else:
+            return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
