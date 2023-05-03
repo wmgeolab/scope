@@ -37,7 +37,7 @@ const fake_data = [
     id: 2,
     wsOwner: "user3",
     wsName: "My Workspace 3",
-    wsTags: "please,help",
+    wsTags: "Ohio, Train",
   },
   {
     id: 3,
@@ -91,6 +91,7 @@ const Workspaces = () => {
     }
 
     if (formValid) {
+      //start of fetch request for workspace information
       // let response = await fetch(
       //   "http://127.0.0.1:8000/api/text/",
       //   {
@@ -129,6 +130,7 @@ const Workspaces = () => {
     }
     if (formValid) {
       setErrorState(false);
+      //starting fetch POST request for making a new workspace
       // fetch("http://127.0.0.1:8000/api/workspaces/", {
       //   // making new workspaces
       //   method: "POST",
