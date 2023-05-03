@@ -21,6 +21,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 const Results = () => {
   //gets the queryName from the URL
@@ -35,6 +37,8 @@ const Results = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedWorkspace, setSelectedWorkspace] = useState(1);
+  const [location, setLocation] = useState("US");
+  const [language, setLanguage] = useState("English");
 
   const [dropClicked, setDropClicked] = useState(false);
 
@@ -153,32 +157,36 @@ const Results = () => {
     return new_q;
   };
 
-  const handleTitle = async (curPage) => {
-    console.log("handlesubmit:", curPage);
-    let response = await fetch(
-      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
-      }
-    );
-    console.log(response);
-    console.log("user", localStorage.getItem("user"));
-    let q = await response.json();
+  //add back in when error is fixed
 
-    var result = Array.isArray(q.results)
-      ? q.results.find((item) => item.id === Number(query_id))
-      : -1;
-    setQueryName(result.name);
+  // const handleTitle = async (curPage) => {
+  //   console.log("handlesubmit:", curPage);
+  //   let response = await fetch(
+  //     "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Token " + localStorage.getItem("user"),
+  //       },
+  //     }
+  //   );
+  //   console.log(response);
+  //   console.log("user", localStorage.getItem("user"));
+  //   let q = await response.json();
 
-    // console.log("curpage", curPage);
-  };
+  //   var result = Array.isArray(q.results)
+  //     ? q.results.find((item) => item.id === Number(query_id))
+  //     : -1;
+  //   setQueryName(result.name);
+
+  //   // console.log("curpage", curPage);
+  // };
 
   useEffect(() => {
     handleSubmit(0);
-    handleTitle(0);
+    //add back in when error is fixed
+
+    //handleTitle(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
@@ -293,6 +301,7 @@ const Results = () => {
               </Form>
             </div>
 
+            {/* add back in later with relevant search options when we have them */}
             <div
               id="list1"
               className="dropdown-check-list"
@@ -301,12 +310,12 @@ const Results = () => {
             >
               <span
                 className="anchor"
-                /*{false ? "anchor" : "anchor-selected"}*/ onClick={() => {
+                onClick={() => {
                   dropClicked ? setDropClicked(false) : setDropClicked(true);
                 }}
                 style={dropClicked ? { color: "#0094ff" } : {}}
               >
-                Select Fruits
+                Select Location
               </span>
               <ul
                 className="items"
@@ -314,65 +323,49 @@ const Results = () => {
               >
                 <li>
                   <input type="checkbox" />
-                  Apple{" "}
+                  US{" "}
                 </li>
                 <li>
                   <input type="checkbox" />
-                  Orange
+                  China
                 </li>
                 <li>
                   <input type="checkbox" />
-                  Grapes{" "}
+                  Russia{" "}
                 </li>
                 <li>
                   <input type="checkbox" />
-                  Berry{" "}
+                  Ukraine{" "}
                 </li>
                 <li>
                   <input type="checkbox" />
-                  Mango{" "}
+                  Argentina{" "}
                 </li>
                 <li>
                   <input type="checkbox" />
-                  Banana{" "}
+                  Sudan{" "}
                 </li>
                 <li>
                   <input type="checkbox" />
-                  Tomato
+                  Iran
                 </li>
               </ul>
             </div>
 
-            {/* <div>
-        <DropdownButton
-          title="Location"
-        >
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            US
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            China
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Russia
-          </Dropdown.Item>
-        </DropdownButton>
-        </div> */}
+            {/* placeholders for later options */}
+
+            {/* <DropdownButton id="dropdown-basic-button" title="Language">
+                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
+                  English
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
+                  Chinese
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
+                  Russian
+                </Dropdown.Item>
+              </DropdownButton> */}
             {/* <DropdownButton
-          id="dropdown-basic-button"
-          title="Language"
-        >
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            English
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Chinese
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Russian
-          </Dropdown.Item>
-        </DropdownButton>
-        <DropdownButton
           id="dropdown-basic-button"
           title="Date Range"
         >
@@ -385,8 +378,8 @@ const Results = () => {
           <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
             Russia
           </Dropdown.Item>
-        </DropdownButton>
-        </div> */}
+        </DropdownButton> */}
+            {/* </div> */}
 
             {/*We want:
         - button is just a static title,
