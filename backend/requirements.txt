@@ -4,7 +4,6 @@ django-cors-headers==3.13.0
 dj-rest-auth==2.2.5
 django-rest-auth==0.9.5
 djangorestframework==3.14.0
-mysqlclient==2.1.1
-newspaper3k==0.2.8
 gunicorn==20.1.0
 # Follow the instructions here before installing mysqlclient: https://pypi.org/project/mysqlclient/
+mysqlclient==2.1.1
