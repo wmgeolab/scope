@@ -1,45 +1,66 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoginGithub from "react-login-github";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/createquery.css";
 
 const CreateQuery = () => {
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
 
+  const [queryName, setQueryName] = useState("");
+  const [queryDescription, setQueryDescription] = useState("");
+  const [primary, setPrimary] = useState("");
+  const [secondary, setSecondary] = useState("");
+
   const handleLogout = () => {
-    // setUser({});
-    // setUsername("");
-    // setPassword("");
     localStorage.clear();
-    setLogin(false);
     navigate("/");
     //  <a href="/dashboard">Dashboard</a>;
   };
 
-  function submitQuery(e) {
-    e.preventDefault();
-    // Create the Post Request with the parameters
-    let queryName = document.getElementById("queryName").value;
-    let queryDescription = document.getElementById("queryDescription").value;
-    let primaryKeyword = document.getElementById("primaryKeyword").value;
-    let secondaryKeywords = document.getElementById("secondaryKeywords").value;
+  const [validated, setValidated] = useState(false);
 
-    var data = {
-      name: queryName,
-      description: queryDescription,
-      keywords: [primaryKeyword, secondaryKeywords],
-    };
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      event.preventDefault();
+      event.stopPropagation();
 
-    fetch("http://127.0.0.1:8000/api/queries/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-      body: JSON.stringify(data),
-    });
-    navigate("/queries");
-  }
+      var data = {
+        name: document.getElementById("nameID").value,
+        description: document.getElementById("descriptionID").value,
+        keywords: [
+          document.getElementById("primaryID").value,
+          document.getElementById("secondaryID").value,
+        ],
+      };
+
+      console.log(JSON.stringify(data));
+
+      fetch("http://127.0.0.1:8000/api/queries/", {
+        //submitting a query
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+        body: JSON.stringify(data),
+      }); 
+      navigate("/queries/");
+    }
+
+    setValidated(true);
+    console.log(JSON.stringify(data));
+  };
+
   if (localStorage.getItem("user") === null) {
     // fix?
     return (
@@ -53,40 +74,134 @@ const CreateQuery = () => {
   } else {
     return (
       <div>
+        <Navbar bg="dark" variant="dark" className="nav">
+          <Container>
+            <Navbar.Brand className="nav-title">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Scope logo"
+              />{" "}
+              SCOPE
+            </Navbar.Brand>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            <Navbar.Collapse>
+              <Nav className="flex-grow-1 justify-content-evenly">
+                <Nav.Link href="/" className="nav-elements">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="queries" className="nav-elements">
+                  Queries
+                </Nav.Link>
+                <Nav.Link href="workspaces" className="nav-elements">
+                  Workspaces
+                </Nav.Link>
+                <Container className="ms-auto">
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      className="login"
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Log Out
+                    </Button>
+                  </div>
+                </Container>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
         <div id="page-wrapper">
-          <button onClick={handleLogout}>Logout</button>
           {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            {/* <!-- Logo --> */}
-            <div id="logo">
-              <h1>
-                <a>SCOPE</a>
-              </h1>
-            </div>
-
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li className="current">
-                  <a href="/">Dashboard</a>
-                </li>
-                <li>
-                  <a href="/queries">Queries</a>
-                </li>
-                <li>
-                  <a href="/results">Results</a>
-                </li>
-              </ul>
-            </nav>
-          </section>
-
           {/* <!-- Highlights --> */}
-          <section id="highlights" className="wrapper style3">
-            <div className="title">Create Query</div>
-            <div className="container">
+          {/* <section id="highlights" className="wrapper style3"> */}
+          <h2 className="headings">Create Query</h2>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Label className="formLabels">Query Name *</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder=""
+              className="formInputs"
+              id="nameID"
+              value={queryName}
+              onChange={(e) => {
+                setQueryName(e.target.value);
+              }}
+              required
+            />
+            <Form.Control.Feedback type="invalid" className="formValidation">
+              Please provide a query name.
+            </Form.Control.Feedback>
+
+            <Form.Label className="formLabels">Description *</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder=""
+              className="formInputs"
+              id="descriptionID"
+              value={queryDescription}
+              onChange={(e) => {
+                setQueryDescription(e.target.value);
+              }}
+              required
+            />
+            <Form.Control.Feedback type="invalid" className="formValidation">
+              Please provide a description.
+            </Form.Control.Feedback>
+
+            <Form.Label className="formLabels">
+              Primary Keyword (only 1) *
+            </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder=""
+              className="formInputs"
+              id="primaryID"
+              value={primary}
+              onChange={(e) => {
+                setPrimary(e.target.value);
+              }}
+              required
+            />
+            <Form.Control.Feedback type="invalid" className="formValidation">
+              Please provide a keyword.
+            </Form.Control.Feedback>
+
+            <Form.Label className="formLabels">
+              Secondary Keyword(s) *
+            </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder=""
+              className="formInputs"
+              id="secondaryID"
+              value={secondary}
+              onChange={(e) => {
+                setSecondary(e.target.value);
+              }}
+              required
+            />
+            <Form.Control.Feedback type="invalid" className="formValidation">
+              Please provide secondary keyword(s).
+            </Form.Control.Feedback>
+            <div className="centerButtonAlign">
+              <Button
+                variant="primary"
+                className="centerButton"
+                type="submit"
+                // onClick={submitQuery}
+              >
+                Submit Query
+              </Button>
+            </div>
+          </Form>
+
+          {/* <div className="container">
               <div className="form-style-5">
                 <form>
                   <fieldset>
@@ -99,7 +214,7 @@ const CreateQuery = () => {
                     <input
                       type="text"
                       id="queryDescription"
-                      placeholder="Query Description *"
+                      placeholder="Query Description (optional)"
                     ></input>
                     <input
                       type="text"
@@ -118,11 +233,18 @@ const CreateQuery = () => {
                         Submit Query
                       </a>
                     </li>
+                    {error ? (
+                      <Alert severity="error">Missing required fields</Alert>
+                    ) : (
+                      <Alert severity="info">
+                        Please fill in the above fields
+                      </Alert>
+                    )}
                   </ul>
                 </form>
               </div>
-            </div>
-          </section>
+            </div> */}
+          {/* </section> */}
         </div>
 
         {/* <!-- Scripts --> */}

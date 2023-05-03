@@ -1,61 +1,125 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Route, useNavigate } from "react-router-dom";
-import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
+} from "@mui/x-data-grid";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/queries.css";
+import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Search } from "react-bootstrap-icons";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+import Row from "react-bootstrap/Row";
+
 const Queries = () => {
   const [queries, setQueries] = useState([]);
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [rowCount, setRowCount] = useState(0);
+  const [filt, setFilt] = useState([]);
+  var textInput = React.createRef();
+  var [dropDownValue, setDropDownValue] = useState("Name");
 
-  const handleSubmit = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/queries/", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
+  const handleChange = () => {
+    // const value = textInput.current.value;
+  };
+
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    setFilt([
+      {
+        columnField: dropDownValue.toLowerCase(),
+        operatorValue: "contains",
+        value: textInput.current.value,
       },
-    });
+    ]);
+  };
+
+  //the content of the columns for the datagrid that contains the queries
+  const columns = [
+    { field: "id", headerName: "ID", width: 150 },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      renderCell: (cellValue) => {
+        //cell customization, makes the name a link to the corresponding results page
+        return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
+      },
+    },
+    { field: "description", headerName: "Description", flex: 1, minWidth: 150 },
+    { field: "user", headerName: "User", width: 150 },
+    { field: "keywords", headerName: "Keywords", flex: 1, minWidth: 150 },
+  ];
+
+  const handleSubmit = async (curPage) => {
+    console.log("handlesubmit:", curPage);
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
+
+    console.log(response);
+    console.log("user", localStorage.getItem("user"));
     let q = await response.json();
 
-    console.log(q);
+    console.log("Response:", q);
+
+    setRowCount(q.count);
     setQueries(q.results);
+
     return q;
   };
 
   useEffect(() => {
-    handleSubmit();
+    handleSubmit(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
     navigate("/");
   };
 
-  function search() {
-    // Declare variables
-    var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("query-table");
-    tr = table.getElementsByTagName("tr");
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-      td1 = tr[i].getElementsByTagName("td")[1];
-      td2 = tr[i].getElementsByTagName("td")[2];
-      if (td1 && td2) {
-        txtValue1 = td1.textContent || td1.innerText;
-        txtValue2 = td2.textContent || td2.innerText;
-        if (
-          txtValue1.toUpperCase().indexOf(filter) > -1 ||
-          txtValue2.toUpperCase().indexOf(filter) > -1
-        ) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        shape="rounded"
+        page={page + 1}
+        count={pageCount}
+        // @ts-expect-error
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
   }
 
   if (localStorage.getItem("user") === null) {
@@ -71,92 +135,150 @@ const Queries = () => {
   } else {
     return (
       <div>
-        <button onClick={handleLogout}>Logout</button>
         <title>SCOPE</title>
         <meta charSet="utf-8" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="stylesheet" href="assets/css/table.css" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            {/* <!-- Logo --> */}
-            <div id="logo">
-              <h1>
-                <a>SCOPE</a>
-              </h1>
+
+        <Navbar bg="dark" variant="dark" className="nav">
+          <Container>
+            <Navbar.Brand className="nav-title">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Scope logo"
+              />{" "}
+              SCOPE
+            </Navbar.Brand>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            <Navbar.Collapse>
+              <Nav className="flex-grow-1 justify-content-evenly">
+                <Nav.Link href="/" className="nav-elements">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="/queries" className="nav-elements">
+                  Queries
+                </Nav.Link>
+                <Nav.Link href="/workspaces" className="nav-elements">
+                  Workspaces
+                </Nav.Link>
+                <Container className="ms-auto">
+                  {/* <Button type="button" className="login">Hello</Button> */}
+
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      className="login"
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Log Out
+                    </Button>
+                  </div>
+                </Container>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        {/* Container for the rest of the contents of the page
+        Header, Dropdown Menus, Search Bar and Grid */}
+        <Container>
+          <div
+            className="customRowContainer"
+            style={{ paddingBottom: "2%", paddingTop: "1%" }}
+          >
+            <h2 style={{ paddingTop: "1%", fontWeight: "bold " }}>Queries</h2>
+          </div>
+
+          {/* Inline search bar and drop down menu. */}
+          <Row>
+            <div className="customRowContainer">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValue}
+                style={{ float: "right", marginLeft: "10px" }}
+                // className="querySelect"
+              >
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Name
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Description
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Keywords
+                </Dropdown.Item>
+              </DropdownButton>
+
+              <div className="querySearch">
+                {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+                <Form onSubmit={onSubmitSearch}>
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <Search></Search>
+                    </InputGroup.Text>
+                    <Form.Control
+                      placeholder="Search Queries"
+                      ref={textInput}
+                      onChange={() => handleChange()}
+                      type="text"
+                    />
+                  </InputGroup>
+                </Form>
+              </div>
             </div>
+          </Row>
 
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li>
-                  <a href="/">Dashboard</a>
-                </li>
-                <li className="current">
-                  <a href="/queries">Queries</a>
-                </li>
-                {/* <li><a href='/login'>Login</a></li> */}
-              </ul>
-            </nav>
-          </section>
+          {/* QUERIES TABLE */}
+          <Row>
+            <div className="customRowContainer">
+              <div className="individualTable">
+                <Box sx={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    disableColumnFilter
+                    rows={queries}
+                    rowCount={rowCount}
+                    columns={columns}
+                    pageSize={15} //change this to change number of queries displayed per page, but should make backend
+                    pagination
+                    paginationMode="server"
+                    checkboxSelection
+                    components={{
+                      Pagination: CustomPagination,
+                    }}
+                    onPageChange={(newPage) => handleSubmit(newPage)}
+                    filterModel={{
+                      items: filt,
+                    }}
+                  />
+                </Box>
+              </div>
+            </div>
+          </Row>
 
-          {/* <!-- Main --> */}
-          <section id="main" className="wrapper style2">
-            <div className="title">Queries</div>
-
-            <input
-              type="text"
-              id="search"
-              onKeyUp={search}
-              placeholder="Search queries.."
-            />
-
-            <table className="content-table" id="query-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Keywords</th>
-                  <th>User</th>
-                </tr>
-              </thead>
-              <tbody>
-                {queries.map((query, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>{query.id}</td>
-                      <a href={"/results"}>
-                        <td>{query.name}</td>
+          <div>
+            {/* <!-- Features --> */}
+            <section id="features" className="centerButtonAlign">
+              {/* <ul className="actions special">
+                    <li>
+                      <a href="/create-query" className="button style1 large">
+                        Create New Query
                       </a>
-
-                      <td>{query.keywords.join(", ")}</td>
-                      <td>{query.user}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <div className="container">
-              {/* <!-- Features --> */}
-              <section id="features">
-                <ul className="actions special">
-                  <li>
-                    <a href="/create-query" className="button style1 large">
-                      Create New Query
-                    </a>
-                  </li>
-                </ul>
-              </section>
-            </div>
-          </section>
-        </div>
+                    </li>
+                  </ul> */}
+              <Button href="/create-query" className="centerButton">
+                Create New Query
+              </Button>
+            </section>
+          </div>
+        </Container>
 
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>

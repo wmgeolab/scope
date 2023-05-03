@@ -1,0 +1,11 @@
+beautifulsoup4==4.8.2
+boilerpy3==1.0.4
+dateparser==0.7.2
+googlemaps==4.1.0
+jusText==2.2.0
+networkx==2.4
+requests==2.22.0
+selenium==3.141.0
+tldextract==2.2.2
+tweepy==3.8.0
+sklearn==0.0

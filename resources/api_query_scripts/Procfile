@@ -1,0 +1,2 @@
+web: python master_query_gdelt.py
+worker: python master_query_gdelt.py
