@@ -78,7 +78,7 @@ class Workspace(models.Model):
 
 class WorkspaceMembers(models.Model):
     id = models.CharField(primary_key=True,max_length=120)
-    workspace_id = models.CharField(primary_key=False,max_length=120, default="")
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
