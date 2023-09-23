@@ -1,0 +1,122 @@
+/* .login {
+    position: absolute;
+    right: 20px;
+
+    background-color: #368AD8;
+} */
+
+.headings3 {
+    padding-top: 40px;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 50px;
+    padding-bottom: 10px;
+    
+    width: 70%;
+    float: left;
+}
+
+.centerButtonAlign {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.centerButton {
+    text-align: center;
+
+    background-color: #368AD8;
+}
+
+.table {
+    padding-left: 50px;
+    padding-right: 50px;
+    clear: both;
+}
+
+.resultSearch {
+    width: 30%;
+    float: right;
+    padding-top: 40px;
+    padding-right: 50px;
+}
+
+.headings {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+.formLabels {
+    /* font-family: 'Montserrat'; */
+    font-weight: 700;
+
+    color: #505050;
+    /* margin: auto; */
+    padding-left: 320px; /*change*/
+    padding-top: 20px;
+}
+
+.formInputs {
+    margin: auto;
+    width: 50%;
+}
+
+.formValidation {
+    padding-left: 320px; /*change*/
+}
+
+
+
+
+.dropdown-check-list {
+    display: inline-block;
+  }
+  
+  .dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 50px 5px 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .dropdown-check-list .anchor:after {
+    position: absolute;
+    content: "";
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    padding: 5px;
+    right: 10px;
+    top: 20%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  
+  .dropdown-check-list .anchor:active:after {
+    right: 8px;
+    top: 21%;
+  }
+  
+  .dropdown-check-list ul.items {
+    padding: 2px;
+    display: none;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  
+  .dropdown-check-list ul.items li {
+    list-style: none;
+  }
+  
+  /* .dropdown-check-list .anchor {
+    color: #0094ff;
+  } */
+  
+  /* div:active .dropdown-check-list .items {
+    display: block;
+  } */

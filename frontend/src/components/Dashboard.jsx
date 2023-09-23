@@ -1,38 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Queries from "./Queries";
-import Results from "./Results";
-import "../assets/css/main.css";
+import "../assets/css/dashboard.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import LoginGithub from "react-login-github";
-import Box from "@mui/material/Box";
-
-//import axios from "axios";
+import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+import stars from "./../images/stars3.jpg";
+import create from "./../images/icons/create_queries.png";
+import filter from "./../images/icons/filtering_queries.png";
+import workspaces from "./../images/icons/workspaces.png";
 
 const Dashboard = () => {
   const onFailure = (response) => console.error(response);
 
-  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(false); //keep track of if a user is logged in
 
+  //runs once when page is refreshed, checks if a user is already logged in (persistent login)
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     console.log(loggedInUser);
     if (loggedInUser) {
-      // const foundUser = JSON.parse(loggedInUser);
       setLogin(true);
-      setUser(loggedInUser);
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  //retrieve the user token from the backend
+  const handleLogin = async (e) => {
     console.log(e.code);
     let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
       method: "POST",
       headers: {
-        // "Content-Type": "application/x-www-form-urlencoded",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ code: e.code }),
@@ -40,11 +39,12 @@ const Dashboard = () => {
 
     token.json().then((res) => {
       console.log(res);
-      localStorage.setItem("user", res.key); //store the user in local storage
+      localStorage.setItem("user", res.key); //store the user in local storage for persistent login
       setLogin(true);
     });
   };
 
+  //clears the user token from local storage to "log out" the user
   const handleLogout = () => {
     localStorage.clear();
     setLogin(false);
@@ -52,103 +52,141 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div id="page-wrapper">
-        {/* <!-- Header --> */}
+      <Navbar bg="dark" variant="dark" className="nav">
+        <Container>
+          <Navbar.Brand className="nav-title">
+            <img
+              src={logo}
+              width="30"
+              height="30"
+              className="d-inline-block align-top padding"
+              alt="Scope logo"
+            />{" "}
+            SCOPE
+          </Navbar.Brand>
 
-        <section id="header" className="wrapper">
-          {/* </Box> */}
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-          {/* <!-- Logo --> */}
-          <div id="logo" style={{ margin: -100 }}>
-            <h1>
-              <a>SCOPE</a>
-            </h1>
-            <p>A free responsive site template by HTML5 UP</p>
-          </div>
-          <div>
-            <nav id="nav">
-              <div
-                style={{
-                  display: "flex",
-                  marginLeft: "auto",
-                  paddingLeft: 650,
-                }}
-              >
-                {/* <Box sx={{ height: 400, width: "100%" }}> */}
+          <Navbar.Collapse>
+            <Nav className="flex-grow-1 justify-content-evenly">
+              <Nav.Link href="/" className="nav-elements">
+                Home
+              </Nav.Link>
+              <Nav.Link href="/queries" className="nav-elements">
+                Queries
+              </Nav.Link>
+              <Nav.Link href="/workspaces" className="nav-elements">
+                Workspaces
+              </Nav.Link>
+              <Container className="ms-auto">
                 {login ? (
-                  <div style={{ paddingRight: 100 }}>
-                    <button
-                      id="github_login"
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      // variant='login'
+                      className="login"
                       onClick={handleLogout}
                       style={{ justifyContent: "right" }}
+                      size="xs"
                     >
-                      Logout
-                    </button>
+                      Log Out
+                    </Button>
                   </div>
                 ) : (
                   <LoginGithub //github gives back code give to backend, backend has client id and client secret (never transmit the secret)
-                    // className="button style1 large"
-                    id="github_login"
+                    className="moduleLogin"
                     clientId="75729dd8f6e08419c896"
-                    onSuccess={handleSubmit}
+                    onSuccess={handleLogin}
                     onFailure={onFailure}
                   />
                 )}
-              </div>
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li className="current">
-                  <a href="/">Dashboard</a>
-                </li>
-                <li>
-                  <a href="/queries">Queries</a>
-                </li>
-                {/* <li>
-                <a href="/login">Login</a>
-              </li> */}
-              </ul>
-            </nav>
-          </div>
-          {/* <!-- Nav --> */}
-        </section>
+              </Container>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
-        {/* <!-- Intro --> */}
-        <section id="intro" className="wrapper style1">
-          <div className="title">About</div>
-          <div className="container">
-            {/* <p className="style1">
-              So in case you were wondering what this is all about ...
-            </p> */}
-            <p className="style2">
-              Escape Velocity is a free responsive
-              <br className="mobile-hide" />
-              site template by{" "}
-              <a href="http://html5up.net" className="nobr">
-                HTML5 UP
-              </a>
-            </p>
-            <p className="style3">
-              It's <strong>responsive</strong>, built on <strong>HTML5</strong>{" "}
-              and <strong>CSS3</strong>, and released for free under the{" "}
-              <a href="http://html5up.net/license">
-                Creative Commons Attribution 3.0 license
-              </a>
-              , so use it for any of your personal or commercial projects
-              &ndash; just be sure to credit us!
-            </p>
-          </div>
-        </section>
+      <div
+        style={{
+          backgroundImage: `url(${stars})`,
+          // height: '24em',
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        <h1 className="header">
+          <img src={logo} width="100" height="100" alt="Scope logo" /> SCOPE
+        </h1>
       </div>
+      <h2 className="headings">What is SCOPE?</h2>
+      <p className="paragraphs">
+        Formerly an acronym for "Scientific Collection of Policy Evidence,"
+        SCOPE is a tool that enhances the experience of the geoLab researchers
+        by giving them automated summaries and key words of news articles from
+        A.I. models, creating controllable search queries, and collaborating on
+        workspaces. Researchers may submit queries on any topic of interest,
+        such as international relations or environmental development projects.
+        They may submit them with keywords, receive A.I.-enhanced results for
+        them, and filter through them on a results page. The Workspaces
+        component of SCOPE serves as a way for people to make and share
+        collections of articles gathered from queries and group them by specific
+        category or project task.
+      </p>
+      <div></div>
+      <h2 className="headings">How to use SCOPE</h2>
 
-      {/* <!-- Scripts --> */}
-      {/* <script src="assets/js/jquery.min.js"></script>
-      <script src="assets/js/jquery.dropotron.min.js"></script>
-      <script src="assets/js/browser.min.js"></script>
-      <script src="assets/js/breakpoints.min.js"></script>
-      <script src="assets/js/util.js"></script>
-      <script src="assets/js/main.js"></script> */}
+      <h3 className="headings2">
+        {" "}
+        <img src={create} width="50" height="50" alt="create" /> &nbsp; Creating
+        Queries
+      </h3>
+      <p className="paragraphs">
+        To see and create queries, you'll need to log in with your github
+        account. After you log in, you will be able to see all the queries you
+        have made in the past and you can create new queries by clicking the
+        create query button. You will need to give the query a title,
+        description, and keywords. You can only enter one primary keyword, but
+        you can enter multiple secondary keywords. The keywords will be used to
+        generate relevant sources that you can see by clicking on the title of
+        the query. To search through your queries, you can change the dropdown
+        near the search bar to search either by name, description, or keywords.
+      </p>
+
+      <p className="paragraphs_end"></p>
+
+      <h3 className="headings2">
+        {" "}
+        <img src={filter} width="50" height="50" alt="filter" /> &nbsp;
+        Filtering Results
+      </h3>
+      <p className="paragraphs">
+        By clicking on a query's title, you can see the list of sources relevant
+        to the query. The sources will be displayed in order by relevance (to
+        the keywords), but you can also filter the sources by article title,
+        date (when the source was added to our database), location, and
+        language.
+      </p>
+
+      <p className="paragraphs_end"></p>
+
+      <h3 className="headings2">
+        {" "}
+        <img src={workspaces} width="50" height="50" alt="workspaces" /> &nbsp;
+        Using Workspaces
+      </h3>
+
+      <p className="paragraphs_end">
+        As stated above, workspaces are collaborative spaces for users to be
+        able to add sources relevant to a specific project they're working on.
+        In the workspaces tab, you can either join an existing workspace (if you
+        have the name and password) or create a new workspace (where you will
+        give it a name and password). To share it with other people, they will
+        just need the name and password to join. You are able to join and create
+        multiple workspaces. You are also able to add tags to a workspace to
+        group workspaces by topic or project.
+      </p>
+
+      <div className="footnote">William & Mary geoDev</div>
     </div>
   );
 };

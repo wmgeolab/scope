@@ -8,18 +8,52 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-// import { useDemoData } from "@mui/x-data-grid-generator";
-// import { styled } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/queries.css";
+import { Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import logo from "./../images/pic10.jpg";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Search } from "react-bootstrap-icons";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+import Row from "react-bootstrap/Row";
 
 const Queries = () => {
   const [queries, setQueries] = useState([]);
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState(0);
+  const [filt, setFilt] = useState([]);
+  var textInput = React.createRef();
+  var [dropDownValue, setDropDownValue] = useState("Name");
 
+  const handleChange = () => {
+    // const value = textInput.current.value;
+  };
+
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    setFilt([
+      {
+        columnField: dropDownValue.toLowerCase(),
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
+  };
+
+  //the content of the columns for the datagrid that contains the queries
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
     {
@@ -27,7 +61,7 @@ const Queries = () => {
       headerName: "Name",
       width: 150,
       renderCell: (cellValue) => {
-        //cell customization, make the name a link to the corresponding results page
+        //cell customization, makes the name a link to the corresponding results page
         return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
       },
     },
@@ -39,7 +73,7 @@ const Queries = () => {
   const handleSubmit = async (curPage) => {
     console.log("handlesubmit:", curPage);
     let response = await fetch(
-      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1),
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
       {
         headers: {
           "Content-Type": "application/json",
@@ -47,35 +81,18 @@ const Queries = () => {
         },
       }
     );
+
     console.log(response);
-    console.log(localStorage.getItem("user"));
+    console.log("user", localStorage.getItem("user"));
     let q = await response.json();
 
-    console.log(q);
+    console.log("Response:", q);
 
     setRowCount(q.count);
     setQueries(q.results);
-    setPage(curPage);
+
     return q;
   };
-
-  //This is just temporary to make sure we keep updating the
-  //run table while our source finding program is down
-  // const addQueryRun = (query_id) => {
-
-  //   var data = { queryId: query_id, };
-
-  //   fetch("http://127.0.0.1:8000/api/run/", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Token " + localStorage.getItem("user"),
-  //     },
-  //     body: JSON.stringify(data)
-  //   });
-  //   console.log(JSON.stringify(data))
-
-  // }
 
   useEffect(() => {
     handleSubmit(0);
@@ -83,7 +100,6 @@ const Queries = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setLogin(false);
     navigate("/");
   };
 
@@ -125,71 +141,144 @@ const Queries = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="stylesheet" href="assets/css/table.css" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          <section id="header" className="wrapper">
-            <button onClick={handleLogout}>Logout</button>
-            {/* <!-- Logo --> */}
-            <div id="logo">
-              <h1>
-                <a>SCOPE</a>
-              </h1>
+
+        <Navbar bg="dark" variant="dark" className="nav">
+          <Container>
+            <Navbar.Brand className="nav-title">
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Scope logo"
+              />{" "}
+              SCOPE
+            </Navbar.Brand>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            <Navbar.Collapse>
+              <Nav className="flex-grow-1 justify-content-evenly">
+                <Nav.Link href="/" className="nav-elements">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="/queries" className="nav-elements">
+                  Queries
+                </Nav.Link>
+                <Nav.Link href="/workspaces" className="nav-elements">
+                  Workspaces
+                </Nav.Link>
+                <Container className="ms-auto">
+                  {/* <Button type="button" className="login">Hello</Button> */}
+
+                  <div style={{ paddingLeft: 100 }}>
+                    <Button
+                      type="button"
+                      className="login"
+                      onClick={handleLogout}
+                      style={{ justifyContent: "right" }}
+                    >
+                      Log Out
+                    </Button>
+                  </div>
+                </Container>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        {/* Container for the rest of the contents of the page
+        Header, Dropdown Menus, Search Bar and Grid */}
+        <Container>
+          <div
+            className="customRowContainer"
+            style={{ paddingBottom: "2%", paddingTop: "1%" }}
+          >
+            <h2 style={{ paddingTop: "1%", fontWeight: "bold " }}>Queries</h2>
+          </div>
+
+          {/* Inline search bar and drop down menu. */}
+          <Row>
+            <div className="customRowContainer">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={dropDownValue}
+                style={{ float: "right", marginLeft: "10px" }}
+                // className="querySelect"
+              >
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Name
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Description
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                  Keywords
+                </Dropdown.Item>
+              </DropdownButton>
+
+              <div className="querySearch">
+                {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
+                <Form onSubmit={onSubmitSearch}>
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <Search></Search>
+                    </InputGroup.Text>
+                    <Form.Control
+                      placeholder="Search Queries"
+                      ref={textInput}
+                      onChange={() => handleChange()}
+                      type="text"
+                    />
+                  </InputGroup>
+                </Form>
+              </div>
             </div>
+          </Row>
 
-            {/* <!-- Nav --> */}
-            <nav id="nav">
-              <ul>
-                {/* <li><a href="left-sidebar.html">Left Sidebar</a></li> */}
-                {/* <li><a href="right-sidebar.html">Right Sidebar</a></li> */}
-                {/* <li><a href="no-sidebar.html">No Sidebar</a></li> */}
-                <li>
-                  <a href="/">Dashboard</a>
-                </li>
-                <li className="current">
-                  <a href="/queries">Queries</a>
-                </li>
-                {/* <li><a href='/login'>Login</a></li> */}
-              </ul>
-            </nav>
-          </section>
-
-          {/* <!-- Main --> */}
-          <section id="main" className="wrapper style2">
-            <div className="title">Queries</div>
-
-            <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid
-                disableColumnFilter
-                rows={queries}
-                rowCount={rowCount}
-                columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, but should make backend
-                pagination
-                paginationMode="server"
-                components={{
-                  Pagination: CustomPagination,
-                }}
-                onPageChange={(newPage) => handleSubmit(newPage)}
-              />
-            </Box>
-            {/* {console.log(queries)} */}
-            <div className="container">
-              {/* <!-- Features --> */}
-
-              <section id="features">
-                <ul className="actions special">
-                  <li>
-                    <a href="/create-query" className="button style1 large">
-                      Create New Query
-                    </a>
-                  </li>
-                </ul>
-              </section>
+          {/* QUERIES TABLE */}
+          <Row>
+            <div className="customRowContainer">
+              <div className="individualTable">
+                <Box sx={{ height: 400, width: "100%" }}>
+                  <DataGrid
+                    disableColumnFilter
+                    rows={queries}
+                    rowCount={rowCount}
+                    columns={columns}
+                    pageSize={15} //change this to change number of queries displayed per page, but should make backend
+                    pagination
+                    paginationMode="server"
+                    checkboxSelection
+                    components={{
+                      Pagination: CustomPagination,
+                    }}
+                    onPageChange={(newPage) => handleSubmit(newPage)}
+                    filterModel={{
+                      items: filt,
+                    }}
+                  />
+                </Box>
+              </div>
             </div>
-          </section>
-        </div>
+          </Row>
+
+          <div>
+            {/* <!-- Features --> */}
+            <section id="features" className="centerButtonAlign">
+              {/* <ul className="actions special">
+                    <li>
+                      <a href="/create-query" className="button style1 large">
+                        Create New Query
+                      </a>
+                    </li>
+                  </ul> */}
+              <Button href="/create-query" className="centerButton">
+                Create New Query
+              </Button>
+            </section>
+          </div>
+        </Container>
 
         {/* <!-- Scripts --> */}
         <script src="assets/js/jquery.min.js"></script>

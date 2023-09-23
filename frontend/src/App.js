@@ -1,33 +1,35 @@
-import React, { useState, useEffect } from "react";
-import Link from 'react-dom';
-import {BrowserRouter, Routes, Route, useNavigate, Navigate} from "react-router-dom";
-import './App.css';
-import LoginGithub from 'react-login-github';
-
-import Login from "./components/Login"; //  can have code here or on different component
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Queries from "./components/Queries";
 import Results from "./components/Results";
+import Workspaces from "./components/Workspaces";
 import CreateQuery from "./components/CreateQuery";
+import DisplayArticle from "./components/DisplayArticle";
+import IndividualWorkspaces from "./components/individualWorkspacePage";
 
 function App() {
-  
   return (
     <BrowserRouter>
-      {/* <Router> */}
-      <div className="App">
-      </div>
-        <Routes>
-          {/* this makes it so I can't go to any of the routes without logging in */}
-           {/* <Route path="/dashboard" render={() => <Dashboard />}/>  */}
-            {/* <Route element={<Login />}>    */}
-             <Route exact path="/" element={<Dashboard />} />
-            <Route exact path="/queries" element={<Queries />} />
-            <Route path="/results/:query_id" element={<Results />} />
-            <Route exact path="/create-query" element={<CreateQuery />} />
-         {/* </Route>  */}
-        </Routes>
-      {/* </Router> */}
+      <div className="App"></div>
+      <Routes>
+        <Route exact path="/" element={<Dashboard />} />
+        <Route exact path="/workspaces" element={<Workspaces />} />
+        <Route exact path="/queries" element={<Queries />} />
+        <Route path="/results/:query_id" element={<Results />} />
+        <Route
+          exact
+          path="/display-article/:article_title"
+          element={<DisplayArticle />}
+        />
+        <Route path="/workspaces" element={<Workspaces />} />
+        <Route
+          path="/workspace/:workspace_name"
+          element={<IndividualWorkspaces />}
+        />
+        <Route exact path="/create-query" element={<CreateQuery />} />
+      </Routes>
     </BrowserRouter>
   );
 }

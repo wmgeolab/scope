@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "mui-chips-input": "^2.0.1",
+    "react-bootstrap": "^2.7.2",
+    "react-bootstrap-table2-paginator": "^2.1.2"
+  }
+}

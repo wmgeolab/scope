@@ -1,0 +1,6 @@
+.github/
+.vscode
+frontend
+.git**
+README.md
+Dockerfile

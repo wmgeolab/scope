@@ -1,0 +1,72 @@
+/* .login {
+    position: absolute;
+    right: 20px; */
+
+    /* min-height: 40%; */
+    /* height: 15px; */
+    /* text-align: center;
+
+
+    background-color: #707070;
+    border-color: #707070;
+} */
+
+.headings3 {
+    text-align: left;
+    font-weight: bold;
+    width:auto;
+    display:inline-block;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+
+.centerButtonAlign {
+    text-align: center;
+}
+
+.centerButton {
+    text-align: center;
+
+    background-color: #368AD8;
+}
+
+.querySearch {
+    width: 40%;
+    float: right;
+}
+
+.querySelect {
+    margin-right: 0;
+    position:absolute;
+}
+
+.queryWrapper {
+    width: 40%;
+    margin: 0;
+    padding-right: 0px;
+  /* position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%); */
+}
+
+.headerWrapper {
+    text-align: left;
+    font-weight: bold;
+    width:auto;
+    display:inline-block;
+}
+
+.topper {
+    position: relative;
+}
+
+.customRowContainer{
+    margin-left: 7%;
+    width:92%;
+    /* outline-color: rgb(48, 46, 46); */
+}
+
+.individualTable {
+    padding-top: 2%;
+}
