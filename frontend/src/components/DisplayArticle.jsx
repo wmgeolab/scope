@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import logo from "./../images/pic10.jpg";
 import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
+import ScopeNavBar from "./ScopeNavBar";
 
 const DisplayArticle = () => {
   //   var { Readability } = require("@mozilla/readability");
@@ -53,50 +54,7 @@ const DisplayArticle = () => {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <Navbar bg="dark" variant="dark" className="nav">
-          <Container>
-            <Navbar.Brand className="nav-title">
-              <img
-                src={logo}
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
-                alt="Scope logo"
-              />{" "}
-              SCOPE
-            </Navbar.Brand>
-
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
-            <Navbar.Collapse>
-              <Nav className="flex-grow-1 justify-content-evenly">
-                <Nav.Link href="/" className="nav-elements">
-                  Home
-                </Nav.Link>
-                <Nav.Link href="/queries" className="nav-elements">
-                  Queries
-                </Nav.Link>
-                <Nav.Link href="/workspaces" className="nav-elements">
-                  Workspaces
-                </Nav.Link>
-                <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
-                  <div style={{ paddingLeft: 100 }}>
-                    <Button
-                      type="button"
-                      className="login"
-                      onClick={handleLogout}
-                      style={{ justifyContent: "right" }}
-                    >
-                      Log Out
-                    </Button>
-                  </div>
-                </Container>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+        <ScopeNavBar/>
         <Container>
           <h2 className="wsHeadingsInternal" style={{ paddingTop: "1%" }}>
             Article Text:

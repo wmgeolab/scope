@@ -10,16 +10,34 @@ import LoginGithub from "react-login-github";
 export default function ScopeNavBar(props) {
 
 
+  const loggedIn = props.logIn;
+
   const [login, setLogin] = useState(false); //keep track of if a user is logged in
-  const { loggedIn } = props;
 
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
+    setLogin(false);
   };
-  let handleLogin;
-  let onFailure;
+
+  const handleLogin = async (e) => {
+    console.log(e.code);
+    console.log("test");
+    let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code: e.code }),
+    });
+    token.json().then((res) => {
+      console.log(res);
+      localStorage.setItem("user", res.key); //store the user in local storage for persistent login
+      setLogin(true);
+    });
+  };
+  const onFailure = (response) => console.error(response);
 
   if (loggedIn) {
 
@@ -28,25 +46,11 @@ export default function ScopeNavBar(props) {
       console.log(loggedInUser);
       if (loggedInUser) {
         setLogin(true);
+      } else {
+        setLogin(false);
       }
     }, []);
-
-    const handleLogin = async (e) => {
-      console.log(e.code);
-      let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code: e.code }),
-      });
-      token.json().then((res) => {
-        console.log(res);
-        localStorage.setItem("user", res.key); //store the user in local storage for persistent login
-        setLogin(true);
-      });
-    };
-    const onFailure = (response) => console.error(response);
+  
   }
 
   return (
