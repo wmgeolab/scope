@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/createquery.css";
 import ScopeNavBar from "./ScopeNavBar";
+import UnauthorizedView from "./UnauthorizedView";
 
 const CreateQuery = () => {
   const navigate = useNavigate();
@@ -65,11 +66,7 @@ const CreateQuery = () => {
   if (localStorage.getItem("user") === null) {
     // fix?
     return (
-      <div>
-        <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
-        your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
-      </div>
+      <UnauthorizedView/>
     );
     // alert("Please log in")
   } else {

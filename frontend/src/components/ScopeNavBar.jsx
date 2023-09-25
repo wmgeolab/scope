@@ -10,17 +10,28 @@ import LoginGithub from "react-login-github";
 export default function ScopeNavBar(props) {
 
 
+  
   const loggedIn = props.logIn;
 
   const [login, setLogin] = useState(false); //keep track of if a user is logged in
-
   const navigate = useNavigate();
+  console.log(login);
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
     setLogin(false);
   };
-
+  
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    console.log(loggedInUser);
+    if (loggedInUser) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, []);
+  
   const handleLogin = async (e) => {
     console.log(e.code);
     console.log("test");
@@ -38,20 +49,6 @@ export default function ScopeNavBar(props) {
     });
   };
   const onFailure = (response) => console.error(response);
-
-  if (loggedIn) {
-
-    useEffect(() => {
-      const loggedInUser = localStorage.getItem("user");
-      console.log(loggedInUser);
-      if (loggedInUser) {
-        setLogin(true);
-      } else {
-        setLogin(false);
-      }
-    }, []);
-  
-  }
 
   return (
     <div>

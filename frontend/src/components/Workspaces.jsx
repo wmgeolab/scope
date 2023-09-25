@@ -20,6 +20,8 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import Modal from "react-bootstrap/Modal";
+import ScopeNavBar from "./ScopeNavBar";
+import UnauthorizedView from "./UnauthorizedView";
 
 const fake_data = [
   {
@@ -294,63 +296,12 @@ const Workspaces = () => {
   ];
 
   if (localStorage.getItem("user") === null) {
-    // fix?
-    return (
-      <div>
-        <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
-        your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
-      </div>
-    );
-    // alert("Please log in")
+    return <UnauthorizedView />;
   } else {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <Navbar bg="dark" variant="dark" className="nav">
-          <Container>
-            <Navbar.Brand className="nav-title">
-              <img
-                src={logo}
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
-                alt="Scope logo"
-              />{" "}
-              SCOPE
-            </Navbar.Brand>
-
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
-            <Navbar.Collapse>
-              <Nav className="flex-grow-1 justify-content-evenly">
-                <Nav.Link href="/" className="nav-elements">
-                  Home
-                </Nav.Link>
-                <Nav.Link href="/queries" className="nav-elements">
-                  Queries
-                </Nav.Link>
-                <Nav.Link href="/workspaces" className="nav-elements">
-                  Workspaces
-                </Nav.Link>
-                <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
-                  <div style={{ paddingLeft: 100 }}>
-                    <Button
-                      type="button"
-                      className="login"
-                      onClick={handleLogout}
-                      style={{ justifyContent: "right" }}
-                    >
-                      Log Out
-                    </Button>
-                  </div>
-                </Container>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+        <ScopeNavBar />
 
         {/* Container for the rest of the contents of the page
         Header, Dropdown Menus, Search Bar and Grid */}

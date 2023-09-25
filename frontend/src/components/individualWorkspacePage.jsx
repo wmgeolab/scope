@@ -14,6 +14,7 @@ import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
 import ScopeNavBar from "./ScopeNavBar";
+import UnauthorizedView from "./UnauthorizedView";
 
 
 
@@ -151,10 +152,7 @@ const IndividualWorkspaces = () => {
 
   if (localStorage.getItem("user") === null) {
     return (
-      <div>
-        <h1> 401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
-        your access, please return to the <a href="/">dashboard</a> to log in
-      </div>
+      <UnauthorizedView/>
     );
   } else {
     return (

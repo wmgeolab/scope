@@ -7,6 +7,7 @@ import logo from "./../images/pic10.jpg";
 import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
 import ScopeNavBar from "./ScopeNavBar";
+import UnauthorizedView from "./UnauthorizedView";
 
 const DisplayArticle = () => {
   //   var { Readability } = require("@mozilla/readability");
@@ -44,11 +45,7 @@ const DisplayArticle = () => {
   if (localStorage.getItem("user") === null) {
     // fix?
     return (
-      <div>
-        <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
-        your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
-      </div>
+      <UnauthorizedView/>
     );
   } else {
     return (
