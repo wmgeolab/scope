@@ -44,14 +44,12 @@ const DisplayArticle = () => {
 
   if (localStorage.getItem("user") === null) {
     // fix?
-    return (
-      <UnauthorizedView/>
-    );
+    return <UnauthorizedView />;
   } else {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <ScopeNavBar/>
+        <ScopeNavBar />
         <Container>
           <h2 className="wsHeadingsInternal" style={{ paddingTop: "1%" }}>
             Article Text:

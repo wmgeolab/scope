@@ -16,11 +16,6 @@ import Modal from "react-bootstrap/Modal";
 import ScopeNavBar from "./ScopeNavBar";
 import UnauthorizedView from "./UnauthorizedView";
 
-
-
-
-
-
 const fake_data = [
   {
     id: 0,
@@ -29,7 +24,7 @@ const fake_data = [
     wsComments: "Argentina:Project",
     wsURL:
       "https://www.cbsnews.com/news/syria-airstrike-us-contractor-killed-iran-drone-attack-joe-biden-lloyd-austin/",
-  },  
+  },
   {
     id: 1,
 
@@ -83,7 +78,6 @@ const IndividualWorkspaces = () => {
   const [show, setShow] = useState(false);
 
   const getAllArticles = async () => {
-
     // let response = await fetch(
     //   "http://127.0.0.1:8000/api/text/",
     //   {
@@ -99,9 +93,8 @@ const IndividualWorkspaces = () => {
     //     })
     //   }
     // );
-  
     // let q = await response.json();
-  }
+  };
 
   const handleClose = () => {
     setShow(false);
@@ -151,14 +144,12 @@ const IndividualWorkspaces = () => {
   };
 
   if (localStorage.getItem("user") === null) {
-    return (
-      <UnauthorizedView/>
-    );
+    return <UnauthorizedView />;
   } else {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <ScopeNavBar/>
+        <ScopeNavBar />
         <div
           className="fullRowContainer"
           style={{ paddingTop: ".25%", paddingBottom: "2%", paddingLeft: "1%" }}

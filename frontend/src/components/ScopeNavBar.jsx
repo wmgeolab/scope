@@ -8,9 +8,6 @@ import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
 
 export default function ScopeNavBar(props) {
-
-
-  
   const loggedIn = props.logIn;
 
   const [login, setLogin] = useState(false); //keep track of if a user is logged in
@@ -21,7 +18,7 @@ export default function ScopeNavBar(props) {
     navigate("/");
     setLogin(false);
   };
-  
+
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     console.log(loggedInUser);
@@ -31,7 +28,7 @@ export default function ScopeNavBar(props) {
       setLogin(false);
     }
   }, []);
-  
+
   const handleLogin = async (e) => {
     console.log(e.code);
     console.log("test");

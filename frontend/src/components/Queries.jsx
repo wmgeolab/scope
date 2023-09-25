@@ -125,9 +125,7 @@ const Queries = () => {
 
   if (localStorage.getItem("user") === null) {
     // fix?
-    return (
-      <UnauthorizedView/>
-    );
+    return <UnauthorizedView />;
     // alert("Please log in")
   } else {
     return (
@@ -139,7 +137,7 @@ const Queries = () => {
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
 
-      <ScopeNavBar/>
+        <ScopeNavBar />
 
         {/* Container for the rest of the contents of the page
         Header, Dropdown Menus, Search Bar and Grid */}

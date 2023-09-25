@@ -217,9 +217,7 @@ const Results = () => {
 
   if (localStorage.getItem("user") === null) {
     // fix?
-    return (
-      <UnauthorizedView/>
-    );
+    return <UnauthorizedView />;
     // alert("Please log in")
   } else {
     return (
@@ -234,7 +232,7 @@ const Results = () => {
         <link rel="stylesheet" href="assets/css/main.css" />
         <div id="page-wrapper">
           {/* <!-- Header --> */}
-          <ScopeNavBar/>
+          <ScopeNavBar />
 
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">

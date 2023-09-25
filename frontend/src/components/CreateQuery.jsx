@@ -55,7 +55,7 @@ const CreateQuery = () => {
           Authorization: "Token " + localStorage.getItem("user"),
         },
         body: JSON.stringify(data),
-      }); 
+      });
       navigate("/queries/");
     }
 
@@ -65,14 +65,12 @@ const CreateQuery = () => {
 
   if (localStorage.getItem("user") === null) {
     // fix?
-    return (
-      <UnauthorizedView/>
-    );
+    return <UnauthorizedView />;
     // alert("Please log in")
   } else {
     return (
       <div>
-        <ScopeNavBar/>
+        <ScopeNavBar />
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           {/* <!-- Highlights --> */}
