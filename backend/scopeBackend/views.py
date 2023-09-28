@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 from django.core import serializers
 from django.http import HttpResponse
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
-from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer
-from .models import User, Query, Result, Source, Run
+from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer, WorkspaceSerializer
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -17,7 +17,6 @@ from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -26,8 +25,6 @@ logger = logging.getLogger(__name__)
 import requests
 from readability import Document
 import regex
-
-
 
 
 class UserView(viewsets.ModelViewSet):
@@ -93,6 +90,7 @@ class ResultView(viewsets.ModelViewSet):
 class RunView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = RunSerializer
+    queryset = Workspace.objects.all()
 
     # def create(self, request):
     #     logger.error(f"RunView create run call request: {self.request}")
@@ -113,11 +111,11 @@ class RunView(viewsets.ModelViewSet):
             queryset = queryset.filter(user_id=user)
         return queryset
 
-
 class SourceView(viewsets.ModelViewSet):
     logger.error("SourceView here!")
     permission_classes = [IsAuthenticated]
     serializer_class = SourceSerializer
+    queryset = Source.objects.all()
 
     def get_queryset(self, query_id, page_id):
         runs = Run.objects.filter(query_id=query_id).values_list()
@@ -224,3 +222,85 @@ class ReadSource(viewsets.ModelViewSet):
         # result = json.loads(dictionary, strict=False)
         # print(result)
         return HttpResponse(plain_text)
+
+class WorkspaceView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WorkspaceSerializer
+
+    def get_queryset(self):
+        queryset = Workspace.objects.all()
+        return queryset
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.get_serializer(workspace)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def add(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        result_ids = request.data.get('result_ids')
+        if not result_ids:
+            return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
+        results = Result.objects.filter(pk__in=result_ids)
+        workspace.results.add(*results)
+        serializer = self.get_serializer(workspace)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def remove(self, request, pk=None):
+        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+        result_ids = request.data.get('result_ids')
+        if not result_ids:
+            return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
+        results = Result.objects.filter(pk__in=result_ids)
+        workspace.results.remove(*results)
+        serializer = self.get_serializer(workspace)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], url_path='create', url_name='create_workspace')
+    def create_workspace(self, request):
+        name = request.data.get('name')
+        password = request.data.get('password')
+        tags = request.data.get('tags')
+        user = request.user
+
+        # Check if name and password are not empty
+        if not name or not password:
+            return Response({'error': 'Name and password are required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Create workspace
+        workspace = Workspace.objects.create(name=name, password=password, creatorId=user.id, tags=tags)
+
+        # Add current user to the workspace as a member
+        WorkspaceMembers.objects.create(user=user, workspace=workspace)
+
+        serializer = WorkspaceSerializer(workspace)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # @action(detail=True, methods=['post'])
+    # should be accessible at /api/workspaces/join/ [POST]
+    @action(detail=False, methods=['post'], url_path=r'join')
+    def join_workspace(self, request):
+        password = request.data.get('password')
+        workspaceID = request.data.get('id')
+        user_id = request.user.id
+        # check if workspace exists
+        workspace = Workspace.objects.filter(id=workspaceID).first()
+        
+        member = WorkspaceMembers.objects.filter(workspace_id=workspace.id)
+        if member:
+            return Response({'error': 'You are already a member of this workspace'}, status=status.HTTP_400_BAD_REQUEST)
+        # check if password is correct, if so add user to workspace
+        if workspace.password == password:
+            
+            WorkspaceMembers.objects.create(id=user_id, workspace_id=workspace.id)
+            serializer = WorkspaceSerializer(workspace)
+            return Response(serializer.data)
+        else:
+            return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)

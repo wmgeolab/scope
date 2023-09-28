@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType, KeyWord
-import datetime
-
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -99,3 +97,21 @@ class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ('id', 'run', 'source')
+
+class WorkspaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Workspace
+        fields = ('id', 'name', 'tags', 'password', "creatorId")
+
+class WorkspaceMembersSerializer(serializers.ModelSerializer):
+    workspace = WorkspaceSerializer()
+    class Meta:
+        model = WorkspaceMembers
+        fields = ('id', 'workspace')
+
+class WorkspaceEntriesSerializer(serializers.ModelSerializer):
+    workspace = WorkspaceSerializer()
+    source = SourceSerializer()
+    class Meta:
+        model = WorkspaceEntries
+        fields = ('workspace', 'source')
