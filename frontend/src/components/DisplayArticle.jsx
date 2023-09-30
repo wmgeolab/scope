@@ -48,8 +48,6 @@ const DisplayArticle = () => {
   } else {
     return (
       <div>
-        {/* Scope Dashboard Header + Log Out Button */}
-        <ScopeNavBar />
         <Container>
           <h2 className="wsHeadingsInternal" style={{ paddingTop: "1%" }}>
             Article Text:

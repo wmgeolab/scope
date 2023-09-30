@@ -70,7 +70,6 @@ const CreateQuery = () => {
   } else {
     return (
       <div>
-        <ScopeNavBar />
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           {/* <!-- Highlights --> */}

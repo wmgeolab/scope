@@ -6,45 +6,36 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
-
 export default function ScopeNavBar(props) {
-  const loggedIn = props.logIn;
-
-  const [login, setLogin] = useState(false); //keep track of if a user is logged in
+  const {
+    loggedIn,
+    setLoggedIn
+  } = props;
+        
   const navigate = useNavigate();
-  console.log(login);
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-    setLogin(false);
-  };
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    console.log(loggedInUser);
-    if (loggedInUser) {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
-  }, []);
-
   const handleLogin = async (e) => {
     console.log(e.code);
-    console.log("test");
-    let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code: e.code }),
-    });
-    token.json().then((res) => {
-      console.log(res);
-      localStorage.setItem("user", res.key); //store the user in local storage for persistent login
-      setLogin(true);
-    });
+    // let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github/", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ code: e.code }),
+    // });
+
+    // token.json().then((res) => {
+    //   console.log(res); //store the user in local storage for persistent login
+    //   setLoggedIn(true);
+    // });
+    setLoggedIn(true);
   };
+
+
+  const handleLogout = () => {
+    navigate("/");
+    setLoggedIn(false);
+  };
+
   const onFailure = (response) => console.error(response);
 
   return (
@@ -74,7 +65,7 @@ export default function ScopeNavBar(props) {
                 Workspaces
               </Nav.Link>
               <Container className="ms-auto">
-                {login ? (
+                {loggedIn ? (
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"

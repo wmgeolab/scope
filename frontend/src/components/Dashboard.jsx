@@ -16,7 +16,6 @@ import ScopeNavBar from "./ScopeNavBar";
 const Dashboard = () => {
   return (
     <div>
-      <ScopeNavBar logIn={true} />
       <div
         style={{
           backgroundImage: `url(${stars})`,
