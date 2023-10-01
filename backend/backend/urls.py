@@ -40,5 +40,4 @@ urlpatterns = [
     path('api/text/<int:source_id>/', views.ReadSource.get_queryset, name='Text'),
     path('api/', include(router.urls)),
     path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login'),
-
 ]

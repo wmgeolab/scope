@@ -68,16 +68,21 @@ class Result(models.Model):
 
 class Workspace(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=120)
-    tags = models.CharField(max_length=300)
+    name = models.CharField(max_length=120, unique=True)
     password = models.CharField(max_length=120)
-    creatorId = models.CharField(max_length=120)
+    creatorId = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.name
 
 class WorkspaceMembers(models.Model):
-    id = models.CharField(primary_key=True,max_length=120)
+    member = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -89,3 +94,10 @@ class WorkspaceEntries(models.Model):
 
     def __str__(self):
         return self.id
+
+class Tag(models.Model):
+    workspace = models.ForeignKey(Workspace, related_name='tags', on_delete=models.CASCADE)
+    tag = models.CharField(max_length=120)
+    
+    def __str__(self):
+        return self.tag

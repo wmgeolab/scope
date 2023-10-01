@@ -5,8 +5,16 @@ from django.http import HttpResponse
 
 from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
-from .serializers import UserSerializer, QuerySerializer, ResultSerializer, RunSerializer, SourceSerializer, WorkspaceSerializer
-from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers
+from .serializers import (
+    UserSerializer, 
+    QuerySerializer, 
+    ResultSerializer, 
+    RunSerializer, 
+    SourceSerializer, 
+    WorkspaceSerializer, 
+    WorkspaceMembersSerializer, 
+    WorkspaceEntriesSerializer)
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -90,7 +98,6 @@ class ResultView(viewsets.ModelViewSet):
 class RunView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = RunSerializer
-    queryset = Workspace.objects.all()
 
     # def create(self, request):
     #     logger.error(f"RunView create run call request: {self.request}")
@@ -227,23 +234,21 @@ class WorkspaceView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = WorkspaceSerializer
 
+    # accessible at /api/workspaces/ [GET]
     def get_queryset(self):
-        queryset = Workspace.objects.all()
+        # returns all workspaces that user is a part of
+        self.serializer_class = WorkspaceMembersSerializer
+        queryset = WorkspaceMembers.objects.all()
+        user = self.request.user.id
+        if user:
+            queryset = queryset.filter(member=user)
         return queryset
 
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None):
-        workspace = get_object_or_404(self.get_queryset(), pk=pk)
-        serializer = self.get_serializer(workspace)
-        return Response(serializer.data)
-
-    @action(detail=True, methods=['post'])
-    def add(self, request, pk=None):
-        workspace = get_object_or_404(self.get_queryset(), pk=pk)
+    # accessible at /api/workspaces/source/ [POST]
+    # NOT TESTED --> NOT WORKING
+    @action(detail=True, methods=['post'], url_path='source', url_name='source')
+    def add_source(self, request):
+        workspace = get_object_or_404(self.get_queryset())
         result_ids = request.data.get('result_ids')
         if not result_ids:
             return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -252,55 +257,54 @@ class WorkspaceView(viewsets.ModelViewSet):
         serializer = self.get_serializer(workspace)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['post'])
-    def remove(self, request, pk=None):
-        workspace = get_object_or_404(self.get_queryset(), pk=pk)
-        result_ids = request.data.get('result_ids')
-        if not result_ids:
-            return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
-        results = Result.objects.filter(pk__in=result_ids)
-        workspace.results.remove(*results)
-        serializer = self.get_serializer(workspace)
-        return Response(serializer.data)
-
-    @action(detail=False, methods=['post'], url_path='create', url_name='create_workspace')
-    def create_workspace(self, request):
-        name = request.data.get('name')
-        password = request.data.get('password')
-        tags = request.data.get('tags')
-        user = request.user
-
-        # Check if name and password are not empty
-        if not name or not password:
-            return Response({'error': 'Name and password are required'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Create workspace
-        workspace = Workspace.objects.create(name=name, password=password, creatorId=user.id, tags=tags)
-
-        # Add current user to the workspace as a member
-        WorkspaceMembers.objects.create(user=user, workspace=workspace)
-
-        serializer = WorkspaceSerializer(workspace)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    # @action(detail=True, methods=['post'])
-    # should be accessible at /api/workspaces/join/ [POST]
-    @action(detail=False, methods=['post'], url_path=r'join')
-    def join_workspace(self, request):
-        password = request.data.get('password')
-        workspaceID = request.data.get('id')
-        user_id = request.user.id
+    # accessble at /api/workspaces/ [DELETE]
+    # delete() is a built-in django method
+    def delete(self, request):
+        name = request.data['name']
+        workspace = Workspace.objects.filter(name=name).first()
+        # custom responses to keep all error messages consistent
         # check if workspace exists
-        workspace = Workspace.objects.filter(id=workspaceID).first()
-        
-        member = WorkspaceMembers.objects.filter(workspace_id=workspace.id)
-        if member:
-            return Response({'error': 'You are already a member of this workspace'}, status=status.HTTP_400_BAD_REQUEST)
-        # check if password is correct, if so add user to workspace
-        if workspace.password == password:
-            
-            WorkspaceMembers.objects.create(id=user_id, workspace_id=workspace.id)
-            serializer = WorkspaceSerializer(workspace)
-            return Response(serializer.data)
-        else:
-            return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+        if not workspace:
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # check password
+        if workspace.password != request.data['password']:
+            return Response({'error':'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+        # check if creator
+        if workspace.creatorId != self.request.user:
+            return Response({'error':'Only the workspace creator can delete'}, status=status.HTTP_403_FORBIDDEN)
+        workspace.delete()
+        return Response('Workspace has been deleted', status=status.HTTP_200_OK)
+
+    # accessible at /api/workspaces/ [POST]
+    # create() is a built-in django method
+    def create(self, request):
+        # technically a duplicate check since name in models defined to be unique
+        # returns response for consistent error message
+        if Workspace.objects.filter(name=request.data['name']):
+            return Response({'error':'Workspace name already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        # create workspace and add creator to workspace
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(creatorId=self.request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    # accessible at /api/workspaces/join/ [POST]
+    @action(detail=False, methods=['post'], url_path='join', url_name='join')
+    def join_workspace(self, request):
+        # check if workspace exists
+        workspace = Workspace.objects.filter(name=request.data['name']).first()
+        if not workspace:
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # check if password matches
+        if workspace.password != request.data['password']:
+            return Response({'error':'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+        # check if user is already in the workspace
+        if WorkspaceMembers.objects.filter(workspace=workspace, member=self.request.user):
+            return Response({'error':'User already part of the workspace'}, status=status.HTTP_400_BAD_REQUEST)
+        # add user to workspace
+        serializer = WorkspaceMembersSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(member=self.request.user, workspace=workspace)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
