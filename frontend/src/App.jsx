@@ -12,6 +12,8 @@ import ScopeNavBar from "./components/ScopeNavBar";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  console.log(loggedIn);
+  console.log("logged in")
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,8 +23,8 @@ function App() {
         />
         <Routes>
           <Route exact path="/" element={<Dashboard/>} />
-          <Route exact path="/workspaces" element={<Workspaces />} />
-          <Route exact path="/queries" element={<Queries />} />
+          <Route exact path="/workspaces" element={<Workspaces loggedIn={loggedIn}/>} />
+          <Route exact path="/queries" element={<Queries loggedIn={loggedIn}/>} />
           <Route path="/results/:query_id" element={<Results />} />
           <Route
             exact

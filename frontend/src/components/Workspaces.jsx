@@ -49,7 +49,11 @@ const fake_data = [
   },
 ];
 
-const Workspaces = () => {
+const Workspaces = (props) => {
+    const {
+      loggedIn
+    } = props;
+
   // Used for the filtering model with the external search bar and the data grid.
   const [filt, setFilt] = useState([]);
   const navigate = useNavigate();
@@ -295,13 +299,12 @@ const Workspaces = () => {
     },
   ];
 
-  if (localStorage.getItem("user") === null) {
+  if (loggedIn === false) {
     return <UnauthorizedView />;
   } else {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <ScopeNavBar />
 
         {/* Container for the rest of the contents of the page
         Header, Dropdown Menus, Search Bar and Grid */}

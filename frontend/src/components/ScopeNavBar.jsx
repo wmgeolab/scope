@@ -8,32 +8,33 @@ import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
 export default function ScopeNavBar(props) {
   const {
-    loggedIn,
-    setLoggedIn
+    loggedIn
   } = props;
         
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     console.log(e.code);
-    // let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github/", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ code: e.code }),
-    // });
+    let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code: e.code }),
+    });
 
-    // token.json().then((res) => {
-    //   console.log(res); //store the user in local storage for persistent login
-    //   setLoggedIn(true);
-    // });
-    setLoggedIn(true);
+    token.json().then((res) => {
+      console.log(res); //store the user in local storage for persistent login
+      loggedIn.current = true;
+    });
+    console.log(loggedIn.current);
+    loggedIn.current = true;
   };
 
 
   const handleLogout = () => {
     navigate("/");
-    setLoggedIn(false);
+    loggedIn.current = false;
   };
 
   const onFailure = (response) => console.error(response);
@@ -65,7 +66,7 @@ export default function ScopeNavBar(props) {
                 Workspaces
               </Nav.Link>
               <Container className="ms-auto">
-                {loggedIn ? (
+                {loggedIn.current ? (
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"

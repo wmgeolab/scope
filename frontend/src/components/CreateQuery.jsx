@@ -11,7 +11,10 @@ import "../assets/css/createquery.css";
 import ScopeNavBar from "./ScopeNavBar";
 import UnauthorizedView from "./UnauthorizedView";
 
-const CreateQuery = () => {
+const CreateQuery = (props) => {
+  const {
+    loggedIn
+  } = props;
   const navigate = useNavigate();
 
   const [queryName, setQueryName] = useState("");
@@ -63,7 +66,7 @@ const CreateQuery = () => {
     console.log(JSON.stringify(data));
   };
 
-  if (localStorage.getItem("user") === null) {
+  if (loggedIn === false) {
     // fix?
     return <UnauthorizedView />;
     // alert("Please log in")

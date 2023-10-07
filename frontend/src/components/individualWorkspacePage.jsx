@@ -68,7 +68,10 @@ const columns = [
   },
 ];
 
-const IndividualWorkspaces = () => {
+const IndividualWorkspaces = (props) => {
+  const {
+    loggedIn
+  } = props;
   const { workspace_name } = useParams();
   console.log(workspace_name);
 
@@ -143,13 +146,12 @@ const IndividualWorkspaces = () => {
     ]);
   };
 
-  if (localStorage.getItem("user") === null) {
+  if (loggedIn === false) {
     return <UnauthorizedView />;
   } else {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <ScopeNavBar />
         <div
           className="fullRowContainer"
           style={{ paddingTop: ".25%", paddingBottom: "2%", paddingLeft: "1%" }}

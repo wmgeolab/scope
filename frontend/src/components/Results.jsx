@@ -26,7 +26,10 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import ScopeNavBar from "./ScopeNavBar";
 import UnauthorizedView from "./UnauthorizedView";
 
-const Results = () => {
+const Results = (props) => {
+  const {
+    loggedIn
+  } = props;
   //gets the queryName from the URL
   const { query_id } = useParams();
   const [rowCount, setRowCount] = useState(0);
@@ -215,7 +218,7 @@ const Results = () => {
     );
   }
 
-  if (localStorage.getItem("user") === null) {
+  if (loggedIn === false) {
     // fix?
     return <UnauthorizedView />;
     // alert("Please log in")

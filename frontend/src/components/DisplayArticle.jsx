@@ -9,7 +9,10 @@ import { Button } from "react-bootstrap";
 import ScopeNavBar from "./ScopeNavBar";
 import UnauthorizedView from "./UnauthorizedView";
 
-const DisplayArticle = () => {
+const DisplayArticle = (props) => {
+  const {
+    loggedIn
+  } = props;
   //   var { Readability } = require("@mozilla/readability");
   const { article_title } = useParams();
   const [text, setText] = useState("");
@@ -42,7 +45,7 @@ const DisplayArticle = () => {
     handleSubmit(article_title);
   }, []); //listening on an empty array
 
-  if (localStorage.getItem("user") === null) {
+  if (loggedIn === false) {
     // fix?
     return <UnauthorizedView />;
   } else {

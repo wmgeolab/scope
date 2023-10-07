@@ -26,7 +26,11 @@ import ScopeNavBar from "./ScopeNavBar";
 import Row from "react-bootstrap/Row";
 import UnauthorizedView from "./UnauthorizedView";
 
-const Queries = () => {
+const Queries = (props) => {
+  const {
+    loggedIn
+  } = props;
+
   const [queries, setQueries] = useState([]);
   const navigate = useNavigate();
   const [rowCount, setRowCount] = useState(0);
@@ -123,7 +127,7 @@ const Queries = () => {
     );
   }
 
-  if (localStorage.getItem("user") === null) {
+  if (loggedIn === false) {
     // fix?
     return <UnauthorizedView />;
     // alert("Please log in")
@@ -136,9 +140,6 @@ const Queries = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-
-        <ScopeNavBar />
-
         {/* Container for the rest of the contents of the page
         Header, Dropdown Menus, Search Bar and Grid */}
         <Container>
@@ -148,7 +149,6 @@ const Queries = () => {
           >
             <h2 style={{ paddingTop: "1%", fontWeight: "bold " }}>Queries</h2>
           </div>
-
           {/* Inline search bar and drop down menu. */}
           <Row>
             <div className="customRowContainer">
