@@ -83,7 +83,6 @@ const Dashboard = () => {
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
-                      // variant='login'
                       className="login"
                       onClick={handleLogout}
                       style={{ justifyContent: "right" }}
@@ -109,7 +108,6 @@ const Dashboard = () => {
       <div
         style={{
           backgroundImage: `url(${stars})`,
-          // height: '24em',
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
@@ -176,7 +174,7 @@ const Dashboard = () => {
       </h3>
 
       <p className="paragraphs_end">
-        As stated above, workspaces are collaborative spaces for users to be
+        Workspaces are collaborative spaces for users to be
         able to add sources relevant to a specific project they're working on.
         In the workspaces tab, you can either join an existing workspace (if you
         have the name and password) or create a new workspace (where you will

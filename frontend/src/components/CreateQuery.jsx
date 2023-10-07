@@ -20,7 +20,6 @@ const CreateQuery = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
-    //  <a href="/dashboard">Dashboard</a>;
   };
 
   const [validated, setValidated] = useState(false);
@@ -46,7 +45,6 @@ const CreateQuery = () => {
       console.log(JSON.stringify(data));
 
       fetch("http://127.0.0.1:8000/api/queries/", {
-        //submitting a query
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,10 +65,8 @@ const CreateQuery = () => {
       <div>
         <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
         your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
-    // alert("Please log in")
   } else {
     return (
       <div>
@@ -119,7 +115,6 @@ const CreateQuery = () => {
         <div id="page-wrapper">
           {/* <!-- Header --> */}
           {/* <!-- Highlights --> */}
-          {/* <section id="highlights" className="wrapper style3"> */}
           <h2 className="headings">Create Query</h2>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Label className="formLabels">Query Name *</Form.Label>
@@ -194,57 +189,11 @@ const CreateQuery = () => {
                 variant="primary"
                 className="centerButton"
                 type="submit"
-                // onClick={submitQuery}
               >
                 Submit Query
               </Button>
             </div>
           </Form>
-
-          {/* <div className="container">
-              <div className="form-style-5">
-                <form>
-                  <fieldset>
-                    <legend> Query Info</legend>
-                    <input
-                      type="text"
-                      id="queryName"
-                      placeholder="Query Name *"
-                    ></input>
-                    <input
-                      type="text"
-                      id="queryDescription"
-                      placeholder="Query Description (optional)"
-                    ></input>
-                    <input
-                      type="text"
-                      id="primaryKeyword"
-                      placeholder="Primary Keyword (Only 1) *"
-                    ></input>
-                    <input
-                      type="text"
-                      id="secondaryKeywords"
-                      placeholder="Secondary Keywords *"
-                    ></input>
-                  </fieldset>
-                  <ul className="actions special">
-                    <li>
-                      <a onClick={submitQuery} className="button style1 large">
-                        Submit Query
-                      </a>
-                    </li>
-                    {error ? (
-                      <Alert severity="error">Missing required fields</Alert>
-                    ) : (
-                      <Alert severity="info">
-                        Please fill in the above fields
-                      </Alert>
-                    )}
-                  </ul>
-                </form>
-              </div>
-            </div> */}
-          {/* </section> */}
         </div>
 
         {/* <!-- Scripts --> */}

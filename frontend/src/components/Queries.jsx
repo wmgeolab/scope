@@ -34,7 +34,6 @@ const Queries = () => {
   var [dropDownValue, setDropDownValue] = useState("Name");
 
   const handleChange = () => {
-    // const value = textInput.current.value;
   };
 
   const onSubmitSearch = (event) => {
@@ -73,7 +72,7 @@ const Queries = () => {
   const handleSubmit = async (curPage) => {
     console.log("handlesubmit:", curPage);
     let response = await fetch(
-      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1),
       {
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +95,7 @@ const Queries = () => {
 
   useEffect(() => {
     handleSubmit(0);
-  }, []); //listening on an empty array
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -115,7 +114,6 @@ const Queries = () => {
         shape="rounded"
         page={page + 1}
         count={pageCount}
-        // @ts-expect-error
         renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
         onChange={(event, value) => apiRef.current.setPage(value - 1)}
       />
@@ -128,10 +126,8 @@ const Queries = () => {
       <div>
         <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
         your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
-    // alert("Please log in")
   } else {
     return (
       <div>
@@ -169,8 +165,6 @@ const Queries = () => {
                   Workspaces
                 </Nav.Link>
                 <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
@@ -204,7 +198,6 @@ const Queries = () => {
                 id="dropdown-basic-button"
                 title={dropDownValue}
                 style={{ float: "right", marginLeft: "10px" }}
-                // className="querySelect"
               >
                 <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
                   Name
@@ -218,7 +211,6 @@ const Queries = () => {
               </DropdownButton>
 
               <div className="querySearch">
-                {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
                 <Form onSubmit={onSubmitSearch}>
                   <InputGroup>
                     <InputGroup.Text>
@@ -246,7 +238,7 @@ const Queries = () => {
                     rows={queries}
                     rowCount={rowCount}
                     columns={columns}
-                    pageSize={15} //change this to change number of queries displayed per page, but should make backend
+                    pageSize={15}
                     pagination
                     paginationMode="server"
                     checkboxSelection
@@ -266,13 +258,6 @@ const Queries = () => {
           <div>
             {/* <!-- Features --> */}
             <section id="features" className="centerButtonAlign">
-              {/* <ul className="actions special">
-                    <li>
-                      <a href="/create-query" className="button style1 large">
-                        Create New Query
-                      </a>
-                    </li>
-                  </ul> */}
               <Button href="/create-query" className="centerButton">
                 Create New Query
               </Button>

@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
 
-
 .screen a {
     display: contents;
     text-decoration: none;
@@ -14,7 +13,6 @@
     width: 100%;
 }
 
-
 .ws_headings {
     text-align: left;
     font-weight: bold;
@@ -24,16 +22,9 @@
     float:left;
 }
 
-
 .test1 {
     display: inline;
 }
-
-/* .dropdown {
-   /* margin-left:8.5%; */
-   /* float:left;
-   width:25%;    */
-/* }  */
 
 .table {
     padding-top: 32px;
@@ -83,7 +74,6 @@
     font-weight: bold;
     width:auto;
     display:inline-block;
-    /* outline-color: rgb(48, 46, 46); */
 }
 
 .workspaceSearchInternal {
@@ -91,13 +81,9 @@
     width:40%;
 }
 
-
 .returnHomeButton {
-
     padding-bottom: 10%;
-
 }
-
 
 .individualTable {
     padding-top: 2%;
@@ -106,15 +92,12 @@
 .customRowContainer{
     margin-left: 7%;
     width:92%;
-    /* outline-color: rgb(48, 46, 46); */
 }
 
 .fullRowContainer{
     width:100%;
-    /* outline-color: rgb(48, 46, 46); */
     float:top;
 }
-
 
 .modalText {
     justify-content: center;

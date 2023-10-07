@@ -1,12 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-
-import logo from "./../images/pic10.jpg";
-
-// issue: needs to bring over the github functionality
 return (
   <Navbar bg="dark" variant="dark" className="nav">
     <Container>

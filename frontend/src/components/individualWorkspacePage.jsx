@@ -14,11 +14,6 @@ import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
 
-
-
-
-
-
 const fake_data = [
   {
     id: 0,
@@ -64,8 +59,6 @@ const columns = [
     width: 150,
     flex: 1,
     renderCell: (cellValue) => {
-      //cell customization, make the name a link to the corresponding results page
-      ///console.log(cellValue);mm
       return <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>;
     },
   },
@@ -81,24 +74,6 @@ const IndividualWorkspaces = () => {
   const [show, setShow] = useState(false);
 
   const getAllArticles = async () => {
-
-    // let response = await fetch(
-    //   "http://127.0.0.1:8000/api/text/",
-    //   {
-    //     //results doesn't have anything in the array when printed
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //       Authorization: "Token " + localStorage.getItem("user"),
-    //     },
-    //     body: JSON.stringify({
-    //       "user" : localStorage.getItem("user"),
-    //       "workspaceName": workspace_name
-    //     })
-    //   }
-    // );
-  
-    // let q = await response.json();
   }
 
   const handleClose = () => {
@@ -186,8 +161,6 @@ const IndividualWorkspaces = () => {
                   Workspaces
                 </Nav.Link>
                 <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
@@ -237,7 +210,6 @@ const IndividualWorkspaces = () => {
                         > */}
 
                 {/* Column for Search Bar    */}
-
                 <h2 className="wsHeadingsInternal">{workspace_name}</h2>
 
                 <div className="workspaceSearchInternal">

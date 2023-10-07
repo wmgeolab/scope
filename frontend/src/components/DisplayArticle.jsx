@@ -8,7 +8,6 @@ import Nav from "react-bootstrap/Nav";
 import { Button } from "react-bootstrap";
 
 const DisplayArticle = () => {
-  //   var { Readability } = require("@mozilla/readability");
   const { article_title } = useParams();
   const [text, setText] = useState("");
   console.log(article_title);
@@ -17,7 +16,6 @@ const DisplayArticle = () => {
     let response = await fetch(
       "http://127.0.0.1:8000/api/text/" + source_id + "/",
       {
-        //results doesn't have anything in the array when printed
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -38,15 +36,13 @@ const DisplayArticle = () => {
 
   useEffect(() => {
     handleSubmit(article_title);
-  }, []); //listening on an empty array
+  }, []);
 
   if (localStorage.getItem("user") === null) {
-    // fix?
     return (
       <div>
         <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
         your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
   } else {
@@ -80,8 +76,6 @@ const DisplayArticle = () => {
                   Workspaces
                 </Nav.Link>
                 <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"

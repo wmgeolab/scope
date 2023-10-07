@@ -61,26 +61,6 @@ const Workspaces = () => {
   const [formValid, setFormValid] = useState(false);
   const [errorState, setErrorState] = useState(false);
 
-  // const getAllWorkspaces = async () => {
-
-  //   let response = await fetch(
-  //     "http://127.0.0.1:8000/api/text/",
-  //     {
-  //       //results doesn't have anything in the array when printed
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //         Authorization: "Token " + localStorage.getItem("user"),
-  //       },
-  //       body: JSON.stringify({
-  //         "user" : localStorage.getItem("user")
-  //       })
-  //     }
-  //   );
-
-  //   let q = await response.json();
-  // }
-
   const executeView = async () => {
     // Control validation for Join Workspace inputs
     // user must pass a name and a password.
@@ -91,31 +71,6 @@ const Workspaces = () => {
     }
 
     if (formValid) {
-      //start of fetch request for workspace information
-      // let response = await fetch(
-      //   "http://127.0.0.1:8000/api/text/",
-      //   {
-      //     //results doesn't have anything in the array when printed
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Accept: "application/json",
-      //       Authorization: "Token " + localStorage.getItem("user"),
-      //     },
-      //     body: JSON.stringify({
-      //       "name": wsJoinName,
-      //       "pass": wsJoinPassword
-      //     })
-      //   }
-      // );
-      // Not really sure what this would look like.
-      // Would need to contain a
-      // 1. ID. integer
-      // 2. Owner. String
-      // 3. Name. String
-      // 4. Tags. List of strings?
-      // let q = await response.json();
-      // console.log(response);
-      // setText(q);
     } else {
       console.log("Error state triggered (VIEW)");
       setErrorState(true);
@@ -130,19 +85,6 @@ const Workspaces = () => {
     }
     if (formValid) {
       setErrorState(false);
-      //starting fetch POST request for making a new workspace
-      // fetch("http://127.0.0.1:8000/api/workspaces/", {
-      //   // making new workspaces
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: "Token " + localStorage.getItem("user"),
-      //   },
-      //   body: JSON.stringify({
-      //     "name": wsMakeName,
-      //     "pass": wsMakePassword
-      //   })
-      // });
       setCreateShow(false);
     } else {
       console.log("Error state triggered (CREATE)");
@@ -193,11 +135,6 @@ const Workspaces = () => {
       },
     ]);
   };
-
-  // consts for chips (tags)
-  // const ListItem = styled("li")(({ theme }) => ({
-  //   margin: theme.spacing(0.5),
-  // }));
 
   const [joinShow, setJoinShow] = useState(false);
   const [createShow, setCreateShow] = useState(false);
@@ -250,7 +187,6 @@ const Workspaces = () => {
       field: "wsTags",
       headerName: "Tags",
       flex: 1,
-      // renderCell: renderTags
       renderCell: (tag_list) => {
         if (tag_list.formattedValue == null) {
           tag_list = [];
@@ -271,7 +207,6 @@ const Workspaces = () => {
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (
                 <Chip
-                  // variant="outlined"
                   label={option}
                   color="primary"
                   {...getTagProps({ index })}
@@ -282,7 +217,6 @@ const Workspaces = () => {
               <TextField
                 {...params}
                 variant="standard"
-                // InputProps={{ disableUnderline: true }}
                 label=""
                 placeholder="Add Tags"
               />
@@ -294,15 +228,12 @@ const Workspaces = () => {
   ];
 
   if (localStorage.getItem("user") === null) {
-    // fix?
     return (
       <div>
         <h1>401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
         your access, please return to the <a href="/">dashboard</a> to log in
-        {/*do we want a popup so user is never taken to queries*/}
       </div>
     );
-    // alert("Please log in")
   } else {
     return (
       <div>
@@ -334,8 +265,6 @@ const Workspaces = () => {
                   Workspaces
                 </Nav.Link>
                 <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
@@ -394,7 +323,6 @@ const Workspaces = () => {
                   id="dropdown-basic-button"
                   title={dropDownValueSearch}
                   style={{ float: "right", marginLeft: "10px" }}
-                  // className="querySelect"
                 >
                   <Dropdown.Item
                     onClick={(e) => setDropDownValueSearch(e.target.text)}
