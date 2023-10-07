@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
@@ -12,8 +12,15 @@ import ScopeNavBar from "./components/ScopeNavBar";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const logInStatusTracker = useRef(false);
+
+  useEffect(() => {
+    logInStatusTracker.current = loggedIn
+  }, [loggedIn]);
   console.log(loggedIn);
-  console.log("logged in")
+  console.log("loggedin");
+  console.log(logInStatusTracker.current);
+  console.log("status");
   return (
     <div className="App">
       <BrowserRouter>

@@ -8,7 +8,8 @@ import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
 export default function ScopeNavBar(props) {
   const {
-    loggedIn
+    loggedIn,
+    setLoggedIn
   } = props;
         
   const navigate = useNavigate();
@@ -25,16 +26,15 @@ export default function ScopeNavBar(props) {
 
     token.json().then((res) => {
       console.log(res); //store the user in local storage for persistent login
-      loggedIn.current = true;
+      setLoggedIn(true);
     });
-    console.log(loggedIn.current);
-    loggedIn.current = true;
+    setLoggedIn(true);
   };
 
 
   const handleLogout = () => {
     navigate("/");
-    loggedIn.current = false;
+    setLoggedIn(false);
   };
 
   const onFailure = (response) => console.error(response);
@@ -66,7 +66,7 @@ export default function ScopeNavBar(props) {
                 Workspaces
               </Nav.Link>
               <Container className="ms-auto">
-                {loggedIn.current ? (
+                {loggedIn ? (
                   <div style={{ paddingLeft: 100 }}>
                     <Button
                       type="button"
