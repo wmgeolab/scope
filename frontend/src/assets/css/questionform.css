@@ -4,6 +4,7 @@
 }
 
 h3 {
+    display: inline-block;
     font-size: 20px;
     color: #484d55;
 }
