@@ -45,12 +45,6 @@ return (
                     />
                 </label>
             </div>
-<<<<<<< Updated upstream
-
-            
-
-=======
->>>>>>> Stashed changes
             <Form.Control as="textarea" disabled={disabled} value={text} onChange={(e) => setText(e.target.value)}/>
             </Form.Group>
         </Form>
