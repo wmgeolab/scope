@@ -20,7 +20,6 @@ const finished = () => {
 }
 
 return (
-    
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <div>
@@ -46,16 +45,17 @@ return (
                     />
                 </label>
             </div>
+<<<<<<< Updated upstream
 
             
 
+=======
+>>>>>>> Stashed changes
             <Form.Control as="textarea" disabled={disabled} value={text} onChange={(e) => setText(e.target.value)}/>
             </Form.Group>
-
         </Form>
-        
-)   ;
+    );
 
-}
+    }
 
 export default QuestionForm;

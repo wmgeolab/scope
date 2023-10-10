@@ -23,10 +23,10 @@ const QuestionSettings = () => {
     return(
         <div>
         <NavBar></NavBar>
-        <div style={{paddingTop:"2%", width:"75%", margin: "auto"}}>
+        <div style={{paddingTop: "2%", width: "75%", margin: "auto"}}>
             <h2 style={{ paddingTop: "1%", fontWeight: "bold " }}>Project [Name] Question Form </h2>
             {fakeData.map(item => (
-                <div key={item.id}>
+                <div style={{paddingTop: "1%"}} key={item.id}>
                 {/* Create elements based on item properties */}
                 <QuestionForm source={item}></QuestionForm>
                 </div>
