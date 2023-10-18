@@ -12,15 +12,7 @@ import ScopeNavBar from "./components/ScopeNavBar";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const logInStatusTracker = useRef(false);
 
-  useEffect(() => {
-    logInStatusTracker.current = loggedIn
-  }, [loggedIn]);
-  console.log(loggedIn);
-  console.log("loggedin");
-  console.log(logInStatusTracker.current);
-  console.log("status");
   return (
     <div className="App">
       <BrowserRouter>

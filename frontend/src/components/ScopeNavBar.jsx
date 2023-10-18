@@ -11,10 +11,16 @@ export default function ScopeNavBar(props) {
     loggedIn,
     setLoggedIn
   } = props;
-        
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setLoggedIn(true);
+    }
+  }, []);
+
   const navigate = useNavigate();
   const handleLogin = async (e) => {
-    console.log(e.code);
     let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
       method: "POST",
       mode: "cors",
@@ -25,15 +31,14 @@ export default function ScopeNavBar(props) {
     });
 
     token.json().then((res) => {
-      console.log(res); //store the user in local storage for persistent login
+      localStorage.setItem("user", res.key); //store the user in local storage for persistent login
       setLoggedIn(true);
     });
-    setLoggedIn(true);
   };
 
 
   const handleLogout = () => {
-    navigate("/");
+    localStorage.clear();
     setLoggedIn(false);
   };
 
