@@ -8,6 +8,7 @@ import Workspaces from "./components/Workspaces";
 import CreateQuery from "./components/CreateQuery";
 import DisplayArticle from "./components/DisplayArticle";
 import IndividualWorkspaces from "./components/individualWorkspacePage";
+import QuestionSettings from "./components/QuestionSettings";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/workspaces" element={<Workspaces />} />
         <Route exact path="/queries" element={<Queries />} />
         <Route path="/results/:query_id" element={<Results />} />
+        <Route path="/question_settings" element={<QuestionSettings />} />
         <Route
           exact
           path="/display-article/:article_title"

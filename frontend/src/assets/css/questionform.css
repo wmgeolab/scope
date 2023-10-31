@@ -1,0 +1,14 @@
+.questionContainer {
+    display: flex;
+    margin-bottom: 2px;
+}
+
+h3 {
+    display: inline-block;
+    font-size: 20px;
+    color: #484d55;
+}
+
+.toggleAIManual {
+    margin-left: auto;
+}
