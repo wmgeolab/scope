@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 import { Button } from "react-bootstrap";
 
 export default function WorkspaceTable(props) {
-  const { data, columns, filters, handleShowJoin, handleShowCreate } = props;
+  const { data, columns, filters } = props;
 
   const [tempFilters, setTempFilters] = useState(filters);
 
