@@ -33,6 +33,7 @@ export default function ScopeNavBar(props) {
     token.json().then((res) => {
       localStorage.setItem("user", res.key); //store the user in local storage for persistent login
       setLoggedIn(true);
+      console.log(localStorage.getItem("user"), "user");
     });
   };
 
