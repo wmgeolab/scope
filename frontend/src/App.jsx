@@ -7,8 +7,8 @@ import Results from "./components/Results";
 import Workspaces from "./components/Workspaces";
 import CreateQuery from "./components/CreateQuery";
 import DisplayArticle from "./components/DisplayArticle";
-import IndividualWorkspaces from "./components/individualWorkspacePage";
 import ScopeNavBar from "./components/ScopeNavBar";
+import IndividualWorkspaces from "./components/IndividualWorkspacePage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
