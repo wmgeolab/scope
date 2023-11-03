@@ -26,7 +26,6 @@ class QuerySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # print(validated_data)
         kws = validated_data['keywords']
-        # print(kws)
         q = Query.objects.create(
             user=validated_data['user'],
             name=validated_data['name'],
@@ -107,7 +106,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workspace
-        fields = ('id', 'name', 'tags', 'password', 'creatorId')
+        fields = ('id', 'name', 'password', 'creatorId', 'tags')
 
 class WorkspaceMembersSerializer(serializers.ModelSerializer):
     member = serializers.SlugRelatedField(read_only=True, slug_field='id')
@@ -126,11 +125,12 @@ class WorkspaceMembersSerializer(serializers.ModelSerializer):
         fields = ('member', 'workspace')
 
 class WorkspaceEntriesSerializer(serializers.ModelSerializer):
-    workspace = WorkspaceSerializer()
-    source = SourceSerializer()
+    # workspace = WorkspaceSerializer()
+    # source = SourceSerializer()
 
     def create(self, validated_data):
         # add source to workspace
+        print(validated_data)
         e = WorkspaceEntries.objects.create(
             workspace=validated_data['workspace'],
             source=validated_data['source']
@@ -139,4 +139,4 @@ class WorkspaceEntriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkspaceEntries
-        fields = ('workspace', 'source')
+        fields = ('id', 'workspace', 'source')

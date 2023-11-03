@@ -13,12 +13,16 @@ from .serializers import (
     SourceSerializer, 
     WorkspaceSerializer, 
     WorkspaceMembersSerializer, 
-    WorkspaceEntriesSerializer)
-from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries
+    WorkspaceEntriesSerializer,
+    TagSerializer
+)
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag
+from django.db.models import Prefetch
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 from django.core.paginator import Paginator
 
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
@@ -236,13 +240,17 @@ class WorkspaceView(viewsets.ModelViewSet):
 
     # accessible at /api/workspaces/ [GET]
     def get_queryset(self):
-        # returns all workspaces that user is a part of
         self.serializer_class = WorkspaceMembersSerializer
         queryset = WorkspaceMembers.objects.all()
         user = self.request.user.id
-        if user:
-            queryset = queryset.filter(member=user)
-        return queryset
+        workspace = self.request.data['workspace']
+        # return specific workspace details
+        if user and workspace:
+            temp = Workspace.objects.filter(id=workspace).first()
+            queryset = queryset.filter(member=user, workspace=temp)
+            return queryset
+        # return all workspaces that user is part of
+        return queryset.filter(member=user)
 
     # accessible at /api/workspaces/source/ [POST]
     # NOT TESTED --> NOT WORKING
@@ -307,4 +315,94 @@ class WorkspaceView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(member=self.request.user, workspace=workspace)
         headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+
+# NOT TESTED PROPERLY YET
+class WorkspaceMembersView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WorkspaceMembersSerializer
+
+    # accessible at /api/member/ [DELETE]
+    def delete(self, request):
+        user = self.request.user
+        id = request.data['workspace']
+        workspace = Workspace.objects.filter(id=id).first()
+        member = WorkspaceMembers.objects.filter(member=user, workspace=workspace).first()
+        # check if workspace exists
+        if not workspace:
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+         # check if creator - creator cannot leave their own workspace
+        if workspace.creatorId == self.request.user:
+            return Response({'error':'The creator cannot leave the workspace. Perhaps you want to delete the workspace?'}, status=status.HTTP_403_FORBIDDEN)
+        member.delete()
+        return Response('Member has been removed from the workspace.', status=status.HTTP_200_OK)
+    
+class WorkspaceEntriesView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WorkspaceEntriesSerializer
+
+    # accessible at /api/entries/ [GET]
+    def get_queryset(self):
+        # returns all sources(entries) in a workspace
+        id = self.request.data['workspace']
+        workspace = Workspace.objects.filter(id=id).first()
+        queryset = WorkspaceEntries.objects.filter(workspace=workspace)
+        return queryset
+    
+    # accessible at /api/entries/ [POST]
+    def create(self, request):
+        # returns response for consistent error message
+        # fields: source id, workspace id
+        source = Source.objects.filter(id=request.data['source']).first()
+        workspace = Workspace.objects.filter(id=request.data['workspace']).first()
+        if not source:
+            return Response({'error':'Source not found'}, status=status.HTTP_404_NOT_FOUND)
+        if not workspace:
+            return Response({'error':'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+        # check if source exists in workspace
+        entry = WorkspaceEntries.objects.filter(source=request.data['source'], workspace=request.data['workspace'])
+        if entry:
+            return Response({'error':'Source already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
+        # request.data['source'] = source
+        # request.data['workspace'] = workspace
+        # add source to workspace
+        serializer = self.get_serializer(data=request.data)
+        print(serializer)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(workspace=workspace, source=source)
+        headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    # accessible at /api/entries/ [DELETE]
+    def delete(self, request):
+        workspace = Workspace.objects.filter(id=request.data['workspace']).first()
+        source = Source.objects.filter(id=request.data['source']).first()
+        # check if workspace exists
+        if not workspace:
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # check if source exists
+        if not source:
+            return Response({'error':'Source does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # check if source in workspace
+        entry = WorkspaceEntries.objects.filter(source=request.data['source'], workspace=request.data['workspace'])
+        if not entry:
+            return Response({'error':'Source is not in workspace'}, status=status.HTTP_404_NOT_FOUND)
+        entry.delete()
+        return Response('Source has been removed from the workspace.', status=status.HTTP_200_OK)
+
+class TagView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TagSerializer
+
+    def create(self, request):
+        return
+    
+    def delete(self, request):
+        return
+
+# accessible at /api/test/ [GET]
+class TestView(viewsets.ModelViewSet):
+
+    @api_view(('GET',))
+    def get_queryset(self):
+        return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
