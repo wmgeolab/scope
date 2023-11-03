@@ -1,25 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/workspace.css";
-import { DataGrid } from "@mui/x-data-grid";
-import { Container, Box } from "@mui/material";
+import { Container } from "@mui/material";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
-import { GridToolbar } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import Modal from "react-bootstrap/Modal";
 import UnauthorizedView from "./UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
+
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
   const [dropDownValue, setValue] = useState("All Workspaces");
@@ -36,7 +33,7 @@ const Workspaces = (props) => {
 
   useEffect(() => {
     // CREATION API CALL HERE.
-    // May need to use axios? 
+    // May need to use axios?
     console.log("TO DO: IMPLEMENT API CALL TO CREATE WORKSPACE HERE.");
   }, [triggerCreateApiCall]);
 
@@ -46,20 +43,16 @@ const Workspaces = (props) => {
   }, [triggerJoinApiCall]);
   const handleShowJoin = () => {
     setShowJoinModal(true);
-  }
+  };
   const handleShowCreate = () => {
     setShowCreateModal(true);
-  }
+  };
   const handleExitCreateModal = () => {
     setShowCreateModal(false);
-  }
+  };
   const handleExitJoinModal = () => {
     setShowJoinModal(false);
-  }
-
-
-
-
+  };
 
   const onSubmitSearch = () => {
     setFilt([
@@ -72,15 +65,8 @@ const Workspaces = (props) => {
   };
 
   const handleKeywordChange = (value) => {
-    textInput.current = value;
+    textInput.current = value.target.value;
     let tempValue = dropDownValueSearch.toLowerCase();
-    setFilt([
-      {
-        columnField: tempValue,
-        operatorValue: "contains",
-        value: textInput.current,
-      },
-    ]);
   };
 
   const fake_data = [
@@ -132,7 +118,6 @@ const Workspaces = (props) => {
       flex: 1,
       renderCell: (tag_list) => {
         var tags_to_display;
-        console.log(tag_list.formattedValue);
         if (
           tag_list.formattedValue === null ||
           tag_list.formattedValue === undefined
@@ -196,20 +181,6 @@ const Workspaces = (props) => {
             </DropdownButton>
           </Col>
           <Col sm={2} />
-          <Col sm={5}>
-            <Form onSubmit={onSubmitSearch}>
-              <InputGroup>
-                <InputGroup.Text>
-                  <Search />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder={"Search by Workspace " + dropDownValueSearch}
-                  onChange={(value) => handleKeywordChange(value.target.value)}
-                  type="text"
-                />
-              </InputGroup>
-            </Form>
-          </Col>
           <Col sm={1}>
             <DropdownButton
               id="dropdown-basic-button"
@@ -232,6 +203,30 @@ const Workspaces = (props) => {
                 Tags
               </Dropdown.Item>
             </DropdownButton>
+          </Col>
+          <Col sm={5}>
+            <Form onSubmit={onSubmitSearch}>
+              <InputGroup>
+                <Button aria-label="Search" onClick={onSubmitSearch}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                  </svg>
+                </Button>
+                {/* <Search onClick={handleKeywordChange}/> */}
+                <Form.Control
+                  placeholder={"Search by Workspace " + dropDownValueSearch}
+                  onChange={(value) => handleKeywordChange(value)}
+                  type="text"
+                />
+              </InputGroup>
+            </Form>
           </Col>
           <WorkspaceTable
             data={fake_data}
