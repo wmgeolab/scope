@@ -13,11 +13,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import { GridToolbar } from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
-
-
-
-
-
+import ScopeNavBar from "./ScopeNavBar";
+import UnauthorizedView from "./UnauthorizedView";
 
 const fake_data = [
   {
@@ -27,7 +24,7 @@ const fake_data = [
     wsComments: "Argentina:Project",
     wsURL:
       "https://www.cbsnews.com/news/syria-airstrike-us-contractor-killed-iran-drone-attack-joe-biden-lloyd-austin/",
-  },  
+  },
   {
     id: 1,
 
@@ -71,7 +68,10 @@ const columns = [
   },
 ];
 
-const IndividualWorkspaces = () => {
+const IndividualWorkspaces = (props) => {
+  const {
+    loggedIn
+  } = props;
   const { workspace_name } = useParams();
   console.log(workspace_name);
 
@@ -81,7 +81,6 @@ const IndividualWorkspaces = () => {
   const [show, setShow] = useState(false);
 
   const getAllArticles = async () => {
-
     // let response = await fetch(
     //   "http://127.0.0.1:8000/api/text/",
     //   {
@@ -97,9 +96,8 @@ const IndividualWorkspaces = () => {
     //     })
     //   }
     // );
-  
     // let q = await response.json();
-  }
+  };
 
   const handleClose = () => {
     setShow(false);
@@ -148,62 +146,12 @@ const IndividualWorkspaces = () => {
     ]);
   };
 
-  if (localStorage.getItem("user") === null) {
-    return (
-      <div>
-        <h1> 401 unauthorized</h1>Oops, looks like you've exceeded the SCOPE of
-        your access, please return to the <a href="/">dashboard</a> to log in
-      </div>
-    );
+  if (loggedIn === false) {
+    return <UnauthorizedView />;
   } else {
     return (
       <div>
         {/* Scope Dashboard Header + Log Out Button */}
-        <Navbar bg="dark" variant="dark" className="nav">
-          <Container>
-            <Navbar.Brand className="nav-title">
-              <img
-                src={logo}
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
-                alt="Scope logo"
-              />{" "}
-              SCOPE
-            </Navbar.Brand>
-
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
-            <Navbar.Collapse>
-              <Nav className="flex-grow-1 justify-content-evenly">
-                <Nav.Link href="/" className="nav-elements">
-                  Home
-                </Nav.Link>
-                <Nav.Link href="/queries" className="nav-elements">
-                  Queries
-                </Nav.Link>
-                <Nav.Link href="/workspaces" className="nav-elements">
-                  Workspaces
-                </Nav.Link>
-                <Container className="ms-auto">
-                  {/* <Button type="button" className="login">Hello</Button> */}
-
-                  <div style={{ paddingLeft: 100 }}>
-                    <Button
-                      type="button"
-                      className="login"
-                      onClick={handleLogout}
-                      style={{ justifyContent: "right" }}
-                    >
-                      Log Out
-                    </Button>
-                  </div>
-                </Container>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
         <div
           className="fullRowContainer"
           style={{ paddingTop: ".25%", paddingBottom: "2%", paddingLeft: "1%" }}
