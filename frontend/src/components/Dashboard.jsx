@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
-import stars from "./../images/stars3.jpg";
+import stars from "./../images/stars.jpg";
 import create from "./../images/icons/create_queries.png";
 import filter from "./../images/icons/filtering_queries.png";
 import workspaces from "./../images/icons/workspaces.png";
