@@ -17,12 +17,10 @@ from .serializers import (
     TagSerializer
 )
 from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag
-from django.db.models import Prefetch
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
 from rest_framework import status
-from rest_framework.exceptions import NotFound
 from django.core.paginator import Paginator
 
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
