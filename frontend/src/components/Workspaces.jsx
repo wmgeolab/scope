@@ -16,6 +16,7 @@ import UnauthorizedView from "./UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
+import { useNavigate } from "react-router-dom";
 
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
@@ -28,18 +29,54 @@ const Workspaces = (props) => {
   const [triggerCreateApiCall, setTriggerCreateApiCall] = useState(false);
   const [triggerJoinApiCall, setTriggerJoinApiCall] = useState(false);
   const textInput = useRef("");
+  const navigate = useNavigate();
 
   const { loggedIn } = props;
 
+  var data = {
+    name: workspaceName,
+    password: workspacePassword
+  }
+  console.log(data)
+
   useEffect(() => {
-    // CREATION API CALL HERE.
-    // May need to use axios?
-    console.log("TO DO: IMPLEMENT API CALL TO CREATE WORKSPACE HERE.");
+    // CREATE API CALL HERE
+    // TODO: fix this
+    if(triggerCreateApiCall) {
+      fetch("http://127.0.0.1:8000/api/workspaces/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+        body: JSON.stringify(data),
+      }).then(
+        (result)=>console.log(result)
+      );
+      navigate("/workspaces/");
+      // setTriggerCreateApiCall(false);
+    }
+    // return () => {}
   }, [triggerCreateApiCall]);
 
   useEffect(() => {
     // JOIN API CALL HERE.
-    console.log("TO DO: IMPLEMENT API CALL TO JOIN WORKSPACE HERE!");
+    // TODO: fix this too
+    if(triggerJoinApiCall) {
+      fetch("http://127.0.0.1:8000/api/workspaces/join/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+        body: JSON.stringify(data),
+      }).then(
+        (result)=>console.log(result)
+      );
+      navigate("/workspaces/");
+      // setTriggerJoinApiCall(false);
+    }
+    // return () => {}
   }, [triggerJoinApiCall]);
   const handleShowJoin = () => {
     setShowJoinModal(true);
