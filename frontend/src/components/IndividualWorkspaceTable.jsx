@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
 import { Row, Col } from "react-bootstrap";
 
 
 export default function IndividualWorkspaceTable(props){
-    const { data } = props;
-
-    console.log(data);
+    const { data, filters } = props;
+    const [tempFilters, setTempFilters] = useState(filters);
+    useEffect(() => {
+        setTempFilters(filters);
+      }, [filters]);
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
       
@@ -29,7 +31,6 @@ export default function IndividualWorkspaceTable(props){
       ];
 
     return(
-        // Put back in filtmodel
         <Container disableGutters sx={{ height: 400, marginTop: "2%"}}>
             <DataGrid
             rows={data}
@@ -44,6 +45,9 @@ export default function IndividualWorkspaceTable(props){
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
             components={{ Toolbar: GridToolbar }}
+            filterModel={{
+                items: tempFilters,
+            }}
       />
         </Container>
     );

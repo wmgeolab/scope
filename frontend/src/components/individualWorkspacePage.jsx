@@ -1,21 +1,38 @@
 import { useParams } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
 import UnauthorizedView from "./UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
+import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name } = useParams();
   const [showModal, setShowModal] = useState(false);
+  const [filters, setFilters] = useState([]);
+  const textInput = useRef("");
 
   const handleCloseModal = () => {
     setShowModal(false);
   };
   const handleShowModal = () => {
     setShowModal(true);
+  };
+
+  const handleKeywordChange = (value) => {
+    textInput.current = value.target.value;
+  };
+
+  const onSubmitSearch = () => {
+    setFilters([
+      {
+        columnField: "wsName",
+        operatorValue: "contains",
+        value: textInput.current,
+      },
+    ]);
   };
 
   const data = [
@@ -72,22 +89,31 @@ export default function IndividualWorkspacePage(props) {
           </Col>
           <Col sm={3} />
           <Col sm={4} className="float-end mt-2">
-            <Form onSubmit={null}>
+            <Form onSubmit={onSubmitSearch}>
               <InputGroup>
-                <InputGroup.Text>
-                  <Search></Search>
-                </InputGroup.Text>
+                <Button aria-label="Search" onClick={onSubmitSearch}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                  </svg>
+                </Button>
                 <Form.Control
                   placeholder="Search by Article Name"
-                  ref={null}
-                  onChange={null}
+                  ref={textInput}
+                  onChange={handleKeywordChange}
                   type="text"
                 />
               </InputGroup>
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={data} />
+        <IndividualWorkspaceTable data={data} filters={filters} />
         <Row className="mt-5">
           <Col sm={5}/>
           <Col sm={2}>
@@ -95,6 +121,11 @@ export default function IndividualWorkspacePage(props) {
           </Col>
           <Col sm={5}/>
         </Row>
+        <IndividualWorkspaceModal 
+          showModal={showModal}
+          handleCloseModal={handleCloseModal}
+          workspaceName={workspace_name}
+        />
       </Container>
     );
   }
