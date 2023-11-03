@@ -82,7 +82,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class WorkspaceSerializer(serializers.ModelSerializer):
     # refer to QuerySerializer for example
-    tags = TagSerializer(many=True, read_only=False)
+    # tags = TagSerializer(many=True, read_only=False)
     creatorId = serializers.SlugRelatedField(read_only=True, slug_field='id')
 
     def create(self, validated_data):
@@ -99,14 +99,14 @@ class WorkspaceSerializer(serializers.ModelSerializer):
             workspace=w
         )
         # add tags
-        tags = validated_data['tags']
-        for t in tags:
-            Tag.objects.create(workspace=w, tag=t['tag'])
+        # tags = validated_data['tags']
+        # for t in tags:
+        #     Tag.objects.create(workspace=w, tag=t['tag'])
         return w
 
     class Meta:
         model = Workspace
-        fields = ('id', 'name', 'password', 'creatorId', 'tags')
+        fields = ('id', 'name', 'password', 'creatorId')
 
 class WorkspaceMembersSerializer(serializers.ModelSerializer):
     member = serializers.SlugRelatedField(read_only=True, slug_field='id')
