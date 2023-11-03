@@ -85,7 +85,7 @@ const Dashboard = () => {
         Using Workspaces
       </h3>
 
-      <p className="paragraphs_end">
+      <p className="paragraphs">
         As stated above, workspaces are collaborative spaces for users to be
         able to add sources relevant to a specific project they're working on.
         In the workspaces tab, you can either join an existing workspace (if you
