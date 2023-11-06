@@ -18,15 +18,22 @@ import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
 
 const Workspaces = (props) => {
+  //  DataGrid filters passed to WorkspaceTable child component
   const [filt, setFilt] = useState([]);
+  // Owner, Name, Tag filtering dropdown state; Used for filtering
   const [dropDownValue, setValue] = useState("All Workspaces");
+  // Used for UI changes for dropdown
   const [dropDownValueSearch, setDropDownValueSearch] = useState("Owner");
+  // Controls visibility of join, create modal
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  // Workspace names and passwords obtained in modals; used in APIs
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspacePassword, setWorkspacePassword] = useState("");
+  // Controls trigger of API call
   const [triggerCreateApiCall, setTriggerCreateApiCall] = useState(false);
   const [triggerJoinApiCall, setTriggerJoinApiCall] = useState(false);
+  // Searchbar input
   const textInput = useRef("");
 
   const { loggedIn } = props;
@@ -41,6 +48,8 @@ const Workspaces = (props) => {
     // JOIN API CALL HERE.
     console.log("TO DO: IMPLEMENT API CALL TO JOIN WORKSPACE HERE!");
   }, [triggerJoinApiCall]);
+
+  // Deals with Modal visibilities
   const handleShowJoin = () => {
     setShowJoinModal(true);
   };
@@ -54,6 +63,7 @@ const Workspaces = (props) => {
     setShowJoinModal(false);
   };
 
+  // Updates the filters when search button clicked.
   const onSubmitSearch = () => {
     setFilt([
       {
@@ -64,9 +74,11 @@ const Workspaces = (props) => {
     ]);
   };
 
+  // Updates keyword ref when changed
+  // This is a ref for a reason;  to avoid too many renders
+  // w states.
   const handleKeywordChange = (value) => {
     textInput.current = value.target.value;
-    let tempValue = dropDownValueSearch.toLowerCase();
   };
 
   const fake_data = [
@@ -95,7 +107,7 @@ const Workspaces = (props) => {
     },
   ];
 
-  //TODO: Look into moving this into its own Component...
+  //Columns for the workspace
   const workspaceColumns = [
     { field: "id", headerName: "ID", width: 90 },
     { field: "owner", headerName: "Owner", width: 150 },
@@ -104,6 +116,7 @@ const Workspaces = (props) => {
       headerName: "Name",
       width: 250,
 
+      // Deals with rendering clickable workspaces
       renderCell: (cellValue) => {
         return (
           <a href={"/workspace/" + cellValue.formattedValue}>
@@ -162,6 +175,7 @@ const Workspaces = (props) => {
   } else {
     return (
       <Container>
+        {/* Row with Workspaces dropdown, filter dropdown, search button + bar */}
         <Row className="mt-5">
           <Col sm={4}>
             <DropdownButton
@@ -219,7 +233,6 @@ const Workspaces = (props) => {
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                   </svg>
                 </Button>
-                {/* <Search onClick={handleKeywordChange}/> */}
                 <Form.Control
                   placeholder={"Search by Workspace " + dropDownValueSearch}
                   onChange={(value) => handleKeywordChange(value)}
@@ -233,6 +246,7 @@ const Workspaces = (props) => {
             columns={workspaceColumns}
             filters={filt}
           />
+          {/* Modal zone */}
           <Row>
             <Col />
             <Col>

@@ -10,6 +10,7 @@ export default function IndividualWorkspaceTable(props){
     useEffect(() => {
         setTempFilters(filters);
       }, [filters]);
+      
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
       
@@ -46,7 +47,7 @@ export default function IndividualWorkspaceTable(props){
             experimentalFeatures={{ newEditingApi: true }}
             components={{ Toolbar: GridToolbar }}
             filterModel={{
-                items: tempFilters,
+                items: tempFilters,     
             }}
       />
         </Container>
