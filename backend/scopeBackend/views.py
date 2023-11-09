@@ -286,6 +286,7 @@ class WorkspaceView(viewsets.ModelViewSet):
     def create(self, request):
         # technically a duplicate check since name in models defined to be unique
         # returns response for consistent error message
+        print(request.data, 'test ')
         if Workspace.objects.filter(name=request.data['name']):
             return Response({'error':'Workspace name already exists'}, status=status.HTTP_400_BAD_REQUEST)
         # create workspace and add creator to workspace

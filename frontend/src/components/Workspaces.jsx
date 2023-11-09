@@ -24,60 +24,53 @@ const Workspaces = (props) => {
   const [dropDownValueSearch, setDropDownValueSearch] = useState("Owner");
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [workspaceName, setWorkspaceName] = useState("");
-  const [workspacePassword, setWorkspacePassword] = useState("");
-  const [triggerCreateApiCall, setTriggerCreateApiCall] = useState(false);
-  const [triggerJoinApiCall, setTriggerJoinApiCall] = useState(false);
   const textInput = useRef("");
   const navigate = useNavigate();
 
   const { loggedIn } = props;
 
-  var data = {
-    name: workspaceName,
-    password: workspacePassword
+  async function triggerCreation(name, password) {
+    let data = {
+      name: name,
+      password: password,
+    };
+    console.log(data);
+
+    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
+    });
+
+    const response_text = await response.json();
+    console.log(response_text);
+    if (response_text.error) {
+      // TODO ADD UI ELEMENTS FOR SPECIFIC ERRORS.
+      // E.G name already exists, ect...
+      console.log("Process failed with following error.");
+      console.log(response_text.error);
+    }
   }
-  console.log(data)
 
-  useEffect(() => {
-    // CREATE API CALL HERE
-    // TODO: fix this
-    if(triggerCreateApiCall) {
-      fetch("http://127.0.0.1:8000/api/workspaces/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
-        body: JSON.stringify(data),
-      }).then(
-        (result)=>console.log(result)
-      );
-      navigate("/workspaces/");
-      // setTriggerCreateApiCall(false);
-    }
-    // return () => {}
-  }, [triggerCreateApiCall]);
+  async function triggerJoin(name, password) {
+    let data = {
+      name: name,
+      password: password,
+    };
+    console.log(JSON.stringify(data), "in join");
+    const response = await fetch("http://127.0.0.1:8000/api/workspaces/join/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
+    });
+  }
 
-  useEffect(() => {
-    // JOIN API CALL HERE.
-    // TODO: fix this too
-    if(triggerJoinApiCall) {
-      fetch("http://127.0.0.1:8000/api/workspaces/join/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
-        body: JSON.stringify(data),
-      }).then(
-        (result)=>console.log(result)
-      );
-      navigate("/workspaces/");
-      // setTriggerJoinApiCall(false);
-    }
-    // return () => {}
-  }, [triggerJoinApiCall]);
   const handleShowJoin = () => {
     setShowJoinModal(true);
   };
@@ -103,7 +96,6 @@ const Workspaces = (props) => {
 
   const handleKeywordChange = (value) => {
     textInput.current = value.target.value;
-    let tempValue = dropDownValueSearch.toLowerCase();
   };
 
   const fake_data = [
@@ -283,17 +275,13 @@ const Workspaces = (props) => {
         </Row>
         <WorkspaceCreateModal
           showModal={showCreateModal}
-          setWorkspaceName={setWorkspaceName}
-          setWorkspacePassword={setWorkspacePassword}
           handleExitCreateModal={handleExitCreateModal}
-          setTriggerCreateApiCall={setTriggerCreateApiCall}
+          triggerCreation={triggerCreation}
         />
         <WorkspaceJoinModal
           showModal={showJoinModal}
-          setWorkspaceName={setWorkspaceName}
-          setWorkspacePassword={setWorkspacePassword}
           handleExitJoinModal={handleExitJoinModal}
-          setTriggerJoinApiCall={setTriggerCreateApiCall}
+          triggerJoin={triggerJoin}
         />
       </Container>
     );

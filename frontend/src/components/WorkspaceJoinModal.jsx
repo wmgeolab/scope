@@ -11,7 +11,7 @@ export default function WorkspaceJoinModal(props) {
     setWorkspaceName,
     setWorkspacePassword,
     handleExitJoinModal,
-    setTriggerJoinApiCall,
+    triggerJoin,
   } = props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
@@ -29,9 +29,7 @@ export default function WorkspaceJoinModal(props) {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      setWorkspaceName(tempWorkspaceName);
-      setWorkspacePassword(tempWorkspacePassword);
-      setTriggerJoinApiCall(true);
+      triggerJoin(tempWorkspaceName, tempWorkspacePassword)
       handleExitJoinModal();
       setTempWorkspaceName('');
       setTempWorkspacePassword('');

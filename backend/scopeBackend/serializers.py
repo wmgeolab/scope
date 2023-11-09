@@ -88,6 +88,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # create workspace
         # unique name defined in models
+        print("test")
         w = Workspace.objects.create(
             name=validated_data['name'],
             password=validated_data['password'],

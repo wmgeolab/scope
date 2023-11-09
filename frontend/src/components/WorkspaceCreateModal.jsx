@@ -12,7 +12,7 @@ export default function WorkspaceModal(props) {
     setWorkspacePassword,
     handleCloseCreate,
     handleExitCreateModal,
-    setTriggerCreateApiCall,
+    triggerCreation,
   } = props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
@@ -28,7 +28,7 @@ export default function WorkspaceModal(props) {
       setTempErrorState(false);
       setWorkspaceName(tempWorkspaceName);
       setWorkspacePassword(tempWorkspacePassword);
-      setTriggerCreateApiCall(true);
+      triggerCreation(tempWorkspaceName, tempWorkspacePassword);
       handleExitCreateModal();
       setTempWorkspaceName('');
       setTempWorkspacePassword('');
