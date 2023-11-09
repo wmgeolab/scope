@@ -28,6 +28,33 @@ const Workspaces = (props) => {
   const navigate = useNavigate();
 
   const { loggedIn } = props;
+  const [workspaceData, setWorkspaceData] = useState({
+    id:null,
+    name:null,
+  });
+
+  async function gatherWorkspaces() {
+    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+    });
+    const response_text = await response.json();
+    const test = response_text.results.map(result => {
+      return {
+        id: result.workspace.id,
+        name: result.workspace.name,
+      }
+    });
+    if (test){
+      setWorkspaceData(test);
+    }
+  } 
+
+  gatherWorkspaces();
+
 
   async function triggerCreation(name, password) {
     let data = {
@@ -69,6 +96,14 @@ const Workspaces = (props) => {
       },
       body: JSON.stringify(data),
     });
+    const response_text = await response.json();
+    console.log(response_text);
+    if (response_text.error) {
+      // I don't think there should be any specific errors here
+      // But if so..UI time.
+      console.log("Process failed with following error.");
+      console.log(response_text.error);
+    }
   }
 
   const handleShowJoin = () => {
@@ -127,7 +162,6 @@ const Workspaces = (props) => {
   //TODO: Look into moving this into its own Component...
   const workspaceColumns = [
     { field: "id", headerName: "ID", width: 90 },
-    { field: "owner", headerName: "Owner", width: 150 },
     {
       field: "name",
       headerName: "Name",
@@ -258,7 +292,7 @@ const Workspaces = (props) => {
             </Form>
           </Col>
           <WorkspaceTable
-            data={fake_data}
+            data={workspaceData}
             columns={workspaceColumns}
             filters={filt}
           />

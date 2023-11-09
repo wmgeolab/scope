@@ -9,7 +9,6 @@ export default function WorkspaceTable(props) {
 
   const [tempFilters, setTempFilters] = useState(filters);
 
-  console.log(filters);
   useEffect(() => {
     setTempFilters(filters);
   }, [filters]);
