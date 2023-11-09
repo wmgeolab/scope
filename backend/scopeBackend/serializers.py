@@ -111,7 +111,8 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
 class WorkspaceMembersSerializer(serializers.ModelSerializer):
     member = serializers.SlugRelatedField(read_only=True, slug_field='id')
-    workspace = WorkspaceSerializer()
+    workspace = WorkspaceSerializer(read_only=True)
+    workspace_id = serializers.IntegerField(write_only=True)
 
     def create(self, validated_data):
         # add member to workspace
@@ -123,11 +124,11 @@ class WorkspaceMembersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkspaceMembers
-        fields = ('member', 'workspace')
+        fields = ('member', 'workspace_id', 'workspace')
 
 class WorkspaceEntriesSerializer(serializers.ModelSerializer):
-    # workspace = WorkspaceSerializer()
-    # source = SourceSerializer()
+    workspace = serializers.SlugRelatedField(read_only=True, slug_field='id')
+    source = SourceSerializer()
 
     def create(self, validated_data):
         # add source to workspace

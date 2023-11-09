@@ -241,27 +241,27 @@ class WorkspaceView(viewsets.ModelViewSet):
         self.serializer_class = WorkspaceMembersSerializer
         queryset = WorkspaceMembers.objects.all()
         user = self.request.user.id
-        workspace = self.request.data['workspace']
         # return specific workspace details
-        if user and workspace:
+        if user and self.request.data:
+            workspace = self.request.data['workspace_id']
             temp = Workspace.objects.filter(id=workspace).first()
             queryset = queryset.filter(member=user, workspace=temp)
             return queryset
         # return all workspaces that user is part of
         return queryset.filter(member=user)
 
-    # accessible at /api/workspaces/source/ [POST]
-    # NOT TESTED --> NOT WORKING
-    @action(detail=True, methods=['post'], url_path='source', url_name='source')
-    def add_source(self, request):
-        workspace = get_object_or_404(self.get_queryset())
-        result_ids = request.data.get('result_ids')
-        if not result_ids:
-            return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
-        results = Result.objects.filter(pk__in=result_ids)
-        workspace.results.add(*results)
-        serializer = self.get_serializer(workspace)
-        return Response(serializer.data)
+    # # accessible at /api/workspaces/source/ [POST]
+    # # NOT TESTED --> NOT WORKING
+    # @action(detail=True, methods=['post'], url_path='source', url_name='source')
+    # def add_source(self, request):
+    #     workspace = get_object_or_404(self.get_queryset())
+    #     result_ids = request.data.get('result_ids')
+    #     if not result_ids:
+    #         return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
+    #     results = Result.objects.filter(pk__in=result_ids)
+    #     workspace.results.add(*results)
+    #     serializer = self.get_serializer(workspace)
+    #     return Response(serializer.data)
 
     # accessble at /api/workspaces/ [DELETE]
     # delete() is a built-in django method
@@ -310,6 +310,8 @@ class WorkspaceView(viewsets.ModelViewSet):
         if WorkspaceMembers.objects.filter(workspace=workspace, member=self.request.user):
             return Response({'error':'User already part of the workspace'}, status=status.HTTP_400_BAD_REQUEST)
         # add user to workspace
+        self.request.data['workspace'] = workspace
+        self.request.data['workspace_id'] = workspace.id
         serializer = WorkspaceMembersSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(member=self.request.user, workspace=workspace)
@@ -362,13 +364,11 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
         entry = WorkspaceEntries.objects.filter(source=request.data['source'], workspace=request.data['workspace'])
         if entry:
             return Response({'error':'Source already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
-        # request.data['source'] = source
-        # request.data['workspace'] = workspace
         # add source to workspace
         serializer = self.get_serializer(data=request.data)
         print(serializer)
         serializer.is_valid(raise_exception=True)
-        serializer.save(workspace=workspace, source=source)
+        serializer.save(id=workspace)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -402,6 +402,5 @@ class TagView(viewsets.ModelViewSet):
 # accessible at /api/test/ [GET]
 class TestView(viewsets.ModelViewSet):
 
-    @api_view(('GET',))
     def get_queryset(self):
         return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
