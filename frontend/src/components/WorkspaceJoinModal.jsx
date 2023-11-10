@@ -12,6 +12,8 @@ export default function WorkspaceJoinModal(props) {
     setWorkspacePassword,
     handleExitJoinModal,
     triggerJoin,
+    errorMes,
+    error
   } = props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
@@ -30,7 +32,9 @@ export default function WorkspaceJoinModal(props) {
     } else {
       setTempErrorState(false);
       triggerJoin(tempWorkspaceName, tempWorkspacePassword)
-      handleExitJoinModal();
+      if (!error) {
+        handleExitJoinModal();
+      };
       setTempWorkspaceName('');
       setTempWorkspacePassword('');
     }
@@ -58,6 +62,13 @@ export default function WorkspaceJoinModal(props) {
             ** Please fill in all of the required answers. **
             </Row>
           ) : null}
+          {
+            errorMes ? (
+              <Row className="d-flex justify-content-center text-danger" >
+              {errorMes}
+              </Row>
+            ) : null
+          }
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">
