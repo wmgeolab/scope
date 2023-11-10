@@ -25,6 +25,8 @@ const Workspaces = (props) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const textInput = useRef("");
   const navigate = useNavigate();
+  const [errorMes, setErrorMes] = useState("");
+  const [error, setError] = useState(true);
 
   const { loggedIn } = props;
   const [workspaceData, setWorkspaceData] = useState({
@@ -75,10 +77,9 @@ const Workspaces = (props) => {
     if (response_text.error) {
       // TODO: ADD UI ELEMENTS FOR SPECIFIC ERRORS.
       // E.G name already exists, ect...
-      console.log("Process failed with following error.");
-      console.log(response_text.error);
+      setErrorMes(response_text.error)
     }
-    gatherWorkspaces();
+    else setError(false);
   }
 
   async function triggerJoin(name, password) {
@@ -100,10 +101,9 @@ const Workspaces = (props) => {
     if (response_text.error) {
       // I don't think there should be any specific errors here
       // But if so..UI time.
-      console.log("Process failed with following error.");
-      console.log(response_text.error);
+      setErrorMes(response_text.error)
     }
-    gatherWorkspaces();
+    else setError(false);
   }
 
   const handleShowJoin = () => {
@@ -113,9 +113,11 @@ const Workspaces = (props) => {
     setShowCreateModal(true);
   };
   const handleExitCreateModal = () => {
+    setErrorMes("");
     setShowCreateModal(false);
   };
   const handleExitJoinModal = () => {
+    setErrorMes("");
     setShowJoinModal(false);
   };
 
@@ -263,11 +265,15 @@ const Workspaces = (props) => {
           showModal={showCreateModal}
           handleExitCreateModal={handleExitCreateModal}
           triggerCreation={triggerCreation}
+          errorMes={errorMes}
+          error={error}
         />
         <WorkspaceJoinModal
           showModal={showJoinModal}
           handleExitJoinModal={handleExitJoinModal}
           triggerJoin={triggerJoin}
+          errorMes={errorMes}
+          error={error}
         />
       </Container>
     );
