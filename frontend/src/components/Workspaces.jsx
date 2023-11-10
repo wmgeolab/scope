@@ -51,9 +51,30 @@ const Workspaces = (props) => {
     if (test){
       setWorkspaceData(test);
     }
-  } 
+  }
 
-  gatherWorkspaces();
+  useEffect(() => {
+    async function gatherWorkspaces() {
+      const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      });
+      const response_text = await response.json();
+      const test = response_text.results.map(result => {
+        return {
+          id: result.workspace.id,
+          name: result.workspace.name,
+        }
+      });
+      if (test){
+        setWorkspaceData(test);
+      }
+    }
+    gatherWorkspaces();
+  }, []);
 
 
   async function triggerCreation(name, password) {
