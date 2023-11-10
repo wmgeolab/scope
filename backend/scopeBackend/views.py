@@ -250,19 +250,6 @@ class WorkspaceView(viewsets.ModelViewSet):
         # return all workspaces that user is part of
         return queryset.filter(member=user)
 
-    # # accessible at /api/workspaces/source/ [POST]
-    # # NOT TESTED --> NOT WORKING
-    # @action(detail=True, methods=['post'], url_path='source', url_name='source')
-    # def add_source(self, request):
-    #     workspace = get_object_or_404(self.get_queryset())
-    #     result_ids = request.data.get('result_ids')
-    #     if not result_ids:
-    #         return Response({'error': 'result_ids field is required'}, status=status.HTTP_400_BAD_REQUEST)
-    #     results = Result.objects.filter(pk__in=result_ids)
-    #     workspace.results.add(*results)
-    #     serializer = self.get_serializer(workspace)
-    #     return Response(serializer.data)
-
     # accessble at /api/workspaces/ [DELETE]
     # delete() is a built-in django method
     def delete(self, request):
@@ -318,7 +305,6 @@ class WorkspaceView(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
-# NOT TESTED PROPERLY YET
 class WorkspaceMembersView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = WorkspaceMembersSerializer
@@ -353,22 +339,21 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
     # accessible at /api/entries/ [POST]
     def create(self, request):
         # returns response for consistent error message
-        # fields: source id, workspace id
-        source = Source.objects.filter(id=request.data['source']).first()
         workspace = Workspace.objects.filter(id=request.data['workspace']).first()
+        source = Source.objects.filter(id=request.data['source_id']).first()
         if not source:
             return Response({'error':'Source not found'}, status=status.HTTP_404_NOT_FOUND)
         if not workspace:
             return Response({'error':'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
         # check if source exists in workspace
-        entry = WorkspaceEntries.objects.filter(source=request.data['source'], workspace=request.data['workspace'])
+        entry = WorkspaceEntries.objects.filter(source=request.data['source_id'], workspace=request.data['workspace'])
         if entry:
             return Response({'error':'Source already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
         # add source to workspace
+        self.request.data['source'] = source
         serializer = self.get_serializer(data=request.data)
-        print(serializer)
         serializer.is_valid(raise_exception=True)
-        serializer.save(id=workspace)
+        serializer.save(workspace=workspace, source=source)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
