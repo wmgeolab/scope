@@ -101,6 +101,7 @@ const Workspaces = (props) => {
       console.log("Process failed with following error.");
       console.log(response_text.error);
     }
+    gatherWorkspaces();
   }
 
   async function triggerJoin(name, password) {
@@ -125,6 +126,7 @@ const Workspaces = (props) => {
       console.log("Process failed with following error.");
       console.log(response_text.error);
     }
+    gatherWorkspaces();
   }
 
   const handleShowJoin = () => {
