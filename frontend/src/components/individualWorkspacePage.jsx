@@ -48,6 +48,16 @@ export default function IndividualWorkspacePage(props) {
     },
   ];
 
+  async function gatherWorkspaces() {
+    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+    });
+  }
+
   if (loggedIn === false) {
     return <UnauthorizedView />;
   } else {

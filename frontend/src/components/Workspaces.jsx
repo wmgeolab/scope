@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
   const [dropDownValue, setValue] = useState("All Workspaces");
-  const [dropDownValueSearch, setDropDownValueSearch] = useState("Owner");
+  const [dropDownValueSearch, setDropDownValueSearch] = useState("Name");
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const textInput = useRef("");
@@ -42,39 +42,24 @@ const Workspaces = (props) => {
       },
     });
     const response_text = await response.json();
-    const test = response_text.results.map(result => {
+    const formattedResponse = response_text.results.map(result => {
       return {
         id: result.workspace.id,
         name: result.workspace.name,
       }
     });
-    if (test){
-      setWorkspaceData(test);
+    if (formattedResponse){
+      setWorkspaceData(formattedResponse);
     }
   }
 
   useEffect(() => {
-    async function gatherWorkspaces() {
-      const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
-      });
-      const response_text = await response.json();
-      const test = response_text.results.map(result => {
-        return {
-          id: result.workspace.id,
-          name: result.workspace.name,
-        }
-      });
-      if (test){
-        setWorkspaceData(test);
-      }
-    }
     gatherWorkspaces();
   }, []);
+
+  useEffect(() => {
+      console.log(workspaceData);
+  }, [dropDownValue]);
 
 
   async function triggerCreation(name, password) {
@@ -82,7 +67,6 @@ const Workspaces = (props) => {
       name: name,
       password: password,
     };
-    console.log(data);
 
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
       method: "POST",
@@ -94,7 +78,6 @@ const Workspaces = (props) => {
     });
 
     const response_text = await response.json();
-    console.log(response_text);
     if (response_text.error) {
       // TODO ADD UI ELEMENTS FOR SPECIFIC ERRORS.
       // E.G name already exists, ect...
@@ -155,32 +138,6 @@ const Workspaces = (props) => {
   const handleKeywordChange = (value) => {
     textInput.current = value.target.value;
   };
-
-  const fake_data = [
-    {
-      id: 0,
-      owner: "user1",
-      name: "My Workspace 1",
-      tags: "Argentina",
-    },
-    {
-      id: 1,
-      owner: "user2",
-      name: "My Workspace 2",
-    },
-    {
-      id: 2,
-      owner: "user3",
-      name: "My Workspace 3",
-      tags: "Ohio, Train",
-    },
-    {
-      id: 3,
-      owner: "user4",
-      name: "My Workspace 4",
-      tags: "Ukraine",
-    },
-  ];
 
   //TODO: Look into moving this into its own Component...
   const workspaceColumns = [
@@ -319,7 +276,7 @@ const Workspaces = (props) => {
             columns={workspaceColumns}
             filters={filt}
           />
-          <Row>
+          <Row className="mt-4">
             <Col />
             <Col>
               <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
