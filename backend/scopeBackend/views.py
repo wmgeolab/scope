@@ -241,12 +241,6 @@ class WorkspaceView(viewsets.ModelViewSet):
         self.serializer_class = WorkspaceMembersSerializer
         queryset = WorkspaceMembers.objects.all()
         user = self.request.user.id
-        # return specific workspace details
-        if user and self.request.data:
-            workspace = self.request.data['workspace_id']
-            temp = Workspace.objects.filter(id=workspace).first()
-            queryset = queryset.filter(member=user, workspace=temp)
-            return queryset
         # return all workspaces that user is part of
         return queryset.filter(member=user)
 
@@ -254,7 +248,7 @@ class WorkspaceView(viewsets.ModelViewSet):
     # delete() is a built-in django method
     def delete(self, request):
         name = request.data['name']
-        workspace = Workspace.objects.filter(name=name).first()
+        workspace = Workspace.objects.get(name=name)
         # custom responses to keep all error messages consistent
         # check if workspace exists
         if not workspace:
@@ -287,7 +281,7 @@ class WorkspaceView(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='join', url_name='join')
     def join_workspace(self, request):
         # check if workspace exists
-        workspace = Workspace.objects.filter(name=request.data['name']).first()
+        workspace = Workspace.objects.get(name=request.data['name'])
         if not workspace:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # check if password matches
@@ -313,8 +307,8 @@ class WorkspaceMembersView(viewsets.ModelViewSet):
     def delete(self, request):
         user = self.request.user
         id = request.data['workspace']
-        workspace = Workspace.objects.filter(id=id).first()
-        member = WorkspaceMembers.objects.filter(member=user, workspace=workspace).first()
+        workspace = Workspace.objects.get(id=id)
+        member = WorkspaceMembers.objects.get(member=user, workspace=workspace)
         # check if workspace exists
         if not workspace:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
@@ -331,16 +325,16 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
     # accessible at /api/entries/ [GET]
     def get_queryset(self):
         # returns all sources(entries) in a workspace
-        id = self.request.data['workspace']
-        workspace = Workspace.objects.filter(id=id).first()
+        id = self.request.headers['Workspace']
+        workspace = Workspace.objects.get(id=id)
         queryset = WorkspaceEntries.objects.filter(workspace=workspace)
         return queryset
     
     # accessible at /api/entries/ [POST]
     def create(self, request):
         # returns response for consistent error message
-        workspace = Workspace.objects.filter(id=request.data['workspace']).first()
-        source = Source.objects.filter(id=request.data['source_id']).first()
+        workspace = Workspace.objects.get(id=request.data['workspace'])
+        source = Source.objects.get(id=request.data['source_id'])
         if not source:
             return Response({'error':'Source not found'}, status=status.HTTP_404_NOT_FOUND)
         if not workspace:
@@ -359,8 +353,8 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
 
     # accessible at /api/entries/ [DELETE]
     def delete(self, request):
-        workspace = Workspace.objects.filter(id=request.data['workspace']).first()
-        source = Source.objects.filter(id=request.data['source']).first()
+        workspace = Workspace.objects.get(id=request.data['workspace'])
+        source = Source.objects.get(id=request.data['source'])
         # check if workspace exists
         if not workspace:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
