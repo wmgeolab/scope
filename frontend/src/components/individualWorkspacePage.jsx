@@ -9,6 +9,7 @@ import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name } = useParams();
+  console.log(useParams());
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {

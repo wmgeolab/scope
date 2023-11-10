@@ -143,7 +143,7 @@ const Workspaces = (props) => {
 
       renderCell: (cellValue) => {
         return (
-          <a href={"/workspace/" + cellValue.formattedValue}>
+          <a href={"/workspace/" + cellValue.formattedValue + "/id/" + cellValue.id}>
             {cellValue.formattedValue}
           </a>
         );

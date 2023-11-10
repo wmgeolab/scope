@@ -32,7 +32,7 @@ function App() {
           />
           <Route path="/workspaces" element={<Workspaces />} />
           <Route
-            path="/workspace/:workspace_name"
+            path="/workspace/:workspace_name/id/:workspace_id"
             element={<IndividualWorkspaces />}
           />
           <Route exact path="/create-query" element={<CreateQuery />} />
