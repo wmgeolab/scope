@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
-  const [dropDownValue, setValue] = useState("All Workspaces");
   const [dropDownValueSearch, setDropDownValueSearch] = useState("Name");
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -57,11 +56,6 @@ const Workspaces = (props) => {
     gatherWorkspaces();
   }, []);
 
-  useEffect(() => {
-      console.log(workspaceData);
-  }, [dropDownValue]);
-
-
   async function triggerCreation(name, password) {
     let data = {
       name: name,
@@ -79,7 +73,7 @@ const Workspaces = (props) => {
 
     const response_text = await response.json();
     if (response_text.error) {
-      // TODO ADD UI ELEMENTS FOR SPECIFIC ERRORS.
+      // TODO: ADD UI ELEMENTS FOR SPECIFIC ERRORS.
       // E.G name already exists, ect...
       console.log("Process failed with following error.");
       console.log(response_text.error);
@@ -128,7 +122,7 @@ const Workspaces = (props) => {
   const onSubmitSearch = () => {
     setFilt([
       {
-        columnField: "owner",
+        columnField: "name",
         operatorValue: "contains",
         value: textInput.current,
       },
@@ -191,7 +185,7 @@ const Workspaces = (props) => {
                 {...params}
                 variant="standard"
                 label=""
-                placeholder="add Tags"
+                placeholder="Add tags"
               />
             )}
           />
@@ -206,35 +200,13 @@ const Workspaces = (props) => {
     return (
       <Container>
         <Row className="mt-5">
-          <Col sm={4}>
-            <DropdownButton
-              id="dropdown-basic-button"
-              title={dropDownValue}
-              style={{ float: "left", marginLeft: "0px" }}
-            >
-              <Dropdown.Item onClick={(e) => setValue(e.target.text)}>
-                Workspaces Owned by Me
-              </Dropdown.Item>
-              <Dropdown.Item onClick={(e) => setValue(e.target.text)}>
-                Workspaces Not Owned by Me
-              </Dropdown.Item>
-              <Dropdown.Item onClick={(e) => setValue(e.target.text)}>
-                All Workspaces
-              </Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col sm={2} />
+          <Col sm={6} />
           <Col sm={1}>
             <DropdownButton
               id="dropdown-basic-button"
               title={dropDownValueSearch}
               style={{ float: "right", marginLeft: "10px" }}
             >
-              <Dropdown.Item
-                onClick={(e) => setDropDownValueSearch(e.target.text)}
-              >
-                Owner
-              </Dropdown.Item>
               <Dropdown.Item
                 onClick={(e) => setDropDownValueSearch(e.target.text)}
               >
@@ -256,7 +228,7 @@ const Workspaces = (props) => {
                     width="16"
                     height="16"
                     fill="currentColor"
-                    class="bi bi-search"
+                    className="bi bi-search"
                     viewBox="0 0 16 16"
                   >
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
