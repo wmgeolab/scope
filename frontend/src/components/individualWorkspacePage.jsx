@@ -71,7 +71,29 @@ export default function IndividualWorkspacePage(props) {
             </h1>
           </Col>
           <Col sm={3} />
-          <Col sm={4} className="float-end mt-2">
+        </Row>
+        <Row className="mt-5">
+          <Col sm={3}/>
+          <Col sm={2}>
+          <Button variant="outline-primary" >Start</Button>
+          <Button variant="outline-primary">Prev</Button>
+          </Col>
+          Page ... out of ...
+          <Col sm={2}>
+          <Button variant="outline-primary" >Next</Button>
+          <Button variant="outline-primary">Last</Button>
+          </Col>
+          <Col sm={3}/>
+        </Row>
+        <Row className="mt-2">
+          <Col sm={8}>
+            <IndividualWorkspaceTable data={data} />
+          </Col>
+          <Col sm={4} className="mt-1">
+            <h4><b>Sources Toolbar</b></h4>
+            <Button onClick={handleShowModal}>Share Workspace</Button>
+            <Button onClick={handleShowModal}>Add new Source</Button>
+            <Row className="mt-5">
             <Form onSubmit={null}>
               <InputGroup>
                 <InputGroup.Text>
@@ -85,16 +107,11 @@ export default function IndividualWorkspacePage(props) {
                 />
               </InputGroup>
             </Form>
+            </Row>
           </Col>
+                
         </Row>
-        <IndividualWorkspaceTable data={data} />
-        <Row className="mt-5">
-          <Col sm={5}/>
-          <Col sm={2}>
-            <Button onClick={handleShowModal}>Share Workspace</Button>
-          </Col>
-          <Col sm={5}/>
-        </Row>
+        
       </Container>
     );
   }

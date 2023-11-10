@@ -26,8 +26,6 @@ export default function WorkspaceModal(props) {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      setWorkspaceName(tempWorkspaceName);
-      setWorkspacePassword(tempWorkspacePassword);
       triggerCreation(tempWorkspaceName, tempWorkspacePassword);
       handleExitCreateModal();
       setTempWorkspaceName('');
