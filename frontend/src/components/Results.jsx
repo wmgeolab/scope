@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -43,6 +43,8 @@ const Results = () => {
   const [dropClicked, setDropClicked] = useState(false);
 
   var listCheck = React.createRef();
+
+  let title = useLocation();
 
   //   listCheck.onClick = function(evt) {
   //   if (listCheck.classList.contains('visible'))
@@ -157,36 +159,8 @@ const Results = () => {
     return new_q;
   };
 
-  //add back in when error is fixed
-
-  // const handleTitle = async (curPage) => {
-  //   console.log("handlesubmit:", curPage);
-  //   let response = await fetch(
-  //     "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Token " + localStorage.getItem("user"),
-  //       },
-  //     }
-  //   );
-  //   console.log(response);
-  //   console.log("user", localStorage.getItem("user"));
-  //   let q = await response.json();
-
-  //   var result = Array.isArray(q.results)
-  //     ? q.results.find((item) => item.id === Number(query_id))
-  //     : -1;
-  //   setQueryName(result.name);
-
-  //   // console.log("curpage", curPage);
-  // };
-
   useEffect(() => {
     handleSubmit(0);
-    //add back in when error is fixed
-
-    //handleTitle(0);
   }, []); //listening on an empty array
 
   const handleLogout = () => {
@@ -282,10 +256,9 @@ const Results = () => {
 
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
-            <h2 className="headings3">Results for {queryName}</h2>
+            <h2 className="headings3">Results for {title.state}</h2>
 
             <div className="resultSearch">
-              {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
               <Form onSubmit={onSubmitSearch}>
                 <InputGroup>
                   <InputGroup.Text>
