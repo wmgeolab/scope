@@ -21,6 +21,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from django.core.paginator import Paginator
 
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
@@ -35,7 +36,7 @@ logger = logging.getLogger(__name__)
 import requests
 from readability import Document
 import regex
-
+import json
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -321,14 +322,22 @@ class WorkspaceMembersView(viewsets.ModelViewSet):
 class WorkspaceEntriesView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = WorkspaceEntriesSerializer
-
-    # accessible at /api/entries/ [GET]
+    
+    # accessible at /api/entries?workspace=(id) [GET]
     def get_queryset(self):
         # returns all sources(entries) in a workspace
-        id = self.request.headers['Workspace']
-        workspace = Workspace.objects.get(id=id)
-        queryset = WorkspaceEntries.objects.filter(workspace=workspace)
-        return queryset
+        w_id = self.request.query_params.get('workspace')
+        if w_id is not None:
+            user_id = self.request.user.id
+            workspace = Workspace.objects.filter(id=w_id).first()
+            if not workspace:
+                raise ValidationError(detail="Workspace does not exist.")
+            in_workspace = True if WorkspaceMembers.objects.filter(member=user_id, workspace=w_id) else False
+            if in_workspace:
+                return WorkspaceEntries.objects.filter(workspace=workspace).all()
+            else:
+                raise ValidationError(detail="Not part of this workspace.")
+        raise ValidationError(detail="No workspace ID provided.")
     
     # accessible at /api/entries/ [POST]
     def create(self, request):
