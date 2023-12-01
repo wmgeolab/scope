@@ -66,20 +66,6 @@ class ResultSerializer(serializers.ModelSerializer):
         model = Result
         fields = ('id', 'run', 'source')
 
-class TagSerializer(serializers.ModelSerializer):
-    def to_string(self, instance):
-        return str(instance)
-    
-    def to_internal_value(self, data):
-        return {'tag': data}
-    
-    class Meta:
-        # do not remove the comma
-        # needed for django to recognize that this is a tuple with only one object
-        # reference: https://stackoverflow.com/questions/36264728/django-error-the-fields-option-must-be-a-list-or-tuple-or-all
-        model = Tag
-        fields =('tag',)
-
 class WorkspaceSerializer(serializers.ModelSerializer):
     # refer to QuerySerializer for example
     # tags = TagSerializer(many=True, read_only=False)
@@ -88,7 +74,6 @@ class WorkspaceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # create workspace
         # unique name defined in models
-        print("test")
         w = Workspace.objects.create(
             name=validated_data['name'],
             password=validated_data['password'],
@@ -99,10 +84,6 @@ class WorkspaceSerializer(serializers.ModelSerializer):
             member=w.creatorId,
             workspace=w
         )
-        # add tags
-        # tags = validated_data['tags']
-        # for t in tags:
-        #     Tag.objects.create(workspace=w, tag=t['tag'])
         return w
 
     class Meta:
@@ -142,3 +123,17 @@ class WorkspaceEntriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkspaceEntries
         fields = ('workspace', 'source', 'source_id')
+
+class TagSerializer(serializers.ModelSerializer):
+    workspace = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        t = Tag.objects.create(
+            workspace=validated_data['workspace'],
+            tag=validated_data['tag']
+        )
+        return t
+    
+    class Meta:
+        model = Tag
+        fields =('workspace', 'tag')

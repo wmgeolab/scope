@@ -387,6 +387,7 @@ class TagView(viewsets.ModelViewSet):
         # check if workspace exists
         if not workspace:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        workspace = Workspace.objects.get(id=workspace)
         # check if tag already exists
         if Tag.objects.filter(workspace=workspace, tag=tag):
             return Response({'error':'Tag already exists'}, status=status.HTTP_400_BAD_REQUEST)
