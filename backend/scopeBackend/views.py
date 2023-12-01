@@ -382,10 +382,33 @@ class TagView(viewsets.ModelViewSet):
     serializer_class = TagSerializer
 
     def create(self, request):
-        return
+        workspace = request.data['workspace']
+        tag = request.data['tag']
+        # check if workspace exists
+        if not workspace:
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # check if tag already exists
+        if Tag.objects.filter(workspace=workspace, tag=tag):
+            return Response({'error':'Tag already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        # add tag
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(workspace=workspace)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
     def delete(self, request):
-        return
+        workspace = request.data['workspace']
+        tag = request.data['tag']
+        # check if workspace exists
+        if not workspace:
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # check if tag exists
+        if not Tag.objects.filter(workspace=workspace, tag=tag):
+            return Response({'error':'Tag does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # delete tag
+        tag.delete()
+        return Response('Tag has been removed from the workspace.', status=status.HTTP_200_OK)
 
 # accessible at /api/test/ [GET]
 class TestView(viewsets.ModelViewSet):
