@@ -121,7 +121,8 @@ const Workspaces = (props) => {
     setShowJoinModal(false);
   };
 
-  const onSubmitSearch = () => {
+  const onSubmitSearch = (e) => {
+    e.preventDefault();
     setFilt([
       {
         columnField: "name",
