@@ -234,9 +234,6 @@ const Results = (props) => {
         <link rel="stylesheet" href="assets/css/table.css" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          <ScopeNavBar />
-
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
             <h2 className="headings3">Results for {queryName}</h2>
