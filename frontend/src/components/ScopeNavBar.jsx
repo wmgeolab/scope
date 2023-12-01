@@ -65,10 +65,10 @@ export default function ScopeNavBar(props) {
               <Nav.Link href="/" className="nav-elements">
                 Home
               </Nav.Link>
-              <Nav.Link href="queries" className="nav-elements">
+              <Nav.Link href="/queries" className="nav-elements">
                 Queries
               </Nav.Link>
-              <Nav.Link href="workspaces" className="nav-elements">
+              <Nav.Link href="/workspaces" className="nav-elements">
                 Workspaces
               </Nav.Link>
               <Container className="ms-auto">
