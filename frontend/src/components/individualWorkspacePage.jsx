@@ -49,13 +49,16 @@ export default function IndividualWorkspacePage(props) {
   ];
 
   async function obtainSources() {
-    const response = await fetch("http://127.0.0.1:8000/api/entries?workspace=" + workspace_id, {
+    var query = {workspace: workspace_id}; 
+    console.log(query);
+    const response = await fetch("http://127.0.0.1:8000/api/entries?" + query, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token " + localStorage.getItem("user"),
       },
     });
+    const response_text = await response.json();
   }
   obtainSources();
 
