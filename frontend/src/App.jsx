@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/" element={<Dashboard/>} />
           <Route exact path="/workspaces" element={<Workspaces loggedIn={loggedIn}/>} />
           <Route exact path="/queries" element={<Queries loggedIn={loggedIn}/>} />
-          <Route path="/results/:query_id" element={<Results />} />
+          <Route path="/results/:query_id" element={<Results loggedIn={loggedIn}/>} />
           <Route
             exact
             path="/display-article/:article_title"

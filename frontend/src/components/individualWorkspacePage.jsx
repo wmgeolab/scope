@@ -8,8 +8,7 @@ import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
-  const { workspace_name } = useParams();
-  console.log(useParams());
+  const { workspace_name, workspace_id } = useParams();
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -49,8 +48,8 @@ export default function IndividualWorkspacePage(props) {
     },
   ];
 
-  async function gatherWorkspaces() {
-    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+  async function obtainSources() {
+    const response = await fetch("http://127.0.0.1:8000/api/entries?workspace=" + workspace_id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -58,6 +57,7 @@ export default function IndividualWorkspacePage(props) {
       },
     });
   }
+  obtainSources();
 
   if (loggedIn === false) {
     return <UnauthorizedView />;
