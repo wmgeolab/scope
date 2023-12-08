@@ -38,16 +38,23 @@ const Results = (props) => {
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   const [queryName, setQueryName] = useState("");
+  const [selectedRows, setSelectedRows] = useState([]);
   const [show, setShow] = useState(false);
+  const handleSend = () => {
+    putSources();
+    setShow(false);
+  }
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedWorkspace, setSelectedWorkspace] = useState(1);
+  const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
   const [location, setLocation] = useState("US");
   const [language, setLanguage] = useState("English");
 
   const [dropClicked, setDropClicked] = useState(false);
 
   var listCheck = React.createRef();
+
+  const [workspaceData, setWorkspaceData] = useState([]);
 
   //   listCheck.onClick = function(evt) {
   //   if (listCheck.classList.contains('visible'))
@@ -193,6 +200,59 @@ const Results = (props) => {
 
     //handleTitle(0);
   }, []); //listening on an empty array
+
+  async function gatherWorkspaces() {
+    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+    });
+    const response_text = await response.json();
+    const formattedResponse = response_text.results.map(result => {
+      return {
+        id: result.workspace.id,
+        name: result.workspace.name,
+      }
+    });
+    if (formattedResponse){
+      setWorkspaceData(formattedResponse);
+
+      if(formattedResponse != undefined && formattedResponse.length != 0)
+        setSelectedWorkspace(formattedResponse[0]['id']);
+      console.log(formattedResponse)
+    }
+  }
+
+  useEffect(() => {
+    gatherWorkspaces();
+  }, []);
+
+  async function putSources() {
+    console.log("sources " + JSON.stringify(selectedRows));
+    console.log("workspace " + selectedWorkspace);
+
+    for (let i = 0; i < selectedRows.length; i++) {
+      let data = {
+        workspace: selectedWorkspace,
+        source_id: selectedRows[i].id,
+      };
+
+      const response = await fetch("http://127.0.0.1:8000/api/entries/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+        body: JSON.stringify(data),
+      });
+
+      const response_text = await response.json();
+      console.log("Response:", response_text);
+
+    }
+  }
 
   const handleLogout = () => {
     localStorage.clear();
@@ -378,11 +438,11 @@ const Results = (props) => {
                 onPageChange={(newPage) => handleSubmit(newPage)}
                 onSelectionModelChange={(ids) => {
                   const selectedIDs = new Set(ids);
-                  const selectedRows = queryResults.filter((row) =>
+                  setSelectedRows(queryResults.filter((row) =>
                     selectedIDs.has(row.id)
-                  );
+                  ));
 
-                  console.log("check", selectedRows);
+                  // console.log("check", selectedRows);
                 }}
                 filterModel={{
                   items: filt,
@@ -403,7 +463,7 @@ const Results = (props) => {
                 <Modal.Title>Send to Workspace</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <p>Choose a Workspace:</p>
+                {workspaceData === undefined || workspaceData.length == 0 ? <p>Please join or create a workspace first!</p> : <p>Choose a Workspace:</p>}
                 <Form.Select
                   aria-label="Default select example"
                   value={selectedWorkspace}
@@ -411,14 +471,15 @@ const Results = (props) => {
                     console.log(e.target.value);
                     setSelectedWorkspace(e.target.value);
                   }}
+                  disabled={workspaceData === undefined || workspaceData.length == 0}
                 >
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                    {workspaceData.map( (workspace,index) => 
+                    <option value={workspace.id}>{workspace.name}</option> )
+                  }
                 </Form.Select>
               </Modal.Body>
               <Modal.Footer>
-                <Button onClick={handleClose}>
+                <Button onClick={handleSend} disabled={workspaceData === undefined || workspaceData.length == 0}>
                   Send Selected to Workspace
                 </Button>
                 <Button variant="secondary" onClick={handleClose}>

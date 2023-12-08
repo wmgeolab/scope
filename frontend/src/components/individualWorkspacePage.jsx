@@ -11,6 +11,8 @@ export default function IndividualWorkspacePage(props) {
   const { workspace_name, workspace_id } = useParams();
   const [showModal, setShowModal] = useState(false);
 
+  const [workspaceSources, setWorkspaceSources] = useState([]);
+
   var textInput = React.createRef();
   const [filt, setFilt] = useState([]);
 
@@ -37,36 +39,6 @@ export default function IndividualWorkspacePage(props) {
     ]);
   };
 
-  const data = [
-    {
-      id: 0,
-
-      wsName: "article1",
-      wsComments: "Argentina:Project",
-      wsURL:
-        "https://www.cbsnews.com/news/syria-airstrike-us-contractor-killed-iran-drone-attack-joe-biden-lloyd-austin/",
-    },
-    {
-      id: 1,
-
-      wsName: "article2",
-      wsURL:
-        "https://www.washingtonpost.com/world/2023/03/24/rwanda-rusesabagina-release/",
-    },
-    {
-      id: 2,
-      wsName: "article3",
-      wsURL:
-        "https://www.politico.com/news/2023/03/24/democrats-tiktok-ban-china-00088659",
-    },
-    {
-      id: 3,
-      wsName: "article4",
-      wsURL:
-        "https://www.nytimes.com/2023/03/24/us/politics/house-approves-bill-requiring-schools-to-give-parents-more-information.html",
-    },
-  ];
-
   async function obtainSources() {
     const response = await fetch("http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id, {
       method: "GET",
@@ -76,11 +48,17 @@ export default function IndividualWorkspacePage(props) {
       },
     });
 
-    console.log(response)
-
     const response_text = await response.json();
+    const formattedResponse = response_text.results.map(result => {
+      return {
+        id: result.source.id,
+        wsName: result.source.text,
+        wsURL: result.source.url,
+      }
+    });
 
-    console.log("Response:", response_text);
+    if (formattedResponse)
+      setWorkspaceSources(formattedResponse);
   }
 
   useEffect(() => {
@@ -126,7 +104,7 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={data} filt={filt}/>
+        <IndividualWorkspaceTable data={workspaceSources} filt={filt}/>
         <Row className="mt-5">
           <Col sm={5}/>
           <Col sm={2}>
