@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
@@ -11,11 +11,30 @@ export default function IndividualWorkspacePage(props) {
   const { workspace_name, workspace_id } = useParams();
   const [showModal, setShowModal] = useState(false);
 
+  var textInput = React.createRef();
+  const [filt, setFilt] = useState([]);
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
   const handleShowModal = () => {
     setShowModal(true);
+  };
+
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
+
+    setFilt([
+      {
+        columnField: "wsName",
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
   };
 
   const data = [
@@ -49,18 +68,24 @@ export default function IndividualWorkspacePage(props) {
   ];
 
   async function obtainSources() {
-    var query = {workspace: workspace_id}; 
-    console.log(query);
-    const response = await fetch("http://127.0.0.1:8000/api/entries?" + query, {
+    const response = await fetch("http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token " + localStorage.getItem("user"),
       },
     });
+
+    console.log(response)
+
     const response_text = await response.json();
+
+    console.log("Response:", response_text);
   }
-  obtainSources();
+
+  useEffect(() => {
+    obtainSources();
+  }, []);
 
   if (loggedIn === false) {
     return <UnauthorizedView />;
@@ -86,14 +111,14 @@ export default function IndividualWorkspacePage(props) {
           </Col>
           <Col sm={3} />
           <Col sm={4} className="float-end mt-2">
-            <Form onSubmit={null}>
+            <Form onSubmit={onSubmitSearch}>
               <InputGroup>
                 <InputGroup.Text>
                   <Search></Search>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Search by Article Name"
-                  ref={null}
+                  ref={textInput}
                   onChange={null}
                   type="text"
                 />
@@ -101,7 +126,7 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={data} />
+        <IndividualWorkspaceTable data={data} filt={filt}/>
         <Row className="mt-5">
           <Col sm={5}/>
           <Col sm={2}>
