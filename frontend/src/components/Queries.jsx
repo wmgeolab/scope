@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -62,7 +62,7 @@ const Queries = () => {
       width: 150,
       renderCell: (cellValue) => {
         //cell customization, makes the name a link to the corresponding results page
-        return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
+        return <Link to={"/results/" + cellValue.id} state={cellValue.value}>{cellValue.value}</Link>;
       },
     },
     { field: "description", headerName: "Description", flex: 1, minWidth: 150 },

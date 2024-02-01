@@ -117,11 +117,9 @@ const CreateQuery = () => {
           </Container>
         </Navbar>
         <div id="page-wrapper">
-          {/* <!-- Header --> */}
-          {/* <!-- Highlights --> */}
-          {/* <section id="highlights" className="wrapper style3"> */}
           <h2 className="headings">Create Query</h2>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Group controlId="validationCustom01">
             <Form.Label className="formLabels">Query Name *</Form.Label>
             <Form.Control
               type="text"
@@ -137,7 +135,9 @@ const CreateQuery = () => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide a query name.
             </Form.Control.Feedback>
+            </Form.Group>
 
+            <Form.Group controlId="validationCustom02">
             <Form.Label className="formLabels">Description *</Form.Label>
             <Form.Control
               type="text"
@@ -153,7 +153,9 @@ const CreateQuery = () => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide a description.
             </Form.Control.Feedback>
+            </Form.Group>
 
+            <Form.Group controlId="validationCustom03">
             <Form.Label className="formLabels">
               Primary Keyword (only 1) *
             </Form.Label>
@@ -171,7 +173,9 @@ const CreateQuery = () => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide a keyword.
             </Form.Control.Feedback>
+            </Form.Group>
 
+            <Form.Group controlId="validationCustom04">
             <Form.Label className="formLabels">
               Secondary Keyword(s) *
             </Form.Label>
@@ -189,62 +193,17 @@ const CreateQuery = () => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide secondary keyword(s).
             </Form.Control.Feedback>
+            </Form.Group>
             <div className="centerButtonAlign">
               <Button
                 variant="primary"
                 className="centerButton"
                 type="submit"
-                // onClick={submitQuery}
               >
                 Submit Query
               </Button>
             </div>
           </Form>
-
-          {/* <div className="container">
-              <div className="form-style-5">
-                <form>
-                  <fieldset>
-                    <legend> Query Info</legend>
-                    <input
-                      type="text"
-                      id="queryName"
-                      placeholder="Query Name *"
-                    ></input>
-                    <input
-                      type="text"
-                      id="queryDescription"
-                      placeholder="Query Description (optional)"
-                    ></input>
-                    <input
-                      type="text"
-                      id="primaryKeyword"
-                      placeholder="Primary Keyword (Only 1) *"
-                    ></input>
-                    <input
-                      type="text"
-                      id="secondaryKeywords"
-                      placeholder="Secondary Keywords *"
-                    ></input>
-                  </fieldset>
-                  <ul className="actions special">
-                    <li>
-                      <a onClick={submitQuery} className="button style1 large">
-                        Submit Query
-                      </a>
-                    </li>
-                    {error ? (
-                      <Alert severity="error">Missing required fields</Alert>
-                    ) : (
-                      <Alert severity="info">
-                        Please fill in the above fields
-                      </Alert>
-                    )}
-                  </ul>
-                </form>
-              </div>
-            </div> */}
-          {/* </section> */}
         </div>
 
         {/* <!-- Scripts --> */}
