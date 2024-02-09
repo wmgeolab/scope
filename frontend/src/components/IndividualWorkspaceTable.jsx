@@ -4,10 +4,7 @@ import { Container } from "@mui/material";
 import { Row, Col } from "react-bootstrap";
 
 
-export default function IndividualWorkspaceTable(props){
-    const { data } = props;
-
-    console.log(data);
+export default function IndividualWorkspaceTable({data, filt}){
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
       
@@ -29,7 +26,6 @@ export default function IndividualWorkspaceTable(props){
       ];
 
     return(
-        // Put back in filtmodel
         <Container disableGutters sx={{ height: 400, marginTop: "2%"}}>
             <DataGrid
             rows={data}
@@ -44,6 +40,9 @@ export default function IndividualWorkspaceTable(props){
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
             components={{ Toolbar: GridToolbar }}
+            filterModel={{
+              items: filt,
+            }}
       />
         </Container>
     );

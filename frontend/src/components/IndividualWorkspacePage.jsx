@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
@@ -11,6 +11,11 @@ export default function IndividualWorkspacePage(props) {
   const { workspace_name, workspace_id } = useParams();
   const [showModal, setShowModal] = useState(false);
 
+  const [workspaceSources, setWorkspaceSources] = useState([]);
+
+  var textInput = React.createRef();
+  const [filt, setFilt] = useState([]);
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -18,49 +23,47 @@ export default function IndividualWorkspacePage(props) {
     setShowModal(true);
   };
 
-  const data = [
-    {
-      id: 0,
+  const onSubmitSearch = (event) => {
+    event.preventDefault();
+    console.log(
+      "The input string being passed here is: ",
+      textInput.current.value
+    );
 
-      wsName: "article1",
-      wsComments: "Argentina:Project",
-      wsURL:
-        "https://www.cbsnews.com/news/syria-airstrike-us-contractor-killed-iran-drone-attack-joe-biden-lloyd-austin/",
-    },
-    {
-      id: 1,
-
-      wsName: "article2",
-      wsURL:
-        "https://www.washingtonpost.com/world/2023/03/24/rwanda-rusesabagina-release/",
-    },
-    {
-      id: 2,
-      wsName: "article3",
-      wsURL:
-        "https://www.politico.com/news/2023/03/24/democrats-tiktok-ban-china-00088659",
-    },
-    {
-      id: 3,
-      wsName: "article4",
-      wsURL:
-        "https://www.nytimes.com/2023/03/24/us/politics/house-approves-bill-requiring-schools-to-give-parents-more-information.html",
-    },
-  ];
+    setFilt([
+      {
+        columnField: "wsName",
+        operatorValue: "contains",
+        value: textInput.current.value,
+      },
+    ]);
+  };
 
   async function obtainSources() {
-    var query = {workspace: workspace_id}; 
-    console.log(query);
-    const response = await fetch("http://127.0.0.1:8000/api/entries?" + query, {
+    const response = await fetch("http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Token " + localStorage.getItem("user"),
       },
     });
+
     const response_text = await response.json();
+    const formattedResponse = response_text.results.map(result => {
+      return {
+        id: result.source.id,
+        wsName: result.source.text,
+        wsURL: result.source.url,
+      }
+    });
+
+    if (formattedResponse)
+      setWorkspaceSources(formattedResponse);
   }
-  obtainSources();
+
+  useEffect(() => {
+    obtainSources();
+  }, []);
 
   if (loggedIn === false) {
     return <UnauthorizedView />;
@@ -86,14 +89,14 @@ export default function IndividualWorkspacePage(props) {
           </Col>
           <Col sm={3} />
           <Col sm={4} className="float-end mt-2">
-            <Form onSubmit={null}>
+            <Form onSubmit={onSubmitSearch}>
               <InputGroup>
                 <InputGroup.Text>
                   <Search></Search>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Search by Article Name"
-                  ref={null}
+                  ref={textInput}
                   onChange={null}
                   type="text"
                 />
@@ -101,7 +104,7 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={data} />
+        <IndividualWorkspaceTable data={workspaceSources} filt={filt}/>
         <Row className="mt-5">
           <Col sm={5}/>
           <Col sm={2}>
