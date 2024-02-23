@@ -55,7 +55,6 @@ const DisplayArticle = (props) => {
           <h2 className="wsHeadingsInternal" style={{ paddingTop: "1%" }}>
             Article Text:
           </h2>
-
           <div>{text}</div>
         </Container>
       </div>

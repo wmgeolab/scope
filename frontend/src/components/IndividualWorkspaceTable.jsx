@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
+import { Container, Button } from "@mui/material";
 import { Row, Col } from "react-bootstrap";
 
 
@@ -23,6 +23,16 @@ export default function IndividualWorkspaceTable({data, filt}){
             return <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>;
           },
         },
+        {field: "wsGenerate",
+        headerName: "Generate AI Summary",
+        width:100,
+        flex:1,
+        renderCell: (params) => {
+          return (
+            <Button variant="contained">Generate</Button>
+          )
+        },
+      }
       ];
 
     return(

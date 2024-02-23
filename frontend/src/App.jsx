@@ -9,6 +9,8 @@ import CreateQuery from "./components/CreateQuery";
 import DisplayArticle from "./components/DisplayArticle";
 import ScopeNavBar from "./components/ScopeNavBar";
 import IndividualWorkspaces from "./components/IndividualWorkspacePage"
+import QuestionForm from "./components/QuestionForm";
+import QuestionSettings from "./components/QuestionSettings";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -36,6 +38,7 @@ function App() {
             element={<IndividualWorkspaces />}
           />
           <Route exact path="/create-query" element={<CreateQuery />} />
+          <Route exact path="/questions" element={<QuestionSettings/>}/>
         </Routes>
       </BrowserRouter>
       <div></div>
