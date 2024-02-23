@@ -11,25 +11,16 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { Button } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import logo from "./../images/pic10.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/results.css";
+import "../../assets/css/results.css";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import ScopeNavBar from "./ScopeNavBar";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 
 const Results = (props) => {
-  const {
-    loggedIn
-  } = props;
+  const { loggedIn } = props;
   //gets the queryName from the URL
   const { query_id } = useParams();
   const [rowCount, setRowCount] = useState(0);
@@ -43,7 +34,7 @@ const Results = (props) => {
   const handleSend = () => {
     putSources();
     setShow(false);
-  }
+  };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
@@ -210,18 +201,18 @@ const Results = (props) => {
       },
     });
     const response_text = await response.json();
-    const formattedResponse = response_text.results.map(result => {
+    const formattedResponse = response_text.results.map((result) => {
       return {
         id: result.workspace.id,
         name: result.workspace.name,
-      }
+      };
     });
-    if (formattedResponse){
+    if (formattedResponse) {
       setWorkspaceData(formattedResponse);
 
-      if(formattedResponse != undefined && formattedResponse.length != 0)
-        setSelectedWorkspace(formattedResponse[0]['id']);
-      console.log(formattedResponse)
+      if (formattedResponse != undefined && formattedResponse.length != 0)
+        setSelectedWorkspace(formattedResponse[0]["id"]);
+      console.log(formattedResponse);
     }
   }
 
@@ -250,7 +241,6 @@ const Results = (props) => {
 
       const response_text = await response.json();
       console.log("Response:", response_text);
-
     }
   }
 
@@ -438,9 +428,9 @@ const Results = (props) => {
                 onPageChange={(newPage) => handleSubmit(newPage)}
                 onSelectionModelChange={(ids) => {
                   const selectedIDs = new Set(ids);
-                  setSelectedRows(queryResults.filter((row) =>
-                    selectedIDs.has(row.id)
-                  ));
+                  setSelectedRows(
+                    queryResults.filter((row) => selectedIDs.has(row.id))
+                  );
 
                   // console.log("check", selectedRows);
                 }}
@@ -463,7 +453,11 @@ const Results = (props) => {
                 <Modal.Title>Send to Workspace</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                {workspaceData === undefined || workspaceData.length == 0 ? <p>Please join or create a workspace first!</p> : <p>Choose a Workspace:</p>}
+                {workspaceData === undefined || workspaceData.length == 0 ? (
+                  <p>Please join or create a workspace first!</p>
+                ) : (
+                  <p>Choose a Workspace:</p>
+                )}
                 <Form.Select
                   aria-label="Default select example"
                   value={selectedWorkspace}
@@ -471,15 +465,22 @@ const Results = (props) => {
                     console.log(e.target.value);
                     setSelectedWorkspace(e.target.value);
                   }}
-                  disabled={workspaceData === undefined || workspaceData.length == 0}
-                >
-                    {workspaceData.map( (workspace,index) => 
-                    <option value={workspace.id}>{workspace.name}</option> )
+                  disabled={
+                    workspaceData === undefined || workspaceData.length == 0
                   }
+                >
+                  {workspaceData.map((workspace, index) => (
+                    <option value={workspace.id}>{workspace.name}</option>
+                  ))}
                 </Form.Select>
               </Modal.Body>
               <Modal.Footer>
-                <Button onClick={handleSend} disabled={workspaceData === undefined || workspaceData.length == 0}>
+                <Button
+                  onClick={handleSend}
+                  disabled={
+                    workspaceData === undefined || workspaceData.length == 0
+                  }
+                >
                   Send Selected to Workspace
                 </Button>
                 <Button variant="secondary" onClick={handleClose}>

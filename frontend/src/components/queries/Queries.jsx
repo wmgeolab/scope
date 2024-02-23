@@ -11,25 +11,19 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/queries.css";
+import "../../assets/css/queries.css";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import logo from "./../images/pic10.jpg";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import ScopeNavBar from "./ScopeNavBar";
 import Row from "react-bootstrap/Row";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 
 const Queries = (props) => {
-  const {
-    loggedIn
-  } = props;
+  const { loggedIn } = props;
 
   const [queries, setQueries] = useState([]);
   const navigate = useNavigate();
@@ -218,13 +212,6 @@ const Queries = (props) => {
           <div>
             {/* <!-- Features --> */}
             <section id="features" className="centerButtonAlign">
-              {/* <ul className="actions special">
-                    <li>
-                      <a href="/create-query" className="button style1 large">
-                        Create New Query
-                      </a>
-                    </li>
-                  </ul> */}
               <Button href="/create-query" className="centerButton">
                 Create New Query
               </Button>

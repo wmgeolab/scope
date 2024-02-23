@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
-import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
 export default function ScopeNavBar(props) {
-  const {
-    loggedIn,
-    setLoggedIn
-  } = props;
+  const { loggedIn, setLoggedIn } = props;
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -19,7 +15,6 @@ export default function ScopeNavBar(props) {
     }
   }, []);
 
-  const navigate = useNavigate();
   const handleLogin = async (e) => {
     let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
       method: "POST",
@@ -36,7 +31,6 @@ export default function ScopeNavBar(props) {
       console.log(localStorage.getItem("user"), "user");
     });
   };
-
 
   const handleLogout = () => {
     localStorage.clear();

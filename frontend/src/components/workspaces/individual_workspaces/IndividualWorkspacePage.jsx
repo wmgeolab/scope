@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 
 export default function IndividualWorkspacePage(props) {
@@ -40,25 +40,27 @@ export default function IndividualWorkspacePage(props) {
   };
 
   async function obtainSources() {
-    const response = await fetch("http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-    });
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
 
     const response_text = await response.json();
-    const formattedResponse = response_text.results.map(result => {
+    const formattedResponse = response_text.results.map((result) => {
       return {
         id: result.source.id,
         wsName: result.source.text,
         wsURL: result.source.url,
-      }
+      };
     });
 
-    if (formattedResponse)
-      setWorkspaceSources(formattedResponse);
+    if (formattedResponse) setWorkspaceSources(formattedResponse);
   }
 
   useEffect(() => {
@@ -104,13 +106,13 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={workspaceSources} filt={filt}/>
+        <IndividualWorkspaceTable data={workspaceSources} filt={filt} />
         <Row className="mt-5">
-          <Col sm={5}/>
+          <Col sm={5} />
           <Col sm={2}>
             <Button onClick={handleShowModal}>Share Workspace</Button>
           </Col>
-          <Col sm={5}/>
+          <Col sm={5} />
         </Row>
       </Container>
     );

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { Row, Col, Modal } from "react-bootstrap";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
 import { Button } from "react-bootstrap";
 
-export default function WorkspaceJoinModal(props) {
+export default function WorkspaceModal(props) {
   const {
     showModal,
     setWorkspaceName,
     setWorkspacePassword,
-    handleExitJoinModal,
-    triggerJoin,
+    handleCloseCreate,
+    handleExitCreateModal,
+    triggerCreation,
+    error,
     errorMes,
-    error
   } = props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
@@ -22,28 +21,22 @@ export default function WorkspaceJoinModal(props) {
   // errorState,
   // handleCloseCreate,
 
-  // To ask Lena about:
-    // Is there a way to grab a user's name?
-    // Will be necessary for API calls and filtering.
-    
   const handleAttemptCreate = () => {
     if (tempWorkspaceName === "" || tempWorkspacePassword === "") {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerJoin(tempWorkspaceName, tempWorkspacePassword)
-      if (!error) {
-        handleExitJoinModal();
-      };
-      setTempWorkspaceName('');
-      setTempWorkspacePassword('');
+      triggerCreation(tempWorkspaceName, tempWorkspacePassword);
+      if (!error) handleExitCreateModal();
+      setTempWorkspaceName("");
+      setTempWorkspacePassword("");
     }
   };
-  
+
   return (
-    <Modal show={showModal} onHide={handleExitJoinModal}>
-      <Modal.Header closeButton onClick={handleExitJoinModal}>
-        <Modal.Title> Join Existing Workspace</Modal.Title>
+    <Modal show={showModal} onHide={handleExitCreateModal}>
+      <Modal.Header closeButton onClick={handleCloseCreate}>
+        <Modal.Title> Create New Workspace</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form.Control
@@ -58,22 +51,20 @@ export default function WorkspaceJoinModal(props) {
         />
         <Row>
           {tempErrorState ? (
-            <Row className="d-flex justify-content-center text-danger" >
-            ** Please fill in all of the required answers. **
+            <Row className="d-flex justify-content-center text-danger">
+              ** Please fill in all of the required answers. **
             </Row>
           ) : null}
-          {
-            errorMes ? (
-              <Row className="d-flex justify-content-center text-danger" >
+          {errorMes ? (
+            <Row className="d-flex justify-content-center text-danger">
               {errorMes}
-              </Row>
-            ) : null
-          }
+            </Row>
+          ) : null}
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">
         <Button variant="primary" onClick={handleAttemptCreate}>
-          Join Workspace
+          Create Workspace
         </Button>
       </Modal.Footer>
     </Modal>
