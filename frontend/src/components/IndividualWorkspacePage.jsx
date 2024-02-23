@@ -40,7 +40,10 @@ export default function IndividualWorkspacePage(props) {
   };
 
   async function obtainSources() {
-    const response = await fetch("http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id, {
+    const param = new URLSearchParams({
+      workspace: workspace_id
+    })
+    const response = await fetch(`http://127.0.0.1:8000/api/entries/?${param}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
