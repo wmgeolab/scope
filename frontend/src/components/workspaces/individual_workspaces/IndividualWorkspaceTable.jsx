@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
-import { Row, Col, Button } from "react-bootstrap";
+import { Container, Button } from "@mui/material";
 
 export default function IndividualWorkspaceTable({ data, filt }) {
   const { workspace_name, workspace_id } = useParams();
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", 
+    headerName: "ID"},
 
     {
       field: "wsName",
       headerName: "Name",
-      width: 150,
+      flex: 1,
     },
 
     {
       field: "wsURL",
       headerName: "URL",
-      width: 150,
-      flex: 1,
+      flex: 4,
       renderCell: (cellValue) => {
         return (
           <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>
@@ -29,18 +28,15 @@ export default function IndividualWorkspaceTable({ data, filt }) {
     {
       field: "wsGenerate",
       headerName: "Generate AI Summary",
-      width: 100,
       flex: 1,
       renderCell: (params) => {
         return (
           // <Button class="btn btn-primary btn-sm" href="/questions">
           //   Generate
           // </Button>
-          <form action={"/questions/" + workspace_name}>
-            <button className="wsButton" type="submit">
+            <Button variant="contained" style={{'textTransform':'capitalize', 'width':'60%', 'alignContent':'right'}} type="submit" href={"/questions/" + workspace_name} >
               Generate
-            </button>
-          </form>
+            </Button>
         );
       },
     },
