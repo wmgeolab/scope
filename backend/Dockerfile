@@ -16,4 +16,4 @@ RUN groupadd app -g 1000 \
 
 USER app
 
-CMD ["gunicorn", "-w 2", "-b 0.0.0.0:8000", "core.wsgi", "--timeout", "300"]
+CMD ["python3", "manage.py", "runserver"]
