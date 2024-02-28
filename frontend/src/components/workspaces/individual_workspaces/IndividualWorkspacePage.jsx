@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name, workspace_id } = useParams();
+  // showModal is not unused -- just only 
   const [showModal, setShowModal] = useState(false);
 
   const [workspaceSources, setWorkspaceSources] = useState([]);

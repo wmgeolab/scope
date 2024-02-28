@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Row, Col, Modal } from "react-bootstrap";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
+import { Row, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function WorkspaceModal(props) {

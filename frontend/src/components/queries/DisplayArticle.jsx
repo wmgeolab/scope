@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
 import { Container } from "react-bootstrap";
-import logo from "./../images/pic10.jpg";
-import Nav from "react-bootstrap/Nav";
-import { Button } from "react-bootstrap";
-import ScopeNavBar from "./ScopeNavBar";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 
 const DisplayArticle = (props) => {
   const {

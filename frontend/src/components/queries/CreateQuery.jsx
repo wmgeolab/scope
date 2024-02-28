@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import logo from "./../images/pic10.jpg";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/createquery.css";
-import ScopeNavBar from "./ScopeNavBar";
-import UnauthorizedView from "./UnauthorizedView";
+import "../../assets/css/createquery.css"
+import UnauthorizedView from "../UnauthorizedView";
 
 const CreateQuery = (props) => {
   const {

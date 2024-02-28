@@ -11,20 +11,13 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { Button } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import logo from "./../images/pic10.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/results.css";
+import "../../assets/css/results.css";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import ScopeNavBar from "./ScopeNavBar";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 
 const Results = (props) => {
   const {

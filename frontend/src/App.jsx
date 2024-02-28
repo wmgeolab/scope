@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
-import Queries from "./components/Queries";
-import Results from "./components/Results";
-import Workspaces from "./components/Workspaces";
-import CreateQuery from "./components/CreateQuery";
-import DisplayArticle from "./components/DisplayArticle";
+import Queries from "./components/queries/Queries";
+import Results from "./components/queries/Results";
+import Workspaces from "./components/workspaces/Workspaces";
+import CreateQuery from "./components/queries/CreateQuery";
+import DisplayArticle from "./components/queries/DisplayArticle";
 import ScopeNavBar from "./components/ScopeNavBar";
-import IndividualWorkspaces from "./components/IndividualWorkspacePage"
+import IndividualWorkspaces from "./components/workspaces/individual_workspaces/IndividualWorkspacePage"
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);

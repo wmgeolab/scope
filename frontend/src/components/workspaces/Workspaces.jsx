@@ -1,22 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/workspace.css";
+import "../../assets/css/workspace.css"
 import { Container } from "@mui/material";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Search } from "react-bootstrap-icons";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
-import { useNavigate } from "react-router-dom";
 
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
@@ -24,7 +22,6 @@ const Workspaces = (props) => {
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const textInput = useRef("");
-  const navigate = useNavigate();
   const [errorMes, setErrorMes] = useState("");
   const [error, setError] = useState(true);
 
