@@ -1,16 +1,11 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Row, Col, Modal } from "react-bootstrap";
+import { Row, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function WorkspaceJoinModal(props) {
-  const {
-    showModal,
-    handleExitJoinModal,
-    triggerJoin,
-    errorMes,
-    error
-  } = props;
+  const { showModal, handleExitJoinModal, triggerJoin, errorMes, error } =
+    props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
   const [tempWorkspaceName, setTempWorkspaceName] = useState("");
@@ -19,23 +14,23 @@ export default function WorkspaceJoinModal(props) {
   // handleCloseCreate,
 
   // To ask Lena about:
-    // Is there a way to grab a user's name?
-    // Will be necessary for API calls and filtering.
-    
+  // Is there a way to grab a user's name?
+  // Will be necessary for API calls and filtering.
+
   const handleAttemptCreate = () => {
     if (tempWorkspaceName === "" || tempWorkspacePassword === "") {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerJoin(tempWorkspaceName, tempWorkspacePassword)
+      triggerJoin(tempWorkspaceName, tempWorkspacePassword);
       if (!error) {
         handleExitJoinModal();
-      };
-      setTempWorkspaceName('');
-      setTempWorkspacePassword('');
+      }
+      setTempWorkspaceName("");
+      setTempWorkspacePassword("");
     }
   };
-  
+
   return (
     <Modal show={showModal} onHide={handleExitJoinModal}>
       <Modal.Header closeButton onClick={handleExitJoinModal}>
@@ -54,17 +49,15 @@ export default function WorkspaceJoinModal(props) {
         />
         <Row>
           {tempErrorState ? (
-            <Row className="d-flex justify-content-center text-danger" >
-            ** Please fill in all of the required answers. **
+            <Row className="d-flex justify-content-center text-danger">
+              ** Please fill in all of the required answers. **
             </Row>
           ) : null}
-          {
-            errorMes ? (
-              <Row className="d-flex justify-content-center text-danger" >
+          {errorMes ? (
+            <Row className="d-flex justify-content-center text-danger">
               {errorMes}
-              </Row>
-            ) : null
-          }
+            </Row>
+          ) : null}
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">

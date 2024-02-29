@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./../images/pic10.jpg";
@@ -7,10 +7,7 @@ import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
 export default function ScopeNavBar(props) {
-  const {
-    loggedIn,
-    setLoggedIn
-  } = props;
+  const { loggedIn, setLoggedIn } = props;
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -37,10 +34,10 @@ export default function ScopeNavBar(props) {
     });
   };
 
-
   const handleLogout = () => {
     localStorage.clear();
     setLoggedIn(false);
+    navigate("/");
   };
 
   const onFailure = (response) => console.error(response);
