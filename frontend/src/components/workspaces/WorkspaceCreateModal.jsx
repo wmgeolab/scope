@@ -6,13 +6,14 @@ import { Button } from "react-bootstrap";
 export default function WorkspaceModal(props) {
   const {
     showModal,
-    setWorkspaceName,
-    setWorkspacePassword,
+    // add these back in when needed
+    //setWorkspaceName,
+    //setWorkspacePassword,
     handleCloseCreate,
     handleExitCreateModal,
     triggerCreation,
     error,
-    errorMes
+    errorMes,
   } = props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
@@ -28,8 +29,8 @@ export default function WorkspaceModal(props) {
       setTempErrorState(false);
       triggerCreation(tempWorkspaceName, tempWorkspacePassword);
       if (!error) handleExitCreateModal();
-      setTempWorkspaceName('');
-      setTempWorkspacePassword('');
+      setTempWorkspaceName("");
+      setTempWorkspacePassword("");
     }
   };
 
@@ -51,17 +52,15 @@ export default function WorkspaceModal(props) {
         />
         <Row>
           {tempErrorState ? (
-            <Row className="d-flex justify-content-center text-danger" >
-            ** Please fill in all of the required answers. **
+            <Row className="d-flex justify-content-center text-danger">
+              ** Please fill in all of the required answers. **
             </Row>
           ) : null}
-          {
-            errorMes ? (
-              <Row className="d-flex justify-content-center text-danger" >
+          {errorMes ? (
+            <Row className="d-flex justify-content-center text-danger">
               {errorMes}
-              </Row>
-            ) : null
-          }
+            </Row>
+          ) : null}
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">

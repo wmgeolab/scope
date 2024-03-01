@@ -5,9 +5,7 @@ import { Container } from "react-bootstrap";
 import UnauthorizedView from "../UnauthorizedView";
 
 const DisplayArticle = (props) => {
-  const {
-    loggedIn
-  } = props;
+  const { loggedIn } = props;
   //   var { Readability } = require("@mozilla/readability");
   const { article_title } = useParams();
   const [text, setText] = useState("");
@@ -30,10 +28,6 @@ const DisplayArticle = (props) => {
     console.log(response);
 
     setText(q);
-  };
-
-  const handleLogout = () => {
-    localStorage.clear();
   };
 
   useEffect(() => {

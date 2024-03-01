@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -20,28 +20,23 @@ import Form from "react-bootstrap/Form";
 import UnauthorizedView from "../UnauthorizedView";
 
 const Results = (props) => {
-  const {
-    loggedIn
-  } = props;
+  const { loggedIn } = props;
   //gets the queryName from the URL
   const { query_id } = useParams();
   const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
-  const navigate = useNavigate();
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
-  const [queryName, setQueryName] = useState("");
+  const [queryName] = useState(""); // add setQueryName when needed
   const [selectedRows, setSelectedRows] = useState([]);
   const [show, setShow] = useState(false);
   const handleSend = () => {
     putSources();
     setShow(false);
-  }
+  };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
-  const [location, setLocation] = useState("US");
-  const [language, setLanguage] = useState("English");
 
   const [dropClicked, setDropClicked] = useState(false);
 
@@ -162,7 +157,7 @@ const Results = (props) => {
     return new_q;
   };
 
-  //add back in when error is fixed
+  //to get the title of the current query
 
   // const handleTitle = async (curPage) => {
   //   console.log("handlesubmit:", curPage);
@@ -203,18 +198,18 @@ const Results = (props) => {
       },
     });
     const response_text = await response.json();
-    const formattedResponse = response_text.results.map(result => {
+    const formattedResponse = response_text.results.map((result) => {
       return {
         id: result.workspace.id,
         name: result.workspace.name,
-      }
+      };
     });
-    if (formattedResponse){
+    if (formattedResponse) {
       setWorkspaceData(formattedResponse);
 
-      if(formattedResponse != undefined && formattedResponse.length != 0)
-        setSelectedWorkspace(formattedResponse[0]['id']);
-      console.log(formattedResponse)
+      if (formattedResponse !== undefined && formattedResponse.length !== 0)
+        setSelectedWorkspace(formattedResponse[0]["id"]);
+      console.log(formattedResponse);
     }
   }
 
@@ -243,14 +238,8 @@ const Results = (props) => {
 
       const response_text = await response.json();
       console.log("Response:", response_text);
-
     }
   }
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
 
   function CustomPagination() {
     const apiRef = useGridApiContext();
@@ -359,57 +348,6 @@ const Results = (props) => {
               </ul>
             </div>
 
-            {/* placeholders for later options */}
-
-            {/* <DropdownButton id="dropdown-basic-button" title="Language">
-                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
-                  English
-                </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
-                  Chinese
-                </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
-                  Russian
-                </Dropdown.Item>
-              </DropdownButton> */}
-            {/* <DropdownButton
-          id="dropdown-basic-button"
-          title="Date Range"
-        >
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            China
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            US
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Russia
-          </Dropdown.Item>
-        </DropdownButton> */}
-            {/* </div> */}
-
-            {/*We want:
-        - button is just a static title,
-        - dropdown has checklist to select multiple */}
-
-            {/* <Form.Control
-          as="select"
-          aria-label="Options"
-          name="type"
-          size="sm"
-          onChange={(e) => {
-            console.log("e.target.value", e.target.value);
-            // handleOptionChange(e, index);
-          }}
-          // value={}
-        >
-          <option value="operation">Operation</option>
-          <option value="inputoutput">Input/Output</option>
-          <option value="subroutine">Subroutine</option>
-          <option value="condition">Condition</option>
-          <option value="parallel">Parallel</option>
-        </Form.Control> */}
-
             <Box className="table" sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
@@ -431,9 +369,9 @@ const Results = (props) => {
                 onPageChange={(newPage) => handleSubmit(newPage)}
                 onSelectionModelChange={(ids) => {
                   const selectedIDs = new Set(ids);
-                  setSelectedRows(queryResults.filter((row) =>
-                    selectedIDs.has(row.id)
-                  ));
+                  setSelectedRows(
+                    queryResults.filter((row) => selectedIDs.has(row.id))
+                  );
 
                   // console.log("check", selectedRows);
                 }}
@@ -456,7 +394,11 @@ const Results = (props) => {
                 <Modal.Title>Send to Workspace</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                {workspaceData === undefined || workspaceData.length == 0 ? <p>Please join or create a workspace first!</p> : <p>Choose a Workspace:</p>}
+                {workspaceData === undefined || workspaceData.length === 0 ? (
+                  <p>Please join or create a workspace first!</p>
+                ) : (
+                  <p>Choose a Workspace:</p>
+                )}
                 <Form.Select
                   aria-label="Default select example"
                   value={selectedWorkspace}
@@ -464,15 +406,22 @@ const Results = (props) => {
                     console.log(e.target.value);
                     setSelectedWorkspace(e.target.value);
                   }}
-                  disabled={workspaceData === undefined || workspaceData.length == 0}
-                >
-                    {workspaceData.map( (workspace,index) => 
-                    <option value={workspace.id}>{workspace.name}</option> )
+                  disabled={
+                    workspaceData === undefined || workspaceData.length === 0
                   }
+                >
+                  {workspaceData.map((workspace, index) => (
+                    <option value={workspace.id}>{workspace.name}</option>
+                  ))}
                 </Form.Select>
               </Modal.Body>
               <Modal.Footer>
-                <Button onClick={handleSend} disabled={workspaceData === undefined || workspaceData.length == 0}>
+                <Button
+                  onClick={handleSend}
+                  disabled={
+                    workspaceData === undefined || workspaceData.length === 0
+                  }
+                >
                   Send Selected to Workspace
                 </Button>
                 <Button variant="secondary" onClick={handleClose}>

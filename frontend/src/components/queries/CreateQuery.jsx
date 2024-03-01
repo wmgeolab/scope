@@ -3,25 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../assets/css/createquery.css"
+import "../../assets/css/createquery.css";
 import UnauthorizedView from "../UnauthorizedView";
 
 const CreateQuery = (props) => {
-  const {
-    loggedIn
-  } = props;
+  const { loggedIn } = props;
   const navigate = useNavigate();
 
   const [queryName, setQueryName] = useState("");
   const [queryDescription, setQueryDescription] = useState("");
   const [primary, setPrimary] = useState("");
   const [secondary, setSecondary] = useState("");
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-    //  <a href="/dashboard">Dashboard</a>;
-  };
 
   const [validated, setValidated] = useState(false);
 
