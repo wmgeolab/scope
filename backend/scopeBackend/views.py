@@ -273,6 +273,11 @@ class WorkspaceView(viewsets.ModelViewSet):
             return Response({'error':'Workspace name already exists'}, status=status.HTTP_400_BAD_REQUEST)
         # create workspace and add creator to workspace
         serializer = self.get_serializer(data=request.data)
+
+        # return error if name contains any forward or backward slashes
+        if '/' in request.data['name'] or '\\' in request.data['name']:
+            return Response({'error':'Workspace name cannot contain forward or backward slashes'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer.is_valid(raise_exception=True)
         serializer.save(creatorId=self.request.user)
         headers = self.get_success_headers(serializer.data)
