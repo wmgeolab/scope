@@ -4,17 +4,8 @@ import { Row, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function WorkspaceModal(props) {
-  const {
-    showModal,
-    // add these back in when needed
-    //setWorkspaceName,
-    //setWorkspacePassword,
-    handleCloseCreate,
-    handleExitCreateModal,
-    triggerCreation,
-    error,
-    errorMes,
-  } = props;
+  const { showModal, handleExitCreateModal, triggerCreation, error, errorMes } =
+    props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
   const [tempWorkspaceName, setTempWorkspaceName] = useState("");
@@ -36,7 +27,7 @@ export default function WorkspaceModal(props) {
 
   return (
     <Modal show={showModal} onHide={handleExitCreateModal}>
-      <Modal.Header closeButton onClick={handleCloseCreate}>
+      <Modal.Header closeButton>
         <Modal.Title> Create New Workspace</Modal.Title>
       </Modal.Header>
       <Modal.Body>
