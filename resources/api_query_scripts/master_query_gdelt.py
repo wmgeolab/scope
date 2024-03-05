@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import mysql.connector
+import MySQLdb
 import time
 from store_data import store
 import os
@@ -44,7 +44,7 @@ def main_query(args):
 def store_in_db():
     # with open(os.path.join(os.getcwd(), 'db.txt')) as f:
     #     lines = f.readlines()
-    conn = mysql.connector.connect(
+    conn = MySQLdb.connect(
         user=os.environ.get("SCOPE_USER"),
         password=os.environ.get("SCOPE_PASSWORD"),
         host=os.environ.get("SCOPE_HOST"),
