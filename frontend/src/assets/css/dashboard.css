@@ -69,12 +69,13 @@
 .headings2 {
   text-align: left;
   font-weight: bold;
-  padding-left: 100px;
+  padding-left: 12%;
 }
 
 .paragraphs {
-  padding-left: 100px;
-  padding-right: 100px;
+  text-align: left;
+  padding-left: 12%;
+  padding-right: 12%;
 }
 
 .paragraphs_end {

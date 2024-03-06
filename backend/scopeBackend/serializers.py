@@ -1,17 +1,10 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType, KeyWord
-import datetime
-
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first', 'last')
-
-# class KeywordSerializer(serializers.StringRelatedField):
-#     def to_internal_value(self, data):
-#         return KeyWord(word=data)
-
 
 class KeywordSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
@@ -24,21 +17,15 @@ class KeywordSerializer(serializers.ModelSerializer):
         model = KeyWord
         fields = ('word',)
 
-
 class QuerySerializer(serializers.ModelSerializer):
     # keywords foreign key -> query primary key
-    # keywords = serializers.StringRelatedField(many=True)
     keywords = KeywordSerializer(many=True, read_only=False)
-    # keywords = serializers.ListField(
-    #     # child=KeywordSerializer(many=True)
-    # )
     # user foreign key -> username field
     user = serializers.SlugRelatedField(read_only=True, slug_field='username')
 
     def create(self, validated_data):
         # print(validated_data)
         kws = validated_data['keywords']
-        print(kws)
         q = Query.objects.create(
             user=validated_data['user'],
             name=validated_data['name'],
@@ -52,12 +39,10 @@ class QuerySerializer(serializers.ModelSerializer):
         model = Query
         fields = ('id', 'name', 'description', 'user', 'keywords')
 
-
 class SourceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SourceType
         fields = ('name', 'description')
-
 
 class SourceSerializer(serializers.ModelSerializer):
     sourceType = SourceTypeSerializer()
@@ -66,36 +51,89 @@ class SourceSerializer(serializers.ModelSerializer):
         model = Source
         fields = ('id', 'text', 'url', 'sourceType')
 
-
 class RunSerializer(serializers.ModelSerializer):
-    #query = QuerySerializer()
-
-    # def create(self, validated_data):
-    #     q = Run.objects.create(
-    #         query=validated_data["queryId"],
-    #         time=datetime.datetime.now()
-    #     )
-    #     print(q)
-    #     return q
-
     class Meta:
         model = Run
         fields = ('query', 'time')
 
-
 class ResultSerializer(serializers.ModelSerializer):
-    # run = RunSerializer()
-    # source = SourceSerializer(many=True)
     # run foreign key -> query primary key
-    # source = serializers.StringRelatedField(read_only=True)
-    source = SourceSerializer()
     run = RunSerializer()
-    # result foreign key -> run primary key
-    # run = serializers.PrimaryKeyRelatedField(read_only=True)
     # source foreign key -> result primary key
-    # source = serializers.PrimaryKeyRelatedField(many = True, read_only=True)
-    # source = serializers.StringRelatedField(many = True, read_only=True)
+    source = SourceSerializer()
 
     class Meta:
         model = Result
         fields = ('id', 'run', 'source')
+
+class WorkspaceSerializer(serializers.ModelSerializer):
+    # refer to QuerySerializer for example
+    # tags = TagSerializer(many=True, read_only=False)
+    creatorId = serializers.SlugRelatedField(read_only=True, slug_field='id')
+
+    def create(self, validated_data):
+        # create workspace
+        # unique name defined in models
+        w = Workspace.objects.create(
+            name=validated_data['name'],
+            password=validated_data['password'],
+            creatorId=validated_data['creatorId']
+        )
+        # add creator to workspace
+        WorkspaceMembers.objects.create(
+            member=w.creatorId,
+            workspace=w
+        )
+        return w
+
+    class Meta:
+        model = Workspace
+        fields = ('id', 'name', 'password', 'creatorId')
+
+class WorkspaceMembersSerializer(serializers.ModelSerializer):
+    member = serializers.SlugRelatedField(read_only=True, slug_field='id')
+    workspace = WorkspaceSerializer(read_only=True)
+    workspace_id = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        # add member to workspace
+        m = WorkspaceMembers.objects.create(
+            member=validated_data['member'],
+            workspace=validated_data['workspace']
+        )
+        return m
+
+    class Meta:
+        model = WorkspaceMembers
+        fields = ('member', 'workspace', 'workspace_id')
+
+class WorkspaceEntriesSerializer(serializers.ModelSerializer):
+    workspace = serializers.IntegerField(write_only=True)
+    source = SourceSerializer(read_only=True)
+    source_id = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        # add source to workspace
+        e = WorkspaceEntries.objects.create(
+            workspace=validated_data['workspace'],
+            source=validated_data['source']
+        )
+        return e
+
+    class Meta:
+        model = WorkspaceEntries
+        fields = ('workspace', 'source', 'source_id')
+
+class TagSerializer(serializers.ModelSerializer):
+    workspace = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        t = Tag.objects.create(
+            workspace=validated_data['workspace'],
+            tag=validated_data['tag']
+        )
+        return t
+    
+    class Meta:
+        model = Tag
+        fields =('workspace', 'tag')
