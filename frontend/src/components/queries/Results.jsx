@@ -18,6 +18,8 @@ import { Search } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import UnauthorizedView from "../UnauthorizedView";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const Results = (props) => {
   const { loggedIn } = props;
@@ -31,18 +33,29 @@ const Results = (props) => {
   const [queryName, setQueryName] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [show, setShow] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
   const handleSend = () => {
     putSources();
     setShow(false);
+    setOpen(true);
+    // need to get the name and id
+    // navigate(
+    //   "/workspaces/" + selectedWorkspace.name + "/id/" + selectedWorkspace.id
+    // );
   };
+
+  const handleToastClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
-  const [location, setLocation] = useState("US");
-  const [language, setLanguage] = useState("English");
-
-  const [dropClicked, setDropClicked] = useState(false);
-
   var listCheck = React.createRef();
 
   const [workspaceData, setWorkspaceData] = useState([]);
@@ -305,108 +318,6 @@ const Results = (props) => {
               </Form>
             </div>
 
-            {/* add back in later with relevant search options when we have them */}
-            <div
-              id="list1"
-              className="dropdown-check-list"
-              ref={listCheck}
-              tabindex="100"
-            >
-              <span
-                className="anchor"
-                onClick={() => {
-                  dropClicked ? setDropClicked(false) : setDropClicked(true);
-                }}
-                style={dropClicked ? { color: "#0094ff" } : {}}
-              >
-                Select Location
-              </span>
-              <ul
-                className="items"
-                style={dropClicked ? { display: "block" } : {}}
-              >
-                <li>
-                  <input type="checkbox" />
-                  US{" "}
-                </li>
-                <li>
-                  <input type="checkbox" />
-                  China
-                </li>
-                <li>
-                  <input type="checkbox" />
-                  Russia{" "}
-                </li>
-                <li>
-                  <input type="checkbox" />
-                  Ukraine{" "}
-                </li>
-                <li>
-                  <input type="checkbox" />
-                  Argentina{" "}
-                </li>
-                <li>
-                  <input type="checkbox" />
-                  Sudan{" "}
-                </li>
-                <li>
-                  <input type="checkbox" />
-                  Iran
-                </li>
-              </ul>
-            </div>
-
-            {/* placeholders for later options */}
-
-            {/* <DropdownButton id="dropdown-basic-button" title="Language">
-                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
-                  English
-                </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
-                  Chinese
-                </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setLanguage(e.target.text)}>
-                  Russian
-                </Dropdown.Item>
-              </DropdownButton> */}
-            {/* <DropdownButton
-          id="dropdown-basic-button"
-          title="Date Range"
-        >
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            China
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            US
-          </Dropdown.Item>
-          <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-            Russia
-          </Dropdown.Item>
-        </DropdownButton> */}
-            {/* </div> */}
-
-            {/*We want:
-        - button is just a static title,
-        - dropdown has checklist to select multiple */}
-
-            {/* <Form.Control
-          as="select"
-          aria-label="Options"
-          name="type"
-          size="sm"
-          onChange={(e) => {
-            console.log("e.target.value", e.target.value);
-            // handleOptionChange(e, index);
-          }}
-          // value={}
-        >
-          <option value="operation">Operation</option>
-          <option value="inputoutput">Input/Output</option>
-          <option value="subroutine">Subroutine</option>
-          <option value="condition">Condition</option>
-          <option value="parallel">Parallel</option>
-        </Form.Control> */}
-
             <Box className="table" sx={{ height: 400, width: "100%" }}>
               <DataGrid
                 disableColumnFilter
@@ -442,7 +353,11 @@ const Results = (props) => {
 
             <div>
               <section id="features" className="centerButtonAlign">
-                <Button className="centerButton" onClick={handleShow}>
+                <Button
+                  className="centerButton"
+                  onClick={handleShow}
+                  disabled={selectedRows == 0}
+                >
                   Send Selected to Workspace
                 </Button>
               </section>
@@ -489,6 +404,20 @@ const Results = (props) => {
               </Modal.Footer>
             </Modal>
           </section>
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleToastClose}
+          >
+            <Alert
+              onClose={handleToastClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              Sent articles to workspace!
+            </Alert>
+          </Snackbar>
         </div>
 
         {/* <!-- Scripts --> */}
