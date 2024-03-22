@@ -427,7 +427,6 @@ class TagView(viewsets.ModelViewSet):
             # Now we need to filter tags by the workspaces that the user is part of
             queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
     
-        print("Tags: ", queryset)
         return queryset
 
 # accessible at /api/test/ [GET]
