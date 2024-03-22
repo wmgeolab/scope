@@ -27,6 +27,7 @@ const Workspaces = (props) => {
   const navigate = useNavigate();
   const [errorMes, setErrorMes] = useState("");
   const [error, setError] = useState(true);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const { loggedIn } = props;
   const [workspaceData, setWorkspaceData] = useState({
@@ -47,6 +48,7 @@ const Workspaces = (props) => {
       return {
         id: result.workspace.id,
         name: result.workspace.name,
+        password: result.workspace.password
       };
     });
     if (formattedResponse) {
@@ -104,6 +106,52 @@ const Workspaces = (props) => {
     } else setError(false);
   }
 
+  async function handleDeleteWorkspace(){
+
+    for (let i =0; i < selectedRows.length; i++){
+          let data = {
+            name: selectedRows[i].name,
+            password: selectedRows[i].password
+          };
+          console.log(data);
+          const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Token " + localStorage.getItem("user"),
+            },
+            body: JSON.stringify(data),
+          });
+
+          const response_text = await response.json();
+          console.log(response_text);
+              
+      }
+      setSelectedRows([]);
+      gatherWorkspaces(); 
+    }
+
+  async function triggerRemoveSelf(name){
+    let data = {
+      name: name
+    };
+    const response = await fetch("http://127.0.0.1:8000/api/member/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
+    });
+    const response_text = await response.json();
+    console.log(response_text);
+  }
+
+  function handleRemoveSelfFromWorkspaces(){
+    console.log(selectedRows);
+  }
+
+  
   const handleShowJoin = () => {
     setShowJoinModal(true);
   };
@@ -205,7 +253,22 @@ const Workspaces = (props) => {
     return (
       <Container>
         <Row className="mt-5">
-          <Col sm={6} />
+          <Col sm={6}>
+            <Button 
+            className="float-start me-2" 
+            variant="danger"
+            onClick={handleDeleteWorkspace}
+            >
+              Delete Workspace
+            </Button>
+            <Button 
+            className="float-start" 
+            variant="danger"
+            onClick={handleRemoveSelfFromWorkspaces}
+            >
+              Remove Self From Selected Workspaces
+            </Button>
+          </Col>
           <Col sm={1}>
             <DropdownButton
               id="dropdown-basic-button"
@@ -252,17 +315,18 @@ const Workspaces = (props) => {
             data={workspaceData}
             columns={workspaceColumns}
             filters={filt}
+            updateSelection={setSelectedRows}
           />
-          <Row className="mt-4">
-            <Col />
-            <Col>
-              <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
-            </Col>
-            <Col>
-              <Button onClick={handleShowCreate}>Create New Workspace</Button>
-            </Col>
-            <Col />
-          </Row>
+        </Row>
+        <Row className="mt-4">
+          <Col />
+          <Col>
+            <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
+          </Col>
+          <Col>
+            <Button onClick={handleShowCreate}>Create New Workspace</Button>
+          </Col>
+          <Col />
         </Row>
         <WorkspaceCreateModal
           showModal={showCreateModal}
