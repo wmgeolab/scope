@@ -257,11 +257,6 @@ const Results = (props) => {
     }
   }
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
-
   function CustomPagination() {
     const apiRef = useGridApiContext();
     const page = useGridSelector(apiRef, gridPageSelector);
