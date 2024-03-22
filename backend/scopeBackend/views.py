@@ -414,6 +414,20 @@ class TagView(viewsets.ModelViewSet):
         # delete tag
         tag.delete()
         return Response('Tag has been removed from the workspace.', status=status.HTTP_200_OK)
+    
+    # accessible at /api/tags/ [GET]
+    # We want to pass in a user ID and return the tags for all the workspaces that the user is part of
+    def get_queryset(self):
+        user = self.request.user.id
+        queryset = Tag.objects.all()
+        if user:
+            # Tags only contain a workspace ID and tag text, so we need to check 
+            # in the workspaces that the user is part of
+            workspaces = WorkspaceMembers.objects.filter(member=user).values_list('workspace', flat=True)
+            # Now we need to filter tags by the workspaces that the user is part of
+            queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
+    
+        return queryset
 
 # accessible at /api/test/ [GET]
 class TestView(viewsets.ModelViewSet):

@@ -78,6 +78,9 @@ class Workspace(models.Model):
     def __str__(self):
         return self.name
 
+    def __int__(self):
+        return self.id
+
 class WorkspaceMembers(models.Model):
     member = models.ForeignKey(
         settings.AUTH_USER_MODEL,
