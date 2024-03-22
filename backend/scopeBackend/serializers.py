@@ -125,7 +125,7 @@ class WorkspaceEntriesSerializer(serializers.ModelSerializer):
         fields = ('workspace', 'source', 'source_id')
 
 class TagSerializer(serializers.ModelSerializer):
-    workspace = serializers.IntegerField(write_only=True)
+    workspace = serializers.IntegerField()
 
     def create(self, validated_data):
         t = Tag.objects.create(
