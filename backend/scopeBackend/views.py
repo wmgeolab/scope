@@ -274,8 +274,8 @@ class WorkspaceView(viewsets.ModelViewSet):
         # create workspace and add creator to workspace
         serializer = self.get_serializer(data=request.data)
 
-        # return error if name contains any forward or backward slashes
-        if '/' in request.data['name'] or '\\' in request.data['name']:
+        # return error if name contains any forward or backward slashes or quotes
+        if '/' in request.data['name'] or '\\' in request.data['name'] or "\"" in request.data['name']:
             return Response({'error':'Workspace name cannot contain forward or backward slashes'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer.is_valid(raise_exception=True)
