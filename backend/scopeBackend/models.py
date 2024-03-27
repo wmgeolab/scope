@@ -104,3 +104,25 @@ class Tag(models.Model):
     
     def __str__(self):
         return self.tag
+
+class AiResponse(models.Model):
+    id = models.AutoField(primary_key=True)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    summary = models.TextField()
+    involved_parties = models.TextField()
+
+    def __str__(self):
+        return self.id
+
+class Revision(models.Model):
+    id = models.AutoField(primary_key=True)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    summary = models.TextField()
+    involved_parties = models.TextField()
+
+    original_response = models.ForeignKey(AiResponse, on_delete=models.CASCADE)
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
+    datetime = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return self.id
