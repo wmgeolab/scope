@@ -249,19 +249,22 @@ class WorkspaceView(viewsets.ModelViewSet):
     # delete() is a built-in django method
     def delete(self, request):
         name = request.data['name']
-        workspace = Workspace.objects.get(name=name)
         # custom responses to keep all error messages consistent
         # check if workspace exists
+        try:
+            workspace = Workspace.objects.get(name=name)
+        except:
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
         if not workspace:
-            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
         # check password
         if workspace.password != request.data['password']:
-            return Response({'error':'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data='Incorrect password', status=status.HTTP_400_BAD_REQUEST)
         # check if creator
         if workspace.creatorId != self.request.user:
-            return Response({'error':'Only the workspace creator can delete'}, status=status.HTTP_403_FORBIDDEN)
+            return Response(data='Only the workspace creator can delete', status=status.HTTP_403_FORBIDDEN)
         workspace.delete()
-        return Response('Workspace has been deleted', status=status.HTTP_200_OK)
+        return Response(data='Workspace has been deleted', status=status.HTTP_200_OK)
 
     # accessible at /api/workspaces/ [POST]
     # create() is a built-in django method
@@ -270,7 +273,7 @@ class WorkspaceView(viewsets.ModelViewSet):
         # returns response for consistent error message
         print(request.data, 'test ')
         if Workspace.objects.filter(name=request.data['name']):
-            return Response({'error':'Workspace name already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data='Workspace name already exists', status=status.HTTP_400_BAD_REQUEST)
         # create workspace and add creator to workspace
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -285,13 +288,13 @@ class WorkspaceView(viewsets.ModelViewSet):
         try:
             workspace = Workspace.objects.get(name=request.data['name'])
         except:
-            return Response(data={'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
         # check if password matches
         if workspace.password != request.data['password']:
-            return Response({'error':'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data='Incorrect password', status=status.HTTP_400_BAD_REQUEST)
         # check if user is already in the workspace
         if WorkspaceMembers.objects.filter(workspace=workspace, member=self.request.user):
-            return Response({'error':'User already part of the workspace'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data='User already part of the workspace', status=status.HTTP_400_BAD_REQUEST)
         # add user to workspace
         self.request.data['workspace'] = workspace
         self.request.data['workspace_id'] = workspace.id
@@ -309,16 +312,17 @@ class WorkspaceMembersView(viewsets.ModelViewSet):
     def delete(self, request):
         user = self.request.user
         id = request.data['workspace']
-        workspace = Workspace.objects.get(id=id)
         member = WorkspaceMembers.objects.get(member=user, workspace=workspace)
         # check if workspace exists
-        if not workspace:
-            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            workspace = Workspace.objects.get(id=id)
+        except:
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
          # check if creator - creator cannot leave their own workspace
         if workspace.creatorId == self.request.user:
-            return Response({'error':'The creator cannot leave the workspace. Perhaps you want to delete the workspace?'}, status=status.HTTP_403_FORBIDDEN)
+            return Response(data='The creator cannot leave the workspace. Perhaps you want to delete the workspace?', status=status.HTTP_403_FORBIDDEN)
         member.delete()
-        return Response('Member has been removed from the workspace.', status=status.HTTP_200_OK)
+        return Response(data='Member has been removed from the workspace.', status=status.HTTP_200_OK)
     
 class WorkspaceEntriesView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -346,13 +350,13 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
         workspace = Workspace.objects.get(id=request.data['workspace'])
         source = Source.objects.get(id=request.data['source_id'])
         if not source:
-            return Response({'error':'Source not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Source not found', status=status.HTTP_404_NOT_FOUND)
         if not workspace:
-            return Response({'error':'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Workspace not found', status=status.HTTP_404_NOT_FOUND)
         # check if source exists in workspace
         entry = WorkspaceEntries.objects.filter(source=request.data['source_id'], workspace=request.data['workspace'])
         if entry:
-            return Response({'error':'Source already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(data='Source already in workspace', status=status.HTTP_401_UNAUTHORIZED)
         # add source to workspace
         self.request.data['source'] = source
         serializer = self.get_serializer(data=request.data)
@@ -367,16 +371,16 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
         source = Source.objects.get(id=request.data['source'])
         # check if workspace exists
         if not workspace:
-            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
         # check if source exists
         if not source:
-            return Response({'error':'Source does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Source does not exist', status=status.HTTP_404_NOT_FOUND)
         # check if source in workspace
         entry = WorkspaceEntries.objects.filter(source=request.data['source'], workspace=request.data['workspace'])
         if not entry:
-            return Response({'error':'Source is not in workspace'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Source is not in workspace', status=status.HTTP_404_NOT_FOUND)
         entry.delete()
-        return Response('Source has been removed from the workspace.', status=status.HTTP_200_OK)
+        return Response(data='Source has been removed from the workspace.', status=status.HTTP_200_OK)
 
 class TagView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -387,11 +391,11 @@ class TagView(viewsets.ModelViewSet):
         tag = request.data['tag']
         # check if workspace exists
         if not workspace:
-            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
         workspace = Workspace.objects.get(id=workspace)
         # check if tag already exists
         if Tag.objects.filter(workspace=workspace, tag=tag):
-            return Response({'error':'Tag already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data='Tag already exists', status=status.HTTP_400_BAD_REQUEST)
         # add tag
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -404,16 +408,16 @@ class TagView(viewsets.ModelViewSet):
         tag = request.data['tag']
         # check if workspace exists
         if not workspace:
-            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
         # check if tag exists
         if not Tag.objects.filter(workspace=workspace, tag=tag):
-            return Response({'error':'Tag does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(data='Tag does not exist', status=status.HTTP_404_NOT_FOUND)
         # delete tag
         tag.delete()
-        return Response('Tag has been removed from the workspace.', status=status.HTTP_200_OK)
+        return Response(data='Tag has been removed from the workspace.', status=status.HTTP_200_OK)
 
 # accessible at /api/test/ [GET]
 class TestView(viewsets.ModelViewSet):
 
     def get_queryset(self):
-        return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
+        return Response(data="Test view reached!", status=status.HTTP_200_OK)
