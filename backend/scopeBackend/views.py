@@ -285,7 +285,7 @@ class WorkspaceView(viewsets.ModelViewSet):
         try:
             workspace = Workspace.objects.get(name=request.data['name'])
         except:
-            return Response(data='Workspace does not exist', status=status.HTTP_404_NOT_FOUND)
+            return Response(data={'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # check if password matches
         if workspace.password != request.data['password']:
             return Response({'error':'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
