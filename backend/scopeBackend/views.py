@@ -282,8 +282,9 @@ class WorkspaceView(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='join', url_name='join')
     def join_workspace(self, request):
         # check if workspace exists
-        workspace = Workspace.objects.get(name=request.data['name'])
-        if not workspace:
+        try:
+            workspace = Workspace.objects.get(name=request.data['name'])
+        except:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # check if password matches
         if workspace.password != request.data['password']:
