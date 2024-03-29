@@ -109,7 +109,8 @@ class AiResponse(models.Model):
     id = models.AutoField(primary_key=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     summary = models.TextField()
-    involved_parties = models.TextField()
+    entities = models.TextField()
+    locations = models.TextField()
 
     def __str__(self):
         return self.id
@@ -118,11 +119,12 @@ class Revision(models.Model):
     id = models.AutoField(primary_key=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     summary = models.TextField()
-    involved_parties = models.TextField()
+    entities = models.TextField()
+    locations = models.TextField()
 
     original_response = models.ForeignKey(AiResponse, on_delete=models.CASCADE)
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
-    datetime = models.DateTimeField(default=datetime.now, blank=True)
+    datetime = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.id
