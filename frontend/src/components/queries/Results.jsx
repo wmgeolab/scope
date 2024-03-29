@@ -20,6 +20,7 @@ import Form from "react-bootstrap/Form";
 import UnauthorizedView from "../UnauthorizedView";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import SendToWorkspaceModal from "./SendToWorkspaceModal";
 
 const Results = (props) => {
   const { loggedIn } = props;
@@ -27,7 +28,6 @@ const Results = (props) => {
   const { query_id } = useParams();
   const [rowCount, setRowCount] = useState(0);
   const [queryResults, setQueryResults] = useState([]);
-  const navigate = useNavigate();
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   const [queryName, setQueryName] = useState("");
@@ -358,46 +358,14 @@ const Results = (props) => {
               </section>
             </div>
 
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Send to Workspace</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                {workspaceData === undefined || workspaceData.length == 0 ? (
-                  <p>Please join or create a workspace first!</p>
-                ) : (
-                  <p>Choose a Workspace:</p>
-                )}
-                <Form.Select
-                  aria-label="Default select example"
-                  value={selectedWorkspace}
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                    setSelectedWorkspace(e.target.value);
-                  }}
-                  disabled={
-                    workspaceData === undefined || workspaceData.length == 0
-                  }
-                >
-                  {workspaceData.map((workspace, index) => (
-                    <option value={workspace.id}>{workspace.name}</option>
-                  ))}
-                </Form.Select>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button
-                  onClick={handleSend}
-                  disabled={
-                    workspaceData === undefined || workspaceData.length == 0
-                  }
-                >
-                  Send Selected to Workspace
-                </Button>
-                <Button variant="secondary" onClick={handleClose}>
-                  Cancel
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <SendToWorkspaceModal
+              showModal={show}
+              handleClose={handleClose}
+              workspaceData={workspaceData}
+              setSelectedWorkspace={setSelectedWorkspace}
+              selectedWorkspace={selectedWorkspace}
+              handleSend={handleSend}
+            />
           </section>
           <Snackbar
             open={open}
