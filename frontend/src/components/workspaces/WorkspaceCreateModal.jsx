@@ -8,12 +8,8 @@ import Alert from "@mui/material/Alert";
 export default function WorkspaceModal(props) {
   const {
     showModal,
-    setWorkspaceName,
-    setWorkspacePassword,
-    handleCloseCreate,
     handleExitCreateModal,
     triggerCreation,
-    error,
     errorMes,
   } = props;
 
@@ -34,23 +30,22 @@ export default function WorkspaceModal(props) {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerCreation(tempWorkspaceName, tempWorkspacePassword);
-
-      // console.log("error", error);
-      if (!error) handleExitCreateModal();
-      setTempWorkspaceName("");
-      setTempWorkspacePassword("");
-
-      handleExitCreateModal(); // will close the modal but isn't checking for errors
-      // window.location.reload(false); // refresh the page so the user can see their workspace
-      setSuccess(true);
+      triggerCreation(tempWorkspaceName, tempWorkspacePassword).then((response) =>{
+        // If response is true, successful creation.
+        if (response){
+          handleExitCreateModal();
+          setTempWorkspaceName("");
+          setTempWorkspacePassword("");
+          setSuccess(true);
+        }
+      });
     }
   };
 
   return (
     <div>
       <Modal show={showModal} onHide={handleExitCreateModal}>
-        <Modal.Header closeButton onClick={handleCloseCreate}>
+        <Modal.Header closeButton onClick={handleExitCreateModal}>
           <Modal.Title> Create New Workspace</Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -11,30 +11,25 @@ export default function WorkspaceJoinModal(props) {
     handleExitJoinModal,
     triggerJoin,
     errorMes,
-    error,
   } = props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
   const [tempWorkspaceName, setTempWorkspaceName] = useState("");
   const [tempWorkspacePassword, setTempWorkspacePassword] = useState("");
-  // errorState,
-  // handleCloseCreate,
 
-  // To ask Lena about:
-  // Is there a way to grab a user's name?
-  // Will be necessary for API calls and filtering.
-
-  const handleAttemptCreate = () => {
+  const handleAttemptJoin = () => {
     if (tempWorkspaceName === "" || tempWorkspacePassword === "") {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerJoin(tempWorkspaceName, tempWorkspacePassword);
-      if (!error) {
-        handleExitJoinModal();
-      }
-      setTempWorkspaceName("");
-      setTempWorkspacePassword("");
+      triggerJoin(tempWorkspaceName, tempWorkspacePassword).then((response) => {
+        // If response is true, that means it was successful.
+        if (response) {
+          handleExitJoinModal();
+          setTempWorkspaceName("");
+          setTempWorkspacePassword("");
+        }
+      });
     }
   };
 
@@ -68,7 +63,7 @@ export default function WorkspaceJoinModal(props) {
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">
-        <Button variant="primary" onClick={handleAttemptCreate}>
+        <Button variant="primary" onClick={handleAttemptJoin}>
           Join Workspace
         </Button>
       </Modal.Footer>

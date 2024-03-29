@@ -65,7 +65,6 @@ const Workspaces = (props) => {
       name: name,
       password: password,
     };
-
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
       method: "POST",
       headers: {
@@ -74,13 +73,14 @@ const Workspaces = (props) => {
       },
       body: JSON.stringify(data),
     });
-
     const response_text = await response.json();
-    if (response_text.error) {
-      // TODO: ADD UI ELEMENTS FOR SPECIFIC ERRORS.
-      // E.G name already exists, ect...
-      setErrorMes(response_text.error);
-    } else setError(false);
+    if (response.id) {
+      setErrorMes(response_text);
+      return false;
+    } else {
+      setErrorMes("");
+      return true;
+    }
 
     gatherWorkspaces();
   }
@@ -101,10 +101,11 @@ const Workspaces = (props) => {
     });
     const response_text = await response.json();
     if (!response.ok) {
-      setError(true);
       setErrorMes(response_text);
+      return false;
     } else {
       setErrorMes("");
+      return true;
     }
   }
 
@@ -333,14 +334,12 @@ const Workspaces = (props) => {
           handleExitCreateModal={handleExitCreateModal}
           triggerCreation={triggerCreation}
           errorMes={errorMes}
-          error={error}
         />
         <WorkspaceJoinModal
           showModal={showJoinModal}
           handleExitJoinModal={handleExitJoinModal}
           triggerJoin={triggerJoin}
           errorMes={errorMes}
-          error={error}
         />
       </Container>
     );
