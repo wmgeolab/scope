@@ -90,7 +90,7 @@ const Workspaces = (props) => {
       name: name,
       password: password,
     };
-    console.log(JSON.stringify(data), "in join");
+
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/join/", {
       method: "POST",
       headers: {
@@ -100,12 +100,12 @@ const Workspaces = (props) => {
       body: JSON.stringify(data),
     });
     const response_text = await response.json();
-    console.log(response_text);
-    if (response_text.error) {
-      // I don't think there should be any specific errors here
-      // But if so..UI time.
-      setErrorMes(response_text.error);
-    } else setError(false);
+    if (!response.ok) {
+      setError(true);
+      setErrorMes(response_text);
+    } else {
+      setErrorMes("");
+    }
   }
 
   async function handleDeleteWorkspace() {
@@ -163,6 +163,7 @@ const Workspaces = (props) => {
   };
   const handleExitJoinModal = () => {
     setErrorMes("");
+    setError(false);
     setShowJoinModal(false);
   };
 
