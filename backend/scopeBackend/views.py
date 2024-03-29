@@ -434,3 +434,86 @@ class TestView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
+
+# accessible at /api/ai_responses/ [GET]
+class AiResponseView(viewsets.ModelViewSet):
+    # Pass in a source and receive an airesponse
+    def get_queryset(self):
+        source = self.request.query_params.get('source')
+        return AiResponse.objects.filter(source=source)
+    
+    def create(self, request):
+        source = request.data['source']
+        summary = request.data['summary']
+        entities = request.data['entities']
+        locations = request.data['locations']
+        # Check if source ID exists
+        if not Source.objects.filter(id=source):
+            return Response({'error':'Source does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # Check if summary exists
+        if not summary:
+            return Response({'error':'Summary cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # Check if entities exist
+        if not entities:
+            return Response({'error':'Entities cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # Check if locations exist
+        if not locations:
+            return Response({'error':'Locations cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # Create airesponse
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(source=source)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+# accessible at /api/revision/ [GET]
+class RevisionView(viewsets.ModelViewSet):
+    # Pass in a source and workspace ID and get the most recent revision
+    def get_queryset(self):
+        source = self.request.query_params.get('source')
+        workspace = self.request.query_params.get('workspace')
+        return Revision.objects.filter(source=source, workspace=workspace).order_by('-datetime').first()
+    
+    def create(self, request):
+        source = request.data['source']
+        workspace = request.data['workspace']
+        summary = request.data['summary']
+        entities = request.data['entities']
+        locations = request.data['locations']
+
+        # Test if workspace exists
+        if not Workspace.objects.filter(id=workspace):
+            return Response({'error': 'Workspace does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Test if user is part of workspace
+        if not WorkspaceMembers.objects.filter(member=self.request.user, workspace=workspace):
+            return Response({'error': 'User is not part of the workspace.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Test if source exists
+        if not Source.objects.filter(id=source):
+            return Response({'error': 'Source does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Test if summary exists
+        if not summary:
+            return Response({'error': 'Summary cannot be empty.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Test if entities exist
+        if not entities:
+            return Response({'error': 'Entities cannot be empty.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Test if locations exist
+        if not locations:
+            return Response({'error': 'Locations cannot be empty.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Retrieve original AiResponse
+        try:
+            original_response = AiResponse.objects.get(source=source)
+        except AiResponse.DoesNotExist:
+            return Response({'error': 'Original AiResponse does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Create revision
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(workspace=workspace, original_response=original_response)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
