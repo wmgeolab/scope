@@ -243,7 +243,7 @@ class WorkspaceView(viewsets.ModelViewSet):
         queryset = WorkspaceMembers.objects.all()
         user = self.request.user.id
         # return all workspaces that user is part of
-        return queryset.filter(member=user)
+        return queryset.filter(member=user, hidden=False)
 
     # accessble at /api/workspaces/ [DELETE]
     # delete() is a built-in django method
