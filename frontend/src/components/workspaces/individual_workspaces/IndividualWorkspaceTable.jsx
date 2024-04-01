@@ -76,8 +76,6 @@ export default function IndividualWorkspaceTable({ data, filt }) {
     },
   ];
 
-  console.log(data);
-
   const handleGenerateBtnClick = (article_id) => {
     let article_string =
       "Requesting AI generation for article with ID: " + article_id;

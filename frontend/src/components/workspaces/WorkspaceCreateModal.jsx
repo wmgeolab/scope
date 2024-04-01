@@ -6,6 +6,12 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 export default function WorkspaceModal(props) {
+  /**
+   * showModal => the state variable on whether to render the modal or not
+   * handleExitCreateModal => closes the modal and sets showModal to false on parent
+   * triggerCreation => API request function to create
+   * errorMes => Error message API func sets if there is a problem
+   */
   const {
     showModal,
     handleExitCreateModal,
@@ -13,29 +19,27 @@ export default function WorkspaceModal(props) {
     errorMes,
   } = props;
 
+  // These are temporary validity state that don't deal with API validation
+  // But only with user input validation : You need a name and a password!
   const [tempErrorState, setTempErrorState] = useState(false);
-  const [tempWorkspaceName, setTempWorkspaceName] = useState("");
-  const [tempWorkspacePassword, setTempWorkspacePassword] = useState("");
+  // Whether to show a toast or not.
   const [success, setSuccess] = React.useState(false);
 
-  const handleCloseSuccessSnackbar = () => {
-    setSuccess(false);
-  };
-
-  // errorState,
-  // handleCloseCreate,
-
+/**
+ * Triggers the API request and handles the UI from its response
+ */
   const handleAttemptCreate = () => {
-    if (tempWorkspaceName === "" || tempWorkspacePassword === "") {
+    const workspace_name = document.getElementById('workspace_name').value;
+    const workspace_password = document.getElementById('workspace_password').value;
+
+    if (workspace_name === "" || workspace_password === "") {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerCreation(tempWorkspaceName, tempWorkspacePassword).then((response) =>{
+      triggerCreation(workspace_name, workspace_password).then((response) =>{
         // If response is true, successful creation.
         if (response){
           handleExitCreateModal();
-          setTempWorkspaceName("");
-          setTempWorkspacePassword("");
           setSuccess(true);
         }
       });
@@ -52,12 +56,12 @@ export default function WorkspaceModal(props) {
           <Form.Control
             type="email"
             placeholder="* Enter Workspace Name"
-            onChange={(name) => setTempWorkspaceName(name.target.value)}
+            id = "workspace_name"
           />
           <Form.Control
             type="email"
             placeholder="* Enter Password"
-            onChange={(name) => setTempWorkspacePassword(name.target.value)}
+            id = "workspace_password"
           />
           <Row>
             {tempErrorState ? (
@@ -81,10 +85,10 @@ export default function WorkspaceModal(props) {
       <Snackbar
         open={success}
         autoHideDuration={6000}
-        onClose={handleCloseSuccessSnackbar}
+        onClose={() => setSuccess(true)}
       >
         <Alert
-          onClose={handleCloseSuccessSnackbar}
+          onClose={() => setSuccess(false)}
           severity="success"
           variant="filled"
           sx={{ width: "100%" }}

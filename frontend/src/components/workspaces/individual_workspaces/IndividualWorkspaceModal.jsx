@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import { Row, Col, Modal } from "react-bootstrap";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
+import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function IndividualWorkspaceModal(props) {
-  const { showModal, handleClose } = props;
+  /**
+   * showModal => whether to display or not
+   * handleClose => closes modal from parent
+   * workspace_name => workspace name
+   */
+  const { showModal, 
+          handleClose, 
+          workspace_name } = props;
 
-  <Modal show={show} onHide={handleClose}>
+  // Copies the link to clipboard and closes modal
+  const handleCopyClick = (params) => {
+    navigator.clipboard.writeText(params);
+    handleClose();
+  };  
+
+  return (
+  <Modal show={showModal} onHide={handleClose}>
     <Modal.Header closeButton>
       <Modal.Title>Share Workspace Link</Modal.Title>
     </Modal.Header>
@@ -25,5 +36,5 @@ export default function IndividualWorkspaceModal(props) {
         Copy Link to Clipboard
       </Button>
     </Modal.Footer>
-  </Modal>;
+  </Modal>);
 }

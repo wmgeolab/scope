@@ -18,24 +18,37 @@ import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
 import { useNavigate } from "react-router-dom";
 
+// Workspaces is the parent page of all workspace related components
 const Workspaces = (props) => {
+  // This is set in onSubmitSearch and is passed to WorkspaceTable
+  // Puts the keyword based filter (stored in textInput) in a filter format for MUI DataGrid
   const [filt, setFilt] = useState([]);
+  // This controls that when a keyword search is done, 
+  // what field/columnis specifically being searched
   const [dropDownValueSearch, setDropDownValueSearch] = useState("Name");
+  // These control modal visibility
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  // Holds the keyword input a user inputs for search
   const textInput = useRef("");
-  const navigate = useNavigate();
+  // Passed to modal inputs to display request feedback
   const [errorMes, setErrorMes] = useState("");
-  const [error, setError] = useState(true);
+  // Keeps track of currently selected rows
   const [selectedRows, setSelectedRows] = useState([]);
-
+  // If user logged in
   const { loggedIn } = props;
+  // Holds all data for table, retrieved from gatherWorkspaces 
   const [workspaceData, setWorkspaceData] = useState({
     id: null,
     name: null,
   });
 
+  /**
+   * This retrieves all the workspaces a user is part of
+   * @returns The formatted data with the id, name and password keys
+   */
   async function gatherWorkspaces() {
+    // API request to backend
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
       method: "GET",
       headers: {
@@ -43,6 +56,8 @@ const Workspaces = (props) => {
         Authorization: "Token " + localStorage.getItem("user"),
       },
     });
+    // Await a response and return it if it exists
+    // See Views.py for possible errors
     const response_text = await response.json();
     const formattedResponse = response_text.results.map((result) => {
       return {
@@ -55,11 +70,19 @@ const Workspaces = (props) => {
       setWorkspaceData(formattedResponse);
     }
   }
-
+  // Automatically trigger gathering of workspaces
+  // https://dev.to/csituma/why-we-use-empty-array-with-useeffect-iok
   useEffect(() => {
     gatherWorkspaces();
   }, []);
 
+    /**
+   * 
+   * @param {str} name requested workspace name
+   * @param {str} password requested password
+   * @returns If the request is successful, true else false
+   * Fetch request to trigger the creation of a workspace
+   */
   async function triggerCreation(name, password) {
     let data = {
       name: name,
@@ -73,18 +96,25 @@ const Workspaces = (props) => {
       },
       body: JSON.stringify(data),
     });
+    // If the request failed, set the error message
+    // This message is prop passed to the modals
+    // See the backend views.py for the possible error msgs
     const response_text = await response.json();
-    if (response.id) {
+    if (!response.ok) {
       setErrorMes(response_text);
       return false;
     } else {
       setErrorMes("");
       return true;
     }
-
-    gatherWorkspaces();
   }
-
+  /**
+   * 
+   * @param {str} name the name of the workspace 
+   * @param {str} password the password of the workspace
+   * @returns true if successful, false if not
+   * Triggers a request to join the backend
+   */
   async function triggerJoin(name, password) {
     let data = {
       name: name,
@@ -99,6 +129,8 @@ const Workspaces = (props) => {
       },
       body: JSON.stringify(data),
     });
+    // See Views.py for possible error messages
+    // Communicating error msgs to props
     const response_text = await response.json();
     if (!response.ok) {
       setErrorMes(response_text);
@@ -109,13 +141,16 @@ const Workspaces = (props) => {
     }
   }
 
+    /**
+   * With the currently selected workspaces held in selected rows, delete them.
+   * TODO: Convert this to hiding versus deleting.
+   */
   async function handleDeleteWorkspace() {
     for (let i = 0; i < selectedRows.length; i++) {
       let data = {
         name: selectedRows[i].name,
         password: selectedRows[i].password,
       };
-      console.log(data);
       const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
         method: "DELETE",
         headers: {
@@ -126,48 +161,22 @@ const Workspaces = (props) => {
       });
 
       const response_text = await response.json();
-      console.log(response_text);
     }
     setSelectedRows([]);
     gatherWorkspaces();
   }
 
-  async function triggerRemoveSelf(name) {
-    let data = {
-      name: name,
-    };
-    const response = await fetch("http://127.0.0.1:8000/api/member/", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-      body: JSON.stringify(data),
-    });
-    const response_text = await response.json();
-    console.log(response_text);
-  }
 
-  function handleRemoveSelfFromWorkspaces() {
-    console.log(selectedRows);
-  }
-
-  const handleShowJoin = () => {
-    setShowJoinModal(true);
-  };
-  const handleShowCreate = () => {
-    setShowCreateModal(true);
-  };
   const handleExitCreateModal = () => {
     setErrorMes("");
     setShowCreateModal(false);
   };
   const handleExitJoinModal = () => {
     setErrorMes("");
-    setError(false);
     setShowJoinModal(false);
   };
 
+  // Puts UI filter into Datagrid friendly package
   const onSubmitSearch = (e) => {
     e.preventDefault();
     setFilt([
@@ -179,6 +188,7 @@ const Workspaces = (props) => {
     ]);
   };
 
+  // Whenever user types something into keyword box, update it.
   const handleKeywordChange = (value) => {
     textInput.current = value.target.value;
   };
@@ -262,13 +272,6 @@ const Workspaces = (props) => {
             >
               Delete Workspace
             </Button>
-            <Button
-              className="float-start"
-              variant="danger"
-              onClick={handleRemoveSelfFromWorkspaces}
-            >
-              Remove Self From Selected Workspaces
-            </Button>
           </Col>
           <Col sm={1}>
             <DropdownButton
@@ -322,10 +325,10 @@ const Workspaces = (props) => {
         <Row className="mt-4">
           <Col />
           <Col>
-            <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
+            <Button onClick={() => setShowJoinModal(true)}>Join Existing Workspace</Button>
           </Col>
           <Col>
-            <Button onClick={handleShowCreate}>Create New Workspace</Button>
+            <Button onClick={() => setShowCreateModal(true)}>Create New Workspace</Button>
           </Col>
           <Col />
         </Row>

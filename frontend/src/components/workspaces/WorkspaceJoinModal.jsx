@@ -4,30 +4,40 @@ import { Row, Col, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function WorkspaceJoinModal(props) {
+  /**
+   * showModal  => the state variable on whether to render the modal or not
+   * handleExitJoinModal => closes the modal and sets showModal to false on parent
+   * triggerJoin => API request function to join
+   * errorMes => Error message API func sets if there is a problem
+   */
   const {
     showModal,
-    setWorkspaceName,
-    setWorkspacePassword,
     handleExitJoinModal,
     triggerJoin,
     errorMes,
   } = props;
 
+  
+  // These are temporary validity state that don't deal with API validation
+  // But only with user input validation : You need a name and a password!
   const [tempErrorState, setTempErrorState] = useState(false);
-  const [tempWorkspaceName, setTempWorkspaceName] = useState("");
-  const [tempWorkspacePassword, setTempWorkspacePassword] = useState("");
 
+  /**
+   * Triggers the API request and handles the UI from its response
+   */
   const handleAttemptJoin = () => {
-    if (tempWorkspaceName === "" || tempWorkspacePassword === "") {
+
+    const workspace_name = document.getElementById('workspace_name').value;
+    const workspace_password = document.getElementById('workspace_password').value;
+
+    if (workspace_name === "" || workspace_password === "") {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerJoin(tempWorkspaceName, tempWorkspacePassword).then((response) => {
+      triggerJoin(workspace_name, workspace_password).then((response) => {
         // If response is true, that means it was successful.
         if (response) {
           handleExitJoinModal();
-          setTempWorkspaceName("");
-          setTempWorkspacePassword("");
         }
       });
     }
@@ -42,12 +52,12 @@ export default function WorkspaceJoinModal(props) {
         <Form.Control
           type="email"
           placeholder="* Enter Workspace Name"
-          onChange={(name) => setTempWorkspaceName(name.target.value)}
+          id = "workspace_name"
         />
         <Form.Control
           type="email"
           placeholder="* Enter Password"
-          onChange={(name) => setTempWorkspacePassword(name.target.value)}
+          id = "workspace_password"
         />
         <Row>
           {tempErrorState ? (

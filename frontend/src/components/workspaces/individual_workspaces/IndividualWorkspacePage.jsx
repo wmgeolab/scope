@@ -5,6 +5,7 @@ import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
 import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
+import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
@@ -114,6 +115,11 @@ export default function IndividualWorkspacePage(props) {
           </Col>
           <Col sm={5} />
         </Row>
+        <IndividualWorkspaceModal
+          showModal={showModal}
+          handleClose={handleCloseModal}
+          workspace_name={workspace_name}
+        />
       </Container>
     );
   }
