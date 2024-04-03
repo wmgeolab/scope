@@ -70,6 +70,8 @@ class Workspace(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=120, unique=True)
     password = models.CharField(max_length=120)
+    hidden = models.BooleanField(default=False)
+    
     creatorId = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -107,7 +109,7 @@ class Tag(models.Model):
 
 class AiResponse(models.Model):
     id = models.AutoField(primary_key=True)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, unique=True)
     summary = models.TextField()
     entities = models.TextField()
     locations = models.TextField()
