@@ -14,9 +14,11 @@ from .serializers import (
     WorkspaceSerializer, 
     WorkspaceMembersSerializer, 
     WorkspaceEntriesSerializer,
-    TagSerializer
+    TagSerializer,
+    AiResponseSerializer,
+    RevisionSerializer
 )
-from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
@@ -435,13 +437,17 @@ class TestView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
 
-# accessible at /api/ai_responses/ [GET]
 class AiResponseView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = AiResponseSerializer
+    
     # Pass in a source and receive an airesponse
+    # accessible at /api/ai_responses/ [GET]
     def get_queryset(self):
         source = self.request.query_params.get('source')
         return AiResponse.objects.filter(source=source)
     
+    # accessible at /api/ai_responses/ [POST]
     def create(self, request):
         source = request.data['source']
         summary = request.data['summary']
@@ -469,11 +475,14 @@ class AiResponseView(viewsets.ModelViewSet):
 # accessible at /api/revision/ [GET]
 class RevisionView(viewsets.ModelViewSet):
     # Pass in a source and workspace ID and get the most recent revision
+
+    # accessible at /api/revision/ [GET]
     def get_queryset(self):
         source = self.request.query_params.get('source')
         workspace = self.request.query_params.get('workspace')
         return Revision.objects.filter(source=source, workspace=workspace).order_by('-datetime').first()
     
+    # accessible at /api/revision/ [POST]
     def create(self, request):
         source = request.data['source']
         workspace = request.data['workspace']

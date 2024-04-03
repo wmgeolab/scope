@@ -140,6 +140,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class AiResponseSerializer(serializers.ModelSerializer):
     source = SourceSerializer(read_only=True)
+    source_id = serializers.IntegerField(write_only=True)
 
     def create(self, validated_data):
         r = AiResponse.objects.create(
@@ -152,7 +153,7 @@ class AiResponseSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = AiResponse
-        fields = ('id', 'source', 'summary', 'entities', 'locations')
+        fields = ('id', 'source', 'summary', 'entities', 'locations', 'source_id')
 
 class RevisionSerializer(serializers.ModelSerializer):
     original_response = AiResponseSerializer(read_only=True)
