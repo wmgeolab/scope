@@ -88,7 +88,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workspace
-        fields = ('id', 'name', 'password', 'creatorId', 'hidden')
+        fields = ('id', 'name', 'password', 'creatorId')
 
 class WorkspaceMembersSerializer(serializers.ModelSerializer):
     member = serializers.SlugRelatedField(read_only=True, slug_field='id')
