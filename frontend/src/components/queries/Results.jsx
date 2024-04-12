@@ -15,7 +15,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../assets/css/results.css";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import UnauthorizedView from "../UnauthorizedView";
 import Snackbar from "@mui/material/Snackbar";
@@ -34,15 +33,24 @@ const Results = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [show, setShow] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
+  
+  const [workspaceData, setWorkspaceData] = useState([]);
 
   const handleSend = () => {
     putSources();
     setShow(false);
     setOpen(true);
+
+    
+    let workspace_name = workspaceData.filter(workspace => workspace.id === parseInt(selectedWorkspace));
     // need to get the name and id
-    // navigate(
-    //   "/workspaces/" + selectedWorkspace.name + "/id/" + selectedWorkspace.id
-    // );
+    navigate(
+      "/workspace/" + workspace_name[0].name + "/id/" + selectedWorkspace
+    );
   };
 
   const handleToastClose = (event, reason) => {
@@ -52,21 +60,6 @@ const Results = (props) => {
 
     setOpen(false);
   };
-  const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  var listCheck = React.createRef();
-
-  const [workspaceData, setWorkspaceData] = useState([]);
-
-  //   listCheck.onClick = function(evt) {
-  //   if (listCheck.classList.contains('visible'))
-  //     listCheck.classList.remove('visible');
-  //   else
-  //     listCheck.classList.add('visible');
-  // }
-
   const handleChange = () => {
     // const value = textInput.current.value;
   };
@@ -101,7 +94,6 @@ const Results = (props) => {
 
         // Cell value id -> article id #
         // Cell Value Value -> Article title to be displayed.
-
         return (
           <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
         );
@@ -136,9 +128,6 @@ const Results = (props) => {
       }
     );
     let q = await response.json();
-
-    console.log("q", q);
-    console.log("first", q[0]);
     const new_q = [];
     for (let i = 0; i < q.length; i++) {
       var dict = {
@@ -148,10 +137,6 @@ const Results = (props) => {
       };
       new_q[i] = dict;
     }
-    //setRowCount(new_q.length);
-    console.log("new_q", new_q);
-    console.log("length", new_q.length);
-    console.log("page:", curPage);
     setQueryResults(new_q);
 
     //this is the fetch request to get the source count
@@ -173,36 +158,35 @@ const Results = (props) => {
     return new_q;
   };
 
-  //add back in when error is fixed
+  // add back in when error is fixed
 
-  // const handleTitle = async (curPage) => {
-  //   console.log("handlesubmit:", curPage);
-  //   let response = await fetch(
-  //     "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Token " + localStorage.getItem("user"),
-  //       },
-  //     }
-  //   );
-  //   console.log(response);
-  //   console.log("user", localStorage.getItem("user"));
-  //   let q = await response.json();
+  const handleTitle = async (curPage) => {
+    console.log("handlesubmit:", curPage);
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      }
+    );
+    console.log(response);
+    console.log("user", localStorage.getItem("user"));
+    let q = await response.json();
 
-  //   var result = Array.isArray(q.results)
-  //     ? q.results.find((item) => item.id === Number(query_id))
-  //     : -1;
-  //   setQueryName(result.name);
+    var result = Array.isArray(q.results)
+      ? q.results.find((item) => item.id === Number(query_id))
+      : -1;
 
-  //   // console.log("curpage", curPage);
-  // };
+    setQueryName(result.name);
+  };
 
   useEffect(() => {
     handleSubmit(0);
     //add back in when error is fixed
 
-    //handleTitle(0);
+    handleTitle(0);
   }, []); //listening on an empty array
 
   async function gatherWorkspaces() {
@@ -224,8 +208,10 @@ const Results = (props) => {
       setWorkspaceData(formattedResponse);
 
       if (formattedResponse != undefined && formattedResponse.length != 0)
+        console.log(formattedResponse, "THIS IS THE FORMATTED RESPONSE.");
+        console.log(formattedResponse[0], "FORMATTED RESPONSE 0");
         setSelectedWorkspace(formattedResponse[0]["id"]);
-      console.log(formattedResponse);
+      console.log(formattedResponse, "TEST");
     }
   }
 
@@ -294,7 +280,7 @@ const Results = (props) => {
         <div id="page-wrapper">
           {/* <!-- Main --> */}
           <section id="main" className="wrapper style2">
-            <h2 className="headings3">Results for {queryName}</h2>
+            <h2 className="headings3">Results for: {queryName}</h2>
 
             <div className="resultSearch">
               {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}

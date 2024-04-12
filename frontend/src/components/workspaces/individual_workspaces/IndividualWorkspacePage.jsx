@@ -11,7 +11,6 @@ export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name, workspace_id } = useParams();
   const [showModal, setShowModal] = useState(false);
-
   const [workspaceSources, setWorkspaceSources] = useState([]);
 
   var textInput = React.createRef();

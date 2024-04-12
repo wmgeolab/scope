@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Container, Button } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
+import QuestionModal from "./generate/QuestionModal";
 
 export default function IndividualWorkspaceTable({ data, filt }) {
   const { workspace_name, workspace_id } = useParams();
@@ -11,6 +12,14 @@ export default function IndividualWorkspaceTable({ data, filt }) {
     "Triggering article generation!"
   );
 
+  // Whether to show modal or not
+  const [showAIModal, setShowAIModal] = useState(false);
+  // Keeps track of source for modal
+  const [sourceId, setSourceId] = useState(null);
+  function handleShowModal(id){
+    setShowAIModal(true);
+    setSourceId(id);
+  }
   const columns = [
     { field: "id", headerName: "ID" },
 
@@ -67,7 +76,7 @@ export default function IndividualWorkspaceTable({ data, filt }) {
               alignContent: "right",
             }}
             type="submit"
-            href={"/questions/" + workspace_name}
+            onClick={() => handleShowModal(params.id)}
           >
             View
           </Button>
@@ -112,6 +121,10 @@ export default function IndividualWorkspaceTable({ data, filt }) {
         autoHideDuration={3000}
         message={message}
       ></Snackbar>
+      <QuestionModal 
+        showModal={showAIModal}
+        handleCloseModal={() => setShowAIModal(false)}
+        sourceId={sourceId}/>
     </Container>
   );
 }

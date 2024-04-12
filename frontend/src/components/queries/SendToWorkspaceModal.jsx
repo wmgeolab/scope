@@ -3,12 +3,24 @@ import Form from "react-bootstrap/Form";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
+/**
+ * Model used to export sources within a query search into a workspace
+ * Used in Results.jsx
+ */
 export default function SendToWorkspaceModal(props) {
+  /**
+   * showModal => Whether to show pop up or not
+   * handleClose => Closes the model from parent
+   * workspaceData => Contains the list of workspaces a user is part of 
+   * selectedWorkspace => Holds the WS the user selects to send it to.
+   * handleSend => Handles actually sending the workspaces.
+   */
   const {
     showModal,
     handleClose,
     workspaceData,
     setSelectedWorkspace,
+    setSelectedWorksapceName,
     selectedWorkspace,
     handleSend,
   } = props;
@@ -20,6 +32,7 @@ export default function SendToWorkspaceModal(props) {
           <Modal.Title>Send to Workspace</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {/* You need to be part of a workspace to select one */}
           {workspaceData === undefined || workspaceData.length == 0 ? (
             <p>Please join or create a workspace first!</p>
           ) : (
@@ -30,6 +43,7 @@ export default function SendToWorkspaceModal(props) {
             value={selectedWorkspace}
             onChange={(e) => {
               console.log(e.target.value);
+              console.log(e.target.value, "FULL TARGET");
               setSelectedWorkspace(e.target.value);
             }}
             disabled={workspaceData === undefined || workspaceData.length == 0}
