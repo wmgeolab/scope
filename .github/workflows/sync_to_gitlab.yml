@@ -1,0 +1,29 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - main # Or any other branches you want to track
+
+jobs:
+  sync_to_gitlab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up GitLab Remote URL
+        run: echo "GITLAB_FULL_REPO=https://oauth2:${{ secrets.GITLAB_TOKEN }}@${{ secrets.GITLAB_REPO }}" >> $GITHUB_ENV
+
+      - name: Push to GitLab
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git remote add gitlab ${{ env.GITLAB_FULL_REPO }}
+          git fetch gitlab
+          git checkout -b gitlab-temp-branch origin/main  # Create a temporary branch based on main
+          git push gitlab gitlab-temp-branch:${{ secrets.GITLAB_SYNC_BRANCH }} --force
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
