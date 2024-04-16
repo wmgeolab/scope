@@ -24,7 +24,7 @@ jobs:
           git config --global user.email 'action@github.com'
           git remote add gitlab ${{ env.GITLAB_FULL_REPO }}
           git fetch gitlab
-          git checkout -b gitlab-temp-branch origin/main  # Create a temporary branch based on main
+          git checkout -b gitlab-temp-branch origin/master  # Create a temporary branch based on master
           git push gitlab gitlab-temp-branch:${{ secrets.GITLAB_SYNC_BRANCH }} --force
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
