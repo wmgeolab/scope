@@ -3,7 +3,8 @@ name: Sync to GitLab
 on:
   push:
     branches:
-      - main # Or any other branches you want to track
+      - main
+      - master
 
 jobs:
   sync_to_gitlab:
