@@ -20,7 +20,6 @@ export default function SendToWorkspaceModal(props) {
     handleClose,
     workspaceData,
     setSelectedWorkspace,
-    setSelectedWorksapceName,
     selectedWorkspace,
     handleSend,
   } = props;
@@ -43,7 +42,6 @@ export default function SendToWorkspaceModal(props) {
             value={selectedWorkspace}
             onChange={(e) => {
               console.log(e.target.value);
-              console.log(e.target.value, "FULL TARGET");
               setSelectedWorkspace(e.target.value);
             }}
             disabled={workspaceData === undefined || workspaceData.length == 0}

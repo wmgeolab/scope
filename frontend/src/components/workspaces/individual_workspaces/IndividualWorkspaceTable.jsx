@@ -40,29 +40,6 @@ export default function IndividualWorkspaceTable({ data, filt }) {
       },
     },
     {
-      field: "wsGenerate",
-      headerName: "Generate AI Summary",
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          // <Button class="btn btn-primary btn-sm" href="/questions">
-          //   Generate
-          // </Button>
-          <Button
-            variant="contained"
-            style={{
-              textTransform: "capitalize",
-              width: "60%",
-              alignContent: "right",
-            }}
-            onClick={() => handleGenerateBtnClick(params.id)}
-          >
-            Generate
-          </Button>
-        );
-      },
-    },
-    {
       field: "wsView",
       headerName: "View AI Summary",
       flex: 1,
@@ -123,6 +100,7 @@ export default function IndividualWorkspaceTable({ data, filt }) {
       ></Snackbar>
       <QuestionModal 
         showModal={showAIModal}
+        handleGenerateBtnClick={handleGenerateBtnClick}
         handleCloseModal={() => setShowAIModal(false)}
         sourceId={sourceId}/>
     </Container>

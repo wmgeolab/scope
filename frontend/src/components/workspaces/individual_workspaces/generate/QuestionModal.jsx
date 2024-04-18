@@ -2,32 +2,54 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { Row, Col, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 export default function QuestionModal(props) {
-  const { showModal, handleCloseModal, sourceId } = props;
+  const { showModal, handleGenerateBtnClick, handleCloseModal, sourceId } =
+    props;
   const [locationDisabled, setLocationDisabled] = useState(true);
   const [timeDisabled, setTimeDisabled] = useState(true);
   const [actorDisabled, setActorDisabled] = useState(true);
   const [summaryDisabled, setSummaryDisabled] = useState(true);
 
+  function resetAndCloseModal() {
+    setLocationDisabled(true);
+    setTimeDisabled(true);
+    setActorDisabled(true);
+    setSummaryDisabled(true);
+    handleCloseModal();
+  }
   return (
-    <Modal show={showModal} onHide={handleCloseModal}>
-      <Modal.Header closeButton onClick={handleCloseModal}>
+    <Modal show={showModal} onHide={resetAndCloseModal}>
+      <Modal.Header closeButton onClick={resetAndCloseModal}>
         <Modal.Title> AI Form for Source: {sourceId} </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group controlId="textInput">
-            <Form.Label>
-              What are the primary location(s) in this source?
-              <Form.Check
-                type="switch"
-                id="location-switch"
-                label="Edit this section?"
-                onChange={() => setLocationDisabled(!locationDisabled)}
-               
-              />
-            </Form.Label>
+            <Row>
+              <Col sm={9}>
+                <Form.Label>
+                  What are the primary location(s) in this source?
+                  <Form.Check
+                    type="switch"
+                    id="location-switch"
+                    label="Edit this section?"
+                    onChange={() => setLocationDisabled(!locationDisabled)}
+                  />
+                </Form.Label>
+              </Col>
+              <Col sm={3}>
+                <Button
+                  onClick={() => handleGenerateBtnClick(sourceId)}
+                  variant="secondary"
+                  className="btn-sm"
+                >
+                  <RefreshIcon />
+                  Generate
+                </Button>
+              </Col>
+            </Row>
             <Form.Control
               type="text"
               placeholder="Pretend this is AI text..."
@@ -76,9 +98,10 @@ export default function QuestionModal(props) {
               disabled={summaryDisabled}
             />
             <div className="text-center mt-4">
-              {(!summaryDisabled || !locationDisabled || !actorDisabled || !summaryDisabled) && (
-                <Button> Save your changes</Button>
-              )}
+              {(!summaryDisabled ||
+                !locationDisabled ||
+                !actorDisabled ||
+                !summaryDisabled) && <Button onClick={resetAndCloseModal}> Save your changes</Button>}
             </div>
           </Form.Group>
         </Form>
