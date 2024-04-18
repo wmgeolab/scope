@@ -66,7 +66,17 @@ const Queries = (props) => {
     },
     { field: "description", headerName: "Description", flex: 1, minWidth: 150 },
     { field: "user", headerName: "User", width: 150 },
-    { field: "keywords", headerName: "Keywords", flex: 1, minWidth: 150 },
+    { field: "keywords", 
+      headerName: "Keywords", 
+      flex: 1, 
+      minWidth: 150,
+      renderCell: (cellValue) => {
+          if (cellValue.formattedValue[1] == ""){
+            return cellValue.formattedValue[0];
+          } else {
+            return cellValue.formattedValue[0] + ", " + cellValue.formattedValue[1];
+          } 
+      } },
   ];
 
   const handleSubmit = async (curPage) => {
@@ -84,8 +94,6 @@ const Queries = (props) => {
     console.log(response);
     console.log("user", localStorage.getItem("user"));
     let q = await response.json();
-
-    console.log("Response:", q);
 
     setRowCount(q.count);
     setQueries(q.results);
