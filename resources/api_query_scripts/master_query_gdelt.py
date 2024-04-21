@@ -12,14 +12,6 @@ from query_gdelt_api import query_gdelt
 
 
 def main_query(args):
-    # twitter_args = {
-    #     "start_date": args["start_date"][0:len(args["start_date"]) - 2],
-    #     "end_date": args["end_date"][0:len(args["end_date"]) - 2],
-    #     "primary": args['primary'],
-    #     "secondary": args['secondary'],
-    #     "tertiary": args['tertiary']
-    # }
-    #tweets = get_tweets(twitter_args)
 
     gdelt_args = {
         "query": args['primary'],
@@ -28,11 +20,6 @@ def main_query(args):
         "maxrecords": str(args['maxrecords'])
     }
     gdelt_data = query_gdelt(gdelt_args)
-    # WITH TWITTER USAGE:
-    # lines_to_write = ["Query: " + args['primary'] + " From " +
-    #                   args['start_date'] + " To " + args['end_date'] + "\n", tweets, gdelt_data]
-    # store(lines_to_write)
-    # return gdelt_data, tweets
 
     # WITHOUT TWITTER USAGE:
     lines_to_write = ["Query: " + args['primary'] + " From " +
@@ -76,7 +63,7 @@ def store_in_db():
                 if (',' not in str(keyword[1])) and (len(str(keyword[1])) >= 4):
                     args = {
                         "start_date": "20200915000000",
-                        "end_date": "20200917000000",
+                        "end_date": "20220917000000",
                         "primary": str(keyword[1]),
                         "secondary": str(keyword[1]),
                         "tertiary": str(keyword[1]),
@@ -84,9 +71,10 @@ def store_in_db():
                     }
                     results = main_query(args)
                     print("Length of results dict: ", len(results))
-                    # print(results[0]['articles'])
+                    print("Results: ", results)
+                    print(args)
                     #articles = results[0]['articles']
-                    if len(results) > 0:
+                    if len(results) > 0 and (results != 'Caught a JSOn Decode Error'):
                         articles = results['articles']
                         for article in articles:
                             # cursor.execute(
@@ -105,21 +93,7 @@ def store_in_db():
                                 cursor.execute(
                                     "INSERT INTO scopeBackend_result (run_id, source_id) VALUES (%s, %s);", (current_run[0][0], source[0][0], ))
                                 conn.commit()
-                        # FOLLOWING SECTION IS ONLY FOR TWEETS:
-                        # tweets = results[1]['tweets']
-                        # for tweet in tweets:
-                        #     cursor.execute("""INSERT INTO scopeBackend_source (text, url, sourceType_id)
-                        #         SELECT * FROM (SELECT %s AS text, %s AS url, %s AS sourceType_id) AS temp
-                        #         WHERE NOT EXISTS (
-                        #             SELECT url FROM scopeBackend_source WHERE url = %s
-                        #         ) LIMIT 1;""", (tweet['text'], tweet['url'], 2, tweet['url'], ))
-                        #     conn.commit()
-                        #     cursor.execute(
-                        #         "SELECT * FROM scopeBackend_source WHERE url=%s", (tweet['url'], ))
-                        #     source = cursor.fetchall()
-                        #     cursor.execute(
-                        #         "INSERT INTO scopeBackend_result (run_id, source_id) VALUES (%s, %s);", (current_run[0][0], source[0][0], ))
-                        #     conn.commit()
+                        
 
 
 if __name__ == '__main__':
