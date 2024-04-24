@@ -1,126 +1,202 @@
-import requests
-from bs4 import BeautifulSoup
-import MySQLdb
-import time
-from store_data import store
+import logging
 import os
-import json
+import time
 
-from query_gdelt_api import query_gdelt
+from mysql.connector import connect
+from pydantic import BaseModel
+from query_gdelt_api import GDELTQueryArgs, query_gdelt
 
-# the master query itself
+QUERY_START_DATE = "20200915000000"
+QUERY_END_DATE = "20220917000000"
 
-
-def main_query(args):
-    # twitter_args = {
-    #     "start_date": args["start_date"][0:len(args["start_date"]) - 2],
-    #     "end_date": args["end_date"][0:len(args["end_date"]) - 2],
-    #     "primary": args['primary'],
-    #     "secondary": args['secondary'],
-    #     "tertiary": args['tertiary']
-    # }
-    #tweets = get_tweets(twitter_args)
-
-    gdelt_args = {
-        "query": args['primary'],
-        "startdatetime": args['start_date'],
-        "enddatetime": args['end_date'],
-        "maxrecords": str(args['maxrecords'])
-    }
-    gdelt_data = query_gdelt(gdelt_args)
-    # WITH TWITTER USAGE:
-    # lines_to_write = ["Query: " + args['primary'] + " From " +
-    #                   args['start_date'] + " To " + args['end_date'] + "\n", tweets, gdelt_data]
-    # store(lines_to_write)
-    # return gdelt_data, tweets
-
-    # WITHOUT TWITTER USAGE:
-    lines_to_write = ["Query: " + args['primary'] + " From " +
-                      args['start_date'] + " To " + args['end_date'] + "\n", gdelt_data]
-    store(lines_to_write)
-    return gdelt_data
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
-def store_in_db():
-    # with open(os.path.join(os.getcwd(), 'db.txt')) as f:
-    #     lines = f.readlines()
-    conn = MySQLdb.connect(
-        user=os.environ.get("SCOPE_USER"),
-        password=os.environ.get("SCOPE_PASSWORD"),
-        host=os.environ.get("SCOPE_HOST"),
-        db=os.environ.get("SCOPE_DB")
-    )
+# Configuration and data models
+class DatabaseConfig(BaseModel):
+    """
+    Represents the configuration for connecting to a database.
+
+    Attributes:
+        user (str): The username for the database connection.
+        password (str): The password for the database connection.
+        host (str): The host address for the database connection.
+        database (str): The name of the database to connect to.
+    """
+
+    user: str
+    password: str
+    host: str
+    database: str
+
+
+class Keyword(BaseModel):
+    """
+    Represents a keyword with an ID and text.
+
+    Attributes:
+        id (int): The ID of the keyword.
+        text (str): The text of the keyword.
+    """
+
+    id: int
+    text: str
+
+
+def fetch_and_store_queries(db_config: DatabaseConfig):
+    """
+    Fetch and store queries from the database.
+
+    Args:
+        db_config (DatabaseConfig): The configuration object for the database connection.
+
+    Returns:
+        None
+    """
+    conn = connect(**db_config.model_dump())
     cursor = conn.cursor()
-
-    # GETTING THE QUERIES:
     cursor.execute("SELECT * FROM scopeBackend_query;")
     queries = cursor.fetchall()
-    # query[0] is the id for the query table
-    # That id is a foreign key referring to the 'query_id' on the keywords table
+
+    if not queries:
+        logger.info("No queries found.")
+        return
+
     for query in queries:
-        print(query[0])
-        cursor.execute(
-            "SELECT * FROM scopeBackend_keyword WHERE scopeBackend_keyword.query_id = %s;", (query[0], ))
-        keywords = cursor.fetchall()
-        print("Keywords: ", keywords)
-        # INSERT ROW into run table to initiate a run:
-        cur = time.strftime('%Y-%m-%d %H:%M:%S')
-        cursor.execute(
-            "INSERT INTO scopeBackend_run (time, query_id) VALUES (%s, %s);", (cur, query[0], ))
-        cursor.execute(
-            "SELECT * FROM scopeBackend_run WHERE time=%s AND query_id=%s;", (cur, query[0]))
-        current_run = cursor.fetchall()
-        print("Current run: ", current_run)
-        if (len(keywords) >= 0):
-            for keyword in keywords:
-                if (',' not in str(keyword[1])) and (len(str(keyword[1])) >= 4):
-                    args = {
-                        "start_date": "20200915000000",
-                        "end_date": "20200917000000",
-                        "primary": str(keyword[1]),
-                        "secondary": str(keyword[1]),
-                        "tertiary": str(keyword[1]),
-                        "maxrecords": 5
-                    }
-                    results = main_query(args)
-                    print("Length of results dict: ", len(results))
-                    # print(results[0]['articles'])
-                    #articles = results[0]['articles']
-                    if len(results) > 0:
-                        articles = results['articles']
-                        for article in articles:
-                            # cursor.execute(
-                            #     "INSERT INTO scopeBackend_source(text, url, sourceType_id) VALUES (%s, %s, %s)", (article['title'], article['url'], 1, ))
-                            cursor.execute("""INSERT INTO scopeBackend_source (text, url, sourceType_id)
-                                SELECT * FROM (SELECT %s AS text, %s AS url, %s AS sourceType_id) AS temp
-                                WHERE NOT EXISTS (
-                                    SELECT url FROM scopeBackend_source WHERE url = %s
-                                ) LIMIT 1;""", (article['title'], article['url'], 1, article['url'], ))
-                            conn.commit()
-                            cursor.execute(
-                                "SELECT * FROM scopeBackend_source WHERE url=%s", (article['url'], ))
-                            source = cursor.fetchall()
-                            print("Source: ", source)
-                            if len(source) > 0:
-                                cursor.execute(
-                                    "INSERT INTO scopeBackend_result (run_id, source_id) VALUES (%s, %s);", (current_run[0][0], source[0][0], ))
-                                conn.commit()
-                        # FOLLOWING SECTION IS ONLY FOR TWEETS:
-                        # tweets = results[1]['tweets']
-                        # for tweet in tweets:
-                        #     cursor.execute("""INSERT INTO scopeBackend_source (text, url, sourceType_id)
-                        #         SELECT * FROM (SELECT %s AS text, %s AS url, %s AS sourceType_id) AS temp
-                        #         WHERE NOT EXISTS (
-                        #             SELECT url FROM scopeBackend_source WHERE url = %s
-                        #         ) LIMIT 1;""", (tweet['text'], tweet['url'], 2, tweet['url'], ))
-                        #     conn.commit()
-                        #     cursor.execute(
-                        #         "SELECT * FROM scopeBackend_source WHERE url=%s", (tweet['url'], ))
-                        #     source = cursor.fetchall()
-                        #     cursor.execute(
-                        #         "INSERT INTO scopeBackend_result (run_id, source_id) VALUES (%s, %s);", (current_run[0][0], source[0][0], ))
-                        #     conn.commit()
+        process_query(conn, cursor, query)
 
 
-if __name__ == '__main__':
-    print(store_in_db())
+def process_query(conn, cursor, query):
+    """
+    Process a query by executing it, retrieving keywords, initiating a run, querying GDELT, and storing the results.
+
+    Args:
+        conn (connection): The database connection.
+        cursor (cursor): The database cursor.
+        query (tuple): The query to be processed.
+
+    Returns:
+        None
+    """
+    logger.info(query[0])
+    cursor.execute(
+        "SELECT id, word FROM scopeBackend_keyword WHERE query_id = %s;", (query[0],)
+    )
+    keywords = [Keyword(id=row[0], text=row[1]) for row in cursor.fetchall()]
+    logger.info("Keywords: %s", keywords)
+
+    current_run_id = initiate_run(conn, cursor, query[0])
+
+    for keyword in keywords:
+        if "," in keyword.text or len(keyword.text) <= 4:
+            continue
+        args = prepare_query_args(keyword.text)
+        results = query_gdelt(args)
+        logger.info("Results: %s", results)
+        store_articles(conn, cursor, current_run_id, results)
+
+
+def initiate_run(conn, cursor, query_id) -> int:
+    """
+    Inserts a new entry into the 'scopeBackend_run' table with the current time and the given query ID.
+    Returns the ID of the newly inserted row.
+
+    Args:
+        cursor: The database cursor object.
+        query_id: The ID of the query.
+
+    Returns:
+        int: The ID of the newly inserted row.
+    """
+    current_time = time.strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute(
+        "INSERT INTO scopeBackend_run (time, query_id) VALUES (%s, %s);",
+        (current_time, query_id),
+    )
+    conn.commit()
+    logger.info("Inserted new run at %s for query ID %s", current_time, query_id)
+    cursor.execute(
+        "SELECT id FROM scopeBackend_run WHERE time=%s AND query_id=%s;",
+        (current_time, query_id),
+    )
+    return cursor.fetchone()[0]
+
+
+def prepare_query_args(keyword: str) -> GDELTQueryArgs:
+    """
+    Prepares the query arguments for the GDELT API query.
+
+    Args:
+        keyword (str): The keyword to search for in the query.
+
+    Returns:
+        GDELTQueryArgs: The prepared query arguments.
+
+    """
+    return GDELTQueryArgs(
+        query=keyword,
+        startdatetime=QUERY_START_DATE,
+        enddatetime=QUERY_END_DATE,
+        maxrecords=5,
+    )
+
+
+def store_articles(conn, cursor, run_id, results):
+    """
+    Store articles in the database.
+
+    Args:
+        conn (connection): The database connection object.
+        cursor (cursor): The database cursor object.
+        run_id (int): The ID of the current run.
+        results (dict): The results containing the articles.
+
+    Returns:
+        None
+    """
+    if results.get("articles"):
+        for article in results["articles"]:
+            source_id = insert_if_new_source(conn, cursor, article)
+            if source_id:
+                cursor.execute(
+                    "INSERT INTO scopeBackend_result (run_id, source_id) VALUES (%s, %s);",
+                    (run_id, source_id),
+                )
+                conn.commit()
+
+
+def insert_if_new_source(conn, cursor, article):
+    """
+    Inserts a new source into the 'scopeBackend_source' table if it doesn't already exist.
+
+    Args:
+        conn: The database connection object.
+        cursor: The database cursor object.
+        article: A dictionary containing the article information, including 'title', 'url', and 'sourceType_id'.
+
+    Returns:
+        The ID of the inserted source if it was inserted successfully, otherwise None.
+    """
+    cursor.execute(
+        """INSERT INTO scopeBackend_source (text, url, sourceType_id)
+                      SELECT %s, %s, %s WHERE NOT EXISTS (SELECT url FROM scopeBackend_source WHERE url = %s) LIMIT 1;""",
+        (article["title"], article["url"], 1, article["url"]),
+    )
+    conn.commit()
+    cursor.execute("SELECT id FROM scopeBackend_source WHERE url=%s", (article["url"],))
+    result = cursor.fetchone()
+    return result[0] if result else None
+
+
+if __name__ == "__main__":
+    db_config = DatabaseConfig(
+        user=os.environ.get("SCOPE_USER", ""),
+        password=os.environ.get("SCOPE_PASSWORD", ""),
+        host=os.environ.get("SCOPE_HOST", ""),
+        database=os.environ.get("SCOPE_DB", ""),
+    )
+    logger.info("Database configuration: %s", db_config)
+    logger.info("Fetching and storing queries...")
+    fetch_and_store_queries(db_config)
