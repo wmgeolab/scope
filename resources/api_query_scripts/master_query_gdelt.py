@@ -6,8 +6,8 @@ from mysql.connector import connect
 from pydantic import BaseModel
 from query_gdelt_api import GDELTQueryArgs, query_gdelt
 
-QUERY_START_DATE = "20200915000000"
-QUERY_END_DATE = "20220917000000"
+QUERY_START_DATE = "20220915000000"
+QUERY_END_DATE = "20240217000000"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -80,7 +80,7 @@ def process_query(conn, cursor, query):
     Returns:
         None
     """
-    logger.info(query[0])
+    # logger.info(query[0])
     cursor.execute(
         "SELECT id, word FROM scopeBackend_keyword WHERE query_id = %s;", (query[0],)
     )
@@ -94,8 +94,8 @@ def process_query(conn, cursor, query):
             continue
         args = prepare_query_args(keyword.text)
         results = query_gdelt(args)
-
-        logger.info("Results: %s", results)
+        logger.info("Found %d articles for keyword '%s'", len(results), keyword.text)
+        # logger.info("Results: %s", results)
         store_articles(conn, cursor, current_run_id, results)
 
 
@@ -117,7 +117,7 @@ def initiate_run(conn, cursor, query_id) -> int:
         (current_time, query_id),
     )
     conn.commit()
-    logger.info("Inserted new run at %s for query ID %s", current_time, query_id)
+    logger.info("New run at %s for query ID %s", current_time, query_id)
     cursor.execute(
         "SELECT id FROM scopeBackend_run WHERE time=%s AND query_id=%s;",
         (current_time, query_id),
@@ -161,6 +161,7 @@ def store_articles(conn, cursor, run_id, results):
         for article in results["articles"]:
             source_id = insert_if_new_source(conn, cursor, article)
             if source_id:
+                logger.info("Inserted new source with ID %s", source_id)
                 cursor.execute(
                     "INSERT INTO scopeBackend_result (run_id, source_id) VALUES (%s, %s);",
                     (run_id, source_id),
@@ -180,15 +181,30 @@ def insert_if_new_source(conn, cursor, article):
     Returns:
         The ID of the inserted source if it was inserted successfully, otherwise None.
     """
+    # First, check if the source already exists in the database
+    cursor.execute(
+        "SELECT id FROM scopeBackend_source WHERE url = %s", (article["url"],)
+    )
+    result = cursor.fetchone()
+
+    # If it exists, return None to indicate the source was already present
+    if result:
+        return None
+
+    # If it does not exist, insert the new source
     cursor.execute(
         """INSERT INTO scopeBackend_source (text, url, sourceType_id)
-                      SELECT %s, %s, %s WHERE NOT EXISTS (SELECT url FROM scopeBackend_source WHERE url = %s) LIMIT 1;""",
-        (article["title"], article["url"], 1, article["url"]),
+           VALUES (%s, %s, %s)""",
+        (article["title"], article["url"], article["sourceType_id"]),
     )
     conn.commit()
-    cursor.execute("SELECT id FROM scopeBackend_source WHERE url=%s", (article["url"],))
-    result = cursor.fetchone()
-    return result[0] if result else None
+
+    # Retrieve and return the ID of the newly inserted source
+    cursor.execute(
+        "SELECT id FROM scopeBackend_source WHERE url = %s", (article["url"],)
+    )
+    new_result = cursor.fetchone()
+    return new_result[0] if new_result else None
 
 
 if __name__ == "__main__":
