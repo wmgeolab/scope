@@ -90,7 +90,7 @@ def process_query(conn, cursor, query):
     current_run_id = initiate_run(conn, cursor, query[0])
 
     for keyword in keywords:
-        if "," in keyword.text or len(keyword.text) < 2:
+        if "," in keyword.text or len(keyword.text) <= 2:
             continue
         args = prepare_query_args(keyword.text)
         results = query_gdelt(args)
