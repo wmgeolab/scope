@@ -422,6 +422,8 @@ class TagView(viewsets.ModelViewSet):
     
     # accessible at /api/tags/ [GET]
     # We want to pass in a user ID and return the tags for all the workspaces that the user is part of
+    # Optional parameter:
+    # - workspace
     def get_queryset(self):
         user = self.request.user.id
         queryset = Tag.objects.all()
@@ -429,6 +431,13 @@ class TagView(viewsets.ModelViewSet):
             # Tags only contain a workspace ID and tag text, so we need to check 
             # in the workspaces that the user is part of
             workspaces = WorkspaceMembers.objects.filter(member=user).values_list('workspace', flat=True)
+
+            workspace_parameter = self.request.query_params.get('workspace')
+
+            if workspace_parameter:
+                # workspaces = union of workspaces that the user is part of and the workspace parameter
+                workspaces = workspaces | Workspace.objects.filter(id=workspace_parameter)
+
             # Now we need to filter tags by the workspaces that the user is part of
             queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
     
