@@ -413,7 +413,8 @@ class TagView(viewsets.ModelViewSet):
         if not workspace:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # check if tag exists
-        if not Tag.objects.filter(workspace=workspace, tag=tag):
+        tag = Tag.objects.filter(workspace=workspace, tag=tag)
+        if not tag:
             return Response({'error':'Tag does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # delete tag
         tag.delete()
