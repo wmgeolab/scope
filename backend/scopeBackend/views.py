@@ -477,13 +477,27 @@ class AiResponseView(viewsets.ModelViewSet):
 # accessible at /api/revision/ [GET]
 class RevisionView(viewsets.ModelViewSet):
     # Pass in a source and workspace ID and get the most recent revision
+    permission_classes = [IsAuthenticated]
+    serializer_class = RevisionSerializer
+
 
     # accessible at /api/revision/ [GET]
     def get_queryset(self):
         source = self.request.query_params.get('source')
         workspace = self.request.query_params.get('workspace')
-        return Revision.objects.filter(source=source, workspace=workspace).order_by('-datetime').first()
-    
+        if not source or not workspace:
+            return Response({'error': 'Source or workspace not specified.'}, status=status.HTTP_400_BAD_REQUEST)
+        # We want to filter by Revisions whose original_response field, a foreign key to AiResponse, 
+        # has a source field that points to a Source with the id that was passed in
+
+        # First, retrieve the first AiResponse where the source is the one passed in
+        ai_response_for_source = AiResponse.objects.filter(source=source).first()
+
+        # Second, retrieve the first Revision where the original_response is the one from the first step
+        revisions_of_original_response = Revision.objects.filter(original_response=ai_response_for_source)
+
+        return revisions_of_original_response.order_by('-datetime')
+            
     # accessible at /api/revision/ [POST]
     def create(self, request):
         source = request.data['source']
