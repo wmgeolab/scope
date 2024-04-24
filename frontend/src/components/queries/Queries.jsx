@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -11,28 +10,21 @@ import {
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/queries.css";
+import "../../assets/css/queries.css";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import logo from "./../images/pic10.jpg";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Search } from "react-bootstrap-icons";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import ScopeNavBar from "./ScopeNavBar";
 import Row from "react-bootstrap/Row";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 
 const Queries = (props) => {
-  const {
-    loggedIn
-  } = props;
+  const { loggedIn } = props;
 
   const [queries, setQueries] = useState([]);
-  const navigate = useNavigate();
   const [rowCount, setRowCount] = useState(0);
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
@@ -102,11 +94,6 @@ const Queries = (props) => {
   useEffect(() => {
     handleSubmit(0);
   }, []); //listening on an empty array
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
 
   function CustomPagination() {
     const apiRef = useGridApiContext();

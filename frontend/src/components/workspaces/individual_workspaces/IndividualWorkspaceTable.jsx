@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
-import { Row, Col } from "react-bootstrap";
 
 
 export default function IndividualWorkspaceTable({data, filt}){
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
-      
-        {
-          field: "wsName",
-          headerName: "Name",
-          width: 150,
+      { field: "id", headerName: "ID" },
+
+      {
+        field: "wsName",
+        headerName: "Name",
+        flex: 1,
+      },
+
+      {
+        field: "wsURL",
+        headerName: "URL",
+        flex: 3,
+        renderCell: (cellValue) => {
+          return (
+            <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>
+          );
         },
-      
-        {
-          field: "wsURL",
-          headerName: "URL",
-          width: 150,
-          flex: 1,
-          renderCell: (cellValue) => {
-            return <a href={cellValue.formattedValue}>{cellValue.formattedValue}</a>;
-          },
-        },
-      ];
+      },
+    ];
 
     return(
         <Container disableGutters sx={{ height: 400, marginTop: "2%"}}>

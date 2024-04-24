@@ -1,22 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/workspace.css";
+import "../../assets/css/workspace.css";
 import { Container } from "@mui/material";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Search } from "react-bootstrap-icons";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
-import { useNavigate } from "react-router-dom";
 
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
@@ -24,14 +22,13 @@ const Workspaces = (props) => {
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const textInput = useRef("");
-  const navigate = useNavigate();
   const [errorMes, setErrorMes] = useState("");
   const [error, setError] = useState(true);
 
   const { loggedIn } = props;
   const [workspaceData, setWorkspaceData] = useState({
-    id:null,
-    name:null,
+    id: null,
+    name: null,
   });
 
   async function gatherWorkspaces() {
@@ -43,14 +40,18 @@ const Workspaces = (props) => {
       },
     });
     const response_text = await response.json();
-    const formattedResponse = response_text.results.map(result => {
-      return {
-        id: result.workspace.id,
-        name: result.workspace.name,
+    try {
+      const formattedResponse = response_text.results.map((result) => {
+        return {
+          id: result.workspace.id,
+          name: result.workspace.name,
+        };
+      });
+      if (formattedResponse) {
+        setWorkspaceData(formattedResponse);
       }
-    });
-    if (formattedResponse){
-      setWorkspaceData(formattedResponse);
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -77,9 +78,8 @@ const Workspaces = (props) => {
     if (response_text.error) {
       // TODO: ADD UI ELEMENTS FOR SPECIFIC ERRORS.
       // E.G name already exists, ect...
-      setErrorMes(response_text.error)
-    }
-    else setError(false);
+      setErrorMes(response_text.error);
+    } else setError(false);
   }
 
   async function triggerJoin(name, password) {
@@ -101,9 +101,8 @@ const Workspaces = (props) => {
     if (response_text.error) {
       // I don't think there should be any specific errors here
       // But if so..UI time.
-      setErrorMes(response_text.error)
-    }
-    else setError(false);
+      setErrorMes(response_text.error);
+    } else setError(false);
   }
 
   const handleShowJoin = () => {
@@ -146,7 +145,11 @@ const Workspaces = (props) => {
 
       renderCell: (cellValue) => {
         return (
-          <a href={"/workspace/" + cellValue.formattedValue + "/id/" + cellValue.id}>
+          <a
+            href={
+              "/workspace/" + cellValue.formattedValue + "/id/" + cellValue.id
+            }
+          >
             {cellValue.formattedValue}
           </a>
         );

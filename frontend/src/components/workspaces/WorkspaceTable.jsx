@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Container } from '@mui/material';
-import { Button } from "react-bootstrap";
 
 export default function WorkspaceTable(props) {
   const { data, columns, filters } = props;

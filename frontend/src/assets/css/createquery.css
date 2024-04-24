@@ -39,17 +39,16 @@
 .formLabels {
     /* font-family: 'Montserrat'; */
     font-weight: 700;
-
     color: #505050;
+    text-align: left;
     margin: auto;
-    width: 50%;
+    width: 90%;
     padding-top: 20px;
 }
 
 .formLabels2 {
     /* font-family: 'Montserrat'; */
     font-weight: 700;
-
     color: #505050;
     margin: auto;
     width: 50%;

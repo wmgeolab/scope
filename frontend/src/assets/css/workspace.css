@@ -121,9 +121,13 @@
 }
 
 .wsButton {
+    color: white;
+    background-color: #0d6efd;
+    border-radius: 4px;
     display: inline-block;
     margin-left: 5px;
     margin-right: 5px;
+    border: none;
 }
 
 .text-center {

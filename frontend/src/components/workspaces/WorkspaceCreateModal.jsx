@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Row, Col, Modal } from "react-bootstrap";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Container } from "@mui/material";
+import { Row, Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function WorkspaceModal(props) {
-  const {
-    showModal,
-    setWorkspaceName,
-    setWorkspacePassword,
-    handleCloseCreate,
-    handleExitCreateModal,
-    triggerCreation,
-    error,
-    errorMes
-  } = props;
+  const { showModal, handleExitCreateModal, triggerCreation, error, errorMes } =
+    props;
 
   const [tempErrorState, setTempErrorState] = useState(false);
   const [tempWorkspaceName, setTempWorkspaceName] = useState("");
@@ -30,14 +20,14 @@ export default function WorkspaceModal(props) {
       setTempErrorState(false);
       triggerCreation(tempWorkspaceName, tempWorkspacePassword);
       if (!error) handleExitCreateModal();
-      setTempWorkspaceName('');
-      setTempWorkspacePassword('');
+      setTempWorkspaceName("");
+      setTempWorkspacePassword("");
     }
   };
 
   return (
     <Modal show={showModal} onHide={handleExitCreateModal}>
-      <Modal.Header closeButton onClick={handleCloseCreate}>
+      <Modal.Header closeButton>
         <Modal.Title> Create New Workspace</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -53,17 +43,15 @@ export default function WorkspaceModal(props) {
         />
         <Row>
           {tempErrorState ? (
-            <Row className="d-flex justify-content-center text-danger" >
-            ** Please fill in all of the required answers. **
+            <Row className="d-flex justify-content-center text-danger">
+              ** Please fill in all of the required answers. **
             </Row>
           ) : null}
-          {
-            errorMes ? (
-              <Row className="d-flex justify-content-center text-danger" >
+          {errorMes ? (
+            <Row className="d-flex justify-content-center text-danger">
               {errorMes}
-              </Row>
-            ) : null
-          }
+            </Row>
+          ) : null}
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">

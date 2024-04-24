@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
-import UnauthorizedView from "./UnauthorizedView";
+import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
+import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name, workspace_id } = useParams();
+  // showModal is not unused -- just only 
   const [showModal, setShowModal] = useState(false);
 
   const [workspaceSources, setWorkspaceSources] = useState([]);
@@ -40,7 +42,10 @@ export default function IndividualWorkspacePage(props) {
   };
 
   async function obtainSources() {
-    const response = await fetch("http://127.0.0.1:8000/api/entries/?workspace=" + workspace_id, {
+    const param = new URLSearchParams({
+      workspace: workspace_id
+    })
+    const response = await fetch(`http://127.0.0.1:8000/api/entries/?${param}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -112,6 +117,11 @@ export default function IndividualWorkspacePage(props) {
           </Col>
           <Col sm={5}/>
         </Row>
+        <IndividualWorkspaceModal
+          showModal={showModal}
+          handleClose={handleCloseModal}
+          workspaceName={workspace_name}
+        />
       </Container>
     );
   }
