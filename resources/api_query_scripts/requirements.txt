@@ -3,7 +3,7 @@ beautifulsoup4==4.12.3
 bs4==0.0.2
 certifi==2024.2.2
 charset-normalizer==3.3.2
-gdeltdoc==1.5.0
+gdeltdoc @ git+https://github.com/SawyerCzupka/gdelt-doc-api@59e2d34c60981d3622b1d5f24a13a5a5aebc7bbd
 idna==3.7
 mysql==0.0.3
 mysql-connector-python==8.3.0
