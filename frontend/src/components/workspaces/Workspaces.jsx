@@ -34,11 +34,9 @@ const Workspaces = (props) => {
     id: null,
     name: null,
   });
-  const [testData, setTestData] = useState({
-    id: 10,
-    name: "woo",
-    tags: ["arkansas", "purple"],
-  });
+
+  // an array of objects to either be deleted or added
+  const [saveData, setSaveData] = useState([]);
 
   async function gatherWorkspaces() {
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
@@ -53,7 +51,6 @@ const Workspaces = (props) => {
 
     try {
       const formattedResponse = response_text.results.map((result) => {
-        console.log("result", result);
         return {
           id: result.workspace.id,
           name: result.workspace.name,
@@ -85,6 +82,7 @@ const Workspaces = (props) => {
     // See Views.py for possible errors
     const response_text = await response.json();
 
+    console.log("responseTets:", response_text);
     try {
       // gathering all the tags for each workspace by id
       const formattedResponse = response_text.results.reduce(
@@ -137,6 +135,7 @@ const Workspaces = (props) => {
     // Await a response and return it if it exists
     // See Views.py for possible errors
     const response_text = await response.json();
+    console.log("sedning tag...");
 
     if (response_text.error) {
       console.log("error message with tags", response_text);
@@ -224,6 +223,19 @@ const Workspaces = (props) => {
     textInput.current = value.target.value;
   };
 
+  // function to add and delete tags from the list
+  const handleSaveTags = () => {
+    console.log("to add", saveData);
+    if (saveData.length > 0) {
+      saveData.forEach((cur) => {
+        if (cur.method === "add") {
+          sendTag(cur.id, cur.name); // might come across an issue adding multiple tags
+        }
+      });
+      setSaveData([]);
+    }
+  };
+
   //TODO: Look into moving this into its own Component...
   const workspaceColumns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -283,6 +295,20 @@ const Workspaces = (props) => {
                 variant="standard"
                 label=""
                 placeholder="Add tags"
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    console.log("adding", tag_list.id);
+                    if (event.target.value !== "") {
+                      // the new tag to be added
+                      let adding = {
+                        id: tag_list.id,
+                        name: event.target.value,
+                        method: "add", //if the tag is being added or deleted
+                      };
+                      setSaveData((previous) => [...previous, adding]);
+                    }
+                  }
+                }}
                 //put send tag here and it will add every letter
               />
             )}
@@ -354,6 +380,9 @@ const Workspaces = (props) => {
             </Col>
             <Col>
               <Button onClick={handleShowCreate}>Create New Workspace</Button>
+            </Col>
+            <Col>
+              <Button onClick={handleSaveTags}>Save Tags</Button>
             </Col>
             {/* <Col>
               <Button onClick={sendTag(55, "yellow")}>Save Tags</Button>
