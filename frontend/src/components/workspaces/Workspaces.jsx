@@ -30,6 +30,15 @@ const Workspaces = (props) => {
     id: null,
     name: null,
   });
+  const [tagData, setTagData] = useState({
+    id: null,
+    name: null,
+  });
+  const [testData, setTestData] = useState({
+    id: 10,
+    name: "woo",
+    tags: ["arkansas", "purple"],
+  });
 
   async function gatherWorkspaces() {
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
@@ -40,14 +49,18 @@ const Workspaces = (props) => {
       },
     });
     const response_text = await response.json();
+    console.log("worksapces", response_text);
+
     try {
       const formattedResponse = response_text.results.map((result) => {
+        console.log("result", result);
         return {
           id: result.workspace.id,
           name: result.workspace.name,
         };
       });
       if (formattedResponse) {
+        console.log("workspacesResponse", typeof formattedResponse);
         setWorkspaceData(formattedResponse);
       }
     } catch (e) {
@@ -55,8 +68,84 @@ const Workspaces = (props) => {
     }
   }
 
+  /**
+   * This retrieves all the tags for each of the user's workspaces
+   * @returns A JSON object with all the tags and their corresponding workspace ids
+   */
+  async function getTags() {
+    // API request to backend
+    const response = await fetch("http://127.0.0.1:8000/api/tags/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+    });
+    // Await a response and return it if it exists
+    // See Views.py for possible errors
+    const response_text = await response.json();
+
+    try {
+      // gathering all the tags for each workspace by id
+      const formattedResponse = response_text.results.reduce(
+        (accumulator, result) => {
+          const existingEntry = accumulator.find(
+            (entry) => entry.id === result.workspace
+          );
+
+          if (existingEntry) {
+            // If an entry with the same ID already exists, merge the tags
+            existingEntry.tags.push(result.tag);
+          } else {
+            // If no entry with the same ID exists, create a new entry
+            accumulator.push({
+              id: result.workspace,
+              tags: [result.tag],
+            });
+          }
+
+          return accumulator;
+        },
+        []
+      );
+      if (formattedResponse) {
+        setTagData(formattedResponse);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * This sends tags to the backend for storage when created by a user
+   * @returns any errors that occur with posting tags
+   */
+  async function sendTag(id, tag) {
+    let data = {
+      workspace: id,
+      tag: tag,
+    };
+    // API request to backend
+    const response = await fetch("http://127.0.0.1:8000/api/tags/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
+    });
+    // Await a response and return it if it exists
+    // See Views.py for possible errors
+    const response_text = await response.json();
+
+    if (response_text.error) {
+      console.log("error message with tags", response_text);
+    }
+  }
+
   useEffect(() => {
     gatherWorkspaces();
+    getTags();
   }, []);
 
   async function triggerCreation(name, password) {
@@ -160,6 +249,8 @@ const Workspaces = (props) => {
       headerName: "Tags",
       flex: 1,
       renderCell: (tag_list) => {
+        // console.log("tag List", tag_list);
+        // console.log("formattedValue", tag_list.formattedValue);
         var tags_to_display;
         if (
           tag_list.formattedValue === null ||
@@ -167,7 +258,7 @@ const Workspaces = (props) => {
         ) {
           tags_to_display = [];
         } else {
-          tags_to_display = tag_list.formattedValue.split(",");
+          tags_to_display = tag_list.formattedValue;
         }
         return (
           <Autocomplete
@@ -192,6 +283,7 @@ const Workspaces = (props) => {
                 variant="standard"
                 label=""
                 placeholder="Add tags"
+                //put send tag here and it will add every letter
               />
             )}
           />
@@ -250,7 +342,8 @@ const Workspaces = (props) => {
             </Form>
           </Col>
           <WorkspaceTable
-            data={workspaceData}
+            workspaceData={workspaceData}
+            tagData={tagData}
             columns={workspaceColumns}
             filters={filt}
           />
@@ -262,6 +355,9 @@ const Workspaces = (props) => {
             <Col>
               <Button onClick={handleShowCreate}>Create New Workspace</Button>
             </Col>
+            {/* <Col>
+              <Button onClick={sendTag(55, "yellow")}>Save Tags</Button>
+            </Col> */}
             <Col />
           </Row>
         </Row>
