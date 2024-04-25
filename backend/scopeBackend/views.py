@@ -413,7 +413,8 @@ class TagView(viewsets.ModelViewSet):
         if not workspace:
             return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # check if tag exists
-        if not Tag.objects.filter(workspace=workspace, tag=tag):
+        tag = Tag.objects.filter(workspace=workspace, tag=tag)
+        if not tag:
             return Response({'error':'Tag does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # delete tag
         tag.delete()
@@ -421,6 +422,8 @@ class TagView(viewsets.ModelViewSet):
     
     # accessible at /api/tags/ [GET]
     # We want to pass in a user ID and return the tags for all the workspaces that the user is part of
+    # Optional parameter:
+    # - workspace
     def get_queryset(self):
         user = self.request.user.id
         queryset = Tag.objects.all()
@@ -428,6 +431,13 @@ class TagView(viewsets.ModelViewSet):
             # Tags only contain a workspace ID and tag text, so we need to check 
             # in the workspaces that the user is part of
             workspaces = WorkspaceMembers.objects.filter(member=user).values_list('workspace', flat=True)
+
+            workspace_parameter = self.request.query_params.get('workspace')
+
+            if workspace_parameter:
+                # workspaces = union of workspaces that the user is part of and the workspace parameter
+                workspaces = workspaces | Workspace.objects.filter(id=workspace_parameter)
+
             # Now we need to filter tags by the workspaces that the user is part of
             queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
     
@@ -477,13 +487,27 @@ class AiResponseView(viewsets.ModelViewSet):
 # accessible at /api/revision/ [GET]
 class RevisionView(viewsets.ModelViewSet):
     # Pass in a source and workspace ID and get the most recent revision
+    permission_classes = [IsAuthenticated]
+    serializer_class = RevisionSerializer
+
 
     # accessible at /api/revision/ [GET]
     def get_queryset(self):
         source = self.request.query_params.get('source')
         workspace = self.request.query_params.get('workspace')
-        return Revision.objects.filter(source=source, workspace=workspace).order_by('-datetime').first()
-    
+        if not source or not workspace:
+            return Response({'error': 'Source or workspace not specified.'}, status=status.HTTP_400_BAD_REQUEST)
+        # We want to filter by Revisions whose original_response field, a foreign key to AiResponse, 
+        # has a source field that points to a Source with the id that was passed in
+
+        # First, retrieve the first AiResponse where the source is the one passed in
+        ai_response_for_source = AiResponse.objects.filter(source=source).first()
+
+        # Second, retrieve the first Revision where the original_response is the one from the first step
+        revisions_of_original_response = Revision.objects.filter(original_response=ai_response_for_source)
+
+        return revisions_of_original_response.order_by('-datetime')
+            
     # accessible at /api/revision/ [POST]
     def create(self, request):
         source = request.data['source']
