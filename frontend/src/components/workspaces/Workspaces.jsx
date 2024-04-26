@@ -23,6 +23,7 @@ const Workspaces = (props) => {
   // This is set in onSubmitSearch and is passed to WorkspaceTable
   // Puts the keyword based filter (stored in textInput) in a filter format for MUI DataGrid
   const [filt, setFilt] = useState([]);
+
   // This controls that when a keyword search is done, 
   // what field/columnis specifically being searched
   const [dropDownValueSearch, setDropDownValueSearch] = useState("Name");
@@ -306,14 +307,25 @@ const Workspaces = (props) => {
 
   // Puts UI filter into Datagrid friendly package
   const onSubmitSearch = (e) => {
+    console.log(e);
     e.preventDefault();
-    setFilt([
-      {
-        columnField: "name",
-        operatorValue: "contains",
-        value: textInput.current,
-      },
-    ]);
+    if (dropDownValueSearch == "Name"){
+      setFilt([
+        {
+          columnField: "name",
+          operatorValue: "contains",
+          value: textInput.current,
+        },
+      ]);
+    } else {
+      setFilt([
+        {
+          columnField: "tags",
+          operatorValue: "contains",
+          value: textInput.current,
+        },
+      ]);
+    }
   };
 
   // Whenever user types something into keyword box, update it.
