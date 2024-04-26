@@ -244,10 +244,8 @@ class WorkspaceView(viewsets.ModelViewSet):
         self.serializer_class = WorkspaceMembersSerializer
         queryset = WorkspaceMembers.objects.all()
         user = self.request.user.id
-        # return all workspaces that user is part of
-        # We haven't migrated hidden yet :p
-        # return queryset.filter(member=user, hidden=False)
-        return queryset.filter(member=user)
+        # return all workspaces that user is part of and are not hidden
+        return queryset.filter(member=user, hidden=False)
 
     # accessble at /api/workspaces/ [DELETE]
     # delete() is a built-in django method
@@ -264,7 +262,8 @@ class WorkspaceView(viewsets.ModelViewSet):
         # check if creator
         if workspace.creatorId != self.request.user:
             return Response({'error':'Only the workspace creator can delete'}, status=status.HTTP_403_FORBIDDEN)
-        workspace.delete()
+        # workspace.delete()
+        workspace.hidden = True
         return Response('Workspace has been deleted', status=status.HTTP_200_OK)
 
     # accessible at /api/workspaces/ [POST]
