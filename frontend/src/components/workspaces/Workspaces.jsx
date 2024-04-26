@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import UnauthorizedView from "../UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
+import Alert from '@mui/material/Alert';
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
 
@@ -24,6 +25,8 @@ const Workspaces = (props) => {
   const textInput = useRef("");
   const [errorMes, setErrorMes] = useState("");
   const [error, setError] = useState(true);
+  // Used to show warning text to user that they have changes they haven't yet saved.
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
 
   const { loggedIn } = props;
   const [workspaceData, setWorkspaceData] = useState({
@@ -62,6 +65,7 @@ const Workspaces = (props) => {
       console.log(e);
     }
   }
+
 
   async function deleteTag(id, tag) {
     let data = {
@@ -162,6 +166,14 @@ const Workspaces = (props) => {
       console.log("error message with tags", response_text);
     }
   }
+  // If the user has changes they haven't saved yet, set true else false
+  useEffect(() => {
+    if (saveData.length > 0){
+      setUnsavedChanges(true);
+    } else {
+      setUnsavedChanges(false);
+    }
+  }, [saveData]);
 
   useEffect(() => {
     gatherWorkspaces();
@@ -399,6 +411,9 @@ const Workspaces = (props) => {
               </InputGroup>
             </Form>
           </Col>
+          {unsavedChanges ? (
+            <Alert severity="warning">Warning: You have unsaved changes.</Alert>
+          ) : (<div></div>)}
           <WorkspaceTable
             workspaceData={workspaceData}
             tagData={tagData}
