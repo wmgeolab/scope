@@ -14,9 +14,10 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import UnauthorizedView from "../UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
+import Snackbar from "@mui/material/Snackbar";
 
 // Workspaces is the parent page of all workspace related components
 const Workspaces = (props) => {
@@ -24,7 +25,7 @@ const Workspaces = (props) => {
   // Puts the keyword based filter (stored in textInput) in a filter format for MUI DataGrid
   const [filt, setFilt] = useState([]);
 
-  // This controls that when a keyword search is done, 
+  // This controls that when a keyword search is done,
   // what field/columnis specifically being searched
   const [dropDownValueSearch, setDropDownValueSearch] = useState("Name");
   // These control modal visibility
@@ -41,19 +42,29 @@ const Workspaces = (props) => {
   const [error, setError] = useState(true);
 
   const { loggedIn } = props;
-  // Holds all data for table, retrieved from gatherWorkspaces 
+  // Holds all data for table, retrieved from gatherWorkspaces
   const [workspaceData, setWorkspaceData] = useState({
     id: null,
     name: null,
   });
   const [tagData, setTagData] = useState({
-    id:  null,
-    name:  null,
+    id: null,
+    name: null,
   });
-
 
   // an array of objects to either be deleted or added
   const [saveData, setSaveData] = useState([]);
+
+  // state and methods for the toast message that lets users know the successfully saved their tags
+  const [successTag, setSuccessTag] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessTag(false);
+  };
 
   /**
    * This retrieves all the workspaces a user is part of
@@ -84,13 +95,12 @@ const Workspaces = (props) => {
     }
   }
 
-
   async function deleteTag(id, tag) {
     let data = {
       workspace: id,
       tag: tag,
     };
-    console.log(data, 'this is data');
+    console.log(data, "this is data");
     const response = await fetch("http://127.0.0.1:8000/api/tags/", {
       method: "DELETE",
       headers: {
@@ -186,13 +196,13 @@ const Workspaces = (props) => {
   }
   // If the user has changes they haven't saved yet, set true else false
   // This is failing on first removal due to an unresolved issue with MUI
-  // useEffect(() => {
-  //   if (saveData.length > 0){
-  //     setUnsavedChanges(true);
-  //   } else {
-  //     setUnsavedChanges(false);
-  //   }
-  // }, [saveData]);
+  useEffect(() => {
+    if (saveData.length > 0) {
+      setUnsavedChanges(true);
+    } else {
+      setUnsavedChanges(false);
+    }
+  }, [saveData]);
   // Automatically trigger gathering of workspaces
   // https://dev.to/csituma/why-we-use-empty-array-with-useeffect-iok
   useEffect(() => {
@@ -200,8 +210,8 @@ const Workspaces = (props) => {
     getTags();
   }, []);
 
-    /**
-   * 
+  /**
+   *
    * @param {str} name requested workspace name
    * @param {str} password requested password
    * @returns If the request is successful, true else false
@@ -233,8 +243,8 @@ const Workspaces = (props) => {
     }
   }
   /**
-   * 
-   * @param {str} name the name of the workspace 
+   *
+   * @param {str} name the name of the workspace
    * @param {str} password the password of the workspace
    * @returns true if successful, false if not
    * Triggers a request to join the backend
@@ -270,8 +280,8 @@ const Workspaces = (props) => {
   };
   const handleShowCreate = () => {
     setShowCreateModal(true);
-  }
-    /**
+  };
+  /**
    * With the currently selected workspaces held in selected rows, delete them.
    * TODO: Convert this to hiding versus deleting.
    */
@@ -296,7 +306,6 @@ const Workspaces = (props) => {
     gatherWorkspaces();
   }
 
-
   const handleExitCreateModal = () => {
     setErrorMes("");
     setShowCreateModal(false);
@@ -310,7 +319,7 @@ const Workspaces = (props) => {
   const onSubmitSearch = (e) => {
     console.log(e);
     e.preventDefault();
-    if (dropDownValueSearch == "Name"){
+    if (dropDownValueSearch == "Name") {
       setFilt([
         {
           columnField: "name",
@@ -339,11 +348,12 @@ const Workspaces = (props) => {
     if (saveData.length > 0) {
       saveData.forEach((cur) => {
         if (cur.method === "add") {
-          sendTag(cur.id, cur.name); // might come across an issue adding multiple f
+          sendTag(cur.id, cur.name);
         } else {
-           deleteTag(cur.id, cur.name);
+          deleteTag(cur.id, cur.name);
         }
       });
+      setSuccessTag(true);
       setSaveData([]);
     }
   };
@@ -354,11 +364,11 @@ const Workspaces = (props) => {
       name: tag_name,
       method: "delete", // delete the tag
     };
-    setSaveData((previous) => [...previous, delete_item]);  
-  };  
+    setSaveData((previous) => [...previous, delete_item]);
+  };
 
   //TODO: Look into moving this into its own Component...
-  const workspaceColumns = [ 
+  const workspaceColumns = [
     { field: "id", headerName: "ID", width: 90 },
     {
       field: "name",
@@ -382,7 +392,6 @@ const Workspaces = (props) => {
       headerName: "Tags",
       flex: 1,
       renderCell: (tag_list) => {
-        // console.log("tag List", tag_list);
         // console.log("formattedValue", tag_list.formattedValue);
         var tags_to_display;
         if (
@@ -393,6 +402,8 @@ const Workspaces = (props) => {
         } else {
           tags_to_display = tag_list.formattedValue;
         }
+        console.log("tag List", tags_to_display);
+
         return (
           <Autocomplete
             multiple
@@ -404,10 +415,10 @@ const Workspaces = (props) => {
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (
                 <Chip
-                {...getTagProps({ index })}
-                onMouseDown={(e) => handleDeleteTags(e, tag_list.id, option)}
-                label={option}
-                color="primary"
+                  {...getTagProps({ index })}
+                  onMouseDown={(e) => handleDeleteTags(e, tag_list.id, option)}
+                  label={option}
+                  color="primary"
                 />
               ))
             }
@@ -496,7 +507,27 @@ const Workspaces = (props) => {
               </InputGroup>
             </Form>
           </Col>
-            <Alert severity="warning">Warning: You must save your changes to tags before leaving page.</Alert>
+          {unsavedChanges ? (
+            <Alert severity="warning">Warning: You have unsaved changes.</Alert>
+          ) : (
+            <div></div>
+          )}
+
+          {/* Success message for adding tags */}
+          <Snackbar
+            open={successTag}
+            autoHideDuration={1000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: "25%" }}
+            >
+              Tags Saved!
+            </Alert>
+          </Snackbar>
           <WorkspaceTable
             workspaceData={workspaceData}
             tagData={tagData}
@@ -508,10 +539,14 @@ const Workspaces = (props) => {
         <Row className="mt-4">
           <Col />
           <Col>
-            <Button onClick={() => setShowJoinModal(true)}>Join Existing Workspace</Button>
+            <Button onClick={() => setShowJoinModal(true)}>
+              Join Existing Workspace
+            </Button>
           </Col>
           <Col>
-            <Button onClick={() => setShowCreateModal(true)}>Create New Workspace</Button>
+            <Button onClick={() => setShowCreateModal(true)}>
+              Create New Workspace
+            </Button>
           </Col>
           <Col>
             <Button onClick={handleSaveTags}>Save Tags</Button>
@@ -523,12 +558,16 @@ const Workspaces = (props) => {
           handleExitCreateModal={handleExitCreateModal}
           triggerCreation={triggerCreation}
           errorMes={errorMes}
+          gatherWorkspaces={gatherWorkspaces}
+          getTags={getTags}
         />
         <WorkspaceJoinModal
           showModal={showJoinModal}
           handleExitJoinModal={handleExitJoinModal}
           triggerJoin={triggerJoin}
           errorMes={errorMes}
+          gatherWorkspaces={gatherWorkspaces}
+          getTags={getTags}
         />
       </Container>
     );

@@ -17,6 +17,8 @@ export default function WorkspaceModal(props) {
     handleExitCreateModal,
     triggerCreation,
     errorMes,
+    gatherWorkspaces,
+    getTags,
   } = props;
 
   // These are temporary validity state that don't deal with API validation
@@ -25,22 +27,25 @@ export default function WorkspaceModal(props) {
   // Whether to show a toast or not.
   const [success, setSuccess] = React.useState(false);
 
-/**
- * Triggers the API request and handles the UI from its response
- */
+  /**
+   * Triggers the API request and handles the UI from its response
+   */
   const handleAttemptCreate = () => {
-    const workspace_name = document.getElementById('workspace_name').value;
-    const workspace_password = document.getElementById('workspace_password').value;
+    const workspace_name = document.getElementById("workspace_name").value;
+    const workspace_password =
+      document.getElementById("workspace_password").value;
 
     if (workspace_name === "" || workspace_password === "") {
       setTempErrorState(true);
     } else {
       setTempErrorState(false);
-      triggerCreation(workspace_name, workspace_password).then((response) =>{
+      triggerCreation(workspace_name, workspace_password).then((response) => {
         // If response is true, successful creation.
-        if (response){
+        if (response) {
           handleExitCreateModal();
           setSuccess(true);
+          gatherWorkspaces();
+          getTags();
         }
       });
     }
@@ -56,12 +61,12 @@ export default function WorkspaceModal(props) {
           <Form.Control
             type="email"
             placeholder="* Enter Workspace Name"
-            id = "workspace_name"
+            id="workspace_name"
           />
           <Form.Control
             type="email"
             placeholder="* Enter Password"
-            id = "workspace_password"
+            id="workspace_password"
           />
           <Row>
             {tempErrorState ? (
@@ -85,7 +90,7 @@ export default function WorkspaceModal(props) {
       <Snackbar
         open={success}
         autoHideDuration={6000}
-        onClose={() => setSuccess(true)}
+        onClose={() => setSuccess(false)}
       >
         <Alert
           onClose={() => setSuccess(false)}

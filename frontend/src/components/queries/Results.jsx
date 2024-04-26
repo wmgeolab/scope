@@ -37,7 +37,7 @@ const Results = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedWorkspace, setSelectedWorkspace] = useState(-1);
-  
+
   const [workspaceData, setWorkspaceData] = useState([]);
 
   const handleSend = () => {
@@ -45,8 +45,9 @@ const Results = (props) => {
     setShow(false);
     setOpen(true);
 
-    
-    let workspace_name = workspaceData.filter(workspace => workspace.id === parseInt(selectedWorkspace));
+    let workspace_name = workspaceData.filter(
+      (workspace) => workspace.id === parseInt(selectedWorkspace)
+    );
     // need to get the name and id
     navigate(
       "/workspace/" + workspace_name[0].name + "/id/" + selectedWorkspace
@@ -209,8 +210,8 @@ const Results = (props) => {
 
       if (formattedResponse != undefined && formattedResponse.length != 0)
         console.log(formattedResponse, "THIS IS THE FORMATTED RESPONSE.");
-        console.log(formattedResponse[0], "FORMATTED RESPONSE 0");
-        setSelectedWorkspace(formattedResponse[0]["id"]);
+      console.log(formattedResponse[0], "FORMATTED RESPONSE 0");
+      setSelectedWorkspace(formattedResponse[0]["id"]);
       console.log(formattedResponse, "TEST");
     }
   }
@@ -307,7 +308,7 @@ const Results = (props) => {
                 rows={queryResults}
                 rowCount={rowCount}
                 columns={columns}
-                pageSize={5} //change this to change number of queries displayed per page, but should make backend
+                pageSize={100} //change this to change number of queries displayed per page, but should make backend
                 pagination
                 paginationMode="server"
                 components={{

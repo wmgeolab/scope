@@ -66,17 +66,21 @@ const Queries = (props) => {
     },
     { field: "description", headerName: "Description", flex: 1, minWidth: 150 },
     { field: "user", headerName: "User", width: 150 },
-    { field: "keywords", 
-      headerName: "Keywords", 
-      flex: 1, 
+    {
+      field: "keywords",
+      headerName: "Keywords",
+      flex: 1,
       minWidth: 150,
       renderCell: (cellValue) => {
-          if (cellValue.formattedValue[1] == ""){
-            return cellValue.formattedValue[0];
-          } else {
-            return cellValue.formattedValue[0] + ", " + cellValue.formattedValue[1];
-          } 
-      } },
+        if (cellValue.formattedValue[1] == "") {
+          return cellValue.formattedValue[0];
+        } else {
+          return (
+            cellValue.formattedValue[0] + ", " + cellValue.formattedValue[1]
+          );
+        }
+      },
+    },
   ];
 
   const handleSubmit = async (curPage) => {
@@ -200,7 +204,7 @@ const Queries = (props) => {
                     rows={queries}
                     rowCount={rowCount}
                     columns={columns}
-                    pageSize={15} //change this to change number of queries displayed per page, but should make backend
+                    pageSize={100} //change this to change number of queries displayed per page, but should make backend
                     pagination
                     paginationMode="server"
                     checkboxSelection
