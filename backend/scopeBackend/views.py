@@ -130,14 +130,14 @@ class SourceView(viewsets.ModelViewSet):
     def get_queryset(self, query_id, page_id):
         runs = Run.objects.filter(query_id=query_id).values_list()
         print("RElevant runs: ", runs)
-        print("Most recent run: ", Run.objects.filter(
-            query_id=query_id).values('id')[len(runs)-1])
-        run_id = Run.objects.filter(
-            query_id=query_id).values('id')[len(runs)-1]['id']
+        runs = Run.objects.filter(query_id=query_id)
+        for run in reversed(runs):
+            if len(Result.objects.filter(run_id=run.id)) != 0:
+                run_id = run.id
+                break
         print(run_id)
         # now get all the relevant results linked to that run
         results = Result.objects.filter(run_id=run_id).values('id')
-        results = results[0:len(results)-1]
         result_ids = []
         print("ID's for results: ", results)
         for result in results:
@@ -184,7 +184,6 @@ class CountView(viewsets.ModelViewSet):
         print(run_id)
         # now get all the relevant results linked to that run
         results = Result.objects.filter(run_id=run_id).values('id')
-        results = results[0:len(results)-1]
         result_ids = []
         print("ID's for results: ", results)
         for result in results:
