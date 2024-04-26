@@ -47,7 +47,6 @@ const Workspaces = (props) => {
       },
     });
     const response_text = await response.json();
-    console.log("worksapces", response_text);
 
     try {
       const formattedResponse = response_text.results.map((result) => {
@@ -57,7 +56,6 @@ const Workspaces = (props) => {
         };
       });
       if (formattedResponse) {
-        console.log("workspacesResponse", typeof formattedResponse);
         setWorkspaceData(formattedResponse);
       }
     } catch (e) {
@@ -65,6 +63,29 @@ const Workspaces = (props) => {
     }
   }
 
+  async function deleteTag(id, tag) {
+    let data = {
+      workspace: id,
+      tag: tag,
+    };
+    console.log(data, 'this is data');
+    const response = await fetch("http://127.0.0.1:8000/api/tags/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+      body: JSON.stringify(data),
+    });
+
+    const response_text = await response.json();
+    console.log(response_text);
+    if (response_text.error) {
+      setErrorMes(response_text.error);
+    } else {
+      setError(false);
+    }
+  }
   /**
    * This retrieves all the tags for each of the user's workspaces
    * @returns A JSON object with all the tags and their corresponding workspace ids
@@ -225,19 +246,30 @@ const Workspaces = (props) => {
 
   // function to add and delete tags from the list
   const handleSaveTags = () => {
-    console.log("to add", saveData);
     if (saveData.length > 0) {
       saveData.forEach((cur) => {
         if (cur.method === "add") {
           sendTag(cur.id, cur.name); // might come across an issue adding multiple tags
+        } else {
+           deleteTag(cur.id, cur.name);
         }
       });
       setSaveData([]);
     }
   };
 
+  const handleDeleteTags = (e, workspace_id, tag_name) => {
+  
+    let delete_item = {
+      id: workspace_id,
+      name: tag_name,
+      method: "delete", // delete the tag
+    };
+    setSaveData((previous) => [...previous, delete_item]);
+  };  
+
   //TODO: Look into moving this into its own Component...
-  const workspaceColumns = [
+  const workspaceColumns = [ 
     { field: "id", headerName: "ID", width: 90 },
     {
       field: "name",
@@ -283,9 +315,10 @@ const Workspaces = (props) => {
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (
                 <Chip
-                  label={option}
-                  color="primary"
-                  {...getTagProps({ index })}
+                {...getTagProps({ index })}
+                onMouseDown={(e) => handleDeleteTags(e, tag_list.id, option)}
+                label={option}
+                color="primary"
                 />
               ))
             }
@@ -297,7 +330,6 @@ const Workspaces = (props) => {
                 placeholder="Add tags"
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
-                    console.log("adding", tag_list.id);
                     if (event.target.value !== "") {
                       // the new tag to be added
                       let adding = {
