@@ -70,6 +70,8 @@ class Workspace(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=120, unique=True)
     password = models.CharField(max_length=120)
+    # hidden = models.BooleanField(default=False)
+    
     creatorId = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -77,6 +79,9 @@ class Workspace(models.Model):
 
     def __str__(self):
         return self.name
+
+    def __int__(self):
+        return self.id
 
 class WorkspaceMembers(models.Model):
     member = models.ForeignKey(
@@ -101,3 +106,26 @@ class Tag(models.Model):
     
     def __str__(self):
         return self.tag
+
+class AiResponse(models.Model):
+    id = models.AutoField(primary_key=True)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, unique=True)
+    summary = models.TextField()
+    entities = models.TextField()
+    locations = models.TextField()
+
+    def __str__(self):
+        return self.id
+
+class Revision(models.Model):
+    id = models.AutoField(primary_key=True)
+    summary = models.TextField()
+    entities = models.TextField()
+    locations = models.TextField()
+
+    original_response = models.ForeignKey(AiResponse, on_delete=models.CASCADE)
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
+    datetime = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return self.id

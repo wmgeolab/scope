@@ -15,12 +15,6 @@ const CreateQuery = (props) => {
   const [primary, setPrimary] = useState("");
   const [secondary, setSecondary] = useState("");
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-    //  <a href="/dashboard">Dashboard</a>;
-  };
-
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
@@ -68,6 +62,7 @@ const CreateQuery = (props) => {
         <div id="page-wrapper">
           <h2 className="headings">Create Query</h2>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Group controlId="validationCustom01">
             <Form.Label className="formLabels">Query Name *</Form.Label>
             <Form.Control
               type="text"
@@ -83,7 +78,9 @@ const CreateQuery = (props) => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide a query name.
             </Form.Control.Feedback>
+            </Form.Group>
 
+            <Form.Group controlId="validationCustom02">
             <Form.Label className="formLabels">Description *</Form.Label>
             <Form.Control
               type="text"
@@ -99,7 +96,9 @@ const CreateQuery = (props) => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide a description.
             </Form.Control.Feedback>
+            </Form.Group>
 
+            <Form.Group controlId="validationCustom03">
             <Form.Label className="formLabels">
               Primary Keyword (only 1) *
             </Form.Label>
@@ -117,7 +116,9 @@ const CreateQuery = (props) => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide a keyword.
             </Form.Control.Feedback>
+            </Form.Group>
 
+            <Form.Group controlId="validationCustom04">
             <Form.Label className="formLabels">
               Secondary Keyword(s) *
             </Form.Label>
@@ -135,12 +136,12 @@ const CreateQuery = (props) => {
             <Form.Control.Feedback type="invalid" className="formValidation">
               Please provide secondary keyword(s).
             </Form.Control.Feedback>
+            </Form.Group>
             <div className="centerButtonAlign">
               <Button
                 variant="primary"
                 className="centerButton"
                 type="submit"
-                // onClick={submitQuery}
               >
                 Submit Query
               </Button>

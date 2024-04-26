@@ -10,6 +10,7 @@ import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name, workspace_id } = useParams();
+  // showModal is not unused -- just only 
   const [showModal, setShowModal] = useState(false);
   const [workspaceSources, setWorkspaceSources] = useState([]);
 

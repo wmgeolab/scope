@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag, AiResponse, Revision
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -125,7 +125,7 @@ class WorkspaceEntriesSerializer(serializers.ModelSerializer):
         fields = ('workspace', 'source', 'source_id')
 
 class TagSerializer(serializers.ModelSerializer):
-    workspace = serializers.IntegerField(write_only=True)
+    workspace = serializers.IntegerField()
 
     def create(self, validated_data):
         t = Tag.objects.create(
@@ -137,3 +137,38 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields =('workspace', 'tag')
+
+class AiResponseSerializer(serializers.ModelSerializer):
+    source = SourceSerializer(read_only=True)
+    source_id = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        r = AiResponse.objects.create(
+            source=validated_data['source'],
+            summary=validated_data['summary'],
+            entities=validated_data['entities'],
+            locations=validated_data['locations']
+        )
+        return r
+    
+    class Meta:
+        model = AiResponse
+        fields = ('id', 'source', 'summary', 'entities', 'locations', 'source_id')
+
+class RevisionSerializer(serializers.ModelSerializer):
+    original_response = AiResponseSerializer(read_only=True)
+    workspace = WorkspaceSerializer(read_only=True)
+    
+    def create(self, validated_data):
+        r = Revision.objects.create(
+            summary=validated_data['summary'],
+            entities=validated_data['entities'],
+            locations=validated_data['locations'],
+            original_response=validated_data['original_response'],
+            workspace=validated_data['workspace']
+        )
+        return r
+    
+    class Meta:
+        model = Revision
+        fields = ('id', 'summary', 'entities', 'locations', 'original_response', 'workspace')

@@ -30,10 +30,6 @@ const DisplayArticle = (props) => {
     setText(q);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-  };
-
   useEffect(() => {
     handleSubmit(article_title);
   }, []); //listening on an empty array

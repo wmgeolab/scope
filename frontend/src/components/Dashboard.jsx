@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../assets/css/dashboard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "./../images/pic10.jpg";

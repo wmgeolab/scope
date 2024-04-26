@@ -1,10 +1,22 @@
-beautifulsoup4==4.10.0
-bs4==0.0.1
-requests==2.18.4
+annotated-types==0.6.0
+beautifulsoup4==4.12.3
+bs4==0.0.2
+certifi==2024.2.2
+charset-normalizer==3.3.2
+gdeltdoc @ git+https://github.com/SawyerCzupka/gdelt-doc-api.git
+idna==3.7
 mysql==0.0.3
-mysql-connector-python==8.0.28
-<<<<<<< HEAD
-mysqlclient==2.1.0
-=======
-mysqlclient==2.1.0
->>>>>>> revise_frontend
+mysql-connector-python==8.3.0
+mysqlclient==2.2.4
+numpy==1.26.4
+pandas==2.2.2
+pydantic==2.7.1
+pydantic_core==2.18.2
+python-dateutil==2.9.0.post0
+pytz==2024.1
+requests==2.31.0
+six==1.16.0
+soupsieve==2.5
+typing_extensions==4.11.0
+tzdata==2024.1
+urllib3==2.2.1

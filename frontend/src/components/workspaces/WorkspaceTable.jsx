@@ -4,14 +4,31 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
 
 export default function WorkspaceTable(props) {
-  const { data, columns, filters, updateSelection} = props;
-  
+  const { workspaceData, tagData, columns, filters, updateSelection} = props;
+
   const [tempFilters, setTempFilters] = useState(filters);
+  const [data, setData] = useState(workspaceData);
 
   useEffect(() => {
     setTempFilters(filters);
   }, [filters]);
   
+  useEffect(() => {
+    mergeData();
+  }, [workspaceData]);
+
+  // merging the data for the workspaces and the corresponding tags
+  const mergeData = () => {
+    console.log("workspace data", workspaceData);
+    if (Object.values(workspaceData)[0] != null) {
+      let newData = workspaceData.map((t1) => ({
+        ...t1,
+        ...tagData.find((t2) => t2.id === t1.id),
+      }));
+      setData(newData);
+    }
+  };
+
   function handleData(data){
     if (Object.is( data.id, null )){
         return [];
@@ -28,7 +45,7 @@ export default function WorkspaceTable(props) {
   return (
     <Container disableGutters sx={{ height: 400, marginTop: "2%" }}>
       <DataGrid
-        rows={handleData(data)}
+        rows={data}
         columns={columns}
         rowsPerPageOptions={[5]}
         checkboxSelection
@@ -39,7 +56,6 @@ export default function WorkspaceTable(props) {
         disableSelectionOnClick
         hideFooterPagination
         hideFooterSelectedRowCount
-        onSelectionModelChange={handleRowSelect}
         experimentalFeatures={{ newEditingApi: true }}
         components={{ Toolbar: GridToolbar }}
         filterModel={{

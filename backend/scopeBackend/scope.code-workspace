@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "scope",
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ctype.h": "c"
+		}
+	}
+}
