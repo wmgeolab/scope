@@ -37,7 +37,7 @@ const Workspaces = (props) => {
   // Keeps track of currently selected rows
   const [selectedRows, setSelectedRows] = useState([]);
   // If user logged in  // Used to show warning text to user that they have changes they haven't yet saved.
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const [unsavedChanges, setUnsavedChanges] = useState(true);
   const [error, setError] = useState(true);
 
   const { loggedIn } = props;
@@ -185,13 +185,14 @@ const Workspaces = (props) => {
     }
   }
   // If the user has changes they haven't saved yet, set true else false
-  useEffect(() => {
-    if (saveData.length > 0){
-      setUnsavedChanges(true);
-    } else {
-      setUnsavedChanges(false);
-    }
-  }, [saveData]);
+  // This is failing on first removal due to an unresolved issue with MUI
+  // useEffect(() => {
+  //   if (saveData.length > 0){
+  //     setUnsavedChanges(true);
+  //   } else {
+  //     setUnsavedChanges(false);
+  //   }
+  // }, [saveData]);
   // Automatically trigger gathering of workspaces
   // https://dev.to/csituma/why-we-use-empty-array-with-useeffect-iok
   useEffect(() => {
@@ -338,7 +339,7 @@ const Workspaces = (props) => {
     if (saveData.length > 0) {
       saveData.forEach((cur) => {
         if (cur.method === "add") {
-          sendTag(cur.id, cur.name); // might come across an issue adding multiple tags
+          sendTag(cur.id, cur.name); // might come across an issue adding multiple f
         } else {
            deleteTag(cur.id, cur.name);
         }
@@ -348,13 +349,12 @@ const Workspaces = (props) => {
   };
 
   const handleDeleteTags = (e, workspace_id, tag_name) => {
-  
     let delete_item = {
       id: workspace_id,
       name: tag_name,
       method: "delete", // delete the tag
     };
-    setSaveData((previous) => [...previous, delete_item]);
+    setSaveData((previous) => [...previous, delete_item]);  
   };  
 
   //TODO: Look into moving this into its own Component...
@@ -496,9 +496,7 @@ const Workspaces = (props) => {
               </InputGroup>
             </Form>
           </Col>
-          {unsavedChanges ? (
-            <Alert severity="warning">Warning: You have unsaved changes.</Alert>
-          ) : (<div></div>)}
+            <Alert severity="warning">Warning: You must save your changes to tags before leaving page.</Alert>
           <WorkspaceTable
             workspaceData={workspaceData}
             tagData={tagData}
