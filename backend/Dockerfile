@@ -1,6 +1,7 @@
 FROM docker.io/library/python:3.11-slim
 
 COPY . /app
+COPY ./db_config.cnf /
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
