@@ -1,6 +1,9 @@
+
 FROM docker.io/library/python:3.11-slim
 
 COPY . /app
+
+# FIRST: Copy the db_config.cnf from the scope/ folder into the scope/backend/ folder.
 COPY ./db_config.cnf /
 WORKDIR /app
 
