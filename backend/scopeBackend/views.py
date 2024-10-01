@@ -277,10 +277,8 @@ class WorkspaceView(viewsets.ModelViewSet):
         # create workspace and add creator to workspace
         serializer = self.get_serializer(data=request.data)
 
-
         if any(c in request.data['name'] for c in ['/', '\\', '"']):
             return Response({'error':'Name contains illegal characters'}, status=status.HTTP_400_BAD_REQUEST)
-
 
         serializer.is_valid(raise_exception=True)
         serializer.save(creatorId=self.request.user)
