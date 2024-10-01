@@ -33,6 +33,8 @@ router.register(r'workspaces', views.WorkspaceView, 'Workspaces')
 router.register(r'member', views.WorkspaceMembersView, 'WorkspaceMembers')
 router.register(r'entries', views.WorkspaceEntriesView, 'WorkspaceEntries')
 router.register(r'tags', views.TagView, 'Tag')
+router.register(r'ai_responses', views.AiResponseView, 'AiResponse')
+router.register(r'revision', views.RevisionView, 'Revision')
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
