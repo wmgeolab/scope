@@ -1,4 +1,4 @@
-FROM docker.io/library/node:21-slim AS build
+FROM docker.io/library/node:22.9-slim AS build
 
 WORKDIR /app
 
