@@ -2,6 +2,20 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Running the dev environment locally
+
+1. Build the docker image
+
+```bash
+docker build -t scope-frontend .
+```
+
+2. Run the docker image
+
+```bash
+docker run -it -p 3000:3000 scope-frontend
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
