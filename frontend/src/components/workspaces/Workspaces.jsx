@@ -15,6 +15,9 @@ import UnauthorizedView from "../UnauthorizedView";
 import WorkspaceTable from "./WorkspaceTable";
 import WorkspaceCreateModal from "./WorkspaceCreateModal";
 import WorkspaceJoinModal from "./WorkspaceJoinModal";
+import { TailSpin } from "react-loader-spinner";
+import Box from "@mui/material/Box";
+import { Search } from "react-bootstrap-icons";
 
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
@@ -24,6 +27,7 @@ const Workspaces = (props) => {
   const textInput = useRef("");
   const [errorMes, setErrorMes] = useState("");
   const [error, setError] = useState(true);
+  const [loading, setLoading] = useState(true); // State to track loading status
 
   const { loggedIn } = props;
   const [workspaceData, setWorkspaceData] = useState({
@@ -32,6 +36,7 @@ const Workspaces = (props) => {
   });
 
   async function gatherWorkspaces() {
+    setLoading(true); // Set loading to true when fetching data
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
       method: "GET",
       headers: {
@@ -50,8 +55,10 @@ const Workspaces = (props) => {
       if (formattedResponse) {
         setWorkspaceData(formattedResponse);
       }
+      setLoading(false); // Set loading to false after data is fetched
     } catch (e) {
       console.log(e);
+      setLoading(false); // Set loading to false if there's an error
     }
   }
 
@@ -60,6 +67,7 @@ const Workspaces = (props) => {
   }, []);
 
   async function triggerCreation(name, password) {
+    setLoading(true); // Set loading to true when triggering creation
     let data = {
       name: name,
       password: password,
@@ -76,13 +84,13 @@ const Workspaces = (props) => {
 
     const response_text = await response.json();
     if (response_text.error) {
-      // TODO: ADD UI ELEMENTS FOR SPECIFIC ERRORS.
-      // E.G name already exists, ect...
       setErrorMes(response_text.error);
     } else setError(false);
+    setLoading(false); // Set loading to false after creation is triggered
   }
 
   async function triggerJoin(name, password) {
+    setLoading(true); // Set loading to true when triggering join
     let data = {
       name: name,
       password: password,
@@ -99,10 +107,9 @@ const Workspaces = (props) => {
     const response_text = await response.json();
     console.log(response_text);
     if (response_text.error) {
-      // I don't think there should be any specific errors here
-      // But if so..UI time.
       setErrorMes(response_text.error);
     } else setError(false);
+    setLoading(false); // Set loading to false after join is triggered
   }
 
   const handleShowJoin = () => {
@@ -135,14 +142,12 @@ const Workspaces = (props) => {
     textInput.current = value.target.value;
   };
 
-  //TODO: Look into moving this into its own Component...
   const workspaceColumns = [
     { field: "id", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Name",
       width: 250,
-
       renderCell: (cellValue) => {
         return (
           <a
@@ -204,82 +209,117 @@ const Workspaces = (props) => {
     return <UnauthorizedView />;
   } else {
     return (
-      <Container>
-        <Row className="mt-5">
-          <Col sm={6} />
-          <Col sm={1}>
-            <DropdownButton
-              id="dropdown-basic-button"
-              title={dropDownValueSearch}
-              style={{ float: "right", marginLeft: "10px" }}
-            >
-              <Dropdown.Item
-                onClick={(e) => setDropDownValueSearch(e.target.text)}
-              >
-                Name
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={(e) => setDropDownValueSearch(e.target.text)}
-              >
-                Tags
-              </Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col sm={5}>
-            <Form onSubmit={onSubmitSearch}>
-              <InputGroup>
-                <Button aria-label="Search" onClick={onSubmitSearch}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-search"
-                    viewBox="0 0 16 16"
+      <div>
+        <title>SCOPE</title>
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
+        <Container>
+          <div className="customRowContainer">
+              <h2 style={{ paddingTop: "2%", paddingBottom: "2%", fontWeight: "bold " }}>Workspaces</h2>
+          </div>
+          <Row>
+            <div className="customRowContainer">
+                
+                  <DropdownButton
+                      id="dropdown-basic-button"
+                      title={dropDownValueSearch}
+                      style={{ float: "right", marginLeft: "10px" }}
                   >
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                  </svg>
-                </Button>
-                {/* <Search onClick={handleKeywordChange}/> */}
-                <Form.Control
-                  placeholder={"Search by Workspace " + dropDownValueSearch}
-                  onChange={(value) => handleKeywordChange(value)}
-                  type="text"
+                    <Dropdown.Item
+                      onClick={(e) => setDropDownValueSearch(e.target.text)}
+                    >
+                      Name
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={(e) => setDropDownValueSearch(e.target.text)}
+                    >
+                      Tags
+                    </Dropdown.Item>
+                    </DropdownButton>
+                
+                <div className= "workspaceSearch">
+                  <Form onSubmit={onSubmitSearch}>
+                    <InputGroup>
+                      {/* <Button aria-label="Search" onClick={onSubmitSearch}> */}
+                        <InputGroup.Text>
+                            <Search
+                            className="search-bar">
+                            </Search>
+                        </InputGroup.Text>
+                      <Form.Control
+                        placeholder={"Search by Workspace " + dropDownValueSearch}
+                        ref={textInput}
+                        onChange={(value) => handleKeywordChange(value)}
+                        type="text"
+                      />
+                    </InputGroup>
+                  </Form>
+                </div>
+              </div>
+            
+          </Row>     
+
+               
+
+
+          <Row>           
+            <Col>
+              {/* Conditionally render loading spinner */}
+            <Box sx={{ height: 400, width: "100%" }}>
+              {loading ? (
+                <div className="loader-container d-flex justify-content-center align--center"> {/* Center the loader vertically and horizontally */}
+                  <TailSpin
+                    
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                  />
+                  
+                </div>
+              ) : (
+                // Render workspace table when loading is complete
+                <WorkspaceTable
+                  data={workspaceData}
+                  columns={workspaceColumns}
+                  filters={filt}
                 />
-              </InputGroup>
-            </Form>
-          </Col>
-          <WorkspaceTable
-            data={workspaceData}
-            columns={workspaceColumns}
-            filters={filt}
-          />
-          <Row className="mt-4">
-            <Col />
-            <Col>
-              <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
+              )}
+            </Box>
             </Col>
-            <Col>
-              <Button onClick={handleShowCreate}>Create New Workspace</Button>
-            </Col>
-            <Col />
           </Row>
-        </Row>
-        <WorkspaceCreateModal
-          showModal={showCreateModal}
-          handleExitCreateModal={handleExitCreateModal}
-          triggerCreation={triggerCreation}
-          errorMes={errorMes}
-          error={error}
-        />
-        <WorkspaceJoinModal
-          showModal={showJoinModal}
-          handleExitJoinModal={handleExitJoinModal}
-          triggerJoin={triggerJoin}
-          errorMes={errorMes}
-          error={error}
-        />
-      </Container>
+
+
+          <div className="workspaceButtons">
+            <Row>
+              <Col />
+              <Col>
+                <Button onClick={handleShowJoin}>Join Existing Workspace</Button>
+              </Col>
+              <Col>
+                <Button onClick={handleShowCreate}>Create New Workspace</Button>
+              </Col>
+              <Col />
+            </Row>
+          </div>
+          <WorkspaceCreateModal
+            showModal={showCreateModal}
+            handleExitCreateModal={handleExitCreateModal}
+            triggerCreation={triggerCreation}
+            errorMes={errorMes}
+            error={error}
+          />
+          <WorkspaceJoinModal
+            showModal={showJoinModal}
+            handleExitJoinModal={handleExitJoinModal}
+            triggerJoin={triggerJoin}
+            errorMes={errorMes}
+            error={error}
+          />
+        </Container>
+      </div>
     );
   }
 };

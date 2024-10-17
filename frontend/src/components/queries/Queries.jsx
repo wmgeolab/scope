@@ -20,6 +20,10 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Row from "react-bootstrap/Row";
 import UnauthorizedView from "../UnauthorizedView";
+import { TailSpin } from "react-loader-spinner";
+
+
+
 
 const Queries = (props) => {
   const { loggedIn } = props;
@@ -29,10 +33,41 @@ const Queries = (props) => {
   const [filt, setFilt] = useState([]);
   var textInput = React.createRef();
   var [dropDownValue, setDropDownValue] = useState("Name");
+  const [loading, setLoading] = useState(true);
+  
+
 
   const handleChange = () => {
     // const value = textInput.current.value;
   };
+
+
+  const fetchQueries = async (curPage) => {
+    setLoading(true); // Set loading to true when fetching data
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Token " + localStorage.getItem("user"),
+          },
+        }
+      );
+      const data = await response.json();
+      setRowCount(data.count);
+      setQueries(data.results);
+    } catch (error) {
+      console.error("Error fetching queries:", error);
+    } finally {
+      setLoading(false); // Set loading to false after data fetching is complete
+    }
+  };
+
+  useEffect(() => {
+    fetchQueries(0); // Fetch queries on component mount
+  }, []);
+
 
   const onSubmitSearch = (event) => {
     event.preventDefault();
@@ -95,6 +130,8 @@ const Queries = (props) => {
     handleSubmit(0);
   }, []); //listening on an empty array
 
+
+
   function CustomPagination() {
     const apiRef = useGridApiContext();
     const page = useGridSelector(apiRef, gridPageSelector);
@@ -132,9 +169,9 @@ const Queries = (props) => {
         <Container>
           <div
             className="customRowContainer"
-            style={{ paddingBottom: "2%", paddingTop: "1%" }}
+            // style={{ paddingBottom: "2%", paddingTop: "1%" }}
           >
-            <h2 style={{ paddingTop: "1%", fontWeight: "bold " }}>Queries</h2>
+            <h2 style={{ paddingTop: "2%", paddingBottom: "2%", fontWeight: "bold " }}>Queries</h2>
           </div>
           {/* Inline search bar and drop down menu. */}
           <Row>
@@ -157,6 +194,7 @@ const Queries = (props) => {
               </DropdownButton>
 
               <div className="querySearch">
+                
                 {/* <img src={filter} width="40" height="40" alt="filter" display="inline" /> */}
                 <Form onSubmit={onSubmitSearch}>
                   <InputGroup>
@@ -176,31 +214,45 @@ const Queries = (props) => {
           </Row>
 
           {/* QUERIES TABLE */}
-          <Row>
-            <div className="customRowContainer">
-              <div className="individualTable">
-                <Box sx={{ height: 400, width: "100%" }}>
-                  <DataGrid
-                    disableColumnFilter
-                    rows={queries}
-                    rowCount={rowCount}
-                    columns={columns}
-                    pageSize={15} //change this to change number of queries displayed per page, but should make backend
-                    pagination
-                    paginationMode="server"
-                    checkboxSelection
-                    components={{
-                      Pagination: CustomPagination,
-                    }}
-                    onPageChange={(newPage) => handleSubmit(newPage)}
-                    filterModel={{
-                      items: filt,
-                    }}
-                  />
-                </Box>
+          
+              <div className="customRowContainer">
+                <div className="individualTable">
+                  <Box sx={{ height: 400, width: "100%" }}>
+                    {/* Conditionally render loading spinner */}
+                    {loading ? (
+                      <div className="loader-container d-flex justify-content-md-center"> {/* Center the loader vertically and horizontally */}
+                        <TailSpin
+                          color="#00BFFF"
+                          height={100}
+                          width={100}
+                        />
+                        
+                      </div>
+                    ) : (
+                      // Render data grid when loading is complete
+                      <DataGrid
+                        disableColumnFilter
+                        rows={queries}
+                        rowCount={rowCount}
+                        columns={columns}
+                        pageSize={15}
+                        pagination
+                        paginationMode="server"
+                        checkboxSelection
+                        components={{
+                          Pagination: CustomPagination,
+                        }}
+                        onPageChange={(newPage) => fetchQueries(newPage)}
+                        filterModel={{
+                          items: filt,
+                        }}
+                      />
+                    )}
+                  </Box>
+                </div>
               </div>
-            </div>
-          </Row>
+            
+
 
           <div>
             {/* <!-- Features --> */}
