@@ -31,10 +31,16 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        # note: GH sets up this token for you
+        # GitHub sets up this token for you
 
+    - name: Create db_config.cnf
+      run: echo "${{ secrets.DB_CONFIG }}" > ./backend/db_config.cnf
+      
     - name: Build and push the Docker image
       run: docker build -t ghcr.io/${{ github.repository_owner }}/backend:latest ./backend
 
     - name: Push the Docker image
       run: docker push ghcr.io/${{ github.repository_owner }}/backend:latest
+
+    - name: Delete db_config.cnf
+      run: rm ./backend/db_config.cnf
