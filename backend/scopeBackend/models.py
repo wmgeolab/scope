@@ -129,3 +129,10 @@ class Revision(models.Model):
 
     def __str__(self):
         return self.id
+
+class WorkspaceQuestions(models.Model):
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
+    question = models.TextField()
+
+    def __str__(self):
+        return self.question
