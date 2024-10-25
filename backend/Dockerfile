@@ -1,6 +1,12 @@
+
 FROM docker.io/library/python:3.11-slim
 
+EXPOSE 8000
+
 COPY . /app
+
+# FIRST: Copy the db_config.cnf from the scope/ folder into the scope/backend/ folder.
+COPY ./db_config.cnf /
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
@@ -16,4 +22,4 @@ RUN groupadd app -g 1000 \
 
 USER app
 
-CMD ["python3", "manage.py", "runserver"]
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]

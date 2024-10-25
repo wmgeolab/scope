@@ -7,53 +7,78 @@
 # https://api.gdeltproject.org/api/v2/summary/summary?d=web&t=summary
 # https://api.gdeltproject.org/api/v2/doc/doc?format=html&startdatetime=20170103000000&enddatetime=20181011235959&query=ecuador%20china&mode=artlist&maxrecords=75&format=json&sort=hybridrel
 
-import requests
-from bs4 import BeautifulSoup
+import logging
+from datetime import datetime
+
+from gdeltdoc import Filters, GdeltDoc
+from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 
-# This function is called by the "GDELT API Query" model. Pass in an args dictionary with
-# query = your keywords, startdatetime (and optional enddatatime) to specify query timeframe
-# and maxrecords to limit the number of articles returned. This function returns a json of the articles
-def query_gdelt(args):
+class GDELTQueryArgs(BaseModel):
+    """
+    Represents the arguments for querying the GDELT API.
 
-    url = "https://api.gdeltproject.org/api/v2/doc/doc?format=html&mode=artlist&format=json&sort=hybridrel"
+    Attributes:
+        query (str): The query string.
+        startdatetime (str): The start date and time for the query.
+        enddatetime (str): The end date and time for the query.
+        maxrecords (int): The maximum number of records to retrieve.
+    """
 
-    parameter_list = ['query', 'startdatetime', 'enddatetime', 'maxrecords']
-    for i in parameter_list:
-        if i not in args:
-            continue
-
-        if i == 'startdatetime' and 'enddatetime' not in args:
-            url += '&timespan=' + args[i]
-            continue
-
-        url += '&' + i + '=' + args[i]
-
-    headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Accept': 'application/json',
-        'Access-Control-Max-Age': '3600',
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
-    }
-
-    req = requests.get(url, headers)
-    print("requests: ", req.content)
-    try:
-        return req.json()
-    except requests.JSONDecodeError:
-        return "Caught a JSOn Decode Error"
+    query: str
+    startdatetime: str
+    enddatetime: str
+    maxrecords: int
 
 
-# Use this to test specific arguments for querying. This is not run in the model call.
+def format_datetime(dt_str: str) -> str:
+    """
+    Format a datetime string from 'YYYYMMDDHHMMSS' to 'YYYY-MM-DD'.
+
+    Args:
+        dt_str (str): The datetime string in the format 'YYYYMMDDHHMMSS'.
+
+    Returns:
+        str: The formatted datetime string in the format 'YYYY-MM-DD'.
+    """
+    return datetime.strptime(dt_str, "%Y%m%d%H%M%S").strftime("%Y-%m-%d")
+
+
+def query_gdelt(args: GDELTQueryArgs):
+    """
+    Query GDELT using validated and formatted arguments from a Pydantic model.
+
+    Args:
+        args (GDELTQueryArgs): The validated and formatted arguments from a Pydantic model.
+
+    Returns:
+        List[Article]: A list of articles retrieved from the GDELT API.
+    """
+    args.startdatetime = format_datetime(args.startdatetime)
+    args.enddatetime = format_datetime(args.enddatetime)
+
+    logger.info(
+        f"Querying from {args.startdatetime} to {args.enddatetime} with keyword '{args.query}'"
+    )
+
+    filters = Filters(
+        keyword=args.query.strip(),
+        start_date=args.startdatetime,
+        end_date=args.enddatetime,
+    )
+    gdelt = GdeltDoc()
+    articles = gdelt.article_search(filters)
+    return articles
+
+
 if __name__ == "__main__":
-    args = {
-        "query": "china ecuador",
-        "startdatetime": "20170615000000",
-        "enddatetime": "20170625000000",
-        "maxrecords": "10"
-    }
-    #args['enddatetime'] = '20160620000000'
-
-    print(query_gdelt(args))
+    # Example usage
+    test_args = GDELTQueryArgs(
+        query="palestine",
+        startdatetime="20210615000000",
+        enddatetime="20240325000000",
+        maxrecords=10,
+    )
+    print(query_gdelt(test_args))

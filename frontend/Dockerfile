@@ -1,16 +1,13 @@
-FROM docker.io/library/node:21-slim AS build
-
-ENV NODE_ENV=production
-
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
-EXPOSE 3000
+FROM docker.io/library/node:22.9-slim AS build
 
 WORKDIR /app
+RUN apt update && apt install -y curl && apt clean
 
-COPY package.json /app/package.json
+COPY package*.json /app
 RUN npm install
 
 COPY . /app
 
-RUN npm run start
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
