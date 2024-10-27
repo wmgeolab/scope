@@ -557,7 +557,3 @@ class RevisionView(viewsets.ModelViewSet):
         serializer.save(workspace=workspace, original_response=original_response)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
-<<<<<<< HEAD
->>>>>>> 4bd4c5f16e01eaa11e64c9a5faad8d8a11ac19e9
-=======
->>>>>>> 4bd4c5f16e01eaa11e64c9a5faad8d8a11ac19e9
