@@ -447,13 +447,7 @@ class TestView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-# comment!
-=======
-=======
->>>>>>> 4bd4c5f16e01eaa11e64c9a5faad8d8a11ac19e9
+        
 class AiResponseView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = AiResponseSerializer
