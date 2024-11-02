@@ -2,10 +2,15 @@ name: Run Hurl Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - master
+      - "backend/"
+      - "backend/scopeBackend"
   pull_request:
-    branches: [ main ]
-
+    branches: 
+      - master
+      - "backend/"
+      - "backend/scopeBackend"
 jobs:
   test:
     runs-on: ubuntu-latest
