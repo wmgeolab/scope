@@ -263,7 +263,7 @@ class WorkspaceView(viewsets.ModelViewSet):
         if workspace.creatorId != self.request.user:
             return Response({'error':'Only the workspace creator can delete'}, status=status.HTTP_403_FORBIDDEN)
         # workspace.delete()
-        workspace.hidden = True
+        #workspace.hidden = True
         return Response('Workspace has been deleted', status=status.HTTP_200_OK)
 
     # accessible at /api/workspaces/ [POST]
@@ -447,7 +447,7 @@ class TestView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
-
+        
 class AiResponseView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = AiResponseSerializer
