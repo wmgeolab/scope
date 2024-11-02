@@ -44,3 +44,9 @@ jobs:
 
     - name: Delete db_config.cnf
       run: rm ./backend/db_config.cnf
+      
+    - name: Trigger Hurl Tests Workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: hurl-tests
