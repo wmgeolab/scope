@@ -18,6 +18,7 @@ jobs:
 
       - name: Run backend server 
         run: python3 manage.py runserver &
+             sleep 5
 
       - name: Run Hurl Tests
-        run: hurl --test --very-verbose  ‘Hurl Endpoint Tests.py’
+        run: hurl --test --very-verbose 'Hurl Endpoint Tests.py'
