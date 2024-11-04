@@ -16,10 +16,6 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Run backend server 
-        run: python3 manage.py runserver &
-             sleep 5
-
       - name: Run tests in container
         uses: docker://ghcr.io/${{ github.repository_owner }}/backend:latest
         with:
