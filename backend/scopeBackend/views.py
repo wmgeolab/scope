@@ -263,7 +263,9 @@ class WorkspaceView(viewsets.ModelViewSet):
         if workspace.creatorId != self.request.user:
             return Response({'error':'Only the workspace creator can delete'}, status=status.HTTP_403_FORBIDDEN)
         # workspace.delete()
-        #workspace.hidden = True
+        workspace.hidden = True
+        workspace.name = workspace.name + "_deleted_" + __import__('os').urandom(15).hex()
+        workspace.save()
         return Response('Workspace has been deleted', status=status.HTTP_200_OK)
 
     # accessible at /api/workspaces/ [POST]
