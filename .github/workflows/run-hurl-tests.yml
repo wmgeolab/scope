@@ -1,8 +1,17 @@
 name: Run Hurl Tests
 
 on:
-  repository_dispatch:
-    types: [hurl-tests]
+  push:
+    branches: 
+      - master
+      - "backend/**"
+  pull_request:
+    branches:
+      - master
+      - "backend/**"
+  # these path settings ensure this workflow only executes on a push
+  # to this YML itself, or any file in the backend or scopeBackend folders
+
 jobs:
   test:
     runs-on: ubuntu-latest
