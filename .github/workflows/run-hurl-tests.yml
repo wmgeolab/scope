@@ -9,11 +9,18 @@ jobs:
     permissions:
       contents: read
       packages: write  
-    container: 
-      image: ghcr.io/${{ github.repository_owner }}/backend:latest
+      
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          # GitHub sets up this token for you
 
       - name: Run tests in container
         uses: docker://ghcr.io/${{ github.repository_owner }}/backend:latest
