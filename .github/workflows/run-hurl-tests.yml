@@ -9,7 +9,6 @@ jobs:
     permissions:
       contents: read
       packages: write  
-      
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -20,10 +19,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          # GitHub sets up this token for you
 
-      - name: Run tests in container
-        uses: docker://ghcr.io/${{ github.repository_owner }}/backend:latest
+    services:
+      backend:
+        image: ghcr.io/${{ github.repository_owner }}/backend:latest
+        ports:
+          - 8000:8000
+
+      - name: Run Hurl Tests
+        uses: ghcr.io/Orange-OpenSource/hurl@v1
         with:
-          entrypoint: /bin/sh
-          args: -c "python3 manage.py runserver & sleep 5 && hurl --test --very-verbose 'Hurl Endpoint Tests.py'"
+          args: "--test --very-verbose 'backend/scopeBackend/Hurl Endpoint Tests.py'"
