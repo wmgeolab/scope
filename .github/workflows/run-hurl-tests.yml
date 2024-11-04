@@ -20,7 +20,7 @@ jobs:
       packages: write  
     services:
       backend:
-        image: ghcr.io/${{ github.repository_owner }}/backend:latest
+        image: ghcr.io/wmgeolab/backend:latest
         ports:
           - 8000:8000
 
