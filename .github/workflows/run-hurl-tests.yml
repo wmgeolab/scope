@@ -37,6 +37,6 @@ jobs:
 
 
       - name: Run Hurl Tests
-        uses: ghcr.io/Orange-OpenSource/hurl@v1
+        uses: gacts/install-hurl@v1
         with:
-          args: "--test --very-verbose 'backend/scopeBackend/Hurl Endpoint Tests.py'"
+          run: "hurl --test --very-verbose 'backend/scopeBackend/Hurl Endpoint Tests.py'"
