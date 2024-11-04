@@ -6,12 +6,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: 
-      image: ghcr.io/${{ github.repository_owner }}/backend:latest
     permissions:
       contents: read
-      packages: write
-
+      packages: write  
+    container: 
+      image: ghcr.io/${{ github.repository_owner }}/backend:latest
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
