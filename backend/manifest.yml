@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: scope-backend
+spec:
+  containers:
+  - image: ghcr.io/wmgeolab/scope-backend:latest
+    # command: ["/bin/sh", "-c"]
+    # args:
+         # - "npm run start"
+    imagePullPolicy: Always
+    name: scope-backend
+    resources:
+      limits:
+        cpu: 1  # Total 32 cores.
+    securityContext:
+      runAsGroup: 82656
+  imagePullSecrets:
+    - name: github-registry-secret
