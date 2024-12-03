@@ -437,10 +437,14 @@ class TagView(viewsets.ModelViewSet):
 
             if workspace_parameter:
                 # workspaces = union of workspaces that the user is part of and the workspace parameter
-                workspaces = workspaces | Workspace.objects.filter(id=workspace_parameter)
+                #workspaces = workspaces | Workspace.objects.filter(id=workspace_parameter)
+                queryset = queryset.filter(workspace_id=workspace_parameter, workspace_id__in=workspaces)
 
             # Now we need to filter tags by the workspaces that the user is part of
-            queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
+            #queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
+            queryset = queryset.filter(workspace_id__in=workspaces)
+
+            queryset = queryset.order_by('workspace')
     
         return queryset
 
