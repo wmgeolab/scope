@@ -1,5 +1,5 @@
 #Add a tag to a workspace 
-POST http://127.0.0.1:8000/api/workspaces/
+POST http://{{host}}/api/workspaces/
 Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
 Content-Type: application/json
 
@@ -11,7 +11,7 @@ HTTP 201
 [Captures]
 id: jsonpath "$.id"
 
-POST http://127.0.0.1:8000/api/tags/
+POST http://{{host}}/api/tags/
 Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
 Content-Type: application/json
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 HTTP 201
 
-DELETE http://127.0.0.1:8000/api/workspaces/ 
+DELETE http://{{host}}/api/workspaces/ 
 Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
 Content-Type: application/json
 
