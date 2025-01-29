@@ -7,6 +7,4 @@ WORKDIR /app
 # Copy all Python files into the container
 COPY *.py /app/
 
-# Default command to run Hurl with the specified variables
-CMD ["sh", "-c", "hurl *.py --variable host=${HOST:-backend:8000}"]
-
+ENTRYPOINT ["/bin/sh", "-c", "hurl *.py --variable host=${HOST:-backend:8000}"]
