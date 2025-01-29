@@ -6,12 +6,17 @@ import { Search } from "react-bootstrap-icons";
 import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
+import IndividualWorkspaceQuestionModal from "./IndividualWorkspaceQuestionModal";
+
 
 export default function IndividualWorkspacePage(props) {
   const { loggedIn } = props;
   const { workspace_name, workspace_id } = useParams();
   // showModal is not unused -- just only 
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
+
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
 
   const [workspaceSources, setWorkspaceSources] = useState([]);
 
@@ -19,10 +24,18 @@ export default function IndividualWorkspacePage(props) {
   const [filt, setFilt] = useState([]);
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowWorkspaceModal(false);
   };
+  const handleCloseQuestionModal = () => {
+    setShowQuestionModal(false);
+  };
+
   const handleShowModal = () => {
-    setShowModal(true);
+    setShowWorkspaceModal(true);
+  };
+
+  const handleShowQuestionModal = () => {
+    setShowQuestionModal(true);
   };
 
   const onSubmitSearch = (event) => {
@@ -111,15 +124,22 @@ export default function IndividualWorkspacePage(props) {
         </Row>
         <IndividualWorkspaceTable data={workspaceSources} filt={filt}/>
         <Row className="mt-5">
-          <Col sm={5}/>
+          <Col sm={4}/>
+          <Col sm={2}>
+            <Button onClick={handleShowQuestionModal}>Set Questions</Button>
+          </Col>
           <Col sm={2}>
             <Button onClick={handleShowModal}>Share Workspace</Button>
           </Col>
-          <Col sm={5}/>
         </Row>
         <IndividualWorkspaceModal
-          showModal={showModal}
+          showModal={showWorkspaceModal}
           handleClose={handleCloseModal}
+          workspaceName={workspace_name}
+        />
+        <IndividualWorkspaceQuestionModal
+          showModal={showQuestionModal}
+          handleClose={handleCloseQuestionModal}
           workspaceName={workspace_name}
         />
       </Container>
