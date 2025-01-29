@@ -11,4 +11,5 @@ COPY *.py /app/
 ENTRYPOINT [""]
 
 # Default command to run Hurl with the specified variables
-CMD ["sh", "-c", "hurl *.py --variable host=backend:8000"]
+CMD ["sh", "-c", "hurl *.py --variable host=${HOST:-backend:8000}"]
+
