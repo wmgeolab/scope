@@ -1,5 +1,6 @@
-# Start with the Hurl image
-FROM ghcr.io/orange-opensource/hurl:latest
+FROM alpine:latest
+
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing hurl
 
 # Set the working directory inside the container
 WORKDIR /app

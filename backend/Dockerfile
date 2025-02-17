@@ -1,9 +1,6 @@
 
 FROM docker.io/library/python:3.11-slim
 
-WORKDIR /app
-COPY . /app
-
 # FIRST: Copy the db_config.cnf from the scope/ folder into the scope/backend/ folder.
 COPY ./db_config.cnf /
 
@@ -12,11 +9,19 @@ ENV PYTHONUNBUFFERED=1
 RUN groupadd app -g 1000 \
     && useradd -m -u 1000 -g app app \
     && apt-get update \
-    && apt-get install -y --no-install-recommends default-libmysqlclient-dev build-essential \
-    && pip install --no-cache-dir -r requirements.txt \
-    && apt-get purge -y --auto-remove build-essential \
-    && rm -rf /var/lib/apt/lists/* \
-    && chown -R app:app /app
+    && apt-get install -y --no-install-recommends python3-dev default-libmysqlclient-dev build-essential pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN apt-get purge -y --auto-remove build-essential
+
+WORKDIR /app
+COPY . /app
+
+RUN chown -R app:app /app
 
 USER app
 
