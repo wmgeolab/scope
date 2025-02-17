@@ -558,7 +558,7 @@ class RevisionView(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-        class QuestionView(viewsets.ModelViewSet):
+    class QuestionView(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
             serializer_class = QuestionSerializer
 
