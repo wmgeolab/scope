@@ -586,6 +586,10 @@ class RevisionView(viewsets.ModelViewSet):
         if not workspace:
             return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
 
+        
+        if not WorkspaceMembers.objects.filter(workspace=workspace, member=request.user).exists():
+            return Response({'error': 'User is not a member of the workspace'}, status=status.HTTP_403_FORBIDDEN)
+
         question = Question.objects.create(
             workspace=workspace,
             user=request.user,
