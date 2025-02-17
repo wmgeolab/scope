@@ -172,3 +172,8 @@ class RevisionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Revision
         fields = ('id', 'summary', 'entities', 'locations', 'original_response', 'workspace')
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: Hurl Testing 
+spec:
+  containers:
+  - image: busybox
+    volumeMounts:
+      - name: scopenfs
+        mountPath: /scope  # Any path you want to mount to.
+    command:
+        - /bin/sh
+        - -c
+        - |
+          sleep 604800
+    imagePullPolicy: IfNotPresent
+    name: container-name
+    resources:
+      limits:
+        cpu: 16  # Total 32 cores.
+    securityContext:
+      runAsUser: 71032
+  volumes:
+    - name: scopenfs
+      nfs:
+        server: 128.239.59.144  # NFS Server address.
+        path: /sciclone/geograd/scope

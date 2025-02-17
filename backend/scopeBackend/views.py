@@ -557,3 +557,39 @@ class RevisionView(viewsets.ModelViewSet):
         serializer.save(workspace=workspace, original_response=original_response)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+        class QuestionView(viewsets.ModelViewSet):
+            permission_classes = [IsAuthenticated]
+            serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        """Return questions in a specific workspace."""
+        workspace_id = self.request.query_params.get('workspace')
+        if not workspace_id:
+            return Response({'error': 'Workspace ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        workspace = Workspace.objects.filter(id=workspace_id).first()
+        if not workspace:
+            return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Question.objects.filter(workspace=workspace)
+
+    def create(self, request):
+        """Allow users to ask a question in a workspace."""
+        workspace_id = request.data.get('workspace')
+        text = request.data.get('text')
+
+        if not workspace_id or not text:
+            return Response({'error': 'Workspace ID and text are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        workspace = Workspace.objects.filter(id=workspace_id).first()
+        if not workspace:
+            return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        question = Question.objects.create(
+            workspace=workspace,
+            user=request.user,
+            text=text
+        )
+        serializer = QuestionSerializer(question)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
