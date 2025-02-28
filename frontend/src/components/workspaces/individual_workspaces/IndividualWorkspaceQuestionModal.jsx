@@ -28,31 +28,55 @@ export default function individualWorkspaceQuestionModal(props) {
           //   onChange={(name) => setTempWorkspaceName(name.target.value)}
       /> */}
       <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Question 1</Form.Label>
-        <Form.Control type="email" placeholder="Existing LLM Response" />
+        <Form.Label>Location Question</Form.Label>
+        <Form.Control type="email" placeholder="Existing Location Question" />
+        <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
+        <div className="d-grid gap-2">
+          <Button variant="secondary">
+            Edit Response
+          </Button>
+        </div>
         <Form.Text className="text-muted">
           Enter any questions related to the location of the article's content.
         </Form.Text>
       </Form.Group>
       <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Question 2</Form.Label>
-        <Form.Control type="email" placeholder="Existing LLM Response" />
+        <Form.Label>Date/Time Question</Form.Label>
+        <Form.Control type="email" placeholder="Existing Date/Time Question" />
+        <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
+        <div className="d-grid gap-2">
+          <Button variant="secondary">
+            Edit Response
+          </Button>
+        </div>
         <Form.Text className="text-muted">
-          Enter any questions related to the location of the article's content.
+          Enter any questions related to the date/time of the article's content.
         </Form.Text>
       </Form.Group>
       <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Question 3</Form.Label>
-        <Form.Control type="email" placeholder="Existing LLM Response" />
+        <Form.Label>Actors Question</Form.Label>
+        <Form.Control type="email" placeholder="Existing Actors Question" />
+        <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
+        <div className="d-grid gap-2">
+          <Button variant="secondary">
+            Edit Response
+          </Button>
+        </div>
         <Form.Text className="text-muted">
-          Enter any questions related to the location of the article's content.
+          Enter any questions related to the actors present in an article.
         </Form.Text>
       </Form.Group>
       <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Question 4</Form.Label>
-        <Form.Control type="email" placeholder="Existing LLM Response" />
+        <Form.Label>Summary Question</Form.Label>
+        <Form.Control type="email" placeholder="Existing Summary Question" />
+        <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
+        <div className="d-grid gap-2">
+          <Button variant="secondary">
+            Edit Response
+          </Button>
+        </div>
         <Form.Text className="text-muted">
-          Enter any questions related to the location of the article's content.
+          Enter any questions related to the summarizing the article.
         </Form.Text>
       </Form.Group>
           
