@@ -30,7 +30,7 @@
     "web-vitals": "^4.2.3"
   },
   "scripts": {
-    "start": "WATCHPACK_POLLING=true react-scripts start",
+    "start": "GENERATE_SOURCEMAP=false WATCHPACK_POLLING=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
@@ -103,7 +103,7 @@ const Results = (props) => {
     },
   ];
 
-  const handleSubmit = async (curPage) => {
+  const handleSubmit = useCallback(async (curPage) => {
     let response = await fetch(
       "http://127.0.0.1:8000/api/sources/" +
         query_id +
@@ -155,7 +155,7 @@ const Results = (props) => {
     setRowCount(x);
 
     return new_q;
-  };
+  }, [query_id, setQueryResults, setRowCount]);
 
   //to get the title of the current query
 
@@ -187,7 +187,7 @@ const Results = (props) => {
     //add back in when error is fixed
 
     //handleTitle(0);
-  }, []); //listening on an empty array
+  }, [handleSubmit]); //adding handleSubmit to dependency array
 
   async function gatherWorkspaces() {
     const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {

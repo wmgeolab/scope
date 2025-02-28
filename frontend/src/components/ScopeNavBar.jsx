@@ -14,7 +14,7 @@ export default function ScopeNavBar(props) {
     if (loggedInUser) {
       setLoggedIn(true);
     }
-  }, []);
+  }, [setLoggedIn]);
 
   const navigate = useNavigate();
   const handleLogin = async (e) => {

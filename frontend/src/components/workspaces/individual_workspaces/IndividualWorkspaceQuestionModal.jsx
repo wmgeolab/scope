@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
 export default function individualWorkspaceQuestionModal(props) {
-    const { showModal, handleClose, workspaceName } = props;
+    const { showModal, handleClose } = props;
 
 //   const handleCopyClick = (text) => {
 //     navigator.clipboard.writeText(text)
