@@ -1,13 +1,20 @@
-FROM docker.io/library/node:22.9-slim AS build
+FROM docker.io/library/node:22.9-slim
 
 WORKDIR /app
 RUN apt update && apt install -y curl && apt clean
 
-COPY package*.json /app
+COPY package*.json ./
 RUN npm install
 
-COPY . /app
+COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Add a startup script
+COPY <<EOF /start.sh
+#!/bin/sh
+npm start -- --host 0.0.0.0
+EOF
+
+RUN chmod +x /start.sh
+CMD ["/start.sh"]

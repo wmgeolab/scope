@@ -4,21 +4,21 @@ services:
   frontend:
     build:
       context: ./frontend
-      target: build
-    image: registry.code.wm.edu/geolab/scope/frontend:latest
     environment:
-    - NODE_ENV=development
+      - NODE_ENV=development
+      - WDS_SOCKET_HOST=localhost
+      - WDS_SOCKET_PORT=3000
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     ports:
-    - "3000:3000"
-    command:
-      - npm
-      - start
+      - "3000:3000"
+    networks:
+      - scope-network
 
   backend:
-    build: ./backend
-    image: registry.code.wm.edu/geolab/scope/backend:latest
+    build: 
+      context: ./backend
     volumes:
       - ./backend:/app
     ports:
@@ -28,3 +28,9 @@ services:
       - manage.py
       - runserver
       - 0.0.0.0:8000
+    networks:
+      - scope-network
+
+networks:
+  scope-network:
+    driver: bridge
