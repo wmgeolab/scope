@@ -16,9 +16,10 @@ from .serializers import (
     WorkspaceEntriesSerializer,
     TagSerializer,
     AiResponseSerializer,
-    RevisionSerializer
+    RevisionSerializer,
+    QuestionSerializer
 )
-from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision, WorkspaceQuestiosn
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
@@ -558,21 +559,21 @@ class RevisionView(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    class QuestionView(viewsets.ModelViewSet):
-            permission_classes = [IsAuthenticated]
-            serializer_class = QuestionSerializer
+class QuestionView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = QuestionSerializer
 
     def get_queryset(self):
         """Return questions in a specific workspace."""
         workspace_id = self.request.query_params.get('workspace')
         if not workspace_id:
-            return Response({'error': 'Workspace ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return WorkspaceQuestiosn.objects.none()
         
-        workspace = Workspace.objects.filter(id=workspace_id).first()
-        if not workspace:
-            return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        return Question.objects.filter(workspace=workspace)
+        try:
+            workspace = Workspace.objects.get(id=workspace_id)
+            return WorkspaceQuestiosn.objects.filter(workspace=workspace)
+        except Workspace.DoesNotExist:
+            return WorkspaceQuestiosn.objects.none()
 
     def create(self, request):
         """Allow users to ask a question in a workspace."""

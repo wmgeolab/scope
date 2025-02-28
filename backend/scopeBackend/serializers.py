@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag, AiResponse, Revision
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag, AiResponse, Revision, WorkspaceQuestiosn
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -175,5 +175,5 @@ class RevisionSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
+        model = WorkspaceQuestiosn
         fields = '__all__'
