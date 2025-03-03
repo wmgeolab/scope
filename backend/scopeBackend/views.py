@@ -16,7 +16,8 @@ from .serializers import (
     WorkspaceEntriesSerializer,
     TagSerializer,
     AiResponseSerializer,
-    RevisionSerializer
+    RevisionSerializer,
+    QuestionSerializer
 )
 from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision
 from rest_framework.permissions import IsAuthenticated
