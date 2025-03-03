@@ -46,5 +46,9 @@ urlpatterns = [
     path('api/text/<int:source_id>/', views.ReadSource.get_queryset, name='Text'),
     path('api/', include(router.urls)),
     path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login'),
-    path('api/test/', views.TestView.get_queryset, name='Test')
+    path('api/test/', views.TestView.get_queryset, name='Test'),
+    # List questions in a specific workspace
+    path('api/workspaces/<int:workspace_id>/questions/', views.QuestionView.as_view({'get': 'list'}), name='workspace-questions-list'),
+    # Create a new question in a specific workspace
+    path('api/workspaces/<int:workspace_id>/questions/', views.QuestionView.as_view({'post': 'create'}), name='workspace-questions-create'),
 ]

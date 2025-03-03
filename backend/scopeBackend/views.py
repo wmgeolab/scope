@@ -19,7 +19,7 @@ from .serializers import (
     RevisionSerializer,
     QuestionSerializer
 )
-from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision, WorkspaceQuestions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
@@ -559,9 +559,9 @@ class RevisionView(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    class QuestionView(viewsets.ModelViewSet):
-            permission_classes = [IsAuthenticated]
-            serializer_class = QuestionSerializer
+class QuestionView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = QuestionSerializer
 
     def get_queryset(self):
         """Return questions in a specific workspace."""
