@@ -35,7 +35,7 @@ router.register(r'entries', views.WorkspaceEntriesView, 'WorkspaceEntries')
 router.register(r'tags', views.TagView, 'Tag')
 router.register(r'ai_responses', views.AiResponseView, 'AiResponse')
 router.register(r'revision', views.RevisionView, 'Revision')
-router.register(r'questions', views.QuestionView, 'WorkspaceQuestions')
+router.register(r'questions', views.WorkspaceQuestionsView, 'WorkspaceQuestions')
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
@@ -48,7 +48,7 @@ urlpatterns = [
     path('dj-rest-auth/github', views.GithubLogin.as_view(), name='github_login'),
     path('api/test/', views.TestView.get_queryset, name='Test'),
     # List questions in a specific workspace
-    path('api/workspaces/<int:workspace_id>/questions/', views.QuestionView.as_view({'get': 'list'}), name='workspace-questions-list'),
-    # Create a new question in a specific workspace
-    path('api/workspaces/<int:workspace_id>/questions/', views.QuestionView.as_view({'post': 'create'}), name='workspace-questions-create'),
+    # path('api/workspaces/<int:workspace_id>/questions/', views.QuestionView.as_view({'get': 'list'}), name='workspace-questions-list'),
+    # # Create a new question in a specific workspace
+    # path('api/workspaces/<int:workspace_id>/questions/', views.QuestionView.as_view({'post': 'create'}), name='workspace-questions-create'),
 ]

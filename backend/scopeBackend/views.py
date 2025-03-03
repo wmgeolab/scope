@@ -559,7 +559,7 @@ class RevisionView(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class QuestionView(viewsets.ModelViewSet):
+class WorkspaceQuestionsView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = QuestionSerializer
 
@@ -573,7 +573,7 @@ class QuestionView(viewsets.ModelViewSet):
         if not workspace:
             return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Question.objects.filter(workspace=workspace)
+        return WorkspaceQuestions.objects.filter(workspace=workspace)
 
     def create(self, request):
         """Allow users to ask a question in a workspace."""
@@ -591,7 +591,7 @@ class QuestionView(viewsets.ModelViewSet):
         if not WorkspaceMembers.objects.filter(workspace=workspace, member=request.user).exists():
             return Response({'error': 'User is not a member of the workspace'}, status=status.HTTP_403_FORBIDDEN)
 
-        question = Question.objects.create(
+        question = WorkspaceQuestions.objects.create(
             workspace=workspace,
             user=request.user,
             text=text
