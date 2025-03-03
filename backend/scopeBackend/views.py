@@ -579,9 +579,10 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         """Allow users to ask a question in a workspace."""
         workspace_id = request.data.get('workspace')
         text = request.data.get('text')
+        source_id = request.data.get('source')
 
-        if not workspace_id or not text:
-            return Response({'error': 'Workspace ID and text are required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not workspace_id or not text or not source_id:
+            return Response({'error': 'Workspace ID, text, and source ID are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         workspace = Workspace.objects.filter(id=workspace_id).first()
         if not workspace:
@@ -591,10 +592,27 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         if not WorkspaceMembers.objects.filter(workspace=workspace, member=request.user).exists():
             return Response({'error': 'User is not a member of the workspace'}, status=status.HTTP_403_FORBIDDEN)
 
+        if not Source.objects.filter(id=source_id).exists():
+            return Response({'error': 'Source not found'}, status=status.HTTP_404_NOT_FOUND)
+
         question = WorkspaceQuestions.objects.create(
             workspace=workspace,
             user=request.user,
             text=text
         )
+
+        # Call ML container to start answering process
+        # Create and insert new AiResponse with blank summary, entities, and locations
+        # We will poll blank AiResponses later in a background task to query the ML container
+        # for finished responses.
+        ai_response = AiResponse.objects.create(
+            source=source,
+            summary="",
+            entities="",
+            locations="",
+            workspace=workspace
+        )
+        
+
         serializer = QuestionSerializer(question)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

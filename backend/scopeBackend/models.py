@@ -113,7 +113,8 @@ class AiResponse(models.Model):
     summary = models.TextField()
     entities = models.TextField()
     locations = models.TextField()
-
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
+    
     def __str__(self):
         return self.id
 
