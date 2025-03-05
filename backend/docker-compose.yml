@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" 
+    depends_on:
+      - backend-db
+    environment:
+      - DB_HOST=backend-db
+      - DB_USER=root
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=mydatabase
+
+  backend-db:
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=mydatabase
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
