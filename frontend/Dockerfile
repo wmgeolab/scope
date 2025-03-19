@@ -1,28 +1,20 @@
-FROM docker.io/library/node:22.9-slim AS build
+FROM docker.io/library/node:22.9-slim
 
 WORKDIR /app
 
-# Install only necessary dependencies
+# Install dependencies
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install && npm cache clean --force
 
-# Copy only necessary source files for building
+# Copy source files
 COPY src/ ./src/
 COPY public/ ./public/
 COPY .env* ./
 
-# Build the application with optimizations
+# Build the application
 RUN npm run build
 
-# Create a smaller production image
-FROM docker.io/library/node:22.9-slim AS production
-
-WORKDIR /app
-
-# Copy only the built application files
-COPY --from=build /app/build ./build
-
-# Install only the serve package
+# Install serve for production
 RUN npm install -g serve && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean && \
@@ -35,5 +27,5 @@ ENV GENERATE_SOURCEMAP=false
 # Expose the port
 EXPOSE 3000
 
-# Run the server with minimal footprint
+# Run the server
 CMD ["serve", "-s", "build", "-l", "3000"]
