@@ -13,6 +13,9 @@ services:
       - "3000:3000"
     networks:
       - scope-network
+    depends_on:
+      - backend
+    command: npm start
 
   backend:
     build: 
@@ -28,6 +31,12 @@ services:
       - 0.0.0.0:8000
     networks:
       - scope-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
 
 networks:
   scope-network:
