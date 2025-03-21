@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
 export default function individualWorkspaceQuestionModal(props) {
-    const { showModal, handleClose, workspaceName } = props;
+    const { workspaceQuestions, showModal, handleClose, workspaceName } = props;
 
 //   const handleCopyClick = (text) => {
 //     navigator.clipboard.writeText(text)
@@ -29,7 +29,7 @@ export default function individualWorkspaceQuestionModal(props) {
       /> */}
       <Form.Group className="mb-3" controlId="question">
         <Form.Label>Location Question</Form.Label>
-        <Form.Control type="email" placeholder="Existing Location Question" />
+        <Form.Control as="textarea" rows={3} placeholder={workspaceQuestions[0] ? workspaceQuestions[0].question : 'No existing question'} />
         <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
         <div className="d-grid gap-2">
           <Button variant="secondary">
@@ -42,7 +42,7 @@ export default function individualWorkspaceQuestionModal(props) {
       </Form.Group>
       <Form.Group className="mb-3" controlId="question">
         <Form.Label>Date/Time Question</Form.Label>
-        <Form.Control type="email" placeholder="Existing Date/Time Question" />
+        <Form.Control as="textarea" rows={3} placeholder={workspaceQuestions[1] ? workspaceQuestions[1].question : 'No existing question'} />
         <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
         <div className="d-grid gap-2">
           <Button variant="secondary">
@@ -55,7 +55,7 @@ export default function individualWorkspaceQuestionModal(props) {
       </Form.Group>
       <Form.Group className="mb-3" controlId="question">
         <Form.Label>Actors Question</Form.Label>
-        <Form.Control type="email" placeholder="Existing Actors Question" />
+        <Form.Control as="textarea" rows={3} placeholder={workspaceQuestions[2] ? workspaceQuestions[2].question : 'No existing question'} />
         <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
         <div className="d-grid gap-2">
           <Button variant="secondary">
@@ -68,7 +68,7 @@ export default function individualWorkspaceQuestionModal(props) {
       </Form.Group>
       <Form.Group className="mb-3" controlId="question">
         <Form.Label>Summary Question</Form.Label>
-        <Form.Control type="email" placeholder="Existing Summary Question" />
+        <Form.Control as="textarea" rows={3} placeholder={workspaceQuestions[3] ? workspaceQuestions[3].question : 'No existing question'} />
         <Form.Control as="textarea" rows={3} placeholder="Existing LLM Response" />
         <div className="d-grid gap-2">
           <Button variant="secondary">

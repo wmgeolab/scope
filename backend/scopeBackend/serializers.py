@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag, AiResponse, Revision
+from .models import User, Query, Source, Result, Run, SourceType, KeyWord, Workspace, WorkspaceMembers, WorkspaceEntries, Tag, AiResponse, Revision, WorkspaceQuestions
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -123,6 +123,12 @@ class WorkspaceEntriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkspaceEntries
         fields = ('workspace', 'source', 'source_id')
+
+class WorkspaceQuestionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkspaceQuestions
+        fields = ('question', 'workspace_id')
+    
 
 class TagSerializer(serializers.ModelSerializer):
     workspace = serializers.IntegerField()

@@ -45,6 +45,11 @@ const Workspaces = (props) => {
       },
     });
     const response_text = await response.json();
+
+    // JUST FOR TEXTING
+    console.log("Raw Workspaces Response:\n");
+    console.log(response_text);
+
     try {
       const formattedResponse = response_text.results.map((result) => {
         return {

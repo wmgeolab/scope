@@ -131,8 +131,8 @@ class Revision(models.Model):
         return self.id
 
 class WorkspaceQuestions(models.Model):
-    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
     question = models.TextField()
+    workspace_id = models.ForeignKey(Workspace, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.question
+        return self.id

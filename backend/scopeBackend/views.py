@@ -16,9 +16,10 @@ from .serializers import (
     WorkspaceEntriesSerializer,
     TagSerializer,
     AiResponseSerializer,
-    RevisionSerializer
+    RevisionSerializer,
+    WorkspaceQuestionsSerializer
 )
-from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision
+from .models import User, Query, Result, Source, Run, Workspace, WorkspaceMembers, WorkspaceEntries, Tag,  AiResponse, Revision, WorkspaceQuestions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view
@@ -383,6 +384,29 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
             return Response({'error':'Source is not in workspace'}, status=status.HTTP_404_NOT_FOUND)
         entry.delete()
         return Response('Source has been removed from the workspace.', status=status.HTTP_200_OK)
+
+class WorkspaceQuestionsView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WorkspaceQuestionsSerializer
+
+    # accessible at /api/entries?workspace=(id) [GET]
+    def get_queryset(self):
+        # returns all questions and their responses for a workspace
+        w_id = self.request.query_params.get('workspace')
+        print("Workspace ID: ", w_id)
+        if w_id is not None:
+            user_id = self.request.user.id
+            #workspace = Workspace.objects.filter(id=w_id).first()
+            # if not workspace:
+            #     raise ValidationError(detail="Workspace does not exist.")
+            in_workspace = True if WorkspaceMembers.objects.filter(member=user_id, workspace=w_id) else False
+            if in_workspace:
+                #return WorkspaceEntries.objects.filter(workspace=workspace).all()
+                return WorkspaceQuestions.objects.filter(workspace_id=w_id).all()
+            else:
+                raise ValidationError(detail="Not part of this workspace.")
+        raise ValidationError(detail="No workspace ID provided.")
+
 
 class TagView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
