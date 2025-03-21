@@ -471,9 +471,13 @@ class AiResponseView(viewsets.ModelViewSet):
         summary = request.data['summary']
         entities = request.data['entities']
         locations = request.data['locations']
+        workspace = request.data['workspace']
         # Check if source ID exists
         if not Source.objects.filter(id=source):
             return Response({'error':'Source does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # Check if workspace exists
+        if not Workspace.objects.filter(id=workspace):
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # Check if summary exists
         if not summary:
             return Response({'error':'Summary cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
