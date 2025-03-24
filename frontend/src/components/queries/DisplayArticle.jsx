@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import UnauthorizedView from "../UnauthorizedView";
+import { API } from "../../api/api";
 
 const DisplayArticle = (props) => {
   const { loggedIn } = props;
@@ -13,14 +14,9 @@ const DisplayArticle = (props) => {
 
   const handleSubmit = useCallback(async (source_id) => {
     let response = await fetch(
-      "http://127.0.0.1:8000/api/text/" + source_id + "/",
+      API.url(`/api/text/${source_id}/`),
       {
-        //results doesn't have anything in the array when printed
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
       }
     );
 

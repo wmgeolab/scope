@@ -21,6 +21,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Row from "react-bootstrap/Row";
 import UnauthorizedView from "../UnauthorizedView";
 import { TailSpin } from "react-loader-spinner";
+import { API } from "../../api/api";
 
 
 
@@ -46,12 +47,9 @@ const Queries = (props) => {
     setLoading(true); // Set loading to true when fetching data
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+        API.url(`/api/queries/?page=${curPage + 1}`), //have to add 1 becaues curPage is 0 indexed
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Token " + localStorage.getItem("user"),
-          },
+          headers: API.getAuthHeaders(),
         }
       );
       const data = await response.json();
@@ -105,12 +103,9 @@ const Queries = (props) => {
   const handleSubmit = async (curPage) => {
     console.log("handlesubmit:", curPage);
     let response = await fetch(
-      "http://127.0.0.1:8000/api/queries/?page=" + (curPage + 1), //have to add 1 becaues curPage is 0 indexed
+      API.url(`/api/queries/?page=${curPage + 1}`), // have to add 1 becaues curPage is 0 indexed
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
       }
     );
 

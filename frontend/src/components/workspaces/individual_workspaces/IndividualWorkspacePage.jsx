@@ -7,6 +7,7 @@ import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 import IndividualWorkspaceQuestionModal from "./IndividualWorkspaceQuestionModal";
+import { API } from "../../../api/api";
 
 
 export default function IndividualWorkspacePage(props) {
@@ -58,12 +59,9 @@ export default function IndividualWorkspacePage(props) {
     const param = new URLSearchParams({
       workspace: workspace_id
     })
-    const response = await fetch(`http://127.0.0.1:8000/api/entries/?${param}`, {
+    const response = await fetch(API.url(`/api/entries/?${param}`), {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
+      headers: API.getAuthHeaders(),
     });
 
     const response_text = await response.json();

@@ -18,6 +18,7 @@ import WorkspaceJoinModal from "./WorkspaceJoinModal";
 import { TailSpin } from "react-loader-spinner";
 import Box from "@mui/material/Box";
 import { Search } from "react-bootstrap-icons";
+import { API } from "../../api/api";
 
 const Workspaces = (props) => {
   const [filt, setFilt] = useState([]);
@@ -37,12 +38,9 @@ const Workspaces = (props) => {
 
   async function gatherWorkspaces() {
     setLoading(true); // Set loading to true when fetching data
-    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+    const response = await fetch(API.url('/api/workspaces/'), {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
+      headers: API.getAuthHeaders(),
     });
     const response_text = await response.json();
     try {
@@ -73,12 +71,9 @@ const Workspaces = (props) => {
       password: password,
     };
 
-    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+    const response = await fetch(API.url('/api/workspaces/'), {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
+      headers: API.getAuthHeaders(),
       body: JSON.stringify(data),
     });
 
@@ -96,12 +91,9 @@ const Workspaces = (props) => {
       password: password,
     };
     console.log(JSON.stringify(data), "in join");
-    const response = await fetch("http://127.0.0.1:8000/api/workspaces/join/", {
+    const response = await fetch(API.url('/api/workspaces/join/'), {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
+      headers: API.getAuthHeaders(),
       body: JSON.stringify(data),
     });
     const response_text = await response.json();

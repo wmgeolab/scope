@@ -18,6 +18,7 @@ import { Search } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import UnauthorizedView from "../UnauthorizedView";
+import { API } from "../../api/api";
 
 const Results = (props) => {
   const { loggedIn } = props;
@@ -105,18 +106,9 @@ const Results = (props) => {
 
   const handleSubmit = useCallback(async (curPage) => {
     let response = await fetch(
-      "http://127.0.0.1:8000/api/sources/" +
-        query_id +
-        "/" +
-        (curPage + 1) +
-        "/?page=" +
-        (curPage + 1),
+      API.url(`/api/sources/${query_id}/${curPage + 1}/?page=${curPage + 1}`),
       {
-        //results doesn't have anything in the array when printed
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
       }
     );
     let q = await response.json();
@@ -140,12 +132,9 @@ const Results = (props) => {
 
     //this is the fetch request to get the source count
     let countResponse = await fetch(
-      "http://127.0.0.1:8000/api/count/" + query_id + "/",
+      API.url(`/api/count/${query_id}/`),
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
       }
     );
 
@@ -190,12 +179,9 @@ const Results = (props) => {
   }, [handleSubmit]); //adding handleSubmit to dependency array
 
   async function gatherWorkspaces() {
-    const response = await fetch("http://127.0.0.1:8000/api/workspaces/", {
+    const response = await fetch(API.url('/api/workspaces/'), {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
+      headers: API.getAuthHeaders(),
     });
     const response_text = await response.json();
     const formattedResponse = response_text.results.map((result) => {
@@ -227,12 +213,9 @@ const Results = (props) => {
         source_id: selectedRows[i].id,
       };
 
-      const response = await fetch("http://127.0.0.1:8000/api/entries/", {
+      const response = await fetch(API.url('/api/entries/'), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
         body: JSON.stringify(data),
       });
 
