@@ -102,6 +102,7 @@ export default function IndividualWorkspacePage(props) {
 
     const formattedResponse = response_text.results.map(result => {
       return {
+        id: result.id,
         question: result.question,
       }
     });
@@ -154,9 +155,9 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={workspaceSources} filt={filt}/>
+        <IndividualWorkspaceTable data={workspaceSources} filt={filt} />
         <Row className="mt-5">
-          <Col sm={4}/>
+          <Col sm={4} />
           <Col sm={2}>
             <Button onClick={handleShowQuestionModal}>Set Questions</Button>
           </Col>
@@ -168,13 +169,13 @@ export default function IndividualWorkspacePage(props) {
           showModal={showWorkspaceModal}
           handleClose={handleCloseModal}
           workspaceName={workspace_name}
-        />
-        <IndividualWorkspaceQuestionModal
-          workspaceQuestions={workspaceQuestions} 
-          showModal={showQuestionModal}
-          handleClose={handleCloseQuestionModal}
-          workspace_id={workspace_id}
-        />
+        />{showQuestionModal &&
+          <IndividualWorkspaceQuestionModal
+            workspaceQuestions={workspaceQuestions}
+            showModal={showQuestionModal}
+            handleClose={handleCloseQuestionModal}
+            workspace_id={workspace_id}
+          />}
       </Container>
     );
   }
