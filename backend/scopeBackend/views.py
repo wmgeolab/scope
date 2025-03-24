@@ -265,6 +265,8 @@ class WorkspaceView(viewsets.ModelViewSet):
             return Response({'error':'Only the workspace creator can delete'}, status=status.HTTP_403_FORBIDDEN)
         # workspace.delete()
         workspace.hidden = True
+        workspace.name = workspace.name + "_deleted_" + __import__('os').urandom(15).hex()
+        workspace.save()
         return Response('Workspace has been deleted', status=status.HTTP_200_OK)
 
     # accessible at /api/workspaces/ [POST]
@@ -478,10 +480,14 @@ class TagView(viewsets.ModelViewSet):
 
             if workspace_parameter:
                 # workspaces = union of workspaces that the user is part of and the workspace parameter
-                workspaces = workspaces | Workspace.objects.filter(id=workspace_parameter)
+                #workspaces = workspaces | Workspace.objects.filter(id=workspace_parameter)
+                queryset = queryset.filter(workspace_id=workspace_parameter, workspace_id__in=workspaces)
 
             # Now we need to filter tags by the workspaces that the user is part of
-            queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
+            #queryset = queryset.filter(workspace_id__in=workspaces).order_by('workspace')
+            queryset = queryset.filter(workspace_id__in=workspaces)
+
+            queryset = queryset.order_by('workspace')
     
         return queryset
 
@@ -490,7 +496,7 @@ class TestView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Response({"success":"Test view reached!"}, status=status.HTTP_200_OK)
-
+        
 class AiResponseView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = AiResponseSerializer
@@ -507,18 +513,22 @@ class AiResponseView(viewsets.ModelViewSet):
         summary = request.data['summary']
         entities = request.data['entities']
         locations = request.data['locations']
+        workspace = request.data['workspace']
         # Check if source ID exists
         if not Source.objects.filter(id=source):
             return Response({'error':'Source does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        # Check if workspace exists
+        if not Workspace.objects.filter(id=workspace):
+            return Response({'error':'Workspace does not exist'}, status=status.HTTP_404_NOT_FOUND)
         # Check if summary exists
         if not summary:
             return Response({'error':'Summary cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
-        # Check if entities exist
-        if not entities:
-            return Response({'error':'Entities cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
-        # Check if locations exist
-        if not locations:
-            return Response({'error':'Locations cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # # Check if entities exist
+        # if not entities:
+        #     return Response({'error':'Entities cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # # Check if locations exist
+        # if not locations:
+        #     return Response({'error':'Locations cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
         # Create airesponse
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -594,3 +604,61 @@ class RevisionView(viewsets.ModelViewSet):
         serializer.save(workspace=workspace, original_response=original_response)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class WorkspaceQuestionsView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        """Return questions in a specific workspace."""
+        workspace_id = self.request.query_params.get('workspace')
+        if not workspace_id:
+            return Response({'error': 'Workspace ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        workspace = Workspace.objects.filter(id=workspace_id).first()
+        if not workspace:
+            return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        return WorkspaceQuestions.objects.filter(workspace=workspace)
+
+    def create(self, request):
+        """Allow users to ask a question in a workspace."""
+        workspace_id = request.data.get('workspace')
+        text = request.data.get('text')
+        source_id = request.data.get('source')
+
+        if not workspace_id or not text or not source_id:
+            return Response({'error': 'Workspace ID, text, and source ID are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        workspace = Workspace.objects.filter(id=workspace_id).first()
+        if not workspace:
+            return Response({'error': 'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        
+        if not WorkspaceMembers.objects.filter(workspace=workspace, member=request.user).exists():
+            return Response({'error': 'User is not a member of the workspace'}, status=status.HTTP_403_FORBIDDEN)
+
+        if not Source.objects.filter(id=source_id).exists():
+            return Response({'error': 'Source not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        question = WorkspaceQuestions.objects.create(
+            workspace=workspace,
+            user=request.user,
+            text=text
+        )
+
+        # Call ML container to start answering process
+        # Create and insert new AiResponse with blank summary, entities, and locations
+        # We will poll blank AiResponses later in a background task to query the ML container
+        # for finished responses.
+        ai_response = AiResponse.objects.create(
+            source=source,
+            summary="",
+            entities="",
+            locations="",
+            workspace=workspace
+        )
+        
+
+        serializer = QuestionSerializer(question)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

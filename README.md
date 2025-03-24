@@ -135,3 +135,69 @@ If you run into this error, it could be that certain packages are incompatible o
 ```
 pip install mysqlclient==1.4.6
 ```
+
+---
+
+```
+ModuleNotFoundError: No module named 'django'
+```
+```
+ImportError: Couldn't import Django. Are you sure it's installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?
+```
+
+If you run into these errors, here's the recommended way to fix this (after checking that Django is installed system-wide):
+
+```
+# Remove the old virtual environment if it exists
+rm -rf ~/my-venv 
+
+# Create a new virtual environment 
+python3 -m venv ~/my-venv
+
+# Activate the virtual environment 
+source ~/my-venv/bin/activate
+
+# Ensure pip3 is up to date
+pip3 install --upgrade pip
+
+# Install Django
+pip3 install django
+
+# Try running backend server (you should see no breaking errors at this point)
+python3 manage.py runserver
+
+# Install required dependencies if running server doesn't work
+pip3 install djangorestframework dj-rest-auth pymysql django-allauth django-cors-headers requests readability-lxml lxml_html_clean regex
+
+# Verify dependences are installed correctly
+pip list
+
+# Apply missing migrations
+python3 manage.py migrate
+
+# Run backend server (you should see no breaking errors at this point)
+python3 manage.py runserver
+
+# Deactivate the virtual environment when done
+deactivate
+```
+
+**Note:** If you encounter the error related to an "externally-managed environment" (error: externally-managed-environment), you can bypass it by using the `--break-system-packages flag.` This is not the recommended way to fix this issue, but is an alternative if no other methods work:
+
+```
+# Install Python
+python3 -m pip install django --break-system-packages
+
+# Install required dependencies
+pip3 install djangorestframework dj-rest-auth pymysql django-allauth django-cors-headers requests readability-lxml lxml_html_clean regex --break-system-packages
+
+Note: If you see this error in the traceback (django.core.exceptions.ImproperlyConfigured: allauth.account.middleware.AccountMiddleware must be added to settings.MIDDLEWARE), this indicates that the required middleware for django-allauth isn't added to your MIDDLEWARE settings. To fix this, you need to add the following line to your MIDDLEWARE in settings.py:
+
+MIDDLEWARE = [ # ... other middleware 'allauth.account.middleware.AccountMiddleware', # ... other middleware ]
+
+# Apply missing migrations
+python3 manage.py migrate
+
+# Run backend server (you should see no breaking errors at this point)
+python3 manage.py runserver
+```
