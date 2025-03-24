@@ -124,6 +124,30 @@ class WorkspaceEntriesSerializer(serializers.ModelSerializer):
         model = WorkspaceEntries
         fields = ('workspace', 'source', 'source_id')
 
+class WorkspaceQuestionsSerializer(serializers.ModelSerializer):
+    #id = serializers.IntegerField(write_only=True)
+    #workspace_id = serializers.IntegerField(write_only=True)
+    question = serializers.CharField()
+
+    # def update(self, instance, validated_data):
+    #     # add question to workspace
+    #     # obj, _ = WorkspaceQuestions.objects.update_or_create(
+    #     #     question=validated_data['question'], 
+    #     #     workspace_id=validated_data['workspace_id']
+    #     # )
+
+    #     e = WorkspaceQuestions.objects.update(
+    #         instance.question = validated_data.get('question', instance.question)
+    #         instance.save()
+
+    #     )
+    #     return obj
+
+    class Meta:
+        model = WorkspaceQuestions
+        fields = ('id', 'question', 'workspace_id')
+    
+
 class TagSerializer(serializers.ModelSerializer):
     workspace = serializers.IntegerField()
 
