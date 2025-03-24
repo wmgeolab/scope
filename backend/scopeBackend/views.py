@@ -456,6 +456,8 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         question.question = request.data['question']
         question.save()
 
+        # SEND REQUEST FOR AI RESPONSE TO ML ROUTE
+
         # if question:
         #     return Response({'error':'Question already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
         # add question to workspace
