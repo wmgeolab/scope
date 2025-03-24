@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
@@ -7,7 +7,6 @@ import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 import IndividualWorkspaceQuestionModal from "./IndividualWorkspaceQuestionModal";
-import { API } from "../../../api/api";
 
 
 export default function IndividualWorkspacePage(props) {
@@ -20,6 +19,7 @@ export default function IndividualWorkspacePage(props) {
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
 
   const [workspaceSources, setWorkspaceSources] = useState([]);
+  const [workspaceQuestions, setWorkspaceQuestions] = useState([]);
 
   var textInput = React.createRef();
   const [filt, setFilt] = useState([]);
@@ -55,16 +55,21 @@ export default function IndividualWorkspacePage(props) {
     ]);
   };
 
-  const obtainSources = useCallback(async () => {
+  async function obtainSources() {
     const param = new URLSearchParams({
       workspace: workspace_id
     })
-    const response = await fetch(API.url(`/api/entries/?${param}`), {
+    console.log('Workspace ID: ', workspace_id);
+    const response = await fetch(`http://127.0.0.1:8000/api/entries/?${param}`, {
       method: "GET",
-      headers: API.getAuthHeaders(),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
     });
 
     const response_text = await response.json();
+
     const formattedResponse = response_text.results.map(result => {
       return {
         id: result.source.id,
@@ -75,11 +80,41 @@ export default function IndividualWorkspacePage(props) {
 
     if (formattedResponse)
       setWorkspaceSources(formattedResponse);
-  }, [workspace_id, setWorkspaceSources]);
+  }
+
+  async function obtainQuestions() {
+    const param = new URLSearchParams({
+      workspace: workspace_id
+    })
+    const response = await fetch(`http://127.0.0.1:8000/api/questions/?${param}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+    });
+
+    const response_text = await response.json();
+
+    // JUST FOR TESTING
+    console.log("Raw Questions Response:\n");
+    console.log(response_text);
+
+    const formattedResponse = response_text.results.map(result => {
+      return {
+        id: result.id,
+        question: result.question,
+      }
+    });
+
+    if (formattedResponse)
+      setWorkspaceQuestions(formattedResponse);
+  }
 
   useEffect(() => {
     obtainSources();
-  }, [obtainSources]);
+    obtainQuestions();
+  }, []);
 
   if (loggedIn === false) {
     return <UnauthorizedView />;
@@ -120,9 +155,9 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={workspaceSources} filt={filt}/>
+        <IndividualWorkspaceTable data={workspaceSources} filt={filt} />
         <Row className="mt-5">
-          <Col sm={4}/>
+          <Col sm={4} />
           <Col sm={2}>
             <Button onClick={handleShowQuestionModal}>Set Questions</Button>
           </Col>
@@ -134,12 +169,13 @@ export default function IndividualWorkspacePage(props) {
           showModal={showWorkspaceModal}
           handleClose={handleCloseModal}
           workspaceName={workspace_name}
-        />
-        <IndividualWorkspaceQuestionModal
-          showModal={showQuestionModal}
-          handleClose={handleCloseQuestionModal}
-          workspaceName={workspace_name}
-        />
+        />{showQuestionModal &&
+          <IndividualWorkspaceQuestionModal
+            workspaceQuestions={workspaceQuestions}
+            showModal={showQuestionModal}
+            handleClose={handleCloseQuestionModal}
+            workspace_id={workspace_id}
+          />}
       </Container>
     );
   }

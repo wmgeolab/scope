@@ -113,7 +113,7 @@ class AiResponse(models.Model):
     summary = models.TextField()
     entities = models.TextField()
     locations = models.TextField()
-    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE)
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.id
@@ -132,10 +132,9 @@ class Revision(models.Model):
         return self.id
 
 class WorkspaceQuestions(models.Model):
-    workspace = models.ForeignKey("Workspace", on_delete=models.CASCADE)  # Link to a workspace
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # The user who asked the question
-    text = models.TextField()  # The question text
-    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp of creation
+    id = models.AutoField(primary_key=True)
+    question = models.TextField()
+    workspace_id = models.ForeignKey(Workspace, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Question by {self.user.username} in {self.workspace.id}: {self.text}"
+        return self.id
