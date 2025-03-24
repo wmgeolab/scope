@@ -173,7 +173,7 @@ export default function IndividualWorkspacePage(props) {
           workspaceQuestions={workspaceQuestions} 
           showModal={showQuestionModal}
           handleClose={handleCloseQuestionModal}
-          workspaceName={workspace_name}
+          workspace_id={workspace_id}
         />
       </Container>
     );
