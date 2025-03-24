@@ -284,8 +284,21 @@ class WorkspaceView(viewsets.ModelViewSet):
             return Response({'error':'Name contains illegal characters'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer.is_valid(raise_exception=True)
-        serializer.save(creatorId=self.request.user)
+        workspace = serializer.save(creatorId=self.request.user)
         headers = self.get_success_headers(serializer.data)
+
+        # Create 4 default WorkspaceQuestions
+        default_questions = [
+            {'question': 'No question set', 'workspace_id': workspace},
+            {'question': 'No question set', 'workspace_id': workspace},
+            {'question': 'No question set', 'workspace_id': workspace},
+            {'question': 'No question set', 'workspace_id': workspace}
+        ]
+        
+        # Save default questions to the database
+        for question_data in default_questions:
+            WorkspaceQuestions.objects.create(**question_data)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     # accessible at /api/workspaces/join/ [POST]
@@ -395,7 +408,7 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
     def get_queryset(self):
         # returns all questions and their responses for a workspace
         w_id = self.request.query_params.get('workspace')
-        print("Workspace ID: ", w_id)
+        #print("Workspace ID: ", w_id)
         if w_id is not None:
             user_id = self.request.user.id
             #workspace = Workspace.objects.filter(id=w_id).first()
@@ -409,25 +422,53 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
                 raise ValidationError(detail="Not part of this workspace.")
         raise ValidationError(detail="No workspace ID provided.")
     
-    # accessible at /api/questions/ [POST]
+    # accessible at /api/questions/ [PUT]
     def create(self, request):
+        # store the workspace_id from the request
+        w_id = request.data['workspace']
+        q_id = request.data['id']
+        print("Raw request: ", request.data)
+        print("Workspace ID is: ", w_id)
+        print("Question ID is: ", q_id)
         # returns response for consistent error message
         workspace = Workspace.objects.get(id=request.data['workspace'])
         if not workspace:
             return Response({'error':'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
         # check if question exists in workspace
-        question = WorkspaceQuestions.objects.filter(question=request.data['question'], workspace_id=request.data['workspace'])
-        if question:
-            return Response({'error':'Question already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
-        # add question to workspace
-        self.request.data['source'] = question
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        w_id = request.data['workspace']
-        serializer.save(question=question, workspace_id=w_id)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        #question = WorkspaceQuestions.objects.filter(question=request.data['question'], workspace_id=request.data['workspace'])
+        # question = request.data['question']
+        # print("Question is: ", question)
+        # question, created = WorkspaceQuestions.objects.update_or_create(
+        #     question=question,
+        #     workspace_id=workspace
+        # )
 
+        try:
+            # Fetch the question by its ID and workspace_id from the request body
+            question = WorkspaceQuestions.objects.get(id=q_id, workspace_id=w_id)
+        except WorkspaceQuestions.DoesNotExist:
+            return Response(
+                {'error': 'Question not found or does not belong to the workspace'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        question.question = request.data['question']
+        question.save()
+
+        # if question:
+        #     return Response({'error':'Question already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
+        # add question to workspace
+        # self.request.data['source'] = question
+        # serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save(question=question, workspace_id=w_id)
+        # headers = self.get_success_headers(serializer.data)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        # Serialize and return the response
+        serializer = self.get_serializer(question)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
 
 class TagView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

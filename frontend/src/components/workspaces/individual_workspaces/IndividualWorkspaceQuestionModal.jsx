@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
 export default function IndividualWorkspaceQuestionModal(props) {
-    const { workspaceQuestions, showModal, handleClose, workspaceName } = props;
+    const { workspaceQuestions, showModal, handleClose, workspace_id } = props;
 
     console.log(workspaceQuestions);
 
@@ -17,13 +17,15 @@ export default function IndividualWorkspaceQuestionModal(props) {
     // const [edit4, setEdit4] = useState(false);
 
     const [formData, setFormData] = useState([
-      {question: workspaceQuestions[0]?.question, response: ''},
-      {question: workspaceQuestions[1]?.question, response: ''},
-      {question: workspaceQuestions[2]?.question, response: ''},
-      {question: workspaceQuestions[3]?.question, response: ''}
+      {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question, response: ''},
+      {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question, response: ''},
+      {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question, response: ''},
+      {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question, response: ''}
     ]);
 
-    
+    console.log("Upon initialization, formData is: ", formData);
+
+ 
 
     const handleInputChange = (idx, field, value) => {
       const updatedFormData = [...formData];
@@ -34,7 +36,33 @@ export default function IndividualWorkspaceQuestionModal(props) {
 
     const handleSubmit = async () => {
       // Call backend route to save edited question and response data
-
+      console.log("Before calling POST route, formData array is:");
+      console.log(formData);
+      for (let i = 0; i < formData.length; i++) {
+        // only call the route if the question actually contains anything
+        if(formData[i].question) {
+          let data = {
+            id: formData[i].id,
+            workspace: workspace_id,
+            question: formData[i].question,
+          };
+  
+          console.log(JSON.stringify(data), "in workspace question form");
+          const response = await fetch(`http://127.0.0.1:8000/api/questions/?${workspace_id}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Token " + localStorage.getItem("user"),
+            },
+            body: JSON.stringify(data),
+          });
+  
+          const response_text = await response.json();
+          console.log("Question update response: ", response_text);
+          
+        }
+      }
+        
     }
 
   return(
