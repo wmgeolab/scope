@@ -1,3 +1,14 @@
+# Delete the test workspace
+DELETE http://{{host}}/api/workspaces/
+Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
+Content-Type: application/json
+
+{
+    "name": "test888",
+    "password": "test888"
+}
+HTTP 200
+
 # Create a workspace for testing
 POST http://{{host}}/api/workspaces/
 Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
@@ -17,8 +28,9 @@ Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
 Content-Type: application/json
 
 {
-    "workspace": {{id}}, 
-    "question": "What is the purpose of this workspace?"
+    "workspace": {{workspace_id}},  
+    "text": "What is the purpose of this workspace?",
+    "source": "279"
 }
 HTTP 201
 [Captures]
@@ -45,7 +57,7 @@ Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
 Content-Type: application/json
 
 {
-    "name": "test_workspace",
-    "password": "test_password"
+    "name": "test888",
+    "password": "test888"
 }
 HTTP 200
