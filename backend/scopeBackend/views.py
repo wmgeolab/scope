@@ -40,6 +40,7 @@ import requests
 from readability import Document
 import regex
 import json
+import os
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -72,7 +73,7 @@ class QueryView(viewsets.ModelViewSet):
 
 class GithubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
-    callback_url = "http://localhost:3000/login"
+    callback_url = os.getenv('GITHUB_CALLBACK_URL', 'http://localhost:3000/login')
     client_class = OAuth2Client
 
 

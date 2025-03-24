@@ -6,6 +6,8 @@ import logo from "./../images/pic10.jpg";
 import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import LoginGithub from "react-login-github";
+import { API } from "../api/api";
+
 export default function ScopeNavBar(props) {
   const { loggedIn, setLoggedIn } = props;
 
@@ -14,11 +16,11 @@ export default function ScopeNavBar(props) {
     if (loggedInUser) {
       setLoggedIn(true);
     }
-  }, []);
+  }, [setLoggedIn]);
 
   const navigate = useNavigate();
   const handleLogin = async (e) => {
-    let token = await fetch("http://127.0.0.1:8000/dj-rest-auth/github", {
+    let token = await fetch(API.url('/dj-rest-auth/github'), {
       method: "POST",
       mode: "cors",
       headers: {

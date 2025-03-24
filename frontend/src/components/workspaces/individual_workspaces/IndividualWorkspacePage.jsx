@@ -37,7 +37,6 @@ export default function IndividualWorkspacePage(props) {
 
   const handleShowQuestionModal = () => {
     setShowQuestionModal(true);
-    console.log("Questions rendered in parent ws component: ", workspaceQuestions);
   };
 
   const onSubmitSearch = (event) => {
@@ -103,9 +102,7 @@ export default function IndividualWorkspacePage(props) {
 
     const formattedResponse = response_text.results.map(result => {
       return {
-        id: result.id,
         question: result.question,
-        workspace_id: result.workspace_id
       }
     });
 
@@ -172,14 +169,12 @@ export default function IndividualWorkspacePage(props) {
           handleClose={handleCloseModal}
           workspaceName={workspace_name}
         />
-        {showQuestionModal && (
-          <IndividualWorkspaceQuestionModal
+        <IndividualWorkspaceQuestionModal
           workspaceQuestions={workspaceQuestions} 
           showModal={showQuestionModal}
           handleClose={handleCloseQuestionModal}
           workspace_id={workspace_id}
-          />
-        )}
+        />
       </Container>
     );
   }

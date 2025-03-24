@@ -10,6 +10,9 @@ spec:
          # - "npm run start"
     imagePullPolicy: Always
     name: scope-backend
+    env:
+    - name: GITHUB_CALLBACK_URL
+      value: "http://scope-frontend:3000/login"
     resources:
       limits:
         cpu: 1  # Total 32 cores.

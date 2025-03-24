@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../assets/css/createquery.css";
 import UnauthorizedView from "../UnauthorizedView";
+import { API } from "../../api/api";
 
 const CreateQuery = (props) => {
   const { loggedIn } = props;
@@ -37,13 +38,9 @@ const CreateQuery = (props) => {
 
       console.log(JSON.stringify(data));
 
-      fetch("http://127.0.0.1:8000/api/queries/", {
-        //submitting a query
+      fetch(API.url('/api/queries/'), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
         body: JSON.stringify(data),
       });
       navigate("/queries/");

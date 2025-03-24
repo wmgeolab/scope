@@ -1,3 +1,42 @@
 Dockerfile
 README.md
 node_modules
+build-push.sh
+
+# Ignore node modules
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Ignore build output
+build
+dist
+
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore dev configs
+.editorconfig
+.vscode
+.idea
+*.swp
+*.swo
+
+# Ignore other unnecessary files
+*.log
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore test files
+coverage
+__tests__
+*.test.js
+*.spec.js
+
+# Keep nginx config (removing since we're not using nginx)
+# nginx.conf

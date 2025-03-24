@@ -1,13 +1,34 @@
-FROM docker.io/library/node:22.9-slim AS build
+FROM docker.io/library/node:22.9-slim
 
 WORKDIR /app
-RUN apt update && apt install -y curl && apt clean
 
-COPY package*.json /app
-RUN npm install
+# Copy package files first to leverage Docker cache
+COPY package*.json ./
 
-COPY . /app
+# Install dependencies
+RUN npm install && \
+    npm cache clean --force
 
+# Copy source files after dependencies
+COPY src/ ./src/
+COPY public/ ./public/
+COPY .env* ./
+
+# Build the application
+RUN npm run build
+
+# Install serve for production
+RUN npm install -g serve && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    npm cache clean --force
+
+# Set production environment variables
+ENV NODE_ENV=production
+ENV GENERATE_SOURCEMAP=false
+
+# Expose the port
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Run the server
+CMD ["serve", "-s", "build", "-l", "3000"]

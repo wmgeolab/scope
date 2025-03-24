@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { API } from "../../../api/api";
 
 export default function IndividualWorkspaceModal(props) {
   const { showModal, handleClose, workspaceName } = props;
@@ -21,13 +22,13 @@ export default function IndividualWorkspaceModal(props) {
       <Modal.Title>Share Workspace Link</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      <div>{"http://localhost:3000/workspace/" + workspaceName}</div>
+      <div>{API.url("/workspace/" + workspaceName)}</div>
     </Modal.Body>
     <Modal.Footer className="d-flex justify-content-center">
       <Button
         variant="primary"
         onClick={() =>
-          handleCopyClick("http://localhost:3000/workspace/" + workspaceName)
+          handleCopyClick(API.url("/workspace/" + workspaceName))
         }
       >
         Copy Link to Clipboard
