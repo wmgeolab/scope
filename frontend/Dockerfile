@@ -2,11 +2,14 @@ FROM docker.io/library/node:22.9-slim
 
 WORKDIR /app
 
-# Install dependencies
+# Copy package files first to leverage Docker cache
 COPY package*.json ./
-RUN npm install && npm cache clean --force
 
-# Copy source files
+# Install dependencies
+RUN npm install && \
+    npm cache clean --force
+
+# Copy source files after dependencies
 COPY src/ ./src/
 COPY public/ ./public/
 COPY .env* ./
