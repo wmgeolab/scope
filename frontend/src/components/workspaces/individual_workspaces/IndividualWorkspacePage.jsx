@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Row, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Container } from "@mui/material";
 import { Search } from "react-bootstrap-icons";
@@ -54,7 +54,7 @@ export default function IndividualWorkspacePage(props) {
     ]);
   };
 
-  async function obtainSources() {
+  const obtainSources = useCallback(async () => {
     const param = new URLSearchParams({
       workspace: workspace_id
     })
@@ -77,11 +77,11 @@ export default function IndividualWorkspacePage(props) {
 
     if (formattedResponse)
       setWorkspaceSources(formattedResponse);
-  }
+  }, [workspace_id, setWorkspaceSources]);
 
   useEffect(() => {
     obtainSources();
-  }, []);
+  }, [obtainSources]);
 
   if (loggedIn === false) {
     return <UnauthorizedView />;

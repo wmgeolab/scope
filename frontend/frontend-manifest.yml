@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: scope-frontend
+  labels:
+    app: scope-frontend
 spec:
   containers:
   - image: ghcr.io/wmgeolab/scope-frontend:latest
@@ -15,5 +17,20 @@ spec:
         cpu: 1  # Total 32 cores.
     securityContext:
       runAsGroup: 82656
+    ports:
+      - containerPort: 3000
   imagePullSecrets:
     - name: github-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scope-frontend
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30000  # Choose an available port in the 30000-32767 range
+  selector:
+    app: scope-frontend

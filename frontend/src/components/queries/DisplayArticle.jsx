@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
@@ -11,7 +11,7 @@ const DisplayArticle = (props) => {
   const [text, setText] = useState("");
   console.log(article_title);
 
-  const handleSubmit = async (source_id) => {
+  const handleSubmit = useCallback(async (source_id) => {
     let response = await fetch(
       "http://127.0.0.1:8000/api/text/" + source_id + "/",
       {
@@ -28,11 +28,11 @@ const DisplayArticle = (props) => {
     console.log(response);
 
     setText(q);
-  };
+  }, [setText]);
 
   useEffect(() => {
     handleSubmit(article_title);
-  }, []); //listening on an empty array
+  }, [article_title, handleSubmit]); //adding article_title to dependency array
 
   if (loggedIn === false) {
     // fix?
