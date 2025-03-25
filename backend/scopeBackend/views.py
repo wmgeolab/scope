@@ -545,11 +545,11 @@ class AiResponseView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = AiResponseSerializer
     
-    # Pass in a source and receive an airesponse
+    # Pass in a workspace_id and receive an airesponse
     # accessible at /api/ai_responses/ [GET]
     def get_queryset(self):
-        source = self.request.query_params.get('source')
-        return AiResponse.objects.filter(source=source)
+        w_id = self.request.query_params.get('workspace')
+        return AiResponse.objects.filter(workspace=w_id)
     
     # accessible at /api/ai_responses/ [POST]
     def create(self, request):
@@ -578,6 +578,21 @@ class AiResponseView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(source=source)
         headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # Update an existing AI response
+    def update(self, request, *args, **kwargs):
+        ai_response_id = kwargs.get('pk')  # Get ID from URL
+        try:
+            ai_response = AiResponse.objects.get(id=ai_response_id)
+        except AiResponse.DoesNotExist:
+            return Response({'error': 'AiResponse not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Use serializer to update the instance
+        serializer = self.get_serializer(ai_response, data=request.data, partial=False)  # Full update with PUT
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # accessible at /api/revision/ [GET]
