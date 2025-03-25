@@ -4,26 +4,22 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
 export default function IndividualWorkspaceQuestionModal(props) {
-    const { workspaceQuestions, showModal, handleClose, workspace_id } = props;
+    const { workspaceQuestions, workspaceResponses, showModal, handleClose, workspace_id } = props;
 
     console.log(workspaceQuestions);
+    console.log(workspaceResponses);
 
-    // const [locQuestion, setLocQuestion] = useState('');
-    // const [dtQuestion, setDtQuestion] = useState('');
-    // const [edit2, setEdit2] = useState(false);
-    // const [actorsQuestion, setActorsQuestion] = useState('');
-    // const [edit3, setEdit3] = useState(false);
-    // const [summaryQuestion, setSummaryQuestion] = useState('');
-    // const [edit4, setEdit4] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState([
-      {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question, response: ''},
-      {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question, response: ''},
-      {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question, response: ''},
-      {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question, response: ''}
+      {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question, response: workspaceResponses[0]?.locations},
+      {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question, response: workspaceResponses[0]?.entities},
+      {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question, response: workspaceResponses[0]?.entities},
+      {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question, response: workspaceResponses[0]?.summary}
     ]);
 
     console.log("Upon initialization, formData is: ", formData);
+    console.log(workspaceResponses[0].source_id)
 
  
 
@@ -35,6 +31,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
     };
 
     const handleSubmit = async () => {
+      setLoading(true)
       // Call backend route to save edited question and response data
       console.log("Before calling POST route, formData array is:");
       console.log(formData);
@@ -61,7 +58,35 @@ export default function IndividualWorkspaceQuestionModal(props) {
           console.log("Question update response: ", response_text);
           
         }
+
+        // only call ai response route if response contains something
+        if(formData[i].response) {
+          let data = {
+            source_id: workspaceResponses[0].source_id, // Using source_id
+            summary: formData[3].response,
+            entities: formData[2].response,
+            locations: formData[0].response,
+            workspace: workspace_id
+          };
+
+          console.log(JSON.stringify(data), "in workspace response form");
+          const response = await fetch(`http://127.0.0.1:8000/api/ai_responses/${workspaceResponses[0].id}/`,  {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Token " + localStorage.getItem("user"),
+            },
+            body: JSON.stringify(data)
+        });
+  
+          const response_text = await response.json();
+          console.log("Q Response update response: ", response_text);
+        }
       }
+
+      await handleClose();
+      
+      setLoading(false);
         
     }
 
@@ -88,7 +113,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
         <Form.Control 
           as="textarea" 
           rows={3} 
-          placeholder="Existing LLM Response"
+          placeholder={workspaceResponses[0].locations}
           value={formData[0].response}
           onChange={(e) => handleInputChange(0, 'response', e.target.value)}
         />
@@ -108,7 +133,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
         <Form.Control 
           as="textarea" 
           rows={3} 
-          placeholder="Existing LLM Response"
+          placeholder={workspaceResponses[0].entities}
           value={formData[1].response}
           onChange={(e) => handleInputChange(1, 'response', e.target.value)}
         />
@@ -128,7 +153,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
         <Form.Control 
           as="textarea" 
           rows={3} 
-          placeholder="Existing LLM Response"
+          placeholder={workspaceResponses[0].entities}
           value={formData[2].response}
           onChange={(e) => handleInputChange(2, 'response', e.target.value)}
         />
@@ -148,7 +173,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
         <Form.Control 
           as="textarea" 
           rows={3} 
-          placeholder="Existing LLM Response"
+          placeholder={workspaceResponses[0].summary}
           value={formData[3].response}
           onChange={(e) => handleInputChange(3, 'response', e.target.value)}
         />
@@ -157,14 +182,9 @@ export default function IndividualWorkspaceQuestionModal(props) {
         </Form.Text>
       </Form.Group>
           
-      {/* <Form.Control
-            type="email"
-            placeholder="* Enter Question"
-          //   onChange={(name) => setTempWorkspacePassword(name.target.value)}
-      /> */}
     </Modal.Body>
     <Modal.Footer className="d-flex justify-content-center">
-      <Button variant="primary" onClick={handleSubmit}>
+      <Button variant="primary" onClick={handleSubmit} disabled={loading}>
         Apply To Workspace
       </Button>
     </Modal.Footer>

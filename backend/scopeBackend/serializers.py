@@ -177,7 +177,7 @@ class AiResponseSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = AiResponse
-        fields = ('id', 'source', 'summary', 'entities', 'locations', 'source_id')
+        fields = ('id', 'source', 'summary', 'entities', 'locations', 'source_id', 'workspace')
 
 class RevisionSerializer(serializers.ModelSerializer):
     original_response = AiResponseSerializer(read_only=True)
