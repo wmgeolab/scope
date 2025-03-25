@@ -457,6 +457,18 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         question.save()
 
         # SEND REQUEST FOR AI RESPONSE TO ML ROUTE
+        ml_hostname = os.environ.get('ML_SERVICE_HOSTNAME')
+        if not ml_hostname:
+            raise ValueError('ML_SERVICE_HOSTNAME environment variable not set')
+        url = f'http://{ml_hostname}/generate_rag_response'
+        data = {
+            'question': question.question,
+            'source': question.source,
+            'workspace': w_id
+        }
+        response = requests.post(url, data=data)
+        if response.status_code != 200:
+            raise ValueError(f'Error from ML service: {response.text}')
 
         # if question:
         #     return Response({'error':'Question already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
