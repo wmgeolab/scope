@@ -446,7 +446,7 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         data = {
         'question': question.question,
         'source': request.data.get('source'),  # Use get() to avoid KeyError if source is optional
-        'workspace': request.data.get('workspace', question.workspace_id)
+        'workspace_id': request.data.get('workspace_id', question.workspace_id)
     }
         response = requests.post(url, data=data)
         if response.status_code != 200:
