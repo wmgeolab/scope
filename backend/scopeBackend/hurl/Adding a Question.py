@@ -28,9 +28,8 @@ Authorization: Token fadc41688e2228acb6c2cd435362f4eda6f4130d
 Content-Type: application/json
 
 {
-    "workspace": {{workspace_id}},  
-    "text": "What is the purpose of this workspace?",
-    "source": "279"
+    "workspace_id": {{workspace_id}},  
+    "question": "What is the purpose of this workspace?"
 }
 HTTP 201
 [Captures]
