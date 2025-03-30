@@ -423,67 +423,37 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
                 raise ValidationError(detail="Not part of this workspace.")
         raise ValidationError(detail="No workspace ID provided.")
     
-    # accessible at /api/questions/ [PUT]
+    # accessible at /api/questions/ [POST]
     def create(self, request):
-        # store the workspace_id from the request
-        w_id = request.data['workspace']
-        q_id = request.data['id']
         print("Raw request: ", request.data)
-        print("Workspace ID is: ", w_id)
-        print("Question ID is: ", q_id)
-        # returns response for consistent error message
-        workspace = Workspace.objects.get(id=request.data['workspace'])
-        if not workspace:
-            return Response({'error':'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
-        # check if question exists in workspace
-        #question = WorkspaceQuestions.objects.filter(question=request.data['question'], workspace_id=request.data['workspace'])
-        # question = request.data['question']
-        # print("Question is: ", question)
-        # question, created = WorkspaceQuestions.objects.update_or_create(
-        #     question=question,
-        #     workspace_id=workspace
-        # )
 
-        try:
-            # Fetch the question by its ID and workspace_id from the request body
-            question = WorkspaceQuestions.objects.get(id=q_id, workspace_id=w_id)
-        except WorkspaceQuestions.DoesNotExist:
-            return Response(
-                {'error': 'Question not found or does not belong to the workspace'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        
-        question.question = request.data['question']
-        question.save()
+        workspace_id = request.data['workspace_id']
+        if not workspace_id:
+            return Response("No workspace_id provided in request", status=status.HTTP_400_BAD_REQUEST)
 
-        # SEND REQUEST FOR AI RESPONSE TO ML ROUTE
+        if not Workspace.objects.filter(id=workspace_id).exists():
+            return Response(f"Workspace with id {workspace_id} does not exist", status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        question = serializer.save()  # Creates a new WorkspaceQuestions instance
+    
+    # ML service call
         ml_hostname = os.environ.get('ML_SERVICE_HOSTNAME')
         if not ml_hostname:
             raise ValueError('ML_SERVICE_HOSTNAME environment variable not set')
         url = f'http://{ml_hostname}/generate_rag_response'
         data = {
-            'question': question.question,
-            'source': question.source,
-            'workspace': w_id
-        }
+        'question': question.question,
+        'source': request.data.get('source'),  # Use get() to avoid KeyError if source is optional
+        'workspace_id': request.data.get('workspace_id', question.workspace_id)
+    }
         response = requests.post(url, data=data)
         if response.status_code != 200:
             raise ValueError(f'Error from ML service: {response.text}')
-
-        # if question:
-        #     return Response({'error':'Question already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
-        # add question to workspace
-        # self.request.data['source'] = question
-        # serializer = self.get_serializer(data=request.data)
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save(question=question, workspace_id=w_id)
-        # headers = self.get_success_headers(serializer.data)
-        # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        # Serialize and return the response
-        serializer = self.get_serializer(question)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     
-    
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class TagView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

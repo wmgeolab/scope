@@ -87,7 +87,7 @@ export default function IndividualWorkspacePage(props) {
 
   async function obtainQuestions() {
     const param = new URLSearchParams({
-      workspace: workspace_id
+      workspace_id: workspace_id
     })
     const response = await fetch(`http://127.0.0.1:8000/api/questions/?${param}`, {
       method: "GET",
