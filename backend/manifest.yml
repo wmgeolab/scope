@@ -3,11 +3,20 @@ kind: Pod
 metadata:
   name: scope-backend
 spec:
+  initContainers:
+  - name: hurl-tester
+    image: curlimages/curl  
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        curl -L https://github.com/Orange-OpenSource/hurl/releases/latest/download/hurl_*_linux.tar.gz | tar -xz -C /usr/local/bin --strip-components=1 && \
+        hurl /tests/your-test-file.hurl
+    volumeMounts:
+    - name: hurl-files
+      mountPath: scope/backend/scopeBackend/hurl
+
   containers:
   - image: ghcr.io/wmgeolab/scope-backend:latest
-    # command: ["/bin/sh", "-c"]
-    # args:
-         # - "npm run start"
     imagePullPolicy: Always
     name: scope-backend
     env:
@@ -15,8 +24,11 @@ spec:
       value: "http://scope-frontend:3000/login"
     resources:
       limits:
-        cpu: 1  # Total 32 cores.
+        cpu: 1
     securityContext:
       runAsGroup: 82656
+  volumes:
+  - name: hurl-files
+    emptyDir: {}  
   imagePullSecrets:
-    - name: github-registry-secret
+  - name: github-registry-secret
