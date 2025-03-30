@@ -40,7 +40,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
         if(formData[i].question) {
           let data = {
             id: formData[i].id,
-            workspace: workspace_id,
+            workspace_id: workspace_id,
             question: formData[i].question,
           };
   
@@ -66,7 +66,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
             summary: formData[3].response,
             entities: formData[2].response,
             locations: formData[0].response,
-            workspace: workspace_id
+            workspace_id: workspace_id
           };
 
           console.log(JSON.stringify(data), "in workspace response form");
