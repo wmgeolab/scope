@@ -111,8 +111,6 @@ class AiResponse(models.Model):
     id = models.AutoField(primary_key=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, unique=True)
     summary = models.TextField()
-    entities = models.TextField()
-    locations = models.TextField()
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
