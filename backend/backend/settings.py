@@ -26,7 +26,7 @@ SECRET_KEY = 'dqno9jj#gx=rw5-c!(6dqv_$f#qvg_qmrza%1xf91ip167^tjh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend', 'scope-backend', 'localhost', '127.0.0.1', 'scope-backend-svc']
+ALLOWED_HOSTS = ['backend', 'scope-backend', 'localhost', '127.0.0.1', 'scope-backend-svc', 'backend.scnw.cc']
 
 
 # Application definition
