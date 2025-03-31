@@ -90,7 +90,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # delete later
-    "http://127.0.0.1:8000"
+    "http://127.0.0.1:8000",
+    "https://backend.scnw.cc"
 ]
 
 ROOT_URLCONF = 'backend.urls'

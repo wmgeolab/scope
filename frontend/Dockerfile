@@ -26,6 +26,7 @@ RUN npm install -g serve && \
 # Set production environment variables
 ENV NODE_ENV=production
 ENV GENERATE_SOURCEMAP=false
+ENV REACT_APP_API_URL=https://backend.scnw.cc
 
 # Expose the port
 EXPOSE 3000
