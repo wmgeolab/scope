@@ -14,6 +14,8 @@ COPY src/ ./src/
 COPY public/ ./public/
 COPY .env* ./
 
+ENV REACT_APP_API_URL=https://backend.scnw.cc
+
 # Build the application
 RUN npm run build
 
