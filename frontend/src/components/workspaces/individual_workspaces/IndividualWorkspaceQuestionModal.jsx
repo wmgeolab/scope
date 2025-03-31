@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { API } from "../../../api/api";
 
 export default function IndividualWorkspaceQuestionModal(props) {
     const { workspaceQuestions, workspaceResponses, showModal, handleClose, workspace_id } = props;

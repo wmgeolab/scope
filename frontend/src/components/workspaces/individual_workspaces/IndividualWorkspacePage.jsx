@@ -7,6 +7,7 @@ import UnauthorizedView from "../../UnauthorizedView";
 import IndividualWorkspaceTable from "./IndividualWorkspaceTable";
 import IndividualWorkspaceModal from "./IndividualWorkspaceModal";
 import IndividualWorkspaceQuestionModal from "./IndividualWorkspaceQuestionModal";
+import { API } from "../../../api/api";
 
 
 export default function IndividualWorkspacePage(props) {
