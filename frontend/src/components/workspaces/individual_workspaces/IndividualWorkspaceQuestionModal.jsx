@@ -45,7 +45,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
           };
   
           console.log(JSON.stringify(data), "in workspace question form");
-          const response = await fetch(`http://127.0.0.1:8000/api/questions/?${workspace_id}`, {
+          const response = await fetch(API.url(`/api/questions/?${workspace_id}`), {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
           };
 
           console.log(JSON.stringify(data), "in workspace response form");
-          const response = await fetch(`http://127.0.0.1:8000/api/ai_responses/${workspaceResponses[0].id}/`,  {
+          const response = await fetch(API.url(`/api/ai_responses/${workspaceResponses[0].id}/`),  {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

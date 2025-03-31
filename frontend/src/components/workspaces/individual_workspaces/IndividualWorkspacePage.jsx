@@ -63,7 +63,7 @@ export default function IndividualWorkspacePage(props) {
       workspace: workspace_id
     })
     console.log('Workspace ID: ', workspace_id);
-    const response = await fetch(`http://127.0.0.1:8000/api/entries/?${param}`, {
+    const response = await fetch(API.url(`/api/entries/?${param}`), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export default function IndividualWorkspacePage(props) {
     const param = new URLSearchParams({
       workspace_id: workspace_id
     })
-    const response = await fetch(`http://127.0.0.1:8000/api/questions/?${param}`, {
+    const response = await fetch(API.url(`/api/questions/?${param}`), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +118,7 @@ export default function IndividualWorkspacePage(props) {
     const param = new URLSearchParams({
       workspace: workspace_id
     })
-    const response = await fetch(`http://127.0.0.1:8000/api/ai_responses/?${param}`, {
+    const response = await fetch(API.url(`/api/ai_responses/?${param}`), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
