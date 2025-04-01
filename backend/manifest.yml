@@ -17,6 +17,9 @@ spec:
       runAsGroup: 82656
     ports:
       - containerPort: 8000
+    env:
+      - name: ML_SERVICE_HOSTNAME
+        value: ml-api-svc:8000
   imagePullSecrets:
     - name: github-registry-secret
 ---
