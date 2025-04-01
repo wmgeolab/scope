@@ -451,7 +451,7 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         for source in sources:
             data = {
                 'question': question.question,
-                'source': source.source.id,
+                'source': str(source.source.id),
                 'workspace': request.data.get('workspace_id', question.workspace_id)
             }
             print("data sent to ml: ", data)
