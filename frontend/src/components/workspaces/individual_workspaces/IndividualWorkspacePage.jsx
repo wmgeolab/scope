@@ -32,7 +32,7 @@ export default function IndividualWorkspacePage(props) {
   const handleCloseQuestionModal = async () => {
     setShowQuestionModal(false);
     await obtainQuestions();
-    //await obtainResponses();
+    await obtainResponses();
   };
 
   const handleShowModal = () => {
