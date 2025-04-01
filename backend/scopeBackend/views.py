@@ -448,7 +448,9 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         'source': request.data.get('source'),  # Use get() to avoid KeyError if source is optional
         'workspace': request.data.get('workspace_id', question.workspace_id)
     }
+        print("data sent to ml: ", data)
         response = requests.post(url, data=data)
+        print("ML response: ", response.text)
         if response.status_code != 200:
             raise ValueError(f'Error from ML service: {response.text}')
     
