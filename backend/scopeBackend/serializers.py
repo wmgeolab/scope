@@ -170,12 +170,14 @@ class AiResponseSerializer(serializers.ModelSerializer):
         r = AiResponse.objects.create(
             source=validated_data['source'],
             summary=validated_data['summary'],
+            entities=validated_data['entities'],
+            locations=validated_data['locations']
         )
         return r
     
     class Meta:
         model = AiResponse
-        fields = ('id', 'source', 'summary', 'source_id', 'workspace')
+        fields = ('id', 'source', 'summary', 'entities', 'locations', 'source_id', 'workspace')
 
 class RevisionSerializer(serializers.ModelSerializer):
     original_response = AiResponseSerializer(read_only=True)
@@ -184,6 +186,8 @@ class RevisionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         r = Revision.objects.create(
             summary=validated_data['summary'],
+            entities=validated_data['entities'],
+            locations=validated_data['locations'],
             original_response=validated_data['original_response'],
             workspace=validated_data['workspace']
         )
@@ -191,9 +195,9 @@ class RevisionSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Revision
-        fields = ('id', 'summary', 'original_response', 'workspace')
+        fields = ('id', 'summary', 'entities', 'locations', 'original_response', 'workspace')
 
-# class QuestionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = WorkspaceQuestions
-#         fields = '__all__'
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkspaceQuestions
+        fields = '__all__'

@@ -537,6 +537,8 @@ class AiResponseView(viewsets.ModelViewSet):
     def create(self, request):
         source = request.data['source']
         summary = request.data['summary']
+        entities = request.data['entities']
+        locations = request.data['locations']
         workspace = request.data['workspace']
         # Check if source ID exists
         if not Source.objects.filter(id=source):
@@ -547,6 +549,12 @@ class AiResponseView(viewsets.ModelViewSet):
         # Check if summary exists
         if not summary:
             return Response({'error':'Summary cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # # Check if entities exist
+        # if not entities:
+        #     return Response({'error':'Entities cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+        # # Check if locations exist
+        # if not locations:
+        #     return Response({'error':'Locations cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
         # Create airesponse
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

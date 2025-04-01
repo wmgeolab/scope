@@ -5,22 +5,22 @@ import Form from "react-bootstrap/Form";
 import { API } from "../../../api/api";
 
 export default function IndividualWorkspaceQuestionModal(props) {
-    const { workspaceQuestions, showModal, handleClose, workspace_id } = props;
+    const { workspaceQuestions, workspaceResponses, showModal, handleClose, workspace_id } = props;
 
     console.log(workspaceQuestions);
-    //console.log(workspaceResponses);
+    console.log(workspaceResponses);
 
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState([
-      {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question},
-      {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question},
-      {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question},
-      {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question}
+      {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question, response: workspaceResponses[0]?.locations},
+      {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question, response: workspaceResponses[0]?.entities},
+      {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question, response: workspaceResponses[0]?.entities},
+      {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question, response: workspaceResponses[0]?.summary}
     ]);
 
     console.log("Upon initialization, formData is: ", formData);
-    //console.log(workspaceResponses[0].source_id)
+    console.log(workspaceResponses[0].source_id)
 
  
 
@@ -61,28 +61,28 @@ export default function IndividualWorkspaceQuestionModal(props) {
         }
 
         // only call ai response route if response contains something
-        // if(formData[i].response) {
-        //   let data = {
-        //     source_id: workspaceResponses[0].source_id, // Using source_id
-        //     summary: formData[3].response,
-        //     entities: formData[2].response,
-        //     locations: formData[0].response,
-        //     workspace_id: workspace_id
-        //   };
+        if(formData[i].response) {
+          let data = {
+            source_id: workspaceResponses[0].source_id, // Using source_id
+            summary: formData[3].response,
+            entities: formData[2].response,
+            locations: formData[0].response,
+            workspace_id: workspace_id
+          };
 
-        //   console.log(JSON.stringify(data), "in workspace response form");
-        //   const response = await fetch(API.url(`/api/ai_responses/${workspaceResponses[0].id}/`),  {
-        //     method: "PUT",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         Authorization: "Token " + localStorage.getItem("user"),
-        //     },
-        //     body: JSON.stringify(data)
-        // });
+          console.log(JSON.stringify(data), "in workspace response form");
+          const response = await fetch(API.url(`/api/ai_responses/${workspaceResponses[0].id}/`),  {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Token " + localStorage.getItem("user"),
+            },
+            body: JSON.stringify(data)
+        });
   
-        //   const response_text = await response.json();
-        //   console.log("Q Response update response: ", response_text);
-        // }
+          const response_text = await response.json();
+          console.log("Q Response update response: ", response_text);
+        }
       }
 
       await handleClose();
@@ -111,13 +111,13 @@ export default function IndividualWorkspaceQuestionModal(props) {
           value={formData[0].question}
           onChange={(e) => handleInputChange(0, 'question', e.target.value)} 
         />
-        {/* <Form.Control 
+        <Form.Control 
           as="textarea" 
           rows={3} 
-          //placeholder={workspaceResponses[0].locations}
-          //value={formData[0].response}
+          placeholder={workspaceResponses[0].locations}
+          value={formData[0].response}
           onChange={(e) => handleInputChange(0, 'response', e.target.value)}
-        /> */}
+        />
         <Form.Text className="text-muted">
           Enter any questions related to the location of the article's content.
         </Form.Text>
@@ -131,13 +131,13 @@ export default function IndividualWorkspaceQuestionModal(props) {
           value={formData[1].question}
           onChange={(e) => handleInputChange(1, 'question', e.target.value)} 
         />
-        {/* <Form.Control 
+        <Form.Control 
           as="textarea" 
           rows={3} 
-          //placeholder={workspaceResponses[0].entities}
-          //value={formData[1].response}
+          placeholder={workspaceResponses[0].entities}
+          value={formData[1].response}
           onChange={(e) => handleInputChange(1, 'response', e.target.value)}
-        /> */}
+        />
         <Form.Text className="text-muted">
           Enter any questions related to the date/time of the article's content.
         </Form.Text>
@@ -151,13 +151,13 @@ export default function IndividualWorkspaceQuestionModal(props) {
           value={formData[2].question}
           onChange={(e) => handleInputChange(2, 'question', e.target.value)} 
         />
-        {/* <Form.Control 
+        <Form.Control 
           as="textarea" 
           rows={3} 
-          //placeholder={workspaceResponses[0].entities}
-          //value={formData[2].response}
+          placeholder={workspaceResponses[0].entities}
+          value={formData[2].response}
           onChange={(e) => handleInputChange(2, 'response', e.target.value)}
-        /> */}
+        />
         <Form.Text className="text-muted">
           Enter any questions related to the actors present in an article.
         </Form.Text>
@@ -171,13 +171,13 @@ export default function IndividualWorkspaceQuestionModal(props) {
           value={formData[3].question}
           onChange={(e) => handleInputChange(3, 'question', e.target.value)} 
         />
-        {/* <Form.Control 
+        <Form.Control 
           as="textarea" 
           rows={3} 
-          //placeholder={workspaceResponses[0].summary}
-          //value={formData[3].response}
+          placeholder={workspaceResponses[0].summary}
+          value={formData[3].response}
           onChange={(e) => handleInputChange(3, 'response', e.target.value)}
-        /> */}
+        />
         <Form.Text className="text-muted">
           Enter any questions related to the summarizing the article.
         </Form.Text>

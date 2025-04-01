@@ -21,7 +21,7 @@ export default function IndividualWorkspacePage(props) {
 
   const [workspaceSources, setWorkspaceSources] = useState([]);
   const [workspaceQuestions, setWorkspaceQuestions] = useState([]);
-  //const [workspaceResponses, setWorkspaceResponses] = useState([]);
+  const [workspaceResponses, setWorkspaceResponses] = useState([]);
 
   var textInput = React.createRef();
   const [filt, setFilt] = useState([]);
@@ -115,43 +115,43 @@ export default function IndividualWorkspacePage(props) {
       setWorkspaceQuestions(formattedResponse);
   }
 
-  // async function obtainResponses() {
-  //   const param = new URLSearchParams({
-  //     workspace: workspace_id
-  //   })
-  //   const response = await fetch(API.url(`/api/ai_responses/?${param}`), {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Token " + localStorage.getItem("user"),
-  //     },
-  //   });
+  async function obtainResponses() {
+    const param = new URLSearchParams({
+      workspace: workspace_id
+    })
+    const response = await fetch(API.url(`/api/ai_responses/?${param}`), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("user"),
+      },
+    });
 
-  //   const response_text = await response.json();
+    const response_text = await response.json();
 
-  //   // JUST FOR TESTING
-  //   console.log("Raw Responses Array:");
-  //   console.log(response_text);
+    // JUST FOR TESTING
+    console.log("Raw Responses Array:");
+    console.log(response_text);
 
-  //   const formattedResponse = response_text.results.map(result => {
-  //     return {
-  //       id: result.id,
-  //       summary: result.summary,
-  //       entities: result.entities,
-  //       locations: result.locations,
-  //       source_id: result.source.id,
-  //       workspace_id: result.workspace
-  //     }
-  //   });
+    const formattedResponse = response_text.results.map(result => {
+      return {
+        id: result.id,
+        summary: result.summary,
+        entities: result.entities,
+        locations: result.locations,
+        source_id: result.source.id,
+        workspace_id: result.workspace
+      }
+    });
 
-  //   if (formattedResponse)
-  //     setWorkspaceResponses(formattedResponse);
-  // }
+    if (formattedResponse)
+      setWorkspaceResponses(formattedResponse);
+  }
 
   useEffect(() => {
     obtainSources();
     obtainQuestions();
-    //obtainResponses();
+    obtainResponses();
   }, []);
 
   if (loggedIn === false) {
@@ -210,6 +210,7 @@ export default function IndividualWorkspacePage(props) {
         />{showQuestionModal &&
           <IndividualWorkspaceQuestionModal
             workspaceQuestions={workspaceQuestions}
+            workspaceResponses={workspaceResponses}
             showModal={showQuestionModal}
             handleClose={handleCloseQuestionModal}
             workspace_id={workspace_id}
