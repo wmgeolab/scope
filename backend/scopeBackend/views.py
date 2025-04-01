@@ -437,22 +437,28 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         question = serializer.save()  # Creates a new WorkspaceQuestions instance
+
+        # Get all sources in workspace
+        sources = WorkspaceEntries.objects.filter(workspace=workspace_id)
+        
+
     
-    # ML service call
+        # ML service call
         ml_hostname = os.environ.get('ML_SERVICE_HOSTNAME')
         if not ml_hostname:
             raise ValueError('ML_SERVICE_HOSTNAME environment variable not set')
         url = f'http://{ml_hostname}/generate_rag_response'
-        data = {
-        'question': question.question,
-        'source': request.data.get('source'),  # Use get() to avoid KeyError if source is optional
-        'workspace': request.data.get('workspace_id', question.workspace_id)
-    }
-        print("data sent to ml: ", data)
-        response = requests.post(url, data=data)
-        print("ML response: ", response.text)
-        if response.status_code != 200:
-            raise ValueError(f'Error from ML service: {response.text}')
+        for source in sources:
+            data = {
+                'question': question.question,
+                'source': source.source,
+                'workspace': request.data.get('workspace_id', question.workspace_id)
+            }
+            print("data sent to ml: ", data)
+            response = requests.post(url, data=data)
+            print("ML response: ", response.text)
+            if response.status_code != 200:
+                raise ValueError(f'Error from ML service: {response.text}')
     
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
