@@ -530,8 +530,14 @@ class AiResponseView(viewsets.ModelViewSet):
     # Pass in a workspace_id and receive an airesponse
     # accessible at /api/ai_responses/ [GET]
     def get_queryset(self):
-        w_id = self.request.query_params.get('workspace')
-        return AiResponse.objects.filter(workspace=w_id)
+        workspace = self.request.query_params.get('workspace')
+        source = self.request.query_params.get('source')
+
+        if not workspace:
+            return Response({'error':'Workspace not found'}, status=status.HTTP_404_NOT_FOUND)
+        if not source:
+            return Response({'error':'Source not found'}, status=status.HTTP_404_NOT_FOUND)
+        return AiResponse.objects.filter(workspace=workspace, source=source)
     
     # accessible at /api/ai_responses/ [POST]
     def create(self, request):

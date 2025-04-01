@@ -44,7 +44,7 @@ class SourceType(models.Model):
 class Source(models.Model):
     id = models.AutoField(primary_key=True)
     text = models.TextField()
-    url = models.URLField()
+    url = models.URLField(max_length=1024)
     sourceType = models.ForeignKey(SourceType, on_delete=models.CASCADE)
 
     def __str__(self):
