@@ -457,7 +457,7 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
             print("data sent to ml: ", data)
             # add content-type header
             headers = {'Content-Type': 'application/json'}
-            response = requests.post(url, data=data, headers=headers)
+            response = requests.post(url, json=data, headers=headers)
             print("ML response: ", response.text)
             if response.status_code != 200:
                 raise ValueError(f'Error from ML service: {response.text}')
