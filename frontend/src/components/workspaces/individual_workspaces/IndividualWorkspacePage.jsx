@@ -148,6 +148,8 @@ export default function IndividualWorkspacePage(props) {
   //     setWorkspaceResponses(formattedResponse);
   // }
 
+  console.log('WS ID: ', workspace_id);
+
   useEffect(() => {
     obtainSources();
     obtainQuestions();

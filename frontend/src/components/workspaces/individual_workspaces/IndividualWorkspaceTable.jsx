@@ -8,7 +8,7 @@ export default function IndividualWorkspaceTable({data, filt, workspace_id}){
 
     const [open, setOpen] = useState(false);
     const [selectedSource, setSelectedSource] = useState(null);
-    const [selectedResponses, setSelectedResponses] = useState()
+    const [selectedResponses, setSelectedResponses] = useState([])
 
     const handleOpen = async (source) => {
       setSelectedSource(source);
@@ -29,6 +29,9 @@ export default function IndividualWorkspaceTable({data, filt, workspace_id}){
         workspace: workspace_id,
         source: source_id
       })
+
+      console.log("Fetching responses with params:", param.toString());
+
       const response = await fetch(API.url(`/api/ai_responses/?${param}`), {
         method: "GET",
         headers: {
