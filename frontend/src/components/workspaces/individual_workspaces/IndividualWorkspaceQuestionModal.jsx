@@ -47,29 +47,51 @@ export default function IndividualWorkspaceQuestionModal(props) {
       // Call backend route to save edited question and response data
       console.log("Before calling POST route, formData array is:");
       console.log(formData);
-      for (let i = 0; i < formData.length; i++) {
-        // only call the route if the question actually contains anything
-        if(formData[i].question) {
-          let data = {
-            id: formData[i].id,
-            workspace_id: workspace_id,
-            question: formData[i].question,
-          };
+      // for (let i = 0; i < formData.length; i++) {
+      //   // only call the route if the question actually contains anything
+      //   if(formData[i].question) {
+      //     let data = {
+      //       id: formData[i].id,
+      //       workspace_id: workspace_id,
+      //       question: formData[i].question,
+      //     };
   
-          console.log(JSON.stringify(data), "in workspace question form");
-          const response = await fetch(API.url(`/api/questions/?${workspace_id}`), {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Token " + localStorage.getItem("user"),
-            },
-            body: JSON.stringify(data),
-          });
+      //     console.log(JSON.stringify(data), "in workspace question form");
+      //     const response = await fetch(API.url(`/api/questions/?${workspace_id}`), {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         Authorization: "Token " + localStorage.getItem("user"),
+      //       },
+      //       body: JSON.stringify(data),
+      //     });
   
-          const response_text = await response.json();
-          console.log("Question update response: ", response_text);
+      //     const response_text = await response.json();
+      //     console.log("Question update response: ", response_text);
           
-        }
+      //   }
+
+      if (formData.question) {
+        let data = {
+          id: formData.id,
+          workspace_id: workspace_id,
+          question: formData.question,
+        };
+  
+        console.log("Submitting data:", JSON.stringify(data));
+  
+        const response = await fetch(API.url(`/api/questions/?${workspace_id}`), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Token " + localStorage.getItem("user"),
+          },
+          body: JSON.stringify(data),
+        });
+  
+        const response_text = await response.json();
+        console.log("Question update response:", response_text);
+      }
 
         // only call ai response route if response contains something
         // if(formData[i].response) {
@@ -94,7 +116,7 @@ export default function IndividualWorkspaceQuestionModal(props) {
         //   const response_text = await response.json();
         //   console.log("Q Response update response: ", response_text);
         // }
-      }
+      
 
       await handleClose();
       
