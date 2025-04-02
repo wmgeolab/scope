@@ -418,7 +418,7 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
             in_workspace = True if WorkspaceMembers.objects.filter(member=user_id, workspace=w_id) else False
             if in_workspace:
                 #return WorkspaceEntries.objects.filter(workspace=workspace).all()
-                return WorkspaceQuestions.objects.filter(workspace_id=w_id).all()
+                return WorkspaceQuestions.objects.filter(workspace_id=w_id).last()
             else:
                 raise ValidationError(detail="Not part of this workspace.")
         raise ValidationError(detail="No workspace ID provided.")
