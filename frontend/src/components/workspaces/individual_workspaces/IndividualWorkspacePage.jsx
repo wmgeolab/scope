@@ -193,7 +193,7 @@ export default function IndividualWorkspacePage(props) {
             </Form>
           </Col>
         </Row>
-        <IndividualWorkspaceTable data={workspaceSources} filt={filt} />
+        <IndividualWorkspaceTable data={workspaceSources} filt={filt} workspace_id={workspace_id} />
         <Row className="mt-5">
           <Col sm={4} />
           <Col sm={2}>
