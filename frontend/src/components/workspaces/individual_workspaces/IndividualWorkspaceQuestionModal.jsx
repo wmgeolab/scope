@@ -12,23 +12,34 @@ export default function IndividualWorkspaceQuestionModal(props) {
 
     const [loading, setLoading] = useState(false);
 
-    const [formData, setFormData] = useState([
-      {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question},
-      {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question},
-      {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question},
-      {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question}
-    ]);
+    // const [formData, setFormData] = useState([
+    //   {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question},
+    //   {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question},
+    //   {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question},
+    //   {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question}
+    // ]);
+
+    // If we only have one question
+    const [formData, setFormData] = useState({
+      id: workspaceQuestions[workspaceQuestions.length - 1]?.id || null,
+      question: workspaceQuestions[workspaceQuestions.length - 1]?.question || "",
+    });
 
     console.log("Upon initialization, formData is: ", formData);
     //console.log(workspaceResponses[0].source_id)
 
  
 
-    const handleInputChange = (idx, field, value) => {
-      const updatedFormData = [...formData];
-      updatedFormData[idx][field] = value;
-      setFormData(updatedFormData);
-      console.log(formData)
+    // const handleInputChange = (idx, field, value) => {
+    //   const updatedFormData = [...formData];
+    //   updatedFormData[idx][field] = value;
+    //   setFormData(updatedFormData);
+    //   console.log(formData)
+    // };
+
+    const handleInputChange = (field, value) => {
+      setFormData({ ...formData, [field]: value });
+      console.log("Updated formData: ", formData);
     };
 
     const handleSubmit = async () => {
@@ -92,102 +103,127 @@ export default function IndividualWorkspaceQuestionModal(props) {
     }
 
   return(
-  <Modal show={showModal} onHide={handleClose}>
-    <Modal.Header closeButton>
-      <Modal.Title>Add Workspace Questions</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      {/* <Form.Control
-            type="email"
-            placeholder="* Enter Question"
-          //   onChange={(name) => setTempWorkspaceName(name.target.value)}
-      /> */}
-      <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Location Question</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceQuestions[0] ? workspaceQuestions[0].question : 'No existing question'}
-          value={formData[0].question}
-          onChange={(e) => handleInputChange(0, 'question', e.target.value)} 
-        />
-        {/* <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceResponses[0].locations}
-          value={formData[0].response}
-          onChange={(e) => handleInputChange(0, 'response', e.target.value)}
-        /> */}
-        <Form.Text className="text-muted">
-          Enter any questions related to the location of the article's content.
-        </Form.Text>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Date/Time Question</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceQuestions[1] ? workspaceQuestions[1].question : 'No existing question'}
-          value={formData[1].question}
-          onChange={(e) => handleInputChange(1, 'question', e.target.value)} 
-        />
-        {/* <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceResponses[0].entities}
-          value={formData[1].response}
-          onChange={(e) => handleInputChange(1, 'response', e.target.value)}
-        /> */}
-        <Form.Text className="text-muted">
-          Enter any questions related to the date/time of the article's content.
-        </Form.Text>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Actors Question</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceQuestions[2] ? workspaceQuestions[2].question : 'No existing question'}
-          value={formData[2].question}
-          onChange={(e) => handleInputChange(2, 'question', e.target.value)} 
-        />
-        {/* <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceResponses[0].entities}
-          value={formData[2].response}
-          onChange={(e) => handleInputChange(2, 'response', e.target.value)}
-        /> */}
-        <Form.Text className="text-muted">
-          Enter any questions related to the actors present in an article.
-        </Form.Text>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="question">
-        <Form.Label>Summary Question</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceQuestions[3] ? workspaceQuestions[3].question : 'No existing question'}
-          value={formData[3].question}
-          onChange={(e) => handleInputChange(3, 'question', e.target.value)} 
-        />
-        {/* <Form.Control 
-          as="textarea" 
-          rows={3} 
-          placeholder={workspaceResponses[0].summary}
-          value={formData[3].response}
-          onChange={(e) => handleInputChange(3, 'response', e.target.value)}
-        /> */}
-        <Form.Text className="text-muted">
-          Enter any questions related to the summarizing the article.
-        </Form.Text>
-      </Form.Group>
+    <Modal show={showModal} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Workspace Question</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group className="mb-3" controlId="question">
+          <Form.Label>Workspace Question</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            placeholder={formData.question || "Enter your question here"}
+            value={formData.question}
+            onChange={(e) => handleInputChange("question", e.target.value)}
+          />
+          <Form.Text className="text-muted">
+            Enter or edit existing question.
+          </Form.Text>
+        </Form.Group>
+      </Modal.Body>
+      <Modal.Footer className="d-flex justify-content-center">
+        <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+          Save Question
+        </Button>
+      </Modal.Footer>
+    </Modal>);
+  // <Modal show={showModal} onHide={handleClose}>
+  //   <Modal.Header closeButton>
+  //     <Modal.Title>Add Workspace Questions</Modal.Title>
+  //   </Modal.Header>
+  //   <Modal.Body>
+  //     {/* <Form.Control
+  //           type="email"
+  //           placeholder="* Enter Question"
+  //         //   onChange={(name) => setTempWorkspaceName(name.target.value)}
+  //     /> */}
+  //     <Form.Group className="mb-3" controlId="question">
+  //       <Form.Label>Location Question</Form.Label>
+  //       <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceQuestions[0] ? workspaceQuestions[0].question : 'No existing question'}
+  //         value={formData[0].question}
+  //         onChange={(e) => handleInputChange(0, 'question', e.target.value)} 
+  //       />
+  //       {/* <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceResponses[0].locations}
+  //         value={formData[0].response}
+  //         onChange={(e) => handleInputChange(0, 'response', e.target.value)}
+  //       /> */}
+  //       <Form.Text className="text-muted">
+  //         Enter any questions related to the location of the article's content.
+  //       </Form.Text>
+  //     </Form.Group>
+  //     <Form.Group className="mb-3" controlId="question">
+  //       <Form.Label>Date/Time Question</Form.Label>
+  //       <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceQuestions[1] ? workspaceQuestions[1].question : 'No existing question'}
+  //         value={formData[1].question}
+  //         onChange={(e) => handleInputChange(1, 'question', e.target.value)} 
+  //       />
+  //       {/* <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceResponses[0].entities}
+  //         value={formData[1].response}
+  //         onChange={(e) => handleInputChange(1, 'response', e.target.value)}
+  //       /> */}
+  //       <Form.Text className="text-muted">
+  //         Enter any questions related to the date/time of the article's content.
+  //       </Form.Text>
+  //     </Form.Group>
+  //     <Form.Group className="mb-3" controlId="question">
+  //       <Form.Label>Actors Question</Form.Label>
+  //       <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceQuestions[2] ? workspaceQuestions[2].question : 'No existing question'}
+  //         value={formData[2].question}
+  //         onChange={(e) => handleInputChange(2, 'question', e.target.value)} 
+  //       />
+  //       {/* <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceResponses[0].entities}
+  //         value={formData[2].response}
+  //         onChange={(e) => handleInputChange(2, 'response', e.target.value)}
+  //       /> */}
+  //       <Form.Text className="text-muted">
+  //         Enter any questions related to the actors present in an article.
+  //       </Form.Text>
+  //     </Form.Group>
+  //     <Form.Group className="mb-3" controlId="question">
+  //       <Form.Label>Summary Question</Form.Label>
+  //       <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceQuestions[3] ? workspaceQuestions[3].question : 'No existing question'}
+  //         value={formData[3].question}
+  //         onChange={(e) => handleInputChange(3, 'question', e.target.value)} 
+  //       />
+  //       {/* <Form.Control 
+  //         as="textarea" 
+  //         rows={3} 
+  //         placeholder={workspaceResponses[0].summary}
+  //         value={formData[3].response}
+  //         onChange={(e) => handleInputChange(3, 'response', e.target.value)}
+  //       /> */}
+  //       <Form.Text className="text-muted">
+  //         Enter any questions related to the summarizing the article.
+  //       </Form.Text>
+  //     </Form.Group>
           
-    </Modal.Body>
-    <Modal.Footer className="d-flex justify-content-center">
-      <Button variant="primary" onClick={handleSubmit} disabled={loading}>
-        Apply To Workspace
-      </Button>
-    </Modal.Footer>
-  </Modal>);
+  //   </Modal.Body>
+  //   <Modal.Footer className="d-flex justify-content-center">
+  //     <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+  //       Apply To Workspace
+  //     </Button>
+  //   </Modal.Footer>
+  // </Modal>);
 }
