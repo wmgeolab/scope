@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Container, Button, Modal, Box } from "@mui/material";
+import { API } from "../../../api/api";
 
 
 export default function IndividualWorkspaceTable({data, filt, workspace_id}){
