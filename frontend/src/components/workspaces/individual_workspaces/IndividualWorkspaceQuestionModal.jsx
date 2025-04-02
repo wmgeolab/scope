@@ -21,8 +21,8 @@ export default function IndividualWorkspaceQuestionModal(props) {
 
     // If we only have one question
     const [formData, setFormData] = useState({
-      id: workspaceQuestions[workspaceQuestions.length - 1]?.id || null,
-      question: workspaceQuestions[workspaceQuestions.length - 1]?.question || "",
+      id: workspaceQuestions[0]?.id || null,
+      question: workspaceQuestions[0]?.question || "",
     });
 
     console.log("Upon initialization, formData is: ", formData);
