@@ -578,7 +578,7 @@ class AiResponseView(viewsets.ModelViewSet):
         # Create airesponse
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(source=source)
+        serializer.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
