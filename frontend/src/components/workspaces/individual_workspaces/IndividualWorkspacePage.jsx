@@ -96,7 +96,10 @@ export default function IndividualWorkspacePage(props) {
     let nextUrl = API.url(`/api/questions/?${param}`);
 
     while(nextUrl) {
-      console.log("nextUrl value: ", nextUrl);
+      // hacky way to fix the nextUrl to use HTTPS as opposed to HTTP which is automatically included by django
+      let fixedUrl = nextUrl.startsWith("http://") ? nextUrl.replace("http://", "https://") : nextUrl;
+
+      console.log("nextUrl value: ", fixedUrl);
       // const response = await fetch(nextUrl, {
       //   method: "GET",
       //   headers: {
@@ -104,7 +107,7 @@ export default function IndividualWorkspacePage(props) {
       //     Authorization: "Token " + localStorage.getItem("user"),
       //   },
       // });
-      const response = await fetch(nextUrl, {
+      const response = await fetch(fixedUrl, {
         method: "GET",
         headers: API.getAuthHeaders(),
       });
