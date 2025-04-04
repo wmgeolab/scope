@@ -92,6 +92,11 @@ export default function IndividualWorkspaceQuestionModal(props) {
   
         const response_text = await response.json();
         console.log("Question update response:", response_text);
+
+        await handleClose();
+      
+        // Add new question to list
+        setFormData((prev) => [...prev, response_text]);
       }
 
         // only call ai response route if response contains something
@@ -119,10 +124,6 @@ export default function IndividualWorkspaceQuestionModal(props) {
         // }
       
 
-      await handleClose();
-      
-      // Add new question to list
-      setFormData((prev) => [...prev, response_text]);
       setNewQuestion("");
       setLoading(false);
         

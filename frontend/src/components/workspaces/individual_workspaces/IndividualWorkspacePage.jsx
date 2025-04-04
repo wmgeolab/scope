@@ -118,7 +118,7 @@ export default function IndividualWorkspacePage(props) {
       });
 
       allResults = [...allResults, ...formattedResponse];
-      nextUrl = data.next;
+      nextUrl = response_text.next;
     }
 
     setWorkspaceQuestions(allResults);
