@@ -97,12 +97,16 @@ export default function IndividualWorkspacePage(props) {
 
     while(nextUrl) {
       console.log("nextUrl value: ", nextUrl);
+      // const response = await fetch(nextUrl, {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: "Token " + localStorage.getItem("user"),
+      //   },
+      // });
       const response = await fetch(nextUrl, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + localStorage.getItem("user"),
-        },
+        headers: API.getAuthHeaders(),
       });
 
       const response_text = await response.json();
@@ -181,7 +185,7 @@ export default function IndividualWorkspacePage(props) {
   //     setWorkspaceResponses(formattedResponse);
   // }
 
-  console.log('WS ID: ', workspace_id);
+  //console.log('WS ID: ', workspace_id);
 
   useEffect(() => {
     obtainSources();
