@@ -376,6 +376,18 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
         entry = WorkspaceEntries.objects.filter(source=request.data['source_id'], workspace=request.data['workspace'])
         if entry:
             return Response({'error':'Source already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # For the source, send every question within the workspace with the new source
+        questions = WorkspaceQuestions.objects.filter(workspace=request.data['workspace'])
+        for question in questions:
+            data = {
+                'question': question.question,
+                'source': request.data['source_id'],
+                'workspace': request.data['workspace']
+            }
+            
+            send_ml_request(data)
+
         # add source to workspace
         self.request.data['source'] = source
         serializer = self.get_serializer(data=request.data)
@@ -440,14 +452,6 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
 
         # Get all sources in workspace
         sources = WorkspaceEntries.objects.filter(workspace=workspace_id)
-        
-
-    
-        # ML service call
-        ml_hostname = os.environ.get('ML_SERVICE_HOSTNAME')
-        if not ml_hostname:
-            raise ValueError('ML_SERVICE_HOSTNAME environment variable not set')
-        url = f'http://{ml_hostname}/generate_rag_response'
         for source in sources:
             data = {
                 'question': question.question,
@@ -455,15 +459,23 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
                 'workspace': request.data.get('workspace_id', question.workspace_id)
             }
             print("data sent to ml: ", data)
-            # add content-type header
-            headers = {'Content-Type': 'application/json'}
-            response = requests.post(url, json=data, headers=headers)
-            print("ML response: ", response.text)
-            if response.status_code != 200:
-                raise ValueError(f'Error from ML service: {response.text}')
-    
+            send_ml_request(data)
+        
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+def send_ml_request(data):
+    ml_hostname = os.environ.get('ML_SERVICE_HOSTNAME')
+    if not ml_hostname:
+        raise ValueError('ML_SERVICE_HOSTNAME environment variable not set')
+    url = f'http://{ml_hostname}/generate_rag_response'
+    # add content-type header
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, json=data, headers=headers)
+    print("ML response: ", response.text)
+    if response.status_code != 200:
+        raise ValueError(f'Error from ML service: {response.text}')
 
 class TagView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -566,7 +578,7 @@ class AiResponseView(viewsets.ModelViewSet):
         # Create airesponse
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(source=source)
+        serializer.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

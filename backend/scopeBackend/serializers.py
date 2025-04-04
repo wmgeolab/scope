@@ -163,19 +163,13 @@ class TagSerializer(serializers.ModelSerializer):
         fields =('workspace', 'tag')
 
 class AiResponseSerializer(serializers.ModelSerializer):
-    source = SourceSerializer(read_only=True)
-    source_id = serializers.IntegerField(write_only=True)
-
-    def create(self, validated_data):
-        r = AiResponse.objects.create(
-            source=validated_data['source'],
-            summary=validated_data['summary']
-        )
-        return r
+    source = serializers.PrimaryKeyRelatedField(queryset=Source.objects.all())
+    workspace = serializers.PrimaryKeyRelatedField(queryset=Workspace.objects.all())
     
     class Meta:
         model = AiResponse
-        fields = ('id', 'source', 'summary', 'source_id', 'workspace')
+        fields = ['id', 'source', 'workspace', 'summary']
+
 
 class RevisionSerializer(serializers.ModelSerializer):
     original_response = AiResponseSerializer(read_only=True)

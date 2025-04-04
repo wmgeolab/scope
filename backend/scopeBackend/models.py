@@ -132,7 +132,7 @@ class Revision(models.Model):
 
 class WorkspaceQuestions(models.Model):
     id = models.AutoField(primary_key=True)
-    question = models.TextField()
+    question = models.TextField(unique=True)
     workspace_id = models.ForeignKey(Workspace, on_delete=models.CASCADE)
 
     def __str__(self):
