@@ -11,19 +11,20 @@ export default function IndividualWorkspaceQuestionModal(props) {
     //console.log(workspaceResponses);
 
     const [loading, setLoading] = useState(false);
+    const [newQuestion, setNewQuestion] = useState("");
 
-    // const [formData, setFormData] = useState([
-    //   {id: workspaceQuestions[0]?.id, question: workspaceQuestions[0]?.question},
-    //   {id: workspaceQuestions[1]?.id, question: workspaceQuestions[1]?.question},
-    //   {id: workspaceQuestions[2]?.id, question: workspaceQuestions[2]?.question},
-    //   {id: workspaceQuestions[3]?.id, question: workspaceQuestions[3]?.question}
-    // ]);
 
     // If we only have one question
-    const [formData, setFormData] = useState({
-      id: workspaceQuestions[0]?.id || null,
-      question: workspaceQuestions[0]?.question || "",
-    });
+    // const [formData, setFormData] = useState({
+    //   id: workspaceQuestions[0]?.id || null,
+    //   question: workspaceQuestions[0]?.question || "",
+    // });
+    const [formData, setFormData] = useState([]);
+    useEffect(() => {
+      if (workspaceQuestions && workspaceQuestions.length > 0) {
+        setFormData(workspaceQuestions);
+      }
+    }, [workspaceQuestions]);
 
     console.log("Upon initialization, formData is: ", formData);
     //console.log(workspaceResponses[0].source_id)
@@ -71,11 +72,11 @@ export default function IndividualWorkspaceQuestionModal(props) {
           
       //   }
 
-      if (formData.question) {
+      if (newQuestion.trim()) {
         let data = {
           id: formData.id,
           workspace_id: workspace_id,
-          question: formData.question,
+          question: newQuestion,
         };
   
         console.log("Submitting data:", JSON.stringify(data));
@@ -120,16 +121,38 @@ export default function IndividualWorkspaceQuestionModal(props) {
 
       await handleClose();
       
+      // Add new question to list
+      setFormData((prev) => [...prev, response_text]);
+      setNewQuestion("");
       setLoading(false);
         
     }
 
+    // Function to handle the deleting of previous questions
+    const handleDelete = async (id) => {
+      const confirmed = window.confirm("Are you sure you want to delete this question?");
+      if (!confirmed) return;
+  
+      // const response = await fetch(API.url(`/api/questions/${id}/`), {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: "Token " + localStorage.getItem("user"),
+      //   },
+      // });
+      console.log("Question to be deleted: ", id);
+  
+      // if (response.ok) {
+      //   setFormData((prev) => prev.filter((q) => q.id !== id));
+      // }
+    };
+
   return(
     <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Workspace Question</Modal.Title>
+        <Modal.Title>Manage Workspace Question</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      {/* <Modal.Body>
         <Form.Group className="mb-3" controlId="question">
           <Form.Label>Workspace Question</Form.Label>
           <Form.Control
@@ -143,6 +166,44 @@ export default function IndividualWorkspaceQuestionModal(props) {
             Enter or edit existing question.
           </Form.Text>
         </Form.Group>
+      </Modal.Body> */}
+      <Modal.Body>
+        <Form.Group className="mb-3" controlId="newQuestion">
+          <Form.Label>Add New Question</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            placeholder="Enter a new question..."
+            value={newQuestion}
+            onChange={(e) => setNewQuestion(e.target.value)}
+          />
+        </Form.Group>
+
+        <div className="d-flex flex-column gap-2">
+          {formData.map((q) => (
+            <div
+              key={q.id}
+              style={{
+                background: "linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%)",
+                borderRadius: "8px",
+                padding: "10px 15px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <span style={{ flexGrow: 1 }}>{q.question}</span>
+              <Button
+                variant="danger"
+                size="sm"
+                className="ms-2"
+                onClick={() => handleDelete(q.id)}
+              >
+                Delete
+              </Button>
+            </div>
+          ))}
+        </div>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">
         <Button variant="primary" onClick={handleSubmit} disabled={loading}>
@@ -150,102 +211,5 @@ export default function IndividualWorkspaceQuestionModal(props) {
         </Button>
       </Modal.Footer>
     </Modal>);
-  // <Modal show={showModal} onHide={handleClose}>
-  //   <Modal.Header closeButton>
-  //     <Modal.Title>Add Workspace Questions</Modal.Title>
-  //   </Modal.Header>
-  //   <Modal.Body>
-  //     {/* <Form.Control
-  //           type="email"
-  //           placeholder="* Enter Question"
-  //         //   onChange={(name) => setTempWorkspaceName(name.target.value)}
-  //     /> */}
-  //     <Form.Group className="mb-3" controlId="question">
-  //       <Form.Label>Location Question</Form.Label>
-  //       <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceQuestions[0] ? workspaceQuestions[0].question : 'No existing question'}
-  //         value={formData[0].question}
-  //         onChange={(e) => handleInputChange(0, 'question', e.target.value)} 
-  //       />
-  //       {/* <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceResponses[0].locations}
-  //         value={formData[0].response}
-  //         onChange={(e) => handleInputChange(0, 'response', e.target.value)}
-  //       /> */}
-  //       <Form.Text className="text-muted">
-  //         Enter any questions related to the location of the article's content.
-  //       </Form.Text>
-  //     </Form.Group>
-  //     <Form.Group className="mb-3" controlId="question">
-  //       <Form.Label>Date/Time Question</Form.Label>
-  //       <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceQuestions[1] ? workspaceQuestions[1].question : 'No existing question'}
-  //         value={formData[1].question}
-  //         onChange={(e) => handleInputChange(1, 'question', e.target.value)} 
-  //       />
-  //       {/* <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceResponses[0].entities}
-  //         value={formData[1].response}
-  //         onChange={(e) => handleInputChange(1, 'response', e.target.value)}
-  //       /> */}
-  //       <Form.Text className="text-muted">
-  //         Enter any questions related to the date/time of the article's content.
-  //       </Form.Text>
-  //     </Form.Group>
-  //     <Form.Group className="mb-3" controlId="question">
-  //       <Form.Label>Actors Question</Form.Label>
-  //       <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceQuestions[2] ? workspaceQuestions[2].question : 'No existing question'}
-  //         value={formData[2].question}
-  //         onChange={(e) => handleInputChange(2, 'question', e.target.value)} 
-  //       />
-  //       {/* <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceResponses[0].entities}
-  //         value={formData[2].response}
-  //         onChange={(e) => handleInputChange(2, 'response', e.target.value)}
-  //       /> */}
-  //       <Form.Text className="text-muted">
-  //         Enter any questions related to the actors present in an article.
-  //       </Form.Text>
-  //     </Form.Group>
-  //     <Form.Group className="mb-3" controlId="question">
-  //       <Form.Label>Summary Question</Form.Label>
-  //       <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceQuestions[3] ? workspaceQuestions[3].question : 'No existing question'}
-  //         value={formData[3].question}
-  //         onChange={(e) => handleInputChange(3, 'question', e.target.value)} 
-  //       />
-  //       {/* <Form.Control 
-  //         as="textarea" 
-  //         rows={3} 
-  //         placeholder={workspaceResponses[0].summary}
-  //         value={formData[3].response}
-  //         onChange={(e) => handleInputChange(3, 'response', e.target.value)}
-  //       /> */}
-  //       <Form.Text className="text-muted">
-  //         Enter any questions related to the summarizing the article.
-  //       </Form.Text>
-  //     </Form.Group>
-          
-  //   </Modal.Body>
-  //   <Modal.Footer className="d-flex justify-content-center">
-  //     <Button variant="primary" onClick={handleSubmit} disabled={loading}>
-  //       Apply To Workspace
-  //     </Button>
-  //   </Modal.Footer>
-  // </Modal>);
+  // 
 }

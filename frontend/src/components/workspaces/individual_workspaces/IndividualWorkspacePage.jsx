@@ -86,33 +86,66 @@ export default function IndividualWorkspacePage(props) {
       setWorkspaceSources(formattedResponse);
   }
 
+  // Gets all paginated questions
   async function obtainQuestions() {
     const param = new URLSearchParams({
       workspace: workspace_id
     })
-    const response = await fetch(API.url(`/api/questions/?${param}`), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Token " + localStorage.getItem("user"),
-      },
-    });
 
-    const response_text = await response.json();
+    let allResults = [];
+    let nextUrl = API.url(`/api/questions/?${param}`);
 
-    // JUST FOR TESTING
-    console.log("Raw Questions Response:\n");
-    console.log(response_text);
+    while(nextUrl) {
+      const response = await fetch(nextUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + localStorage.getItem("user"),
+        },
+      });
 
-    const formattedResponse = response_text.results.map(result => {
-      return {
-        id: result.id,
-        question: result.question,
-      }
-    });
+      const response_text = await response.json();
 
-    if (formattedResponse)
-      setWorkspaceQuestions(formattedResponse);
+      // JUST FOR TESTING
+      console.log("Raw Questions Response:\n");
+      console.log(response_text);
+
+      const formattedResponse = response_text.results.map(result => {
+        return {
+          id: result.id,
+          question: result.question,
+        }
+      });
+
+      allResults = [...allResults, ...formattedResponse];
+      nextUrl = data.next;
+    }
+
+    setWorkspaceQuestions(allResults);
+
+    // const response = await fetch(API.url(`/api/questions/?${param}`), {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Token " + localStorage.getItem("user"),
+    //   },
+    // });
+
+    // const response_text = await response.json();
+
+    // // JUST FOR TESTING
+    // console.log("Raw Questions Response:\n");
+    // console.log(response_text);
+
+    // const formattedResponse = response_text.results.map(result => {
+    //   return {
+    //     id: result.id,
+    //     question: result.question,
+    //   }
+    // });
+
+    // if (formattedResponse)
+    //   setWorkspaceQuestions(formattedResponse);
   }
 
   // async function obtainResponses() {
