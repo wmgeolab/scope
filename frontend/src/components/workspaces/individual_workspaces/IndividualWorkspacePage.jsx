@@ -96,6 +96,7 @@ export default function IndividualWorkspacePage(props) {
     let nextUrl = API.url(`/api/questions/?${param}`);
 
     while(nextUrl) {
+      console.log("nextUrl value: ", nextUrl);
       const response = await fetch(nextUrl, {
         method: "GET",
         headers: {
@@ -107,8 +108,7 @@ export default function IndividualWorkspacePage(props) {
       const response_text = await response.json();
 
       // JUST FOR TESTING
-      console.log("Raw Questions Response:\n");
-      console.log(response_text);
+      console.log("Raw Questions Response: ", response_text);
 
       const formattedResponse = response_text.results.map(result => {
         return {
