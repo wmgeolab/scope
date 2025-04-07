@@ -467,9 +467,12 @@ class WorkspaceQuestionsView(viewsets.ModelViewSet):
     # accessible at /api/questions/ [DELETE]
     def delete(self, request):
         pk = request.data['id']
-        question = WorkspaceQuestions.objects.get(id=pk)
-        question.delete()
-        return Response("Question deleted", status=status.HTTP_200_OK)
+        try:
+            question = WorkspaceQuestions.objects.get(id=pk)
+            question.delete()
+            return Response("Question deleted", status=status.HTTP_200_OK)
+        except WorkspaceQuestions.DoesNotExist:
+            return Response(f"Question with id {pk} does not exist", status=status.HTTP_404_NOT_FOUND)
 
 
 def send_ml_request(data):
