@@ -5,7 +5,7 @@ import {
   gridPageCountSelector,
   gridPageSelector,
   useGridApiContext,
-  useGridSelector,
+  useGridSelector
 } from "@mui/x-data-grid";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
@@ -331,12 +331,12 @@ const Queries = (props) => {
                         paginationMode="server"
                         checkboxSelection
                         // Controlled selection: make sure selectedRows is an array of IDs.
-                        selectionModel={selectedRows.map((row) => row.id)}
+                        rowSelectionModelelectionModel={selectedRows.map((row) => row.id)}
                         components={{
                           Pagination: CustomPagination,
                         }}
                         onPageChange={(newPage) => handlePageChange(newPage)}
-                        onSelectionModelChange={(newSelection) => {
+                        onRowSelectionModelChange={(newSelection) => {
                           console.log("onSelectionModelChange triggered", newSelection);
                           // Convert selected values to strings and compare with row.id as string.
                           const selectedIDs = new Set(newSelection.map(String));
