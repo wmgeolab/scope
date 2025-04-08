@@ -391,7 +391,7 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
             return Response({'error':'Source already in workspace'}, status=status.HTTP_401_UNAUTHORIZED)
 
         # For the source, send every question within the workspace with the new source
-        questions = WorkspaceQuestions.objects.filter(workspace=request.data['workspace'])
+        questions = WorkspaceQuestions.objects.filter(workspace_id=request.data['workspace'])
         for question in questions:
             data = {
                 'question': question.question,
