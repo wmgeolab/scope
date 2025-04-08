@@ -166,7 +166,7 @@ const Queries = (props) => {
             className="customRowContainer"
             // style={{ paddingBottom: "2%", paddingTop: "1%" }}
           >
-            <h2 style={{ paddingTop: "2%", paddingBottom: "2%", fontWeight: "bold " }}>Queries</h2>
+            <h2 style={{ paddingTop: "2%", paddingBottom: "2%", fontWeight: "bold " }}>Sources</h2>
           </div>
           {/* Inline search bar and drop down menu. */}
           <Row>
@@ -260,7 +260,7 @@ const Queries = (props) => {
                     </li>
                   </ul> */}
               <Button href="/create-query" className="centerButton">
-                Create New Query
+                Send to Workspace
               </Button>
             </section>
           </div>

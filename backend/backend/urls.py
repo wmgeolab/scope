@@ -41,8 +41,8 @@ router.register(r'questions', views.WorkspaceQuestionsView, 'WorkspaceQuestions'
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
     # testing out passing in specific queries:
-    path('api/sources/<int:query_id>/<int:page_id>/',
-         views.SourceView.get_queryset, name='Sources'),
+    # path('api/sources/<int:query_id>/<int:page_id>/',
+    #      views.SourceView.get_queryset, name='Sources'),
     path('api/count/<int:query_id>/', views.CountView.get_count, name='Count'),
     path('api/text/<int:source_id>/', views.ReadSource.get_queryset, name='Text'),
     path('api/', include(router.urls)),
