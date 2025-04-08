@@ -209,6 +209,8 @@ const Queries = (props) => {
 
   // Send selected sources to the chosen workspace.
   const putSources = async () => {
+    console.log("Selected workspace: ", selectedWorkspace);
+    console.log("Selected Sources: ", selectedRows)
     if (!selectedWorkspace) return;
     for (let source of selectedRows) {
       const data = {
