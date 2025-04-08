@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -29,102 +29,131 @@ import { API } from "../../api/api";
 const Queries = (props) => {
   const { loggedIn } = props;
 
-  const [queries, setQueries] = useState([]);
+  //const [queries, setQueries] = useState([]);
+  const [sources, setSources] = useState([])
   const [rowCount, setRowCount] = useState(0);
   const [filt, setFilt] = useState([]);
-  var textInput = React.createRef();
-  var [dropDownValue, setDropDownValue] = useState("Name");
+  //var textInput = React.createRef();
+  const textInput = useRef(null);
+  var [dropDownValue, setDropDownValue] = useState("Text");
   const [loading, setLoading] = useState(true);
+
+  // State for row selection (for sending to workspace)
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  // States for workspace modal and data:
+  const [show, setShow] = useState(false);
+  const [workspaceData, setWorkspaceData] = useState([]);
+  const [selectedWorkspace, setSelectedWorkspace] = useState("");
   
 
+  // const fetchQueries = async (curPage) => {
+  //   setLoading(true); // Set loading to true when fetching data
+  //   try {
+  //     const response = await fetch(
+  //       API.url(`/api/queries/?page=${curPage + 1}`), //have to add 1 becaues curPage is 0 indexed
+  //       {
+  //         headers: API.getAuthHeaders(),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     setRowCount(data.count);
+  //     setQueries(data.results);
+  //   } catch (error) {
+  //     console.error("Error fetching queries:", error);
+  //   } finally {
+  //     setLoading(false); // Set loading to false after data fetching is complete
+  //   }
+  // };
 
-  const handleChange = () => {
-    // const value = textInput.current.value;
-  };
-
-
-  const fetchQueries = async (curPage) => {
-    setLoading(true); // Set loading to true when fetching data
+  const fetchSources = async (curPage, searchTerm="") => {
+    setLoading(true);
     try {
-      const response = await fetch(
-        API.url(`/api/queries/?page=${curPage + 1}`), //have to add 1 becaues curPage is 0 indexed
-        {
-          headers: API.getAuthHeaders(),
-        }
-      );
+      const url =
+        API.url(`/api/sources/?page=${curPage + 1}`) +
+        (searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : "");
+      const response = await fetch(url, {
+        headers: API.getAuthHeaders(),
+      });
       const data = await response.json();
       setRowCount(data.count);
-      setQueries(data.results);
+      setSources(data.results);
     } catch (error) {
-      console.error("Error fetching queries:", error);
+      console.error("Error fetching sources:", error);
     } finally {
-      setLoading(false); // Set loading to false after data fetching is complete
+      setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
-    fetchQueries(0); // Fetch queries on component mount
+    //fetchQueries(0); // Fetch queries on component mount
+    fetchSources(0);
   }, []);
 
 
   const onSubmitSearch = (event) => {
     event.preventDefault();
-    console.log(
-      "The input string being passed here is: ",
-      textInput.current.value
-    );
+    const searchValue = textInput.current.value;
+    
 
     setFilt([
       {
         columnField: dropDownValue.toLowerCase(),
         operatorValue: "contains",
-        value: textInput.current.value,
+        value: searchValue,
       },
     ]);
+    fetchSources(0, searchValue);
   };
 
   //the content of the columns for the datagrid that contains the queries
   const columns = [
-    { field: "id", headerName: "ID", width: 150 },
+    { field: "id", headerName: "ID", width: 100 },
     {
-      field: "name",
-      headerName: "Name",
-      width: 150,
+      field: "url",
+      headerName: "URL",
+      width: 300,
       renderCell: (cellValue) => {
         //cell customization, makes the name a link to the corresponding results page
-        return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
+        //return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
+        <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
       },
     },
-    { field: "description", headerName: "Description", flex: 1, minWidth: 150 },
-    { field: "user", headerName: "User", width: 150 },
-    { field: "keywords", headerName: "Keywords", flex: 1, minWidth: 150 },
+    { field: "text", headerName: "Text", flex: 1, minWidth: 150 },
+    // { field: "user", headerName: "User", width: 150 },
+    // { field: "keywords", headerName: "Keywords", flex: 1, minWidth: 150 },
   ];
 
-  const handleSubmit = async (curPage) => {
-    console.log("handlesubmit:", curPage);
-    let response = await fetch(
-      API.url(`/api/queries/?page=${curPage + 1}`), // have to add 1 becaues curPage is 0 indexed
-      {
-        headers: API.getAuthHeaders(),
-      }
-    );
+  // const handleSubmit = async (curPage) => {
+  //   console.log("handlesubmit:", curPage);
+  //   let response = await fetch(
+  //     API.url(`/api/queries/?page=${curPage + 1}`), // have to add 1 becaues curPage is 0 indexed
+  //     {
+  //       headers: API.getAuthHeaders(),
+  //     }
+  //   );
 
-    console.log(response);
-    console.log("user", localStorage.getItem("user"));
-    let q = await response.json();
+  //   console.log(response);
+  //   console.log("user", localStorage.getItem("user"));
+  //   let q = await response.json();
 
-    console.log("Response:", q);
+  //   console.log("Response:", q);
 
-    setRowCount(q.count);
-    setQueries(q.results);
+  //   setRowCount(q.count);
+  //   setQueries(q.results);
 
-    return q;
+  //   return q;
+  // };
+
+  // useEffect(() => {
+  //   handleSubmit(0);
+  // }, []); //listening on an empty array
+
+  // Handle server-side paging when the page is changed.
+  const handlePageChange = (curPage) => {
+    const searchValue = textInput.current ? textInput.current.value : "";
+    fetchSources(curPage, searchValue);
   };
-
-  useEffect(() => {
-    handleSubmit(0);
-  }, []); //listening on an empty array
-
 
 
   function CustomPagination() {
@@ -145,6 +174,68 @@ const Queries = (props) => {
       />
     );
   }
+
+  // --- Workspace Modal and Send Functionality ---
+
+  // Handlers for showing/closing the modal.
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // Fetch workspace data that the current user is part of.
+  const gatherWorkspaces = async () => {
+    try {
+      const response = await fetch(API.url("/api/workspaces/"), {
+        headers: API.getAuthHeaders(),
+      });
+      const responseData = await response.json();
+      // Transform the response to get a list of { id, name }:
+      const formatted = responseData.results.map((result) => ({
+        id: result.workspace.id,
+        name: result.workspace.name,
+      }));
+      setWorkspaceData(formatted);
+      if (formatted && formatted.length > 0) {
+        setSelectedWorkspace(formatted[0].id);
+      }
+    } catch (error) {
+      console.error("Error fetching workspaces:", error);
+    }
+  };
+
+  useEffect(() => {
+    gatherWorkspaces();
+  }, []);
+
+  // Send selected sources to the chosen workspace.
+  const putSources = async () => {
+    if (!selectedWorkspace) return;
+    for (let source of selectedRows) {
+      const data = {
+        workspace: selectedWorkspace,
+        source_id: source.id,
+      };
+      try {
+        const response = await fetch(API.url("/api/entries/"), {
+          method: "POST",
+          headers: {
+            ...API.getAuthHeaders(),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const resData = await response.json();
+        console.log("Response:", resData);
+      } catch (error) {
+        console.error("Error sending source to workspace:", error);
+      }
+    }
+  };
+
+  // Handle the "send" button click inside the modal.
+  const handleSend = () => {
+    putSources();
+    setShow(false);
+  };
 
   if (loggedIn === false) {
     // fix?
@@ -178,14 +269,14 @@ const Queries = (props) => {
                 // className="querySelect"
               >
                 <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
-                  Name
+                  Text
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
+                {/* <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
                   Description
                 </Dropdown.Item>
                 <Dropdown.Item onClick={(e) => setDropDownValue(e.target.text)}>
                   Keywords
-                </Dropdown.Item>
+                </Dropdown.Item> */}
               </DropdownButton>
 
               <div className="querySearch">
@@ -197,9 +288,9 @@ const Queries = (props) => {
                       <Search></Search>
                     </InputGroup.Text>
                     <Form.Control
-                      placeholder="Search Queries"
+                      placeholder="Search Sources"
                       ref={textInput}
-                      onChange={() => handleChange()}
+                      //onChange={() => handleChange()}
                       type="text"
                     />
                   </InputGroup>
@@ -208,7 +299,7 @@ const Queries = (props) => {
             </div>
           </Row>
 
-          {/* QUERIES TABLE */}
+          {/* SOURCES TABLE */}
           
               <div className="customRowContainer">
                 <div className="individualTable">
@@ -227,7 +318,7 @@ const Queries = (props) => {
                       // Render data grid when loading is complete
                       <DataGrid
                         disableColumnFilter
-                        rows={queries}
+                        rows={sources}
                         rowCount={rowCount}
                         columns={columns}
                         pageSize={15}
@@ -237,7 +328,15 @@ const Queries = (props) => {
                         components={{
                           Pagination: CustomPagination,
                         }}
-                        onPageChange={(newPage) => fetchQueries(newPage)}
+                        onPageChange={(newPage) => handlePageChange(newPage)}
+                        onSelectionModelChange={(newSelection) => {
+                          // Update selectedRows based on the selection.
+                          const selectedIDs = new Set(newSelection);
+                          const selectedData = sources.filter((row) =>
+                            selectedIDs.has(row.id)
+                          );
+                          setSelectedRows(selectedData);
+                        }}
                         filterModel={{
                           items: filt,
                         }}
@@ -252,18 +351,49 @@ const Queries = (props) => {
           <div>
             {/* <!-- Features --> */}
             <section id="features" className="centerButtonAlign">
-              {/* <ul className="actions special">
-                    <li>
-                      <a href="/create-query" className="button style1 large">
-                        Create New Query
-                      </a>
-                    </li>
-                  </ul> */}
-              <Button href="/create-query" className="centerButton">
-                Send to Workspace
+              <Button className="centerButton" onClick={handleShow}>
+                Send Selected to Workspace
               </Button>
             </section>
           </div>
+
+          {/* Modal for choosing workspace and sending selected sources */}
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Send to Workspace</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {workspaceData === undefined || workspaceData.length === 0 ? (
+                <p>Please join or create a workspace first!</p>
+              ) : (
+                <Form.Group controlId="workspaceSelect">
+                  <Form.Label>Choose a Workspace:</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={selectedWorkspace}
+                    onChange={(e) => setSelectedWorkspace(e.target.value)}
+                  >
+                    {workspaceData.map((workspace) => (
+                      <option key={workspace.id} value={workspace.id}>
+                        {workspace.name}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                onClick={handleSend}
+                disabled={!workspaceData || workspaceData.length === 0}
+              >
+                Send Selected to Workspace
+              </Button>
+              <Button variant="secondary" onClick={handleClose}>
+                Cancel
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Container>
 
         {/* <!-- Scripts --> */}
