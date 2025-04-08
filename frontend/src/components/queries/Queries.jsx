@@ -330,23 +330,23 @@ const Queries = (props) => {
                         pagination
                         paginationMode="server"
                         checkboxSelection
+                        // Controlled selection: make sure selectedRows is an array of IDs.
+                        selectionModel={selectedRows.map((row) => row.id)}
                         components={{
                           Pagination: CustomPagination,
                         }}
                         onPageChange={(newPage) => handlePageChange(newPage)}
                         onSelectionModelChange={(newSelection) => {
-                          // Convert every selected id to a string.
+                          console.log("onSelectionModelChange triggered", newSelection);
+                          // Convert selected values to strings and compare with row.id as string.
                           const selectedIDs = new Set(newSelection.map(String));
-                          // Make sure each row.id is also converted to a string before comparison.
                           const selectedData = sources.filter((row) =>
                             selectedIDs.has(String(row.id))
                           );
-                          setSelectedRows(selectedData);
                           console.log("Selected Rows: ", selectedData);
+                          setSelectedRows(selectedData);
                         }}
-                        filterModel={{
-                          items: filt,
-                        }}
+                        filterModel={{ items: filt }}
                       />
                     )}
                   </Box>
