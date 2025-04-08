@@ -115,9 +115,11 @@ const Queries = (props) => {
       headerName: "URL",
       width: 300,
       renderCell: (cellValue) => {
-        //cell customization, makes the name a link to the corresponding results page
-        //return <a href={"/results/" + cellValue.id}>{cellValue.value}</a>;
-        <a href={"/display-article/" + cellValue.id}>{cellValue.value}</a>
+        return (
+          <a href={"/display-article/" + cellValue.id} target="_blank" rel="noopener noreferrer">
+            {cellValue.value}
+          </a>
+        );
       },
     },
     { field: "text", headerName: "Text", flex: 1, minWidth: 150 },
@@ -333,12 +335,14 @@ const Queries = (props) => {
                         }}
                         onPageChange={(newPage) => handlePageChange(newPage)}
                         onSelectionModelChange={(newSelection) => {
-                          // Update selectedRows based on the selection.
-                          const selectedIDs = new Set(newSelection);
+                          // Convert every selected id to a string.
+                          const selectedIDs = new Set(newSelection.map(String));
+                          // Make sure each row.id is also converted to a string before comparison.
                           const selectedData = sources.filter((row) =>
-                            selectedIDs.has(row.id)
+                            selectedIDs.has(String(row.id))
                           );
                           setSelectedRows(selectedData);
+                          console.log("Selected Rows: ", selectedData);
                         }}
                         filterModel={{
                           items: filt,
