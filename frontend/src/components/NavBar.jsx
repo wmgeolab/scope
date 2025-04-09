@@ -50,7 +50,7 @@ const NavBar = () => {
                       Home
                     </Nav.Link>
                     <Nav.Link href="queries" className="nav-elements">
-                      Queries
+                      Sources
                     </Nav.Link>
                     <Nav.Link href="workspaces" className="nav-elements">
                       Workspaces
