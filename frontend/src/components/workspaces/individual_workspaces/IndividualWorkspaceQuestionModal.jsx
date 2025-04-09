@@ -134,18 +134,26 @@ export default function IndividualWorkspaceQuestionModal(props) {
       const confirmed = window.confirm("Are you sure you want to delete this question?");
       if (!confirmed) return;
   
-      // const response = await fetch(API.url(`/api/questions/${id}/`), {
-      //   method: "DELETE",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: "Token " + localStorage.getItem("user"),
-      //   },
-      // });
-      console.log("Question to be deleted: ", id);
+      try {
+        const response = await fetch(API.url("/api/questions/"), {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Token " + localStorage.getItem("user"),
+          },
+          body: JSON.stringify({ id }),
+        });
   
-      // if (response.ok) {
-      //   setFormData((prev) => prev.filter((q) => q.id !== id));
-      // }
+        if (response.ok) {
+          // Remove the deleted question from the formData.
+          setFormData((prevData) => prevData.filter((q) => q.id !== id));
+          console.log("Deleted question with id:", id);
+        } else {
+          console.error("Failed to delete question. Status:", response.status);
+        }
+      } catch (error) {
+        console.error("Error deleting question:", error);
+      }
     };
 
   return(
