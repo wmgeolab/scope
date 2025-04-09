@@ -395,7 +395,7 @@ class WorkspaceEntriesView(viewsets.ModelViewSet):
         for question in questions:
             data = {
                 'question': question.question,
-                'source': request.data['source_id'],
+                'source': str(request.data['source_id']),
                 'workspace': request.data['workspace']
             }
             
