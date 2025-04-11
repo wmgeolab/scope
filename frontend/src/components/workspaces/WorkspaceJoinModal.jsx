@@ -43,9 +43,9 @@ export default function WorkspaceJoinModal(props) {
           onChange={(name) => setTempWorkspaceName(name.target.value)}
         />
         <Form.Control
-          type="email"
+          type="password"
           placeholder="* Enter Password"
-          onChange={(name) => setTempWorkspacePassword(name.target.value)}
+          onChange={(name) => (name.target.value)}
         />
         <Row>
           {tempErrorState ? (

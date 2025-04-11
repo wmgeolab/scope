@@ -9,11 +9,18 @@ export default function IndividualWorkspaceTable({data, filt, workspace_id}){
     const [open, setOpen] = useState(false);
     const [selectedSource, setSelectedSource] = useState(null);
     const [selectedResponses, setSelectedResponses] = useState([])
+    const [selectedQuestions, setSelectedQuestions] = useState([])
+    //const [test, setTest] = useState([])
 
     const handleOpen = async (source) => {
       setSelectedSource(source);
       const responses = await obtainResponses(source.id);
       setSelectedResponses(responses); // Store responses in state
+      const questions = await obtainQuestions(workspace_id);
+      setSelectedQuestions(questions);
+
+      //const test = workspace_id;
+      //setTest(test);
 
       setOpen(true);
     };
@@ -23,6 +30,53 @@ export default function IndividualWorkspaceTable({data, filt, workspace_id}){
       setSelectedSource(null);
       setSelectedResponses([]);
     };
+
+    // Copied from IndividualWorkspacePage.jsx
+    // Probably not a good idea to have repeated code that may need to be changed
+    async function obtainQuestions() {
+        const param = new URLSearchParams({
+          workspace: workspace_id
+        })
+    
+        let allResults = [];
+        let nextUrl = API.url(`/api/questions/?${param}`);
+    
+        while(nextUrl) {
+          // hacky way to fix the nextUrl to use HTTPS as opposed to HTTP which is automatically included by django
+          let fixedUrl = nextUrl.startsWith("http://") ? nextUrl.replace("http://", "https://") : nextUrl;
+    
+          console.log("nextUrl value: ", fixedUrl);
+          // const response = await fetch(nextUrl, {
+          //   method: "GET",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Token " + localStorage.getItem("user"),
+          //   },
+          // });
+          const response = await fetch(fixedUrl, {
+            method: "GET",
+            headers: API.getAuthHeaders(),
+          });
+    
+          const response_text = await response.json();
+    
+          // JUST FOR TESTING
+          console.log("Raw Questions Response: ", response_text);
+    
+          const formattedResponse = response_text.results.map(result => {
+            return {
+              id: result.id,
+              question: result.question,
+            }
+          });
+    
+          allResults = [...allResults, ...formattedResponse];
+          nextUrl = response_text.next;
+        }
+    
+        return allResults
+    }
+
 
     async function obtainResponses(source_id) {
       const param = new URLSearchParams({
@@ -118,10 +172,18 @@ export default function IndividualWorkspaceTable({data, filt, workspace_id}){
 
           {/* Modal for Viewing Responses */}
           <Modal open={open} onClose={handleClose}>
-            <Box sx={{ padding: 4, backgroundColor: "white", margin: "auto", width: 500, borderRadius: 2 }}>
+            <Box sx={{ padding: 4, backgroundColor: "white", margin: "auto", marginTop: "1%", width: 1000, 
+                borderRadius: 2, maxHeight: "80vh", overflow: "auto"}}>
               <h2>Responses for {selectedSource?.wsName}</h2>
+              
+              {/* TODO - all questions are displayed before all responses and there is no link between question and response */}
               {selectedResponses.length > 0 ? (
                   <ul>
+                    <h3>
+                      {selectedQuestions.map((quest) => (
+                          <li key={quest.id}>{quest.question}</li>
+                      ))}
+                    </h3>
                       {selectedResponses.map((resp) => (
                           <li key={resp.id}>{resp.summary}</li>
                       ))}
@@ -131,6 +193,10 @@ export default function IndividualWorkspaceTable({data, filt, workspace_id}){
               )}
               <Button variant="contained" onClick={handleClose}>
                 Close
+              </Button>
+              {/* TODO - download button */}
+              <Button variant="contained" onClick={handleClose}>
+                Download
               </Button>
             </Box>
           </Modal>
