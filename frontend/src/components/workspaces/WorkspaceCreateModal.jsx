@@ -32,12 +32,12 @@ export default function WorkspaceModal(props) {
       </Modal.Header>
       <Modal.Body>
         <Form.Control
-          type="email"
+          type="text"
           placeholder="* Enter Workspace Name"
           onChange={(name) => setTempWorkspaceName(name.target.value)}
         />
         <Form.Control
-          type="email"
+          type="password"
           placeholder="* Enter Password"
           onChange={(name) => setTempWorkspacePassword(name.target.value)}
         />
