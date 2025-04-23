@@ -1,0 +1,44 @@
+name: Generate UML Diagrams
+
+on:
+  push:
+    branches:
+      - master
+    paths: 
+      - "scope/backend/scopeBackend"
+
+jobs:
+  generate-uml:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        
+      - name: Install dependencies
+        run: |
+          pip install pylint graphviz
+
+      - name: Install Graphviz system binary
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
+      - name: Generate UML diagrams
+        run: |
+          mkdir -p diagrams
+          cd scope/backend
+          pyreverse -o png -p backend .
+          mv *.png ../../diagrams/
+
+      - name: Commit diagrams back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add diagrams/
+          git commit -m "Auto-update UML diagrams" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
